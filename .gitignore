@@ -1,0 +1,6 @@
+
+src/.vs
+[Bb]in
+[Oo]bj
+src/Nuclear.Units*
+src/Nuclear.Maths.Tests/

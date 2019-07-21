@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Nuclear.Extensions {
     public static class StringExtensions {
@@ -21,15 +20,6 @@ namespace Nuclear.Extensions {
         /// <returns>true if this instance begins with value; otherwise, false.</returns>
         public static Boolean StartsWith(this String _this, Char value, StringComparison comparisonType) => _this.StartsWith(value.ToString(), comparisonType);
 
-        /// <summary>
-        /// Determines whether the beginning of this string instance matches the specified char when compared using the specified culture.
-        /// </summary>
-        /// <param name="value">The char to compare.</param>
-        /// <param name="ignoreCase">true to ignore case during the comparison; otherwise, false.</param>
-        /// <param name="culture">Cultural information that determines how this string and value are compared. If culture is null, the current culture is used.</param>
-        /// <returns>true if this instance begins with value; otherwise, false.</returns>
-        public static Boolean StartsWith(this String _this, Char value, Boolean ignoreCase, CultureInfo culture) => _this.StartsWith(value.ToString(), ignoreCase, culture);
-
         #endregion
 
         #region EndsWith
@@ -48,15 +38,6 @@ namespace Nuclear.Extensions {
         /// <param name="comparisonType">One of the enumeration values that determines how this string and value are compared.</param>
         /// <returns>true if value matches the end of this instance; otherwise, false.</returns>
         public static Boolean EndsWith(this String _this, Char value, StringComparison comparisonType) => _this.EndsWith(value.ToString(), comparisonType);
-
-        /// <summary>
-        /// Determines whether the end of this string instance matches the specified char when compared using the specified culture.
-        /// </summary>
-        /// <param name="value">The char to compare.</param>
-        /// <param name="ignoreCase">true to ignore case during the comparison; otherwise, false.</param>
-        /// <param name="culture">Cultural information that determines how this string and value are compared. If culture is null, the current culture is used.</param>
-        /// <returns>true if value matches the end of this instance; otherwise, false.</returns>
-        public static Boolean EndsWith(this String _this, Char value, Boolean ignoreCase, CultureInfo culture) => _this.EndsWith(value.ToString(), ignoreCase, culture);
 
         #endregion
 

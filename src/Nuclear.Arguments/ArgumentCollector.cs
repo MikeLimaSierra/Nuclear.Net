@@ -6,9 +6,9 @@ using Nuclear.Extensions;
 namespace Nuclear.Arguments {
 
     /// <summary>
-    /// Implements the transformation of an <see cref="Array"/> of <see cref="String"/> into a <see cref="List{IArgument}"/>.
+    /// Implements the transformation of an <see cref="Array"/> of <see cref="String"/> into a <see cref="List{Argument}"/>.
     /// </summary>
-    public class ArgumentCollector : IArgumentCollector {
+    public class ArgumentCollector {
 
         #region properties
 
@@ -25,7 +25,7 @@ namespace Nuclear.Arguments {
         /// <summary>
         /// Gets the collected list of arguments.
         /// </summary>
-        public List<IArgument> Arguments { get; } = new List<IArgument>();
+        public List<Argument> Arguments { get; } = new List<Argument>();
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace Nuclear.Arguments {
         #region public methods
 
         /// <summary>
-        /// Transforms a given <see cref="Array"/> of <see cref="String"/> into a <see cref="List{IArgument}"/>.
+        /// Transforms a given <see cref="Array"/> of <see cref="String"/> into a <see cref="List{Argument}"/>.
         /// </summary>
         /// <param name="args">The <see cref="Array"/> of <see cref="String"/> to transform.</param>
         public void Collect(String[] args) {
@@ -63,12 +63,12 @@ namespace Nuclear.Arguments {
         }
 
         /// <summary>
-        /// Tries to get a specific <see cref="IArgument"/> by its switch name.
+        /// Tries to get a specific <see cref="Argument"/> by its switch name.
         /// </summary>
         /// <param name="_switch">The switch name.</param>
         /// <param name="arg">The argument instance.</param>
         /// <returns>True if the argument was found, false if not.</returns>
-        public Boolean TryGetSwitch(String _switch, out IArgument arg) {
+        public Boolean TryGetSwitch(String _switch, out Argument arg) {
             arg = Arguments.Find(argument => argument.SwitchName == _switch);
             return arg != null;
         }
@@ -79,8 +79,8 @@ namespace Nuclear.Arguments {
         ///     If an argument contains only one value, the returned <see cref="List{String}"/> will contain one item.
         /// </summary>
         /// <param name="arg">The <see cref="IArgument"/> to get values from.</param>
-        /// <returns>A <see cref="List{String}"/> of values from the supplied <see cref="IArgument"/>.</returns>
-        public List<String> GetSeparatedValues(IArgument arg) {
+        /// <returns>A <see cref="List{String}"/> of values from the supplied <see cref="Argument"/>.</returns>
+        public List<String> GetSeparatedValues(Argument arg) {
             List<String> values = new List<String>();
 
             if(arg.HasValue) {
@@ -110,7 +110,7 @@ namespace Nuclear.Arguments {
             } else {
                 // is value
 
-                IArgument lastArg;
+                Argument lastArg;
 
                 if(Arguments.Count == 0 || Arguments[Arguments.Count - 1].HasValue) {
                     Arguments.Add(new Argument());

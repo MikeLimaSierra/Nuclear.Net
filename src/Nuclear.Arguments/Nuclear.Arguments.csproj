@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+    <RootNamespace>Nuclear.Arguments</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+  </PropertyGroup>
+  
+  <Import Project="..\Configurations.targets" />
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Nuclear.Exceptions\Nuclear.Exceptions.csproj" />
+    <ProjectReference Include="..\Nuclear.Extensions\Nuclear.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -7,18 +7,9 @@ namespace Nuclear.Arguments {
     class ArgumentCollectorTests {
 
         [TestMethod]
-        void TestImplementation() {
-
-#pragma warning disable IDE0022 // Use expression body for methods
-            Test.If.TypeImplements<ArgumentCollector, IArgumentCollector>();
-#pragma warning restore IDE0022 // Use expression body for methods
-
-        }
-
-        [TestMethod]
         void TestConstructors() {
 
-            IArgumentCollector argC = null;
+            ArgumentCollector argC = null;
 
             Test.IfNot.ThrowsException(() => { argC = new ArgumentCollector(); }, out Exception ex);
             Test.If.ValuesEqual(argC.SwitchIndicator, '-');
@@ -33,7 +24,7 @@ namespace Nuclear.Arguments {
         [TestMethod]
         void TestCollect() {
 
-            IArgumentCollector argC = new ArgumentCollector();
+            ArgumentCollector argC = new ArgumentCollector();
 
             Test.IfNot.ThrowsException(() => { argC.Collect(new String[] { "-z" }); }, out Exception ex);
             Test.If.ValuesEqual(argC.Arguments.Count, 1);
@@ -93,7 +84,7 @@ namespace Nuclear.Arguments {
         [TestMethod]
         void TestCollectCombined() {
 
-            IArgumentCollector argC = new ArgumentCollector();
+            ArgumentCollector argC = new ArgumentCollector();
 
             Test.IfNot.ThrowsException(() => { argC.Collect(new String[] { "-z", "--all", "your_base_are_belong_to_us", "unicorn", "--asdf" }); }, out Exception ex);
             Test.If.ValuesEqual(argC.Arguments.Count, 4);

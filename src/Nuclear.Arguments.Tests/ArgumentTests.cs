@@ -7,18 +7,9 @@ namespace Nuclear.Arguments {
     class ArgumentTests {
 
         [TestMethod]
-        void TestImplementation() {
-
-#pragma warning disable IDE0022 // Use expression body for methods
-            Test.If.TypeImplements<Argument, IArgument>();
-#pragma warning restore IDE0022 // Use expression body for methods
-
-        }
-
-        [TestMethod]
         void TestDefaultConstructor() {
 
-            IArgument arg = null;
+            Argument arg = null;
 
             Test.IfNot.ThrowsException(() => { arg = new Argument(); }, out Exception ex);
             Test.If.False(arg.IsSwitch);
@@ -31,7 +22,7 @@ namespace Nuclear.Arguments {
         [TestMethod]
         void TestSingleCharConstructor() {
 
-            IArgument arg = null;
+            Argument arg = null;
 
             Test.If.ThrowsException(() => { arg = new Argument('?'); }, out ArgumentException ex1);
             Test.If.ValuesEqual(ex1.ParamName, "_switch");
@@ -49,7 +40,7 @@ namespace Nuclear.Arguments {
         [TestMethod]
         void TestMultiCharConstructor() {
 
-            IArgument arg = null;
+            Argument arg = null;
 
             Test.IfNot.ThrowsException(() => { arg = new Argument("force"); }, out Exception ex);
             Test.If.True(arg.IsSwitch);
@@ -74,7 +65,7 @@ namespace Nuclear.Arguments {
         [TestMethod]
         void TestValueProperty() {
 
-            IArgument arg = new Argument('z');
+            Argument arg = new Argument('z');
 
             Test.IfNot.ThrowsException(() => arg.Value = "some_other_value", out Exception ex);
             Test.If.ValuesEqual(arg.SwitchName, "z");
@@ -97,7 +88,7 @@ namespace Nuclear.Arguments {
         [TestMethod]
         void TestToString() {
 
-            IArgument arg = new Argument('z');
+            Argument arg = new Argument('z');
             Test.If.ValuesEqual(arg.ToString(), "-z");
 
             arg.Value = @"file:\\path\to\file";

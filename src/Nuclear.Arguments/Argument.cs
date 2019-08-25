@@ -2,27 +2,27 @@
 using Nuclear.Exceptions;
 
 namespace Nuclear.Arguments {
-    internal class Argument : IArgument {
+    public class Argument {
 
         #region properties
 
         /// <summary>
-        /// Gets the switch name of the <see cref="IArgument"/>.
+        /// Gets the switch name of the <see cref="Argument"/>.
         /// </summary>
         public String SwitchName { get; } = null;
 
         /// <summary>
-        /// Gets or sets the value of the <see cref="IArgument"/>.
+        /// Gets or sets the value of the <see cref="Argument"/>.
         /// </summary>
         public String Value { get; set; } = null;
 
         /// <summary>
-        /// Gets if the <see cref="IArgument"/> is a switch. An <see cref="IArgument"/> without a switch name is not a switch.
+        /// Gets if the <see cref="Argument"/> is a switch. An <see cref="Argument"/> without a switch name is not a switch.
         /// </summary>
         public Boolean IsSwitch => !String.IsNullOrWhiteSpace(SwitchName);
 
         /// <summary>
-        /// Gets if the <see cref="IArgument"/> has an attached value.
+        /// Gets if the <see cref="Argument"/> has an attached value.
         /// </summary>
         public Boolean HasValue => !String.IsNullOrWhiteSpace(Value);
 

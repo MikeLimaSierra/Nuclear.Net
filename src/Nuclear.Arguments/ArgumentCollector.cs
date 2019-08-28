@@ -74,11 +74,11 @@ namespace Nuclear.Arguments {
         }
 
         /// <summary>
-        /// Gets the separated values of a given <see cref="IArgument"/>.
+        /// Gets the separated values of a given <see cref="Argument"/>.
         ///     If an argument does not contain values, the returned <see cref="List{String}"/> will be empty.
         ///     If an argument contains only one value, the returned <see cref="List{String}"/> will contain one item.
         /// </summary>
-        /// <param name="arg">The <see cref="IArgument"/> to get values from.</param>
+        /// <param name="arg">The <see cref="Argument"/> to get values from.</param>
         /// <returns>A <see cref="List{String}"/> of values from the supplied <see cref="Argument"/>.</returns>
         public List<String> GetSeparatedValues(Argument arg) {
             List<String> values = new List<String>();

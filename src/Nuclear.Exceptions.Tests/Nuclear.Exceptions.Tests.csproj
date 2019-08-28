@@ -10,7 +10,7 @@
   <Import Project="..\Configurations.targets" />
   
   <ItemGroup>
-    <PackageReference Include="Nuclear.TestSite" Version="1.1.2" />
+    <PackageReference Include="Nuclear.TestSite" Version="1.1.4" />
   </ItemGroup>
 
   <ItemGroup>

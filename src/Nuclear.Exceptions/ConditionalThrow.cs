@@ -1,6 +1,10 @@
 ﻿using System;
 
 namespace Nuclear.Exceptions {
+
+    /// <summary>
+    /// Supplies conditional throw instructions.
+    /// </summary>
     public class ConditionalThrow {
 
         #region Properties
@@ -32,7 +36,7 @@ namespace Nuclear.Exceptions {
         public void Null(Object _object, String paramName, String message = "") => Null<ArgumentNullException>(_object, paramName, message);
 
         /// <summary>
-        /// Throws an exception of type <typeparamref name="TException"/> target type if <paramref name="_object"/> is null.
+        /// Throws an exception of type <typeparamref name="TException"/> if <paramref name="_object"/> is null.
         /// </summary>
         /// <typeparam name="TException">The type of the exception to be thrown.</typeparam>
         /// <param name="_object">The object to evaluate.</param>

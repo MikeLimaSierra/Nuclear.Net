@@ -2,6 +2,10 @@
 using Nuclear.Exceptions;
 
 namespace Nuclear.Arguments {
+
+    /// <summary>
+    /// Implementation of an argument that can have a payload.
+    /// </summary>
     public class Argument {
 
         #region properties
@@ -58,7 +62,9 @@ namespace Nuclear.Arguments {
 
         #region methods
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public override String ToString() => String.Format("{0}{1}{2}{3}",
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
                 IsSwitch ? (SwitchName.Length > 1 ? "--" : "-") : String.Empty,
                 IsSwitch ? SwitchName : String.Empty,
                 IsSwitch && HasValue ? " " : String.Empty,

@@ -13,12 +13,12 @@ namespace Nuclear.Arguments {
         #region properties
 
         /// <summary>
-        /// Gets the char that is used to identify switches. Default is '-'
+        /// Gets the <see cref="Char"/> that is used to identify switches. Default is '-'.
         /// </summary>
         public Char SwitchIndicator { get; }
 
         /// <summary>
-        /// Gets the char that is used to seperate values. Default is ';'
+        /// Gets the <see cref="Char"/> that is used to seperate values. Default is ';'.
         /// </summary>
         public Char ValueSeparator { get; }
 
@@ -70,6 +70,7 @@ namespace Nuclear.Arguments {
         /// <returns>True if the argument was found, false if not.</returns>
         public Boolean TryGetSwitch(String _switch, out Argument arg) {
             arg = Arguments.Find(argument => argument.SwitchName == _switch);
+
             return arg != null;
         }
 

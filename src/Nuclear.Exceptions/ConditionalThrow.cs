@@ -3,7 +3,7 @@
 namespace Nuclear.Exceptions {
 
     /// <summary>
-    /// Supplies conditional throw instructions.
+    /// Implements a range of methods that throw exceptions on certain conditions.
     /// </summary>
     public class ConditionalThrow {
 
@@ -18,8 +18,8 @@ namespace Nuclear.Exceptions {
         /// <summary>
         /// Creates a new instance of <see cref="ConditionalThrow"/> where result inversion is as specified.
         /// </summary>
-        /// <param name="invert">True if result inversion is desired, false if not.</param>
-        public ConditionalThrow(Boolean invert = false) {
+        /// <param name="invert">True if result inversion is desired, false if not. Defaults to false.</param>
+        internal ConditionalThrow(Boolean invert = false) {
             Invert = invert;
         }
 

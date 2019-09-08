@@ -16,9 +16,9 @@ namespace Nuclear.Arguments {
         public String SwitchName { get; } = null;
 
         /// <summary>
-        /// Gets or sets the value of the <see cref="Argument"/>.
+        /// Gets the value of the <see cref="Argument"/>.
         /// </summary>
-        public String Value { get; set; } = null;
+        public String Value { get; internal set; } = null;
 
         /// <summary>
         /// Gets if the <see cref="Argument"/> is a switch. An <see cref="Argument"/> without a switch name is not a switch.
@@ -35,26 +35,26 @@ namespace Nuclear.Arguments {
         #region ctors
 
         /// <summary>
-        /// Creates a new instance of <see cref="Argument"/>.
+        /// Creates a new instance of a value type <see cref="Argument"/>.
         /// </summary>
-        public Argument() : this(null) { }
+        internal Argument() : this(null) { }
 
         /// <summary>
-        /// Creates a new instance of <see cref="Argument"/> with a switch letter.
+        /// Creates a new instance of a short switch type <see cref="Argument"/> with a switch letter.
         /// </summary>
         /// <param name="_switch">The switch letter of the <see cref="Argument"/>.</param>
         /// <exception cref="ArgumentException">Throws if <paramref name="_switch"/> is not a letter.</exception>
-        public Argument(Char _switch) {
+        internal Argument(Char _switch) {
             Throw.If.False(Char.IsLetter(_switch), "_switch", "Single switches can only be letters.");
 
             SwitchName = _switch.ToString();
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="Argument"/> with a switch name.
+        /// Creates a new instance of a long switch type <see cref="Argument"/> with a switch name.
         /// </summary>
         /// <param name="_switch">The switch name of the <see cref="Argument"/>.</param>
-        public Argument(String _switch) {
+        internal Argument(String _switch) {
             SwitchName = _switch;
         }
 

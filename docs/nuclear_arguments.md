@@ -2,7 +2,7 @@
 
 This library provides a means of easily parsing arguments passed to applications.
 
-The class [ArgumentCollector](arguments/class_argumentcollector.md) is used to parse any array of strings into a list of [Arguments](arguments/class_argument.md).
+The class [ArgumentCollector](arguments/class_argument_collector.md) is used to parse any array of strings into a list of [Arguments](arguments/class_argument.md).
 
 Switches are indicated by a leading indicator char.
 The switch indicator char defaults to `-` and can be customized.

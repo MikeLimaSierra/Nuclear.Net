@@ -8,5 +8,9 @@
   </PropertyGroup>
   
   <Import Project="..\Configurations.targets" />
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Nuclear.Exceptions\Nuclear.Exceptions.csproj" />
+  </ItemGroup>
 
 </Project>

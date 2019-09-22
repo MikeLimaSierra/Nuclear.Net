@@ -4,3 +4,4 @@ src/.vs
 [Oo]bj
 src/Nuclear.Units*
 src/Nuclear.Maths.Tests/
+docs/.vs/

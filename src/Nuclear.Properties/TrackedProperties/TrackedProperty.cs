@@ -16,7 +16,7 @@ namespace Nuclear.Properties.TrackedProperties {
         /// <summary>
         /// Is raised if Value changes.
         /// </summary>
-        public event TrackedPropertyChangedEventHandler<TOwner, TValue> PropertyChangeTracked;
+        public event ChangeTrackedEventHandler<TOwner, TValue> ChangeTracked;
 
         /// <summary>
         /// Is raised when a property value changes.
@@ -60,6 +60,12 @@ namespace Nuclear.Properties.TrackedProperties {
         /// Creates a new instance of <see cref="TrackedProperty{TOwner, TValue}"/>.
         /// </summary>
         /// <param name="owner">The actual owner.</param>
+        public TrackedProperty(TOwner owner) : this(owner, default) { }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="TrackedProperty{TOwner, TValue}"/>.
+        /// </summary>
+        /// <param name="owner">The actual owner.</param>
         /// <param name="_default">The default value.</param>
         public TrackedProperty(TOwner owner, TValue _default) {
             _owner = owner;
@@ -70,12 +76,12 @@ namespace Nuclear.Properties.TrackedProperties {
 
         #region methods
 
-        private void RaisePropertyChanged(TValue old, TValue _new, [CallerMemberName] String propertyName = null) {
-            TrackedPropertyChangedEventArgs<TOwner, TValue> e = new TrackedPropertyChangedEventArgs<TOwner, TValue>(_owner, old, _new);
+        private void RaisePropertyChanged(TValue oldValue, TValue newValue, [CallerMemberName] String propertyName = null) {
+            ChangeTrackedEventArgs<TOwner, TValue> e = new ChangeTrackedEventArgs<TOwner, TValue>(_owner, oldValue, newValue);
 
             if(e.HasChanged) {
                 HasValueChanged |= e.HasChanged;
-                PropertyChangeTracked?.Invoke(this, e);
+                ChangeTracked?.Invoke(this, e);
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }

@@ -14,7 +14,7 @@ namespace Nuclear.Properties.TrackedProperties {
         /// Creates a new instance of <see cref="TrackedDecimal{TOwner}"/>.
         /// </summary>
         /// <param name="owner">The owner.</param>
-        public TrackedDecimal(TOwner owner) : this(owner, 0m) { }
+        public TrackedDecimal(TOwner owner) : base(owner) { }
 
         /// <summary>
         /// Creates a new instance of <see cref="TrackedDecimal{TOwner}"/> with a default value.

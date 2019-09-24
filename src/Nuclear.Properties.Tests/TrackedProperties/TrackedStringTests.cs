@@ -21,7 +21,7 @@ namespace Nuclear.Properties.TrackedProperties {
 
             Test.IfNot.ThrowsException(() => prop = new TrackedString<Object>(null), out Exception ex);
             Test.IfNot.Null(prop);
-            Test.If.ValuesEqual(prop.Value, String.Empty);
+            Test.If.ValuesEqual(prop.Value, null);
             Test.If.False(prop.HasValueChanged);
 
             Test.IfNot.ThrowsException(() => prop = new TrackedString<Object>(owner, "testDefault"), out ex);

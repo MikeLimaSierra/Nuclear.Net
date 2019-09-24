@@ -14,7 +14,7 @@ namespace Nuclear.Properties.TrackedProperties {
         /// Creates a new instance of <see cref="TrackedUInt16{TOwner}"/>.
         /// </summary>
         /// <param name="owner">The owner.</param>
-        public TrackedUInt16(TOwner owner) : this(owner, 0) { }
+        public TrackedUInt16(TOwner owner) : base(owner) { }
 
         /// <summary>
         /// Creates a new instance of <see cref="TrackedUInt16{TOwner}"/> with a default value.

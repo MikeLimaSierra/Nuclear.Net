@@ -13,9 +13,9 @@ namespace Nuclear.Properties.TrackedProperties {
         #region events
 
         /// <summary>
-        /// Is raised if Value changes.
+        /// Is raised when the value changes.
         /// </summary>
-        event TrackedPropertyChangedEventHandler<TOwner, TValue> PropertyChangeTracked;
+        event ChangeTrackedEventHandler<TOwner, TValue> ChangeTracked;
 
         #endregion
 

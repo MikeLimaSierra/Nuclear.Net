@@ -1,4 +1,4 @@
-# Argument
+# Class Argument
 
 The class `Nuclear.Arguments.Argument` implements all possible types of arguments.
 Instances of `Argument` can be created automatically by using [ArgumentCollector](class_argument_collector.md) to parse command line arguments.

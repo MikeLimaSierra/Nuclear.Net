@@ -18,8 +18,8 @@ The evaluated conditions for an instruction will be inverted if the instruction 
 
 public MyClass(IDbConnection connection) {
     Throw.If.Null(connection, "connection", "The connection object must not be null.");
-	
-	Init(...);
+
+    Init(...);
 }
 
 public void DoSomething(Object payload) {

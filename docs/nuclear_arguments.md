@@ -32,9 +32,9 @@ static void Main(String[] args) {
     // --force some/path
     // /some/other/path
 	
-	if(collector.TryGetSwitch("force", out Argument arg)) {
+    if(collector.TryGetSwitch("force", out Argument arg)) {
 	    DoSomething(arg.Value);
-	}
+    }
 }
 ```
 

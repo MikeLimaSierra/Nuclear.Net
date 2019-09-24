@@ -30,7 +30,7 @@ Determines whether the beginning of `_this` matches `value`.
 #### Signature:
 
 ```csharp
-public static Boolean StartsWith(this String _this, Char value)
+public static Boolean StartsWith(this String _this, Char value);
 ```
 
 #### Parameters:
@@ -60,7 +60,7 @@ Determines whether the beginning of `_this` matches `value` when compared using 
 #### Signature:
 
 ```csharp
-public static Boolean StartsWith(this String _this, Char value, StringComparison comparisonType)
+public static Boolean StartsWith(this String _this, Char value, StringComparison comparisonType);
 ```
 
 #### Parameters:
@@ -92,7 +92,7 @@ Determines whether the end of `_this` matches `value`.
 #### Signature:
 
 ```csharp
-public static Boolean EndsWith(this String _this, Char value)
+public static Boolean EndsWith(this String _this, Char value);
 ```
 
 #### Parameters:
@@ -122,7 +122,7 @@ Determines whether the beginning of `_this` matches `value` when compared using 
 #### Signature:
 
 ```csharp
-public static Boolean EndsWith(this String _this, Char value, StringComparison comparisonType)
+public static Boolean EndsWith(this String _this, Char value, StringComparison comparisonType);
 ```
 
 #### Parameters:
@@ -154,7 +154,7 @@ Removes one leading and one trailing `String` occurrence from `_this`.
 #### Signature:
 
 ```csharp
-public static String TrimOnce(this String _this, String value)
+public static String TrimOnce(this String _this, String value);
 ```
 
 #### Parameters:
@@ -183,7 +183,7 @@ Removes one leading and one trailing `Char` occurrence from `_this`.
 #### Signature:
 
 ```csharp
-public static String TrimOnce(this String _this, Char value)
+public static String TrimOnce(this String _this, Char value);
 ```
 
 #### Parameters:
@@ -211,7 +211,7 @@ Removes one leading `String` occurrence from `_this`.
 #### Signature:
 
 ```csharp
-public static String TrimStartOnce(this String _this, String value)
+public static String TrimStartOnce(this String _this, String value);
 ```
 
 #### Parameters:
@@ -240,7 +240,7 @@ Removes one leading `Char` occurrence from `_this`.
 #### Signature:
 
 ```csharp
-public static String TrimStartOnce(this String _this, Char value)
+public static String TrimStartOnce(this String _this, Char value);
 ```
 
 #### Parameters:
@@ -268,7 +268,7 @@ Removes one trailing `String` occurrence from `_this`.
 #### Signature:
 
 ```csharp
-public static String TrimEndOnce(this String _this, String value)
+public static String TrimEndOnce(this String _this, String value);
 ```
 
 #### Parameters:
@@ -297,7 +297,7 @@ Removes one trailing `Char` occurrence from `_this`.
 #### Signature:
 
 ```csharp
-public static String TrimEndOnce(this String _this, Char value)
+public static String TrimEndOnce(this String _this, Char value);
 ```
 
 #### Parameters:

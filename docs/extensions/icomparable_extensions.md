@@ -23,7 +23,7 @@ Checks if a value is clamped in a given inclusive range.
 #### Signature:
 
 ```csharp
-public static Boolean IsClamped<T>(this T _this, T min, T max)
+public static Boolean IsClamped<T>(this T _this, T min, T max);
 ```
 
 #### Type Parameters:
@@ -59,7 +59,7 @@ Checks if a value is clamped in a given exclusive range.
 #### Signature:
 
 ```csharp
-public static Boolean IsClampedExclusive<T>(this T _this, T min, T max)
+public static Boolean IsClampedExclusive<T>(this T _this, T min, T max);
 ```
 
 #### Type Parameters:
@@ -95,7 +95,7 @@ Clamps `_this` to a given inclusive range.
 #### Signature:
 
 ```csharp
-public static T Clamp<T>(this T _this, T min, T max)
+public static T Clamp<T>(this T _this, T min, T max);
 ```
 
 #### Type Parameters:
@@ -116,7 +116,7 @@ The clamped version of `_this`.
 
 #### Exceptions:
 
-'ArgumentNullException': Thrown if `_this` is null.
+`ArgumentNullException`: Thrown if `_this` is null.
 
 #### Example:
 

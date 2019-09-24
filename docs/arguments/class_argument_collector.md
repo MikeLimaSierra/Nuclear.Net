@@ -1,4 +1,4 @@
-# ArgumentCollector
+# Class ArgumentCollector
 
 The class `Nuclear.Arguments.ArgumentCollector` implements the parsing and filtering mechanics required to transform an array of strings into functional [Arguments](class_argument.md).
 
@@ -110,7 +110,7 @@ var argCollector = new ArgumentCollector('/', ':');
 
 ### Collect(String[])
 
-Transforms a given `Array` of `String` into a `List{Argument}`.
+Transforms a given `Array` of `String` into a `List<Argument>`.
 
 #### Signature:
 
@@ -163,8 +163,8 @@ if(argCollector.TryGetSwitch("h", out Argument arg)) {
 ### GetSeparatedValues(Argument)
 
 Gets the separated values of a given `Argument`.
-If an argument does not contain values, the returned `List{String}` will be empty.
-If an argument contains only one value, the returned `List{String}` will contain one item.
+If an argument does not contain values, the returned `List<String>` will be empty.
+If an argument contains only one value, the returned `List<String>` will contain one item.
 
 #### Signature:
 
@@ -178,7 +178,7 @@ public List<String> GetSeparatedValues(Argument arg);
 
 #### Return value:
 
-A `List{String}` of values from the supplied `Argument`.
+A `List<String>` of values from the supplied `Argument`.
 
 #### Example:
 

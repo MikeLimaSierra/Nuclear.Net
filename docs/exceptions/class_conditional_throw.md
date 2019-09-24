@@ -1,4 +1,4 @@
-# ConditionalThrow
+# Class ConditionalThrow
 
 The class `Nuclear.Exceptions.ConditionalThrow` implements a range of methods that throw exceptions on certain conditions.
 
@@ -57,7 +57,7 @@ Throws an exception of type `TException` if `_object` is null.
 #### Signature:
 
 ```csharp
-public void Null<TException>(Object _object, params Object[] args) where TException : Exception;
+public void Null<TException>(Object _object, params Object[] args);
 ```
 
 #### Type Parameters:
@@ -91,7 +91,7 @@ public void OfType<TType>(Object _object, String paramName, String message);
 
 #### Type Parameters:
 
-`TType : Exception`: The type of `_object` to be checked against.
+`TType`: The type of `_object` to be checked against.
 
 #### Parameters:
 
@@ -117,14 +117,14 @@ Throws an exception of type `TException` if `_object` is of type `TType`.
 #### Signature:
 
 ```csharp
-public void OfType<TException, TType>(Object _object, params Object[] args) where TException : Exception;
+public void OfType<TException, TType>(Object _object, params Object[] args);
 ```
 
 #### Type Parameters:
 
 `TException : Exception`: The type of the exception to be thrown.
 
-`TType : Exception`: The type of `_object` to be checked against.
+`TType`: The type of `_object` to be checked against.
 
 #### Parameters:
 
@@ -174,7 +174,7 @@ Throws an exception of type `TException` if the `_string` is null or empty.
 #### Signature:
 
 ```csharp
-public void NullOrEmpty<TException>(String _string, params Object[] args) where TException : Exception;
+public void NullOrEmpty<TException>(String _string, params Object[] args);
 ```
 
 #### Type Parameters:
@@ -229,7 +229,7 @@ Throws an exception of type `TException` if `_string` is null or white space or 
 #### Signature:
 
 ```csharp
-public void NullOrWhiteSpace<TException>(String _string, params Object[] args) where TException : Exception;
+public void NullOrWhiteSpace<TException>(String _string, params Object[] args);
 ```
 
 #### Type Parameters:
@@ -283,7 +283,7 @@ Throws an exception of type `TException` if `condition` evaluates to true.
 #### Signature:
 
 ```csharp
-public void True<TException>(Boolean condition, params Object[] args) where TException : Exception;
+public void True<TException>(Boolean condition, params Object[] args);
 ```
 
 #### Type Parameters:
@@ -337,7 +337,7 @@ Throws an exception of type `TException` if `condition` evaluates to false.
 #### Signature:
 
 ```csharp
-public void False<TException>(Boolean condition, params Object[] args) where TException : Exception;
+public void False<TException>(Boolean condition, params Object[] args);
 ```
 
 #### Type Parameters:

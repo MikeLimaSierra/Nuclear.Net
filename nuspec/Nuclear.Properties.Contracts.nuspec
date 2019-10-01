@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Nuclear.Properties.Contracts</id>
-    <version>1.0.2</version>
+    <version>1.1.0</version>
     <title>Nuclear.Properties.Contracts</title>
     <description>Contracts for Nuclear.Properties</description>
     <authors>MikeLimaSierra</authors>
@@ -13,6 +13,11 @@
     <projectUrl>https://github.com/MikeLimaSierra/Nuclear.Net</projectUrl>
     <repository type="git" url="https://github.com/MikeLimaSierra/Nuclear.Net" />
     <language>en-US</language>
+	<dependencies>
+	  <group>
+	    <dependency id="Nuclear.Extensions" version="1.2.0" />
+	  </group>
+	</dependencies>
   </metadata>
   <files>
     <file src="../LICENSE.md" target="" />

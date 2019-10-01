@@ -87,12 +87,6 @@ namespace Nuclear.Properties.TrackedProperties {
     public interface ITrackedDecimal<TOwner> : ITrackedProperty<TOwner, Decimal> { }
 
     /// <summary>
-    /// Implementation of <see cref="ITrackedProperty{TOwner, TValue}"/> using <see cref="Guid"/> for value.
-    /// </summary>
-    /// <typeparam name="TOwner">The type of the owner required to retrieve the actual sender.</typeparam>
-    public interface ITrackedGuid<TOwner> : ITrackedProperty<TOwner, Guid> { }
-
-    /// <summary>
     /// Implementation of <see cref="ITrackedProperty{TOwner, TValue}"/> using <see cref="TimeSpan"/> for value.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner required to retrieve the actual sender.</typeparam>
@@ -103,17 +97,5 @@ namespace Nuclear.Properties.TrackedProperties {
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner required to retrieve the actual sender.</typeparam>
     public interface ITrackedDateTime<TOwner> : ITrackedProperty<TOwner, DateTime> { }
-
-    /// <summary>
-    /// Implementation of <see cref="ITrackedProperty{TOwner, TValue}"/> using <see cref="DateTimeOffset"/> for value.
-    /// </summary>
-    /// <typeparam name="TOwner">The type of the owner required to retrieve the actual sender.</typeparam>
-    public interface ITrackedDateTimeOffset<TOwner> : ITrackedProperty<TOwner, DateTimeOffset> { }
-
-    /// <summary>
-    /// Implementation of <see cref="ITrackedProperty{TOwner, TValue}"/> using <see cref="Version"/> for value.
-    /// </summary>
-    /// <typeparam name="TOwner">The type of the owner required to retrieve the actual sender.</typeparam>
-    public interface ITrackedVersion<TOwner> : ITrackedProperty<TOwner, Version> { }
 
 }

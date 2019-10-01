@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Nuclear.Properties</id>
-    <version>1.0.2</version>
+    <version>1.1.0</version>
     <title>Nuclear.Properties</title>
     <description>Features property types with inbuilt events.</description>
     <authors>MikeLimaSierra</authors>
@@ -15,7 +15,7 @@
     <language>en-US</language>
 	<dependencies>
 	  <group>
-	    <dependency id="Nuclear.Properties.Contracts" version="1.0.2" />
+	    <dependency id="Nuclear.Properties.Contracts" version="1.1.0" />
 	  </group>
 	</dependencies>
   </metadata>

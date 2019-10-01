@@ -18,15 +18,16 @@ namespace Nuclear.Properties.TrackedProperties {
 
             ITrackedBoolean<Object> prop = null;
             Object owner = new Object();
+            Boolean value = true;
 
             Test.IfNot.ThrowsException(() => prop = new TrackedBoolean<Object>(null), out Exception ex);
             Test.IfNot.Null(prop);
-            Test.If.ValuesEqual(prop.Value, false);
+            Test.If.ValuesEqual(prop.Value, default);
             Test.If.False(prop.HasValueChanged);
 
-            Test.IfNot.ThrowsException(() => prop = new TrackedBoolean<Object>(owner, true), out ex);
+            Test.IfNot.ThrowsException(() => prop = new TrackedBoolean<Object>(owner, value), out ex);
             Test.IfNot.Null(prop);
-            Test.If.ValuesEqual(prop.Value, true);
+            Test.If.ValuesEqual(prop.Value, value);
             Test.If.False(prop.HasValueChanged);
 
         }

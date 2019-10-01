@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Nuclear.TestSite.Attributes;
 using Nuclear.TestSite.Tests;
 
@@ -15,82 +16,76 @@ namespace Nuclear.Properties.TrackedProperties {
 
         }
 
+        #region ctors
+
         [TestMethod]
-        void TestDefaultConstructor() {
+        void TestConstructors() {
 
-            ITrackedProperty<Object, TestEnum> prop = null;
+            DDTestDefaultConstructor(null, (TestEnum.Default, false));
+            DDTestDefaultConstructor(new Object(), (TestEnum.Default, false));
 
-            Test.Note("Test ctor with: 'null'");
-            Test.IfNot.ThrowsException(() => prop = new TrackedProperty<Object, TestEnum>(null), out Exception ex);
-            Test.IfNot.Null(prop);
-            Test.If.ValuesEqual(prop.Value, TestEnum.Default);
-            Test.If.False(prop.HasValueChanged);
-
-            Test.Note("Test ctor with: 'new Object()'");
-            Test.IfNot.ThrowsException(() => prop = new TrackedProperty<Object, TestEnum>(new Object()), out ex);
-            Test.IfNot.Null(prop);
-            Test.If.ValuesEqual(prop.Value, TestEnum.Default);
-            Test.If.False(prop.HasValueChanged);
+            DDTestFullConstructor((null, TestEnum.Default), (TestEnum.Default, false));
+            DDTestFullConstructor((new Object(), TestEnum.Value1), (TestEnum.Value1, false));
 
         }
 
-        [TestMethod]
-        void TestFullConstructor() {
+        void DDTestDefaultConstructor<TValue>(Object input, (TValue value, Boolean hasChanged) expected,
+               [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
 
-            ITrackedProperty<Object, TestEnum> prop = null;
-            Object owner = new Object();
+            ITrackedProperty<Object, TValue> prop = null;
 
-            Test.Note(String.Format("Test ctor with: {0}, {1}", owner, TestEnum.Default));
-            Test.IfNot.ThrowsException(() => prop = new TrackedProperty<Object, TestEnum>(null, TestEnum.Default), out Exception ex);
-            Test.IfNot.Null(prop);
-            Test.If.ValuesEqual(prop.Value, TestEnum.Default);
-            Test.If.False(prop.HasValueChanged);
-
-            Test.Note(String.Format("Test ctor with: {0}, {1}", owner, TestEnum.Value1));
-            Test.IfNot.ThrowsException(() => prop = new TrackedProperty<Object, TestEnum>(owner, TestEnum.Value1), out ex);
-            Test.IfNot.Null(prop);
-            Test.If.ValuesEqual(prop.Value, TestEnum.Value1);
-            Test.If.False(prop.HasValueChanged);
+            Test.Note($"Test ctor with: '{input}'", _file, _method);
+            Test.IfNot.ThrowsException(() => prop = new TrackedProperty<Object, TValue>(input), out Exception ex, _file, _method);
+            Test.IfNot.Null(prop, _file, _method);
+            Test.If.ValuesEqual(prop.Value, expected.value, _file, _method);
+            Test.If.ValuesEqual(prop.HasValueChanged, expected.hasChanged, _file, _method);
 
         }
+
+        void DDTestFullConstructor<TValue>((Object owner, TValue value) input, (TValue value, Boolean hasChanged) expected,
+               [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+
+            ITrackedProperty<Object, TValue> prop = null;
+
+            Test.Note($"Test ctor with: '{input.owner}', '{input.value}'", _file, _method);
+            Test.IfNot.ThrowsException(() => prop = new TrackedProperty<Object, TValue>(input.owner, input.value), out Exception ex, _file, _method);
+            Test.IfNot.Null(prop, _file, _method);
+            Test.If.ValuesEqual(prop.Value, expected.value, _file, _method);
+            Test.If.ValuesEqual(prop.HasValueChanged, expected.hasChanged, _file, _method);
+
+        }
+
+        #endregion
+
+        #region properties
 
         [TestMethod]
         void TestValueProperty() {
 
-            ITrackedProperty<Object, TestEnum> prop = new TrackedProperty<Object, TestEnum>(null, TestEnum.Default);
+            DDTestValueProperty((null, TestEnum.Default), TestEnum.Value1, (TestEnum.Value1, true));
+            DDTestValueProperty((null, TestEnum.Value1), TestEnum.Value1, (TestEnum.Value1, false));
 
-            Test.IfNot.ThrowsException(() => prop.Value = TestEnum.Value1, out Exception ex);
-            Test.If.ValuesEqual(prop.Value, TestEnum.Value1);
-            Test.If.True(prop.HasValueChanged);
-
-            prop.HasValueChanged = false;
-
-            Test.IfNot.ThrowsException(() => prop.Value = TestEnum.Value1, out ex);
-            Test.If.ValuesEqual(prop.Value, TestEnum.Value1);
-            Test.If.False(prop.HasValueChanged);
+            DDTestValueProperty<TestEnum?>((null, null), null, (null, false));
+            DDTestValueProperty<TestEnum?>((null, null), TestEnum.Default, (TestEnum.Default, true));
+            DDTestValueProperty<TestEnum?>((null, TestEnum.Default), null, (null, true));
 
         }
 
-        [TestMethod]
-        void TestNullableValueProperty() {
+        void DDTestValueProperty<TValue>((Object owner, TValue value) input, TValue newValue, (TValue value, Boolean hasChanged) expected,
+            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
 
-            ITrackedProperty<Object, TestEnum?> prop = new TrackedProperty<Object, TestEnum?>(null, null);
+            ITrackedProperty<Object, TValue> prop = new TrackedProperty<Object, TValue>(input.owner, input.value);
 
-            Test.IfNot.ThrowsException(() => prop.Value = null, out Exception ex);
-            Test.If.ValuesEqual(prop.Value, null);
-            Test.If.False(prop.HasValueChanged);
-
-            Test.IfNot.ThrowsException(() => prop.Value = TestEnum.Default, out ex);
-            Test.If.ValuesEqual(prop.Value, TestEnum.Default);
-            Test.If.True(prop.HasValueChanged);
-
-            prop.HasValueChanged = false;
-
-            Test.IfNot.ThrowsException(() => prop.Value = null, out ex);
-            Test.If.ValuesEqual(prop.Value, null);
-            Test.If.True(prop.HasValueChanged);
+            Test.Note($"Value = '{newValue}'", _file, _method);
+            Test.IfNot.ThrowsException(() => prop.Value = newValue, out Exception ex, _file, _method);
+            Test.If.ValuesEqual(prop.Value, expected.value, _file, _method);
+            Test.If.ValuesEqual(prop.HasValueChanged, expected.hasChanged, _file, _method);
 
         }
+
+        #endregion
+
+        #region events
 
         [TestMethod]
         void TestPropertyChangedEvent() {
@@ -102,51 +97,56 @@ namespace Nuclear.Properties.TrackedProperties {
             Test.If.Null(sender);
             Test.If.Null(e);
 
-            Test.If.RaisesPropertyChangedEvent(prop, () => prop.Value = TestEnum.Default, out sender, out e);
-            Test.If.ValuesEqual(prop.Value, TestEnum.Default);
-            Test.IfNot.Null(sender);
-            Test.If.ValuesEqual(sender, prop);
-            Test.IfNot.Null(e);
-            Test.If.ValuesEqual(e.PropertyName, "Value");
+            DDTestPropertyChangedEvent<TestEnum?>((null, null), TestEnum.Default, "Value");
+            DDTestPropertyChangedEvent<TestEnum?>((null, TestEnum.Default), null, "Value");
 
-            Test.If.RaisesPropertyChangedEvent(prop, () => prop.Value = null, out sender, out e);
-            Test.If.ValuesEqual(prop.Value, null);
-            Test.IfNot.Null(sender);
-            Test.If.ValuesEqual(sender, prop);
-            Test.IfNot.Null(e);
-            Test.If.ValuesEqual(e.PropertyName, "Value");
+        }
+
+        void DDTestPropertyChangedEvent<TValue>((Object owner, TValue value) input, TValue newValue, String propertyName,
+            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+
+            ITrackedProperty<Object, TValue> prop = new TrackedProperty<Object, TValue>(input.owner, input.value);
+
+            Test.Note($"Value = '{newValue}'", _file, _method);
+            Test.If.RaisesPropertyChangedEvent(prop, () => prop.Value = newValue, out Object sender, out PropertyChangedEventArgs e, _file, _method);
+            Test.IfNot.Null(sender, _file, _method);
+            Test.If.ReferencesEqual(sender, prop, _file, _method);
+            Test.IfNot.Null(e, _file, _method);
+            Test.If.ValuesEqual(e.PropertyName, propertyName, _file, _method);
 
         }
 
         [TestMethod]
-        void TestChangedTrackedEvent() {
+        void TestChangeTrackedEvent() {
 
             Object owner = new Object();
             ITrackedProperty<Object, TestEnum?> prop = new TrackedProperty<Object, TestEnum?>(owner, null);
 
             Test.IfNot.RaisesEvent(prop, "ChangeTracked", () => prop.Value = null, out Object sender, out ChangeTrackedEventArgs<Object, TestEnum?> e);
 
-            Test.If.RaisesEvent(prop, "ChangeTracked", () => prop.Value = TestEnum.Default, out sender, out e);
-            Test.If.ValuesEqual(prop.Value, TestEnum.Default);
-            Test.IfNot.Null(sender);
-            Test.If.ValuesEqual(sender, prop);
-            Test.IfNot.Null(e);
-            Test.If.ValuesEqual(e.Owner, owner);
-            Test.If.Null(e.Old);
-            Test.If.ValuesEqual(e.New, TestEnum.Default);
-            Test.If.True(e.HasChanged);
-
-            Test.If.RaisesEvent(prop, "ChangeTracked", () => prop.Value = null, out sender, out e);
-            Test.If.ValuesEqual(prop.Value, null);
-            Test.IfNot.Null(sender);
-            Test.If.ValuesEqual(sender, prop);
-            Test.IfNot.Null(e);
-            Test.If.ValuesEqual(e.Owner, owner);
-            Test.If.ValuesEqual(e.Old, TestEnum.Default);
-            Test.If.Null(e.New);
-            Test.If.True(e.HasChanged);
+            DDTestChangeTrackedEvent<TestEnum?>((owner, null), TestEnum.Default, (owner, null, TestEnum.Default, true));
+            DDTestChangeTrackedEvent<TestEnum?>((owner, TestEnum.Default), null, (owner, TestEnum.Default, null, true));
 
         }
+
+        void DDTestChangeTrackedEvent<TValue>((Object owner, TValue value) input, TValue newValue, (Object owner, TValue old, TValue _new, Boolean hasChanged) expected,
+            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+
+            ITrackedProperty<Object, TValue> prop = new TrackedProperty<Object, TValue>(input.owner, input.value);
+
+            Test.Note($"Value = '{newValue}'", _file, _method);
+            Test.If.RaisesEvent(prop, "ChangeTracked", () => prop.Value = newValue, out Object sender, out ChangeTrackedEventArgs<Object, TValue> e, _file, _method);
+            Test.IfNot.Null(sender, _file, _method);
+            Test.If.ValuesEqual(sender, prop, _file, _method);
+            Test.IfNot.Null(e, _file, _method);
+            Test.If.ValuesEqual(e.Owner, expected.owner, _file, _method);
+            Test.If.ValuesEqual(e.Old, expected.old, _file, _method);
+            Test.If.ValuesEqual(e.New, expected._new, _file, _method);
+            Test.If.ValuesEqual(e.HasChanged, expected.hasChanged, _file, _method);
+
+        }
+
+        #endregion
 
         private enum TestEnum : Int32 {
             Default = 0,

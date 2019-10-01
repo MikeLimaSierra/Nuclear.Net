@@ -18,15 +18,16 @@ namespace Nuclear.Properties.TrackedProperties {
 
             ITrackedInt64<Object> prop = null;
             Object owner = new Object();
+            Int64 value = 42L;
 
             Test.IfNot.ThrowsException(() => prop = new TrackedInt64<Object>(null), out Exception ex);
             Test.IfNot.Null(prop);
-            Test.If.ValuesEqual(prop.Value, 0L);
+            Test.If.ValuesEqual(prop.Value, default);
             Test.If.False(prop.HasValueChanged);
 
-            Test.IfNot.ThrowsException(() => prop = new TrackedInt64<Object>(owner, 42L), out ex);
+            Test.IfNot.ThrowsException(() => prop = new TrackedInt64<Object>(owner, value), out ex);
             Test.IfNot.Null(prop);
-            Test.If.ValuesEqual(prop.Value, 42L);
+            Test.If.ValuesEqual(prop.Value, value);
             Test.If.False(prop.HasValueChanged);
 
         }

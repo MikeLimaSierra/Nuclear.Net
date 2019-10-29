@@ -29,3 +29,11 @@ Useful extensions to types mostly from `mscorlib`.
 Checkout the [Documentation](nuclear_extensions.md), [Source](https://github.com/MikeLimaSierra/Nuclear.Net/tree/master/src/Nuclear.Extensions) or [NuGet package](https://www.nuget.org/packages/Nuclear.Extensions/).
 
 ---
+
+## Nuclear.Properties
+
+Useful type wrappers that are meant to be used as functional types for properties.
+Checkout the [Documentation](nuclear_properties.md), [Source](https://github.com/MikeLimaSierra/Nuclear.Net/tree/master/src/Nuclear.Properties) or [NuGet package](https://www.nuget.org/packages/Nuclear.Properties/).
+See [Source](https://github.com/MikeLimaSierra/Nuclear.Net/tree/master/src/Nuclear.Properties.Contracts) or [NuGet package](https://www.nuget.org/packages/Nuclear.Properties.Contracts/) for Contracts.
+
+---

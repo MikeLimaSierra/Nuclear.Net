@@ -34,6 +34,11 @@ namespace Nuclear.Arguments {
         /// <summary>
         /// Creates a new instance of <see cref="ArgumentCollector"/> using '-' as switch indicator and ';' as value separator.
         /// </summary>
+        /// <example>
+        /// <code>
+        /// var argCollector = new ArgumentCollector();
+        /// </code>
+        /// </example>
         public ArgumentCollector() : this('-', ';') { }
 
         /// <summary>
@@ -41,6 +46,11 @@ namespace Nuclear.Arguments {
         /// </summary>
         /// <param name="switchIndicator">The char to be used to identify switches.</param>
         /// <param name="valueSeparator">The char to be used to separate values.</param>
+        /// <example>
+        /// <code>
+        /// var argCollector = new ArgumentCollector('/', ':');
+        /// </code>
+        /// </example>
         public ArgumentCollector(Char switchIndicator, Char valueSeparator) {
             SwitchIndicator = switchIndicator;
             ValueSeparator = valueSeparator;
@@ -54,6 +64,11 @@ namespace Nuclear.Arguments {
         /// Transforms a given <see cref="Array"/> of <see cref="String"/> into a <see cref="List{Argument}"/>.
         /// </summary>
         /// <param name="args">The <see cref="Array"/> of <see cref="String"/> to transform.</param>
+        /// <example>
+        /// <code>
+        /// argCollector.Collect(args);
+        /// </code>
+        /// </example>
         public void Collect(String[] args) {
             foreach(String arg in args) {
                 if(!String.IsNullOrWhiteSpace(arg)) {
@@ -68,6 +83,13 @@ namespace Nuclear.Arguments {
         /// <param name="_switch">The switch name.</param>
         /// <param name="arg">The argument instance.</param>
         /// <returns>True if the argument was found, false if not.</returns>
+        /// <example>
+        /// <code>
+        /// if(argCollector.TryGetSwitch("h", out Argument arg)) {
+        ///     ShowHelpDialog();
+        /// }
+        /// </code>
+        /// </example>
         public Boolean TryGetSwitch(String _switch, out Argument arg) {
             arg = Arguments.Find(argument => argument.SwitchName == _switch);
 
@@ -81,6 +103,13 @@ namespace Nuclear.Arguments {
         /// </summary>
         /// <param name="arg">The <see cref="Argument"/> to get values from.</param>
         /// <returns>A <see cref="List{String}"/> of values from the supplied <see cref="Argument"/>.</returns>
+        /// <example>
+        /// <code>
+        /// if(argCollector.TryGetSwitch("files", out Argument arg) &amp;&amp; arg.HasValue) {
+        ///     ProcessFiles(argCollector.GetSeparatedValues(arg));
+        /// }
+        /// </code>
+        /// </example>
         public List<String> GetSeparatedValues(Argument arg) {
             List<String> values = new List<String>();
 

@@ -39,6 +39,11 @@ namespace Nuclear.Properties.ClampedProperties {
         /// <param name="setValue">The value that was tried to set.</param>
         /// <param name="oldValue">The old value.</param>
         /// <param name="newValue">The new value.</param>
+        /// <example>
+        /// <code>
+        /// var e = new ValueClampedEventArgs&lt;Int32&gt;(setValue, oldValue, newValue);
+        /// </code>
+        /// </example>
         public ValueClampedEventArgs(TValue setValue, TValue oldValue, TValue newValue)
             : base(oldValue, newValue) {
 

@@ -16,6 +16,13 @@ namespace Nuclear.Extensions {
         /// <param name="_this">The current <see cref="String"/> instance.</param>
         /// <param name="value">The <see cref="Char"/> to compare.</param>
         /// <returns>True if <paramref name="_this"/> begins with <paramref name="value"/>, otherwise false.</returns>
+        /// <example>
+        /// <code>
+        /// if(someString.StartsWith('x')) {
+        ///     doSomething();
+        /// }
+        /// </code>
+        /// </example>
         public static Boolean StartsWith(this String _this, Char value) => _this.StartsWith(value.ToString());
 
         /// <summary>
@@ -25,6 +32,13 @@ namespace Nuclear.Extensions {
         /// <param name="value">The <see cref="Char"/> to compare.</param>
         /// <param name="comparisonType">A definition of how strings are compared.</param>
         /// <returns>True if <paramref name="_this"/> begins with <paramref name="value"/>, otherwise false.</returns>
+        /// <example>
+        /// <code>
+        /// if(someString.StartsWith('x', StringComparison.OrdinalIgnoreCase)) {
+        ///     doSomething();
+        /// }
+        /// </code>
+        /// </example>
         public static Boolean StartsWith(this String _this, Char value, StringComparison comparisonType) => _this.StartsWith(value.ToString(), comparisonType);
 
         #endregion
@@ -37,6 +51,13 @@ namespace Nuclear.Extensions {
         /// <param name="_this">The current <see cref="String"/> instance.</param>
         /// <param name="value">The <see cref="Char"/> to compare.</param>
         /// <returns>True if <paramref name="_this"/> ends with <paramref name="value"/>, otherwise false.</returns>
+        /// <example>
+        /// <code>
+        /// if(someString.EndsWith('x')) {
+        ///     doSomething();
+        /// }
+        /// </code>
+        /// </example>
         public static Boolean EndsWith(this String _this, Char value) => _this.EndsWith(value.ToString());
 
         /// <summary>
@@ -46,6 +67,13 @@ namespace Nuclear.Extensions {
         /// <param name="value">The <see cref="Char"/> to compare.</param>
         /// <param name="comparisonType">A definition of how strings are compared.</param>
         /// <returns>True if <paramref name="_this"/> ends with <paramref name="value"/>, otherwise false.</returns>
+        /// <example>
+        /// <code>
+        /// if(someString.EndsWith('x', StringComparison.OrdinalIgnoreCase)) {
+        ///     doSomething();
+        /// }
+        /// </code>
+        /// </example>
         public static Boolean EndsWith(this String _this, Char value, StringComparison comparisonType) => _this.EndsWith(value.ToString(), comparisonType);
 
         #endregion
@@ -59,6 +87,11 @@ namespace Nuclear.Extensions {
         /// <param name="value">A <see cref="String"/> to remove or null.</param>
         /// <returns>The <see cref="String"/> that remains after one occurrence of <paramref name="value"/> is removed from the start and the end of <paramref name="_this"/>.
         ///		If <paramref name="value"/> is null or an empty string, the method returns the current instance unchanged.</returns>
+        /// <example>
+        /// <code>
+        /// someString = someString.TrimOnce(@"//");
+        /// </code>
+        /// </example>
         public static String TrimOnce(this String _this, String value) => _this.TrimStartOnce(value).TrimEndOnce(value);
 
         /// <summary>
@@ -67,6 +100,11 @@ namespace Nuclear.Extensions {
         /// <param name="_this">The current <see cref="String"/> instance.</param>
         /// <param name="value">A <see cref="Char"/> to remove.</param>
         /// <returns>The <see cref="String"/> that remains after one occurrence of <paramref name="value"/> is removed from the start and end of <paramref name="_this"/>.</returns>
+        /// <example>
+        /// <code>
+        /// someString = someString.TrimOnce('/');
+        /// </code>
+        /// </example>
         public static String TrimOnce(this String _this, Char value) => _this.TrimOnce(value.ToString());
 
         /// <summary>
@@ -76,6 +114,11 @@ namespace Nuclear.Extensions {
         /// <param name="value">A <see cref="String"/> to remove or null.</param>
         /// <returns>The <see cref="String"/> that remains after one occurrence of <paramref name="value"/> is removed from the start of <paramref name="_this"/>.
         ///		If <paramref name="value"/> is null or an empty string, the method returns the current instance unchanged.</returns>
+        /// <example>
+        /// <code>
+        /// someString = someString.TrimStartOnce(@"http://");
+        /// </code>
+        /// </example>
         public static String TrimStartOnce(this String _this, String value) {
             if(String.IsNullOrEmpty(value)) {
                 return _this;
@@ -92,6 +135,11 @@ namespace Nuclear.Extensions {
         /// <param name="_this">The current <see cref="String"/> instance.</param>
         /// <param name="value">A <see cref="Char"/> to remove.</param>
         /// <returns>The <see cref="String"/> that remains after one occurrence of <paramref name="value"/> is removed from the start of <paramref name="_this"/>.</returns>
+        /// <example>
+        /// <code>
+        /// someString = someString.TrimStartOnce('/');
+        /// </code>
+        /// </example>
         public static String TrimStartOnce(this String _this, Char value) => _this.TrimStartOnce(value.ToString());
 
         /// <summary>
@@ -101,6 +149,11 @@ namespace Nuclear.Extensions {
         /// <param name="value">A <see cref="String"/> to remove or null.</param>
         /// <returns>The <see cref="String"/> that remains after one occurrence of <paramref name="value"/> is removed from the end of <paramref name="_this"/>.
         ///		If <paramref name="value"/> is null or an empty string, the method returns the current instance unchanged.</returns>
+        /// <example>
+        /// <code>
+        /// someString = someString.TrimEndOnce(@".xml");
+        /// </code>
+        /// </example>
         public static String TrimEndOnce(this String _this, String value) {
             if(String.IsNullOrEmpty(value)) {
                 return _this;
@@ -117,6 +170,11 @@ namespace Nuclear.Extensions {
         /// <param name="_this">The current <see cref="String"/> instance.</param>
         /// <param name="value">A <see cref="Char"/> to remove.</param>
         /// <returns>The <see cref="String"/> that remains after one occurrence of <paramref name="value"/> is removed from the end of <paramref name="_this"/>.</returns>
+        /// <example>
+        /// <code>
+        /// someString = someString.TrimEndOnce('/');
+        /// </code>
+        /// </example>
         public static String TrimEndOnce(this String _this, Char value) => _this.TrimEndOnce(value.ToString());
 
         #endregion

@@ -37,6 +37,11 @@ namespace Nuclear.Properties.TrackedProperties {
         /// <param name="owner">The actual owner.</param>
         /// <param name="oldValue">The old value.</param>
         /// <param name="newValue">The new value.</param>
+        /// <example>
+        /// <code>
+        /// var e = new ChangeTrackedEventArgs&lt;MyClass, Int32&gt;(owner, oldValue, newValue);
+        /// </code>
+        /// </example>
         public ChangeTrackedEventArgs(TOwner owner, TValue oldValue, TValue newValue)
             : base(oldValue, newValue) {
 

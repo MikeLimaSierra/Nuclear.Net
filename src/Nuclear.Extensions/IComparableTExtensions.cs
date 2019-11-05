@@ -19,6 +19,13 @@ namespace Nuclear.Extensions {
         /// <param name="max">The upper border of the range. Is considered higher than <paramref name="_this"/> if null.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="_this"/> is null.</exception>
         /// <returns>True if <paramref name="_this"/> is clamped, false if not.</returns>
+        /// <example>
+        /// <code>
+        /// if(someIndex.IsClamped(0, someList.Count - 1)) {
+        ///     doSomething(someIndex, someList);
+        /// }
+        /// </code>
+        /// </example>
         public static Boolean IsClamped<T>(this T _this, T min, T max)
             where T : IComparable<T> {
 
@@ -45,6 +52,13 @@ namespace Nuclear.Extensions {
         /// <param name="max">The upper border of the range. Is considered higher than <paramref name="_this"/> if null.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="_this"/> is null.</exception>
         /// <returns>True if <paramref name="_this"/> is clamped, false if not.</returns>
+        /// <example>
+        /// <code>
+        /// if(someIndex.IsClampedExclusive(-1, someList.Count)) {
+        ///     doSomething(someIndex, someList);
+        /// }
+        /// </code>
+        /// </example>
         public static Boolean IsClampedExclusive<T>(this T _this, T min, T max)
             where T : IComparable<T> {
 
@@ -75,6 +89,11 @@ namespace Nuclear.Extensions {
         /// <param name="max">The upper border of the range. Is considered higher than <paramref name="_this"/> if null.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="_this"/> is null.</exception>
         /// <returns>The clamped version of <paramref name="_this"/>.</returns>
+        /// <example>
+        /// <code>
+        /// doSomething(someIndex.Clamp(0, someList.Count - 1), someList);
+        /// </code>
+        /// </example>
         public static T Clamp<T>(this T _this, T min, T max)
             where T : IComparable<T> {
 

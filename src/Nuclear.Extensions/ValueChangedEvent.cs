@@ -42,6 +42,11 @@ namespace Nuclear.Extensions {
         /// </summary>
         /// <param name="oldValue">The old value.</param>
         /// <param name="newValue">The new value.</param>
+        /// <example>
+        /// <code>
+        /// var e = new ValueChangedEventArgs&lt;Int32&gt;(oldValue, newValue);
+        /// </code>
+        /// </example>
         public ValueChangedEventArgs(TValue oldValue, TValue newValue) {
             Old = oldValue;
             New = newValue;

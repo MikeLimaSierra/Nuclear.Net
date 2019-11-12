@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Nuclear.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nuclear.Exceptions;
 
 namespace Nuclear.Extensions {
 

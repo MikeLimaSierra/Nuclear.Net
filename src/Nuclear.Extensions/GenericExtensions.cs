@@ -6,7 +6,8 @@ using System.Globalization;
 namespace Nuclear.Extensions {
 
     /// <summary>
-    /// Provides extension methods for any type.
+    /// The class <see cref="GenericExtensions"/> provides extension methods to any unrestricted generic type.
+    /// These methods add either completely new functionality or enhanced functionality based on existing implementations.
     /// </summary>
     public static class GenericExtensions {
 

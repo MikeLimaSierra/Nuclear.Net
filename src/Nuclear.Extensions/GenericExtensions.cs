@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Text;
 
 namespace Nuclear.Extensions {
 
@@ -10,6 +12,8 @@ namespace Nuclear.Extensions {
     /// These methods add either completely new functionality or enhanced functionality based on existing implementations.
     /// </summary>
     public static class GenericExtensions {
+
+        #region Format
 
         /// <summary>
         /// Gets a <see cref="String"/> representing <paramref name="_this"/>.
@@ -28,6 +32,20 @@ namespace Nuclear.Extensions {
 
             if(_this is Type type) { return String.Format(CultureInfo.InvariantCulture, "'{0}'", type.FullName); }
 
+            if(_this is String @string) { return String.Format(CultureInfo.InvariantCulture, "'{0}'", @string); }
+
+            if(_this is IEnumerable enumerable) {
+                Boolean first = true;
+                StringBuilder sb = new StringBuilder("[");
+
+                foreach(Object element in enumerable) {
+                    sb.AppendFormat(CultureInfo.InvariantCulture, first ? "{0}" : ", {0}", element.Format());
+                    first = false;
+                }
+
+                return sb.Append("]").ToString();
+            }
+
             return String.Format(CultureInfo.InvariantCulture, "'{0}'", _this);
         }
 
@@ -45,6 +63,10 @@ namespace Nuclear.Extensions {
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static String FormatType<T>(this T _this) => _this != null ? _this.GetType().Format() : _this.Format();
 
+        #endregion
+
+        #region Equals
+
         /// <summary>
         /// Determines equality of <paramref name="left"/> and <paramref name="right"/> using the implementations of
         ///     <see cref="IEquatable{T}"/>, <see cref="IComparable{T}"/>, <see cref="IComparable"/> and the default <see cref="IEqualityComparer{T}"/>.
@@ -60,14 +82,14 @@ namespace Nuclear.Extensions {
         /// }
         /// </code>
         /// </example>
-        public static Boolean IsEqual<T>(this T left, T right) {
+        public static Boolean Equals<T>(this T left, T right) {
 
             if(left == null) {
-                if(right == null) {
-                    return true;
-                } else {
-                    return right.IsEqual(left);
-                }
+                return right != null ? right.Equals<T>(left) : true;
+            }
+
+            if(right == null) {
+                return false;
             }
 
             if(left is IEquatable<T> eLeft) {
@@ -78,46 +100,20 @@ namespace Nuclear.Extensions {
 
             if(left is IComparable<T> cTLeft) {
                 try {
-                    return cTLeft.CompareTo(right) == 0;
+                    return cTLeft.IsEqual(right);
                 } catch { /* advance to next */ }
             }
 
             if(left is IComparable cLeft) {
                 try {
-                    return cLeft.CompareTo(right) == 0;
+                    return cLeft.IsEqual(right);
                 } catch { /* advance to next */ }
             }
 
-            return IsEqual(left, right, EqualityComparer<T>.Default);
+            return EqualityComparer<T>.Default.Equals(left, right);
         }
 
-        /// <summary>
-        /// Determines equality of <paramref name="left"/> and <paramref name="right"/> using an <see cref="IEqualityComparer{T}"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the objects to compare.</typeparam>
-        /// <param name="left">The left object.</param>
-        /// <param name="right">The right object.</param>
-        /// <param name="comparer">The comparer used to establish equality. Fallback is the default <see cref="IEqualityComparer{T}"/>.</param>
-        /// <returns>True if both objects are equal or null.</returns>
-        /// <example>
-        /// <code>
-        /// if(someObject.IsEqual(someOtherObject, new SomeClassEqualityComparer())) {
-        ///     // ...
-        /// }
-        /// </code>
-        /// </example>
-        public static Boolean IsEqual<T>(this T left, T right, IEqualityComparer<T> comparer) {
-            if(comparer == null) {
-                comparer = EqualityComparer<T>.Default;
-            }
-
-            try {
-                return comparer.Equals(left, right);
-
-            } catch { }
-
-            return false;
-        }
+        #endregion
 
     }
 }

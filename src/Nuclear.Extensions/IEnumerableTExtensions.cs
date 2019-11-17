@@ -128,6 +128,8 @@ namespace Nuclear.Extensions {
         /// </example>
         public static T Min<T>(this IEnumerable<T> _this, Comparer<T> comparer) {
             Throw.If.Null(_this, "_this");
+            Throw.If.False(_this.Count() > 0, "_this", "The enumeration is empty.");
+            Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
             Throw.If.Null(comparer, "comparer");
 
             return _this.Min(comparer as IComparer<T>);
@@ -151,6 +153,8 @@ namespace Nuclear.Extensions {
         /// </example>
         public static T Min<T>(this IEnumerable<T> _this, IComparer comparer) {
             Throw.If.Null(_this, "_this");
+            Throw.If.False(_this.Count() > 0, "_this", "The enumeration is empty.");
+            Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
             Throw.If.Null(comparer, "comparer");
 
             return _this.Min(DynamicComparer<T>.From(comparer));

@@ -37,7 +37,7 @@ namespace Nuclear.Extensions {
 
         #region ctor
 
-        private DynamicEqualityComparer(EqualityComparison<Object> equals, GetHashCode<Object> getHashCode) {
+        internal DynamicEqualityComparer(EqualityComparison<Object> equals, GetHashCode<Object> getHashCode) {
             Throw.If.Null(equals, "equals");
             Throw.If.Null(getHashCode, "getHashCode");
 
@@ -99,7 +99,7 @@ namespace Nuclear.Extensions {
 
         #region ctor
 
-        private DynamicEqualityComparer(EqualityComparison<T> equals, GetHashCode<T> getHashCode) {
+        internal DynamicEqualityComparer(EqualityComparison<T> equals, GetHashCode<T> getHashCode) {
             Throw.If.Null(equals, "equals");
             Throw.If.Null(getHashCode, "getHashCode");
 
@@ -135,10 +135,7 @@ namespace Nuclear.Extensions {
         public static IEqualityComparer<T> From(IEqualityComparer comparer) {
             Throw.If.Null(comparer, "comparer");
 
-            EqualityComparison<T> equals = new EqualityComparison<T>((x, y) => comparer.Equals(x, y));
-            GetHashCode<T> gethashcode = new GetHashCode<T>((obj) => comparer.GetHashCode(obj));
-
-            return new DynamicEqualityComparer<T>(equals, gethashcode);
+            return new DynamicEqualityComparer<T>((x, y) => comparer.Equals(x, y), (obj) => comparer.GetHashCode(obj));
         }
 
         /// <summary>

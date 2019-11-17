@@ -30,7 +30,7 @@ namespace Nuclear.Extensions {
 
         #region ctors
 
-        private DynamicComparer(Comparison compare) {
+        internal DynamicComparer(Comparison compare) {
             Throw.If.Null(compare, "compare");
 
             _compare = compare;
@@ -82,7 +82,7 @@ namespace Nuclear.Extensions {
 
         #region ctors
 
-        private DynamicComparer(Comparison<T> compare) {
+        internal DynamicComparer(Comparison<T> compare) {
             Throw.If.Null(compare, "compare");
 
             _compare = compare;
@@ -113,9 +113,7 @@ namespace Nuclear.Extensions {
         public static IComparer<T> From(IComparer comparer) {
             Throw.If.Null(comparer, "comparer");
 
-            Comparison<T> compare = new Comparison<T>((x, y) => comparer.Compare(x, y));
-
-            return new DynamicComparer<T>(compare);
+            return new DynamicComparer<T>((x, y) => comparer.Compare(x, y));
         }
 
         /// <summary>

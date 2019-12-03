@@ -64,6 +64,44 @@ namespace Nuclear.Extensions {
             return new DynamicComparer(compare);
         }
 
+        /// <summary>
+        /// Returns a new instance of <see cref="DynamicComparer{T}"/> using the given implementation of <see cref="IComparable"/>.
+        /// </summary>
+        /// <typeparam name="TType">The type of the <see cref="IComparable"/></typeparam>
+        /// <returns>A new instance of <see cref="DynamicComparer{T}"/>.</returns>
+        public static IComparer<TType> From<TType>()
+            where TType : IComparable {
+
+            Comparison<TType> compare = (x, y) => {
+                if(x == null) {
+                    return y == null ? 0 : -y.CompareTo(x);
+                }
+
+                return y == null ? 1 : x.CompareTo(y);
+            };
+
+            return new DynamicComparer<TType>(compare);
+        }
+
+        /// <summary>
+        /// Returns a new instance of <see cref="DynamicComparer{T}"/> using the given implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <typeparam name="TType">The type of the <see cref="IComparable{T}"/></typeparam>
+        /// <returns>A new instance of <see cref="DynamicComparer{T}"/>.</returns>
+        public static IComparer<TType> FromT<TType>()
+            where TType : IComparable<TType> {
+
+            Comparison<TType> compare = (x, y) => {
+                if(x == null) {
+                    return y == null ? 0 : -y.CompareTo(x);
+                }
+
+                return y == null ? 1 : x.CompareTo(y);
+            };
+
+            return new DynamicComparer<TType>(compare);
+        }
+
         #endregion
 
     }

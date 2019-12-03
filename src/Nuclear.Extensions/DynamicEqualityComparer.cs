@@ -79,6 +79,27 @@ namespace Nuclear.Extensions {
             return new DynamicEqualityComparer(equals, getHashCode);
         }
 
+        /// <summary>
+        /// Returns a new instance of <see cref="DynamicEqualityComparer{T}"/> using the given implementation of <see cref="IEquatable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the <see cref="IEquatable{T}"/></typeparam>
+        /// <returns>A new instance of <see cref="DynamicEqualityComparer{T}"/>.</returns>
+        public static IEqualityComparer<T> FromT<T>()
+            where T : IEquatable<T> {
+
+            EqualityComparison<T> equals = (x, y) => {
+                if(x == null) {
+                    return y == null ? true : y.Equals(x);
+                }
+
+                return y == null ? false : x.Equals(y);
+            };
+
+            GetHashCode<T> getHashCode = (obj) => obj.GetHashCode();
+
+            return new DynamicEqualityComparer<T>(equals, getHashCode);
+        }
+
         #endregion
 
     }

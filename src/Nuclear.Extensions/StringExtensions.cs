@@ -78,6 +78,26 @@ namespace Nuclear.Extensions {
 
         #endregion
 
+        #region Contains
+
+        /// <summary>
+        /// Determins whether <paramref name="_this"/> contains <paramref name="value"/> when compared using <paramref name="comparisonType"/>.
+        /// </summary>
+        /// <param name="_this">The current <see cref="String"/> instance.</param>
+        /// <param name="value">The <see cref="Char"/> to search for.</param>
+        /// <param name="comparisonType">A definition of how strings are compared.</param>
+        /// <returns>True if <paramref name="_this"/> contains <paramref name="value"/>, otherwise false.</returns>
+        /// <example>
+        /// <code>
+        /// if(someString.Contains("John Doe", StringComparison.OrdinalIgnoreCase)) {
+        ///     doSomething();
+        /// }
+        /// </code>
+        /// </example>
+        public static Boolean Contains(this String _this, String value, StringComparison comparisonType) => _this.IndexOf(value, 0, comparisonType) >= 0;
+
+        #endregion
+
         #region Trim
 
         /// <summary>

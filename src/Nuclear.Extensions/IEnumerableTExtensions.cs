@@ -157,7 +157,7 @@ namespace Nuclear.Extensions {
             Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
             Throw.If.Null(comparer, "comparer");
 
-            return _this.Min(DynamicComparer.From<T>(comparer));
+            return _this.Min(DynamicComparer.FromComparer<T>(comparer));
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace Nuclear.Extensions {
             Throw.If.Null(_this, "_this");
             Throw.If.Null(comparer, "comparer");
 
-            return _this.Max(DynamicComparer.From<T>(comparer));
+            return _this.Max(DynamicComparer.FromComparer<T>(comparer));
         }
 
         /// <summary>

@@ -18,9 +18,10 @@ namespace Nuclear.Extensions {
     public delegate Int32 Comparison(Object x, Object y);
 
     /// <summary>
-    /// Represents an <see cref="IComparer"/> implementation that can be configured at runtime by passing behaviour via delegates.
+    /// Helper class to instantiate and create custom <see cref="IComparer"/> and <see cref="IComparer{T}"/>
+    /// at runtime by passing behaviours via delegates or existing implementations.
     /// </summary>
-    public class DynamicComparer {
+    public static class DynamicComparer {
 
         #region static methods
 
@@ -30,8 +31,8 @@ namespace Nuclear.Extensions {
         /// <param name="compare">The <see cref="Comparison"/> to use for calls of <c>IComparer&lt;T&gt;.Compare(T, T)</c>.</param>
         /// <returns>A new instance of <see cref="IComparer"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="compare"/> is null.</exception>
-        public static IComparer From(Comparison compare) {
-            Throw.If.Null(compare, "compare");
+        public static IComparer FromComparison(Comparison compare) {
+            Throw.If.Null(compare, nameof(compare));
 
             return new InternalComparer(compare);
         }
@@ -43,8 +44,8 @@ namespace Nuclear.Extensions {
         /// <param name="compare">The <see cref="Comparison{T}"/> to use for calls of <c>IComparer&lt;T&gt;.Compare(T, T)</c>.</param>
         /// <returns>A new instance of <see cref="IComparer{T}"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="compare"/> is null.</exception>
-        public static IComparer<T> From<T>(Comparison<T> compare) {
-            Throw.If.Null(compare, "compare");
+        public static IComparer<T> FromComparison<T>(Comparison<T> compare) {
+            Throw.If.Null(compare, nameof(compare));
 
             return new InternalComparer<T>(compare);
         }
@@ -56,26 +57,33 @@ namespace Nuclear.Extensions {
         /// <param name="comparer">The <see cref="IComparer"/> used for comparison.</param>
         /// <returns>A new instance of <see cref="IComparer{T}"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="comparer"/> is null.</exception>
-        public static IComparer<T> From<T>(IComparer comparer) {
-            Throw.If.Null(comparer, "comparer");
+        public static IComparer<T> FromComparer<T>(IComparer comparer) {
+            Throw.If.Null(comparer, nameof(comparer));
 
             return new InternalComparer<T>((x, y) => comparer.Compare(x, y));
         }
 
         /// <summary>
-        /// Returns a new instance of <see cref="IComparer{T}"/> using the given implementation of <see cref="IComparable"/>.
+        /// Returns a new instance of <see cref="IComparer"/> using the given implementation of <see cref="IComparable"/>.
         /// </summary>
         /// <typeparam name="T">The type of the objects to compare.</typeparam>
-        /// <returns>A new instance of <see cref="IComparer{T}"/>.</returns>
-        public static IComparer From<T>()
+        /// <returns>A new instance of <see cref="IComparer"/>.</returns>
+        public static IComparer FromIComparable<T>()
             where T : IComparable {
 
             Comparison compare = (x, y) => {
-                if(x != null && x is T tX) {
-                    return y == null ? 1 : tX.CompareTo(y);
+                T _x = (T) x;
+                T _y = (T) y;
+
+                if(_x == null && _y == null) {
+                    return 0;
                 }
 
-                return (y != null && y is T tY) ? -tY.CompareTo(x) : 0;
+                if(_x != null && _y != null) {
+                    return _x.CompareTo(_y);
+                }
+
+                return _x != null ? 1 : -1;
             };
 
             return new InternalComparer(compare);
@@ -86,15 +94,19 @@ namespace Nuclear.Extensions {
         /// </summary>
         /// <typeparam name="T">The type of the objects to compare.</typeparam>
         /// <returns>A new instance of <see cref="IComparer{T}"/>.</returns>
-        public static IComparer<T> FromT<T>()
+        public static IComparer<T> FromIComparableT<T>()
             where T : IComparable<T> {
 
             Comparison<T> compare = (x, y) => {
-                if(x == null) {
-                    return y == null ? 0 : -y.CompareTo(x);
+                if(x == null && y == null) {
+                    return 0;
                 }
 
-                return y == null ? 1 : x.CompareTo(y);
+                if(x != null && y != null) {
+                    return x.CompareTo(y);
+                }
+
+                return x != null ? 1 : -1;
             };
 
             return new InternalComparer<T>(compare);
@@ -115,7 +127,7 @@ namespace Nuclear.Extensions {
         #region ctors
 
         internal InternalComparer(Comparison compare) {
-            Throw.If.Null(compare, "compare");
+            Throw.If.Null(compare, nameof(compare));
 
             _compare = compare;
         }
@@ -141,7 +153,7 @@ namespace Nuclear.Extensions {
         #region ctors
 
         internal InternalComparer(Comparison<T> compare) {
-            Throw.If.Null(compare, "compare");
+            Throw.If.Null(compare, nameof(compare));
 
             _compare = compare;
         }

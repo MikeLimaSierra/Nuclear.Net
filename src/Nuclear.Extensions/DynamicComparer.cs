@@ -31,7 +31,7 @@ namespace Nuclear.Extensions {
         /// <param name="compare">The <see cref="Comparison"/> to use for calls of <c>IComparer&lt;T&gt;.Compare(T, T)</c>.</param>
         /// <returns>A new instance of <see cref="IComparer"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="compare"/> is null.</exception>
-        public static IComparer FromComparison(Comparison compare) {
+        public static IComparer FromDelegate(Comparison compare) {
             Throw.If.Null(compare, nameof(compare));
 
             return new InternalComparer(compare);
@@ -44,7 +44,7 @@ namespace Nuclear.Extensions {
         /// <param name="compare">The <see cref="Comparison{T}"/> to use for calls of <c>IComparer&lt;T&gt;.Compare(T, T)</c>.</param>
         /// <returns>A new instance of <see cref="IComparer{T}"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="compare"/> is null.</exception>
-        public static IComparer<T> FromComparison<T>(Comparison<T> compare) {
+        public static IComparer<T> FromDelegate<T>(Comparison<T> compare) {
             Throw.If.Null(compare, nameof(compare));
 
             return new InternalComparer<T>(compare);

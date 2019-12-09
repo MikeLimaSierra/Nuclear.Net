@@ -23,29 +23,32 @@ namespace Nuclear.Extensions {
     public delegate Int32 GetHashCode<T>(T obj);
 
     /// <summary>
-    /// Represents an <see cref="IEqualityComparer"/> implementation that can be configured at runtime by passing behaviour via delegates.
+    /// Helper class to instantiate and create custom <see cref="IEqualityComparer"/> and <see cref="IEqualityComparer{T}"/>
+    /// at runtime by passing behaviours via delegates or existing implementations.
     /// </summary>
-    public class DynamicEqualityComparer {
+    public static class DynamicEqualityComparer {
 
         #region static methods
 
         /// <summary>
-        /// Returns a new instance of <see cref="IEqualityComparer"/> using the given <see cref="EqualityComparison{Object}"/> and  <see cref="GetHashCode{Object}"/>.
+        /// Returns a new instance of <see cref="IEqualityComparer"/> using the given
+        /// <see cref="EqualityComparison{Object}"/> and  <see cref="GetHashCode{Object}"/>.
         /// </summary>
         /// <param name="equals">The <see cref="EqualityComparison{Object}"/> to use for calls of <c>IEqualityComparer.Equals(Object, Object)</c>.</param>
         /// <param name="getHashCode">The <see cref="GetHashCode{Object}"/> to use for calls of <c>IEqualityComparer.GetHashCode(Object)</c>.</param>
         /// <returns>A new instance of <see cref="IEqualityComparer"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="equals"/> is null.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="getHashCode"/> is null.</exception>
-        public static IEqualityComparer From(EqualityComparison<Object> equals, GetHashCode<Object> getHashCode) {
-            Throw.If.Null(equals, "equals");
-            Throw.If.Null(getHashCode, "getHashCode");
+        public static IEqualityComparer FromDelegate(EqualityComparison<Object> equals, GetHashCode<Object> getHashCode) {
+            Throw.If.Null(equals, nameof(equals));
+            Throw.If.Null(getHashCode, nameof(getHashCode));
 
             return new InternalEqualityComparer(equals, getHashCode);
         }
 
         /// <summary>
-        /// Returns a new instance of <see cref="IEqualityComparer{T}"/> using the given <see cref="EqualityComparison{T}"/> and  <see cref="GetHashCode{T}"/>.
+        /// Returns a new instance of <see cref="IEqualityComparer{T}"/> using the given
+        /// <see cref="EqualityComparison{T}"/> and  <see cref="GetHashCode{T}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the objects to compare.</typeparam>
         /// <param name="equals">The <see cref="EqualityComparison{T}"/> to use for calls of <c>IEqualityComparer&lt;T&gt;.Equals(T, T)</c>.</param>
@@ -53,9 +56,9 @@ namespace Nuclear.Extensions {
         /// <returns>A new instance of <see cref="IEqualityComparer{T}"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="equals"/> is null.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="getHashCode"/> is null.</exception>
-        public static IEqualityComparer<T> From<T>(EqualityComparison<T> equals, GetHashCode<T> getHashCode) {
-            Throw.If.Null(equals, "equals");
-            Throw.If.Null(getHashCode, "getHashCode");
+        public static IEqualityComparer<T> FromDelegate<T>(EqualityComparison<T> equals, GetHashCode<T> getHashCode) {
+            Throw.If.Null(equals, nameof(equals));
+            Throw.If.Null(getHashCode, nameof(getHashCode));
 
             return new InternalEqualityComparer<T>(equals, getHashCode);
         }
@@ -67,8 +70,8 @@ namespace Nuclear.Extensions {
         /// <param name="comparer">The <see cref="IEqualityComparer"/> used for comparison.</param>
         /// <returns>A new instance of <see cref="IEqualityComparer{T}"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="comparer"/> is null.</exception>
-        public static IEqualityComparer<T> From<T>(IEqualityComparer comparer) {
-            Throw.If.Null(comparer, "comparer");
+        public static IEqualityComparer<T> FromComparer<T>(IEqualityComparer comparer) {
+            Throw.If.Null(comparer, nameof(comparer));
 
             return new InternalEqualityComparer<T>((x, y) => comparer.Equals(x, y), (obj) => comparer.GetHashCode(obj));
         }
@@ -78,15 +81,19 @@ namespace Nuclear.Extensions {
         /// </summary>
         /// <typeparam name="T">The type of the objects to compare.</typeparam>
         /// <returns>A new instance of <see cref="IEqualityComparer{T}"/>.</returns>
-        public static IEqualityComparer<T> From<T>()
+        public static IEqualityComparer<T> FromIEquatable<T>()
             where T : IEquatable<T> {
 
             EqualityComparison<T> equals = (x, y) => {
-                if(x == null) {
-                    return y == null ? true : y.Equals(x);
+                if(x == null && y == null) {
+                    return true;
                 }
 
-                return y == null ? false : x.Equals(y);
+                if(x != null && y != null) {
+                    return x.Equals(y);
+                }
+
+                return false;
             };
 
             GetHashCode<T> getHashCode = (obj) => obj.GetHashCode();
@@ -111,8 +118,8 @@ namespace Nuclear.Extensions {
         #region ctor
 
         internal InternalEqualityComparer(EqualityComparison<Object> equals, GetHashCode<Object> getHashCode) {
-            Throw.If.Null(equals, "equals");
-            Throw.If.Null(getHashCode, "getHashCode");
+            Throw.If.Null(equals, nameof(equals));
+            Throw.If.Null(getHashCode, nameof(getHashCode));
 
             _equals = equals;
             _getHashCode = getHashCode;
@@ -143,8 +150,8 @@ namespace Nuclear.Extensions {
         #region ctor
 
         internal InternalEqualityComparer(EqualityComparison<T> equals, GetHashCode<T> getHashCode) {
-            Throw.If.Null(equals, "equals");
-            Throw.If.Null(getHashCode, "getHashCode");
+            Throw.If.Null(equals, nameof(equals));
+            Throw.If.Null(getHashCode, nameof(getHashCode));
 
             _equals = equals;
             _getHashCode = getHashCode;

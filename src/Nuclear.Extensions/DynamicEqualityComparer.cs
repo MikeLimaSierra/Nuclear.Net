@@ -28,6 +28,12 @@ namespace Nuclear.Extensions {
     /// </summary>
     public static class DynamicEqualityComparer {
 
+        #region fields
+
+        private static readonly Dictionary<Type, Object> _cache = new Dictionary<Type, Object>();
+
+        #endregion
+
         #region static methods
 
         /// <summary>
@@ -84,21 +90,39 @@ namespace Nuclear.Extensions {
         public static IEqualityComparer<T> FromIEquatable<T>()
             where T : IEquatable<T> {
 
-            EqualityComparison<T> equals = (x, y) => {
-                if(x == null && y == null) {
-                    return true;
+            Type type = typeof(T);
+            Object syncRoot = (_cache as ICollection).SyncRoot;
+            IEqualityComparer<T> comparer = null;
+
+            lock(syncRoot) {
+                if(_cache.ContainsKey(type)) {
+                    comparer = _cache[type] as IEqualityComparer<T>;
                 }
+            }
 
-                if(x != null && y != null) {
-                    return x.Equals(y);
+            if(comparer == null) {
+                EqualityComparison<T> equals = (x, y) => {
+                    if(x == null && y == null) {
+                        return true;
+                    }
+
+                    if(x != null && y != null) {
+                        return x.Equals(y);
+                    }
+
+                    return false;
+                };
+
+                comparer = new InternalEqualityComparer<T>(equals, (obj) => obj.GetHashCode());
+
+                lock(syncRoot) {
+                    if(!_cache.ContainsKey(type)) {
+                        _cache.Add(type, comparer);
+                    }
                 }
+            }
 
-                return false;
-            };
-
-            GetHashCode<T> getHashCode = (obj) => obj.GetHashCode();
-
-            return new InternalEqualityComparer<T>(equals, getHashCode);
+            return comparer;
         }
 
         #endregion

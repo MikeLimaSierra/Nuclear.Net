@@ -23,6 +23,14 @@ namespace Nuclear.Extensions {
     /// </summary>
     public static class DynamicComparer {
 
+        #region fields
+
+        private static readonly Dictionary<Type, Object> _cache = new Dictionary<Type, Object>();
+
+        private static readonly Dictionary<Type, Object> _cacheT = new Dictionary<Type, Object>();
+
+        #endregion
+
         #region static methods
 
         /// <summary>
@@ -71,22 +79,42 @@ namespace Nuclear.Extensions {
         public static IComparer FromIComparable<T>()
             where T : IComparable {
 
-            Comparison compare = (x, y) => {
-                T _x = (T) x;
-                T _y = (T) y;
+            Type type = typeof(T);
+            Object syncRoot = (_cache as ICollection).SyncRoot;
+            IComparer comparer = null;
 
-                if(_x == null && _y == null) {
-                    return 0;
+            lock(syncRoot) {
+                if(_cache.ContainsKey(type)) {
+                    comparer = _cache[type] as IComparer;
                 }
+            }
 
-                if(_x != null && _y != null) {
-                    return _x.CompareTo(_y);
+            if(comparer == null) {
+                Comparison compare = (x, y) => {
+                    T _x = (T) x;
+                    T _y = (T) y;
+
+                    if(_x == null && _y == null) {
+                        return 0;
+                    }
+
+                    if(_x != null && _y != null) {
+                        return _x.CompareTo(_y);
+                    }
+
+                    return _x != null ? 1 : -1;
+                };
+
+                comparer = new InternalComparer(compare);
+
+                lock(syncRoot) {
+                    if(!_cache.ContainsKey(type)) {
+                        _cache.Add(type, comparer);
+                    }
                 }
+            }
 
-                return _x != null ? 1 : -1;
-            };
-
-            return new InternalComparer(compare);
+            return comparer;
         }
 
         /// <summary>
@@ -97,19 +125,39 @@ namespace Nuclear.Extensions {
         public static IComparer<T> FromIComparableT<T>()
             where T : IComparable<T> {
 
-            Comparison<T> compare = (x, y) => {
-                if(x == null && y == null) {
-                    return 0;
+            Type type = typeof(T);
+            Object syncRoot = (_cacheT as ICollection).SyncRoot;
+            IComparer<T> comparer = null;
+
+            lock(syncRoot) {
+                if(_cacheT.ContainsKey(type)) {
+                    comparer = _cacheT[type] as IComparer<T>;
                 }
+            }
 
-                if(x != null && y != null) {
-                    return x.CompareTo(y);
+            if(comparer == null) {
+                Comparison<T> compare = (x, y) => {
+                    if(x == null && y == null) {
+                        return 0;
+                    }
+
+                    if(x != null && y != null) {
+                        return x.CompareTo(y);
+                    }
+
+                    return x != null ? 1 : -1;
+                };
+
+                comparer = new InternalComparer<T>(compare);
+
+                lock(syncRoot) {
+                    if(!_cacheT.ContainsKey(type)) {
+                        _cacheT.Add(type, comparer);
+                    }
                 }
+            }
 
-                return x != null ? 1 : -1;
-            };
-
-            return new InternalComparer<T>(compare);
+            return comparer;
         }
 
         #endregion

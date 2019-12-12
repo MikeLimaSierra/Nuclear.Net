@@ -12,7 +12,7 @@ namespace Nuclear.Exceptions {
         #region ctors
 
         private ExceptionFactory() {
-            Throw.IfNot.Null(Instance, "Instance", "Constructor must not be called twice.");
+            Throw.IfNot.Object.IsNull(Instance, nameof(Instance), "Constructor must not be called twice.");
         }
 
         #endregion

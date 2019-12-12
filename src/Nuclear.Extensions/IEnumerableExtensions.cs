@@ -1,8 +1,8 @@
-﻿using Nuclear.Exceptions;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Nuclear.Exceptions;
 
 namespace Nuclear.Extensions {
 
@@ -25,8 +25,8 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static void ForEach(this IEnumerable _this, Action<Object> action) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.Null(action, "action");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Object.IsNull(action, nameof(action));
 
             _this.Cast<Object>().ForEach(action);
         }
@@ -42,7 +42,7 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Int32 Count(this IEnumerable _this) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Cast<Object>().Count<Object>();
         }
@@ -58,7 +58,7 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Int64 LongCount(this IEnumerable _this) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Cast<Object>().LongCount<Object>();
         }

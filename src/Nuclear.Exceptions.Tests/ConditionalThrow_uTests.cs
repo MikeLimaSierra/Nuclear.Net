@@ -15,12 +15,12 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNull() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.Null(null, _paramName, _message), out ArgumentNullException ex1);
+                Throw.If.Object.IsNull(null, _paramName, _message), out ArgumentNullException ex1);
             Test.If.Value.Equals(_paramName, ex1.ParamName);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.Null(new Object(), _paramName, _message), out Exception ex2);
+                Throw.If.Object.IsNull(new Object(), _paramName, _message), out Exception ex2);
 
         }
 
@@ -28,10 +28,10 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotNull() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.Null(null, _paramName, _message), out Exception ex1);
+                Throw.IfNot.Object.IsNull(null, _paramName, _message), out Exception ex1);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.Null(new Object(), _paramName, _message), out ArgumentNullException ex2);
+                Throw.IfNot.Object.IsNull(new Object(), _paramName, _message), out ArgumentNullException ex2);
             Test.If.Value.Equals(_paramName, ex2.ParamName);
             Test.If.String.StartsWith(ex2.Message, _message);
 
@@ -41,11 +41,11 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNullGeneric() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.Null<NotImplementedException>(null, _message), out NotImplementedException ex1);
+                Throw.If.Object.IsNull<NotImplementedException>(null, _message), out NotImplementedException ex1);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.Null<NotImplementedException>(new Object(), _message), out Exception ex2);
+                Throw.If.Object.IsNull<NotImplementedException>(new Object(), _message), out Exception ex2);
 
         }
 
@@ -53,10 +53,10 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotNullGeneric() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.Null<NotImplementedException>(null, _message), out Exception ex1);
+                Throw.IfNot.Object.IsNull<NotImplementedException>(null, _message), out Exception ex1);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.Null<NotImplementedException>(new Object(), _message), out NotImplementedException ex2);
+                Throw.IfNot.Object.IsNull<NotImplementedException>(new Object(), _message), out NotImplementedException ex2);
             Test.If.String.StartsWith(ex2.Message, _message);
 
         }
@@ -69,15 +69,15 @@ namespace Nuclear.Exceptions {
         void TestThrowIfOfType() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.OfType<String>("STRING", _paramName, _message), out ArgumentException ex1);
+                Throw.If.Object.IsOfType<String>("STRING", _paramName, _message), out ArgumentException ex1);
             Test.If.Value.Equals(_paramName, ex1.ParamName);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.OfType<String>(42, _paramName, _message), out Exception ex2);
+                Throw.If.Object.IsOfType<String>(42, _paramName, _message), out Exception ex2);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.OfType<String>(null, _paramName, _message), out ArgumentNullException ex3);
+                Throw.If.Object.IsOfType<String>(null, _paramName, _message), out ArgumentNullException ex3);
 
         }
 
@@ -85,15 +85,15 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotOfType() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.OfType<String>("STRING", _paramName, _message), out Exception ex1);
+                Throw.IfNot.Object.IsOfType<String>("STRING", _paramName, _message), out Exception ex1);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.OfType<String>(42, _paramName, _message), out ArgumentException ex2);
+                Throw.IfNot.Object.IsOfType<String>(42, _paramName, _message), out ArgumentException ex2);
             Test.If.Value.Equals(_paramName, ex2.ParamName);
             Test.If.String.StartsWith(ex2.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.OfType<String>(null, _paramName, _message), out ArgumentNullException ex3);
+                Throw.IfNot.Object.IsOfType<String>(null, _paramName, _message), out ArgumentNullException ex3);
 
         }
 
@@ -101,14 +101,14 @@ namespace Nuclear.Exceptions {
         void TestThrowIfOfTypeGeneric() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.OfType<NotImplementedException, String>("STRING", _message), out NotImplementedException ex1);
+                Throw.If.Object.IsOfType<NotImplementedException, String>("STRING", _message), out NotImplementedException ex1);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.OfType<NotImplementedException, String>(42, _message), out Exception ex2);
+                Throw.If.Object.IsOfType<NotImplementedException, String>(42, _message), out Exception ex2);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.OfType<NotImplementedException, String>(null, _message), out ArgumentNullException ex3);
+                Throw.If.Object.IsOfType<NotImplementedException, String>(null, _message), out ArgumentNullException ex3);
 
         }
 
@@ -116,14 +116,14 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotOfTypeGeneric() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.OfType<NotImplementedException, String>("STRING", _message), out Exception ex1);
+                Throw.IfNot.Object.IsOfType<NotImplementedException, String>("STRING", _message), out Exception ex1);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.OfType<NotImplementedException, String>(42, _message), out NotImplementedException ex2);
+                Throw.IfNot.Object.IsOfType<NotImplementedException, String>(42, _message), out NotImplementedException ex2);
             Test.If.String.StartsWith(ex2.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.OfType<NotImplementedException, String>(null, _message), out ArgumentNullException ex3);
+                Throw.IfNot.Object.IsOfType<NotImplementedException, String>(null, _message), out ArgumentNullException ex3);
 
         }
 
@@ -135,20 +135,20 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNullOrEmpty() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.NullOrEmpty(null, _paramName, _message), out ArgumentNullException ex1);
+                Throw.If.String.IsNullOrEmpty(null, _paramName, _message), out ArgumentNullException ex1);
             Test.If.Value.Equals(_paramName, ex1.ParamName);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.NullOrEmpty(String.Empty, _paramName, _message), out ArgumentException ex2);
+                Throw.If.String.IsNullOrEmpty(String.Empty, _paramName, _message), out ArgumentException ex2);
             Test.If.Value.Equals(_paramName, ex2.ParamName);
             Test.If.String.StartsWith(ex2.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.NullOrEmpty(" ", _paramName, _message), out Exception ex3);
+                Throw.If.String.IsNullOrEmpty(" ", _paramName, _message), out Exception ex3);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.NullOrEmpty("STRING", _paramName, _message), out Exception ex4);
+                Throw.If.String.IsNullOrEmpty("STRING", _paramName, _message), out Exception ex4);
 
         }
 
@@ -156,18 +156,18 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotNullOrEmpty() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrEmpty(null, _paramName, _message), out Exception ex1);
+                Throw.IfNot.String.IsNullOrEmpty(null, _paramName, _message), out Exception ex1);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrEmpty(String.Empty, _paramName, _message), out Exception ex2);
+                Throw.IfNot.String.IsNullOrEmpty(String.Empty, _paramName, _message), out Exception ex2);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrEmpty(" ", _paramName, _message), out ArgumentException ex3);
+                Throw.IfNot.String.IsNullOrEmpty(" ", _paramName, _message), out ArgumentException ex3);
             Test.If.Value.Equals(_paramName, ex3.ParamName);
             Test.If.String.StartsWith(ex3.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrEmpty("STRING", _paramName, _message), out ArgumentException ex4);
+                Throw.IfNot.String.IsNullOrEmpty("STRING", _paramName, _message), out ArgumentException ex4);
             Test.If.Value.Equals(_paramName, ex4.ParamName);
             Test.If.String.StartsWith(ex4.Message, _message);
 
@@ -177,18 +177,18 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNullOrEmptyGeneric() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.NullOrEmpty<NotImplementedException>(null, _message), out NotImplementedException ex1);
+                Throw.If.String.IsNullOrEmpty<NotImplementedException>(null, _message), out NotImplementedException ex1);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.NullOrEmpty<NotImplementedException>(String.Empty, _message), out NotImplementedException ex2);
+                Throw.If.String.IsNullOrEmpty<NotImplementedException>(String.Empty, _message), out NotImplementedException ex2);
             Test.If.String.StartsWith(ex2.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.NullOrEmpty<NotImplementedException>(" ", _message), out Exception ex3);
+                Throw.If.String.IsNullOrEmpty<NotImplementedException>(" ", _message), out Exception ex3);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.NullOrEmpty<NotImplementedException>("STRING", _message), out Exception ex4);
+                Throw.If.String.IsNullOrEmpty<NotImplementedException>("STRING", _message), out Exception ex4);
 
         }
 
@@ -196,17 +196,17 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotNullOrEmptyGeneric() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrEmpty<NotImplementedException>(null, _message), out Exception ex1);
+                Throw.IfNot.String.IsNullOrEmpty<NotImplementedException>(null, _message), out Exception ex1);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrEmpty<NotImplementedException>(String.Empty, _message), out Exception ex2);
+                Throw.IfNot.String.IsNullOrEmpty<NotImplementedException>(String.Empty, _message), out Exception ex2);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrEmpty<NotImplementedException>(" ", _message), out NotImplementedException ex3);
+                Throw.IfNot.String.IsNullOrEmpty<NotImplementedException>(" ", _message), out NotImplementedException ex3);
             Test.If.String.StartsWith(ex3.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrEmpty<NotImplementedException>("STRING", _message), out NotImplementedException ex4);
+                Throw.IfNot.String.IsNullOrEmpty<NotImplementedException>("STRING", _message), out NotImplementedException ex4);
             Test.If.String.StartsWith(ex4.Message, _message);
 
         }
@@ -219,22 +219,22 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNullOrWhiteSpace() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.NullOrWhiteSpace(null, _paramName, _message), out ArgumentNullException ex1);
+                Throw.If.String.IsNullOrWhiteSpace(null, _paramName, _message), out ArgumentNullException ex1);
             Test.If.Value.Equals(_paramName, ex1.ParamName);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.NullOrWhiteSpace(String.Empty, _paramName, _message), out ArgumentException ex2);
+                Throw.If.String.IsNullOrWhiteSpace(String.Empty, _paramName, _message), out ArgumentException ex2);
             Test.If.Value.Equals(_paramName, ex2.ParamName);
             Test.If.String.StartsWith(ex2.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.NullOrWhiteSpace(" ", _paramName, _message), out ArgumentException ex3);
+                Throw.If.String.IsNullOrWhiteSpace(" ", _paramName, _message), out ArgumentException ex3);
             Test.If.Value.Equals(_paramName, ex3.ParamName);
             Test.If.String.StartsWith(ex3.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.NullOrWhiteSpace("STRING", _paramName, _message), out Exception ex4);
+                Throw.If.String.IsNullOrWhiteSpace("STRING", _paramName, _message), out Exception ex4);
 
         }
 
@@ -242,16 +242,16 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotNullOrWhiteSpace() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrWhiteSpace(null, _paramName, _message), out Exception ex1);
+                Throw.IfNot.String.IsNullOrWhiteSpace(null, _paramName, _message), out Exception ex1);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrWhiteSpace(String.Empty, _paramName, _message), out Exception ex2);
+                Throw.IfNot.String.IsNullOrWhiteSpace(String.Empty, _paramName, _message), out Exception ex2);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrWhiteSpace(" ", _paramName, _message), out Exception ex3);
+                Throw.IfNot.String.IsNullOrWhiteSpace(" ", _paramName, _message), out Exception ex3);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrWhiteSpace("STRING", _paramName, _message), out ArgumentException ex4);
+                Throw.IfNot.String.IsNullOrWhiteSpace("STRING", _paramName, _message), out ArgumentException ex4);
             Test.If.Value.Equals(_paramName, ex4.ParamName);
             Test.If.String.StartsWith(ex4.Message, _message);
 
@@ -261,19 +261,19 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNullOrWhiteSpaceGeneric() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.NullOrWhiteSpace<NotImplementedException>(null, _message), out NotImplementedException ex1);
+                Throw.If.String.IsNullOrWhiteSpace<NotImplementedException>(null, _message), out NotImplementedException ex1);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.NullOrWhiteSpace<NotImplementedException>(String.Empty, _message), out NotImplementedException ex2);
+                Throw.If.String.IsNullOrWhiteSpace<NotImplementedException>(String.Empty, _message), out NotImplementedException ex2);
             Test.If.String.StartsWith(ex2.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.NullOrWhiteSpace<NotImplementedException>(" ", _message), out NotImplementedException ex3);
+                Throw.If.String.IsNullOrWhiteSpace<NotImplementedException>(" ", _message), out NotImplementedException ex3);
             Test.If.String.StartsWith(ex3.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.NullOrWhiteSpace<NotImplementedException>("STRING", _message), out Exception ex4);
+                Throw.If.String.IsNullOrWhiteSpace<NotImplementedException>("STRING", _message), out Exception ex4);
 
         }
 
@@ -281,16 +281,16 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotNullOrWhiteSpaceGeneric() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrWhiteSpace<NotImplementedException>(null, _message), out Exception ex1);
+                Throw.IfNot.String.IsNullOrWhiteSpace<NotImplementedException>(null, _message), out Exception ex1);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrWhiteSpace<NotImplementedException>(String.Empty, _message), out Exception ex2);
+                Throw.IfNot.String.IsNullOrWhiteSpace<NotImplementedException>(String.Empty, _message), out Exception ex2);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrWhiteSpace<NotImplementedException>(" ", _message), out Exception ex3);
+                Throw.IfNot.String.IsNullOrWhiteSpace<NotImplementedException>(" ", _message), out Exception ex3);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.NullOrWhiteSpace<NotImplementedException>("STRING", _message), out NotImplementedException ex4);
+                Throw.IfNot.String.IsNullOrWhiteSpace<NotImplementedException>("STRING", _message), out NotImplementedException ex4);
             Test.If.String.StartsWith(ex4.Message, _message);
 
         }
@@ -303,12 +303,12 @@ namespace Nuclear.Exceptions {
         void TestThrowIfTrue() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.True(true, _paramName, _message), out ArgumentException ex1);
+                Throw.If.Value.IsTrue(true, _paramName, _message), out ArgumentException ex1);
             Test.If.Value.Equals(_paramName, ex1.ParamName);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.True(false, _paramName, _message), out Exception ex2);
+                Throw.If.Value.IsTrue(false, _paramName, _message), out Exception ex2);
 
         }
 
@@ -316,10 +316,10 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotTrue() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.True(true, _paramName, _message), out Exception ex1);
+                Throw.IfNot.Value.IsTrue(true, _paramName, _message), out Exception ex1);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.True(false, _paramName, _message), out ArgumentException ex2);
+                Throw.IfNot.Value.IsTrue(false, _paramName, _message), out ArgumentException ex2);
             Test.If.Value.Equals(_paramName, ex2.ParamName);
             Test.If.String.StartsWith(ex2.Message, _message);
 
@@ -329,11 +329,11 @@ namespace Nuclear.Exceptions {
         void TestThrowIfTrueGeneric() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.True<NotImplementedException>(true, _message), out NotImplementedException ex1);
+                Throw.If.Value.IsTrue<NotImplementedException>(true, _message), out NotImplementedException ex1);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.True<NotImplementedException>(false, _message), out Exception ex2);
+                Throw.If.Value.IsTrue<NotImplementedException>(false, _message), out Exception ex2);
 
         }
 
@@ -341,10 +341,10 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotTrueGeneric() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.True<NotImplementedException>(true, _message), out Exception ex1);
+                Throw.IfNot.Value.IsTrue<NotImplementedException>(true, _message), out Exception ex1);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.True<NotImplementedException>(false, _message), out NotImplementedException ex2);
+                Throw.IfNot.Value.IsTrue<NotImplementedException>(false, _message), out NotImplementedException ex2);
             Test.If.String.StartsWith(ex2.Message, _message);
 
         }
@@ -357,12 +357,12 @@ namespace Nuclear.Exceptions {
         void TestThrowIfFalse() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.False(false, _paramName, _message), out ArgumentException ex1);
+                Throw.If.Value.IsFalse(false, _paramName, _message), out ArgumentException ex1);
             Test.If.Value.Equals(_paramName, ex1.ParamName);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.False(true, _paramName, _message), out Exception ex2);
+                Throw.If.Value.IsFalse(true, _paramName, _message), out Exception ex2);
 
         }
 
@@ -370,10 +370,10 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotFalse() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.False(false, _paramName, _message), out Exception ex1);
+                Throw.IfNot.Value.IsFalse(false, _paramName, _message), out Exception ex1);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.False(true, _paramName, _message), out ArgumentException ex2);
+                Throw.IfNot.Value.IsFalse(true, _paramName, _message), out ArgumentException ex2);
             Test.If.Value.Equals(_paramName, ex2.ParamName);
             Test.If.String.StartsWith(ex2.Message, _message);
 
@@ -383,11 +383,11 @@ namespace Nuclear.Exceptions {
         void TestThrowIfFalseGeneric() {
 
             Test.If.Action.ThrowsException(() =>
-                Throw.If.False<NotImplementedException>(false, _message), out NotImplementedException ex1);
+                Throw.If.Value.IsFalse<NotImplementedException>(false, _message), out NotImplementedException ex1);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.If.False<NotImplementedException>(true, _message), out Exception ex2);
+                Throw.If.Value.IsFalse<NotImplementedException>(true, _message), out Exception ex2);
 
         }
 
@@ -395,10 +395,10 @@ namespace Nuclear.Exceptions {
         void TestThrowIfNotFalseGeneric() {
 
             Test.IfNot.Action.ThrowsException(() =>
-                Throw.IfNot.False<NotImplementedException>(false, _message), out Exception ex1);
+                Throw.IfNot.Value.IsFalse<NotImplementedException>(false, _message), out Exception ex1);
 
             Test.If.Action.ThrowsException(() =>
-                Throw.IfNot.False<NotImplementedException>(true, _message), out NotImplementedException ex2);
+                Throw.IfNot.Value.IsFalse<NotImplementedException>(true, _message), out NotImplementedException ex2);
             Test.If.String.StartsWith(ex2.Message, _message);
 
         }

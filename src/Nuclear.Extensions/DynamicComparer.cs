@@ -40,7 +40,7 @@ namespace Nuclear.Extensions {
         /// <returns>A new instance of <see cref="IComparer"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="compare"/> is null.</exception>
         public static IComparer FromDelegate(Comparison compare) {
-            Throw.If.Null(compare, nameof(compare));
+            Throw.If.Object.IsNull(compare, nameof(compare));
 
             return new InternalComparer(compare);
         }
@@ -53,7 +53,7 @@ namespace Nuclear.Extensions {
         /// <returns>A new instance of <see cref="IComparer{T}"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="compare"/> is null.</exception>
         public static IComparer<T> FromDelegate<T>(Comparison<T> compare) {
-            Throw.If.Null(compare, nameof(compare));
+            Throw.If.Object.IsNull(compare, nameof(compare));
 
             return new InternalComparer<T>(compare);
         }
@@ -66,7 +66,7 @@ namespace Nuclear.Extensions {
         /// <returns>A new instance of <see cref="IComparer{T}"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="comparer"/> is null.</exception>
         public static IComparer<T> FromComparer<T>(IComparer comparer) {
-            Throw.If.Null(comparer, nameof(comparer));
+            Throw.If.Object.IsNull(comparer, nameof(comparer));
 
             return new InternalComparer<T>((x, y) => comparer.Compare(x, y));
         }
@@ -175,7 +175,7 @@ namespace Nuclear.Extensions {
         #region ctors
 
         internal InternalComparer(Comparison compare) {
-            Throw.If.Null(compare, nameof(compare));
+            Throw.If.Object.IsNull(compare, nameof(compare));
 
             _compare = compare;
         }
@@ -201,7 +201,7 @@ namespace Nuclear.Extensions {
         #region ctors
 
         internal InternalComparer(Comparison<T> compare) {
-            Throw.If.Null(compare, nameof(compare));
+            Throw.If.Object.IsNull(compare, nameof(compare));
 
             _compare = compare;
         }

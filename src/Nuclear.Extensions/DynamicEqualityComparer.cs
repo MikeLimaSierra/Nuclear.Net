@@ -46,8 +46,8 @@ namespace Nuclear.Extensions {
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="equals"/> is null.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="getHashCode"/> is null.</exception>
         public static IEqualityComparer FromDelegate(EqualityComparison<Object> equals, GetHashCode<Object> getHashCode) {
-            Throw.If.Null(equals, nameof(equals));
-            Throw.If.Null(getHashCode, nameof(getHashCode));
+            Throw.If.Object.IsNull(equals, nameof(equals));
+            Throw.If.Object.IsNull(getHashCode, nameof(getHashCode));
 
             return new InternalEqualityComparer(equals, getHashCode);
         }
@@ -63,8 +63,8 @@ namespace Nuclear.Extensions {
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="equals"/> is null.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="getHashCode"/> is null.</exception>
         public static IEqualityComparer<T> FromDelegate<T>(EqualityComparison<T> equals, GetHashCode<T> getHashCode) {
-            Throw.If.Null(equals, nameof(equals));
-            Throw.If.Null(getHashCode, nameof(getHashCode));
+            Throw.If.Object.IsNull(equals, nameof(equals));
+            Throw.If.Object.IsNull(getHashCode, nameof(getHashCode));
 
             return new InternalEqualityComparer<T>(equals, getHashCode);
         }
@@ -77,7 +77,7 @@ namespace Nuclear.Extensions {
         /// <returns>A new instance of <see cref="IEqualityComparer{T}"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="comparer"/> is null.</exception>
         public static IEqualityComparer<T> FromComparer<T>(IEqualityComparer comparer) {
-            Throw.If.Null(comparer, nameof(comparer));
+            Throw.If.Object.IsNull(comparer, nameof(comparer));
 
             return new InternalEqualityComparer<T>((x, y) => comparer.Equals(x, y), (obj) => comparer.GetHashCode(obj));
         }
@@ -142,8 +142,8 @@ namespace Nuclear.Extensions {
         #region ctor
 
         internal InternalEqualityComparer(EqualityComparison<Object> equals, GetHashCode<Object> getHashCode) {
-            Throw.If.Null(equals, nameof(equals));
-            Throw.If.Null(getHashCode, nameof(getHashCode));
+            Throw.If.Object.IsNull(equals, nameof(equals));
+            Throw.If.Object.IsNull(getHashCode, nameof(getHashCode));
 
             _equals = equals;
             _getHashCode = getHashCode;
@@ -174,8 +174,8 @@ namespace Nuclear.Extensions {
         #region ctor
 
         internal InternalEqualityComparer(EqualityComparison<T> equals, GetHashCode<T> getHashCode) {
-            Throw.If.Null(equals, nameof(equals));
-            Throw.If.Null(getHashCode, nameof(getHashCode));
+            Throw.If.Object.IsNull(equals, nameof(equals));
+            Throw.If.Object.IsNull(getHashCode, nameof(getHashCode));
 
             _equals = equals;
             _getHashCode = getHashCode;

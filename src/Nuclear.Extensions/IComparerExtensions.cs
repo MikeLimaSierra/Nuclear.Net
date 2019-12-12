@@ -26,7 +26,7 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Boolean IsEqual(this IComparer _this, Object x, Object y) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) == 0;
         }
@@ -49,7 +49,7 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Boolean LessThan(this IComparer _this, Object x, Object y) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) < 0;
         }
@@ -68,7 +68,7 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Boolean LessThanOrEquals(this IComparer _this, Object x, Object y) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) <= 0;
         }
@@ -91,7 +91,7 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Boolean GreaterThan(this IComparer _this, Object x, Object y) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) > 0;
         }
@@ -110,7 +110,7 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Boolean GreaterThanOrEquals(this IComparer _this, Object x, Object y) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) >= 0;
         }
@@ -134,8 +134,8 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Boolean IsClamped(this IComparer _this, Object value, Object min, Object max) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.Null(value, "value");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Object.IsNull(value, nameof(value));
 
             if(min != null && max != null && _this.GreaterThan(min, max)) {
                 return _this.IsClamped(value, max, min);
@@ -164,8 +164,8 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Boolean IsClampedExclusive(this IComparer _this, Object value, Object min, Object max) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.Null(value, "value");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Object.IsNull(value, nameof(value));
 
             if(min != null && max != null && _this.GreaterThan(min, max)) {
                 return _this.IsClampedExclusive(value, max, min);
@@ -198,8 +198,8 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Object Clamp(this IComparer _this, Object value, Object min, Object max) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.Null(value, "value");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Object.IsNull(value, nameof(value));
 
             if(min != null && max != null && _this.GreaterThan(min, max)) {
                 return _this.Clamp(value, max, min);
@@ -232,7 +232,7 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Object Min(this IComparer _this, Object x, Object y) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.LessThan(x, y) ? x : y;
         }
@@ -255,7 +255,7 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Object Max(this IComparer _this, Object x, Object y) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.GreaterThan(x, y) ? x : y;
         }

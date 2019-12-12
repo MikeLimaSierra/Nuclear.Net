@@ -25,7 +25,7 @@ namespace Nuclear.Extensions {
         /// </example>
         public static Boolean IsEqual(this IComparable _this, Object other) {
 
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.CompareTo(other) == 0;
         }
@@ -48,7 +48,7 @@ namespace Nuclear.Extensions {
         /// </example>
         public static Boolean LessThan(this IComparable _this, Object other) {
 
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.CompareTo(other) < 0;
         }
@@ -67,7 +67,7 @@ namespace Nuclear.Extensions {
         /// </example>
         public static Boolean LessThanOrEquals(this IComparable _this, Object other) {
 
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.CompareTo(other) <= 0;
         }
@@ -90,7 +90,7 @@ namespace Nuclear.Extensions {
         /// </example>
         public static Boolean GreaterThan(this IComparable _this, Object other) {
 
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.CompareTo(other) > 0;
         }
@@ -109,7 +109,7 @@ namespace Nuclear.Extensions {
         /// </example>
         public static Boolean GreaterThanOrEquals(this IComparable _this, Object other) {
 
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.CompareTo(other) >= 0;
         }
@@ -135,7 +135,7 @@ namespace Nuclear.Extensions {
         /// </example>
         public static Boolean IsClamped(this IComparable _this, Object min, Object max) {
 
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             Boolean result = true;
 
@@ -162,7 +162,7 @@ namespace Nuclear.Extensions {
         /// </example>
         public static Boolean IsClampedExclusive(this IComparable _this, Object min, Object max) {
 
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             Boolean result = true;
 

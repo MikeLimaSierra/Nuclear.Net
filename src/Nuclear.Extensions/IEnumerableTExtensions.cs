@@ -28,8 +28,8 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static void ForEach<T>(this IEnumerable<T> _this, Action<T> action) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.Null(action, "action");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Object.IsNull(action, nameof(action));
 
             foreach(T element in _this) {
                 action(element);
@@ -55,9 +55,9 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Min<T>(this IEnumerable<T> _this) where T : IComparable {
-            Throw.If.Null(_this, "_this");
-            Throw.If.False(_this.Count() > 0, "_this", "The enumeration is empty.");
-            Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
+            Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
 
             T min = default;
             Action<T> action = (element) => {
@@ -90,9 +90,9 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T MinT<T>(this IEnumerable<T> _this) where T : IComparable<T> {
-            Throw.If.Null(_this, "_this");
-            Throw.If.False(_this.Count() > 0, "_this", "The enumeration is empty.");
-            Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
+            Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
 
             T min = default;
             Action<T> action = (element) => {
@@ -127,10 +127,10 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Min<T>(this IEnumerable<T> _this, Comparer<T> comparer) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.False(_this.Count() > 0, "_this", "The enumeration is empty.");
-            Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
-            Throw.If.Null(comparer, "comparer");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
+            Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
+            Throw.If.Object.IsNull(comparer, nameof(comparer));
 
             return _this.Min(comparer as IComparer<T>);
         }
@@ -152,10 +152,10 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Min<T>(this IEnumerable<T> _this, IComparer comparer) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.False(_this.Count() > 0, "_this", "The enumeration is empty.");
-            Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
-            Throw.If.Null(comparer, "comparer");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
+            Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
+            Throw.If.Object.IsNull(comparer, nameof(comparer));
 
             return _this.Min(DynamicComparer.FromComparer<T>(comparer));
         }
@@ -177,10 +177,10 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Min<T>(this IEnumerable<T> _this, IComparer<T> comparer) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.False(_this.Count() > 0, "_this", "The enumeration is empty.");
-            Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
-            Throw.If.Null(comparer, "comparer");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
+            Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
+            Throw.If.Object.IsNull(comparer, nameof(comparer));
 
             T min = default;
             Action<T> action = (element) => {
@@ -217,9 +217,9 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Max<T>(this IEnumerable<T> _this) where T : IComparable {
-            Throw.If.Null(_this, "_this");
-            Throw.If.False(_this.Count() > 0, "_this", "The enumeration is empty.");
-            Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
+            Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
 
             T max = default;
             Action<T> action = (element) => {
@@ -252,9 +252,9 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T MaxT<T>(this IEnumerable<T> _this) where T : IComparable<T> {
-            Throw.If.Null(_this, "_this");
-            Throw.If.False(_this.Count() > 0, "_this", "The enumeration is empty.");
-            Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
+            Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
 
             T max = default;
             Action<T> action = (element) => {
@@ -289,8 +289,8 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Max<T>(this IEnumerable<T> _this, Comparer<T> comparer) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.Null(comparer, "comparer");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Object.IsNull(comparer, nameof(comparer));
 
             return _this.Max(comparer as IComparer<T>);
         }
@@ -312,8 +312,8 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Max<T>(this IEnumerable<T> _this, IComparer comparer) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.Null(comparer, "comparer");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Object.IsNull(comparer, nameof(comparer));
 
             return _this.Max(DynamicComparer.FromComparer<T>(comparer));
         }
@@ -335,10 +335,10 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Max<T>(this IEnumerable<T> _this, IComparer<T> comparer) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.False(_this.Count() > 0, "_this", "The enumeration is empty.");
-            Throw.If.False(_this.Any((element) => element != null), "_this", "The enumeration only contains null values.");
-            Throw.If.Null(comparer, "comparer");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
+            Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
+            Throw.If.Object.IsNull(comparer, nameof(comparer));
 
             T max = default;
             Action<T> action = (element) => {

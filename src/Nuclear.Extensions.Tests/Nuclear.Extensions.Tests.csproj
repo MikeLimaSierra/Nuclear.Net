@@ -5,6 +5,7 @@
     <RootNamespace>Nuclear.Extensions</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Platforms>AnyCPU;x86;x64</Platforms>
+    <Configurations>Debug;Release;Integration</Configurations>
   </PropertyGroup>
   
   <Import Project="..\Configurations.targets" />

@@ -6,7 +6,7 @@ namespace Nuclear.Exceptions {
     class ExceptionFactory_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             ExceptionFactory ef1 = ExceptionFactory.Instance;
             ExceptionFactory ef2 = ExceptionFactory.Instance;
@@ -18,7 +18,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void TestCreateMethod() {
+        void CreateMethod() {
 
             ArgumentNullException argNullEx = ExceptionFactory.Instance.Create<ArgumentNullException>("this_is_a_parameter_name", "this_is_a_test_message");
 

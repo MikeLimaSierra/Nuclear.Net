@@ -4,6 +4,9 @@ using Nuclear.Exceptions.ExceptionSuites.Base;
 
 namespace Nuclear.Exceptions.ExceptionSuites {
 
+    /// <summary>
+    /// Provides conditional probing instructions for values.
+    /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class ValueExceptionSuite : ChildExceptionSuite {
 

@@ -4,6 +4,9 @@ using Nuclear.Exceptions.ExceptionSuites.Base;
 
 namespace Nuclear.Exceptions.ExceptionSuites {
 
+    /// <summary>
+    /// Supplies conditional throw instructions.
+    /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class ExceptionSuiteCollection : ExceptionSuite {
 
@@ -46,6 +49,12 @@ namespace Nuclear.Exceptions.ExceptionSuites {
 
         #region methods
 
+        /// <summary>
+        /// Throws an exception of type <typeparamref name="TException"/> based on <paramref name="condition"/> and invertion.
+        /// </summary>
+        /// <typeparam name="TException">The type of <see cref="Exception"/> to throw.</typeparam>
+        /// <param name="condition">Condition is combined with invertion.</param>
+        /// <param name="args">The arguments that are passed to the constructor of <typeparamref name="TException"/>.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void InternalThrow<TException>(Boolean condition, params Object[] args) where TException : Exception {
             condition = Invert ? !condition : condition;

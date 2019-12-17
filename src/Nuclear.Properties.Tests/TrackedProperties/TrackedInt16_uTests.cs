@@ -5,7 +5,7 @@ namespace Nuclear.Properties.TrackedProperties {
     class TrackedInt16_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<ITrackedInt16<Object>, ITrackedProperty<Object, Int16>>();
             Test.If.Type.Implements<TrackedInt16<Object>, ITrackedInt16<Object>>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             ITrackedInt16<Object> prop = null;
             Object owner = new Object();

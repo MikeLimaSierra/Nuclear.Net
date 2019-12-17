@@ -5,7 +5,7 @@ namespace Nuclear.Properties.ClampedProperties {
     class ClampedInt16_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<IClampedInt16, IClampedPropertyT<Int16>>();
             Test.If.Type.Implements<ClampedInt16, IClampedInt16>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             IClampedInt16 prop = null;
             Int16 value = 42;

@@ -5,7 +5,7 @@ namespace Nuclear.Properties.TrackedProperties {
     class TrackedChar_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<ITrackedChar<Object>, ITrackedProperty<Object, Char>>();
             Test.If.Type.Implements<TrackedChar<Object>, ITrackedChar<Object>>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             ITrackedChar<Object> prop = null;
             Object owner = new Object();

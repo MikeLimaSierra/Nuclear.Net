@@ -5,7 +5,7 @@ namespace Nuclear.Properties.ClampedProperties {
     class ClampedString_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<IClampedString, IClampedPropertyT<String>>();
             Test.If.Type.Implements<ClampedString, IClampedString>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             IClampedString prop = null;
             String value = "b";

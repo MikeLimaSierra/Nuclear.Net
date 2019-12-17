@@ -7,7 +7,7 @@ namespace Nuclear.Properties.TrackedProperties {
     class TrackedProperty_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
 #pragma warning disable IDE0022 // Use expression body for methods
             Test.If.Type.Implements<TrackedProperty<Object, TestEnum>, ITrackedProperty<Object, TestEnum>>();
@@ -18,7 +18,7 @@ namespace Nuclear.Properties.TrackedProperties {
         #region ctors
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             DDTestDefaultConstructor(null, (TestEnum.Default, false));
             DDTestDefaultConstructor(new Object(), (TestEnum.Default, false));
@@ -59,7 +59,7 @@ namespace Nuclear.Properties.TrackedProperties {
         #region properties
 
         [TestMethod]
-        void TestValueProperty() {
+        void ValueProperty() {
 
             DDTestValueProperty((null, TestEnum.Default), TestEnum.Value1, (TestEnum.Value1, true));
             DDTestValueProperty((null, TestEnum.Value1), TestEnum.Value1, (TestEnum.Value1, false));
@@ -87,14 +87,12 @@ namespace Nuclear.Properties.TrackedProperties {
         #region events
 
         [TestMethod]
-        void TestPropertyChangedEvent() {
+        void PropertyChangedEvent() {
 
             ITrackedProperty<Object, TestEnum?> prop = new TrackedProperty<Object, TestEnum?>(null, null);
 
             Test.IfNot.Action.RaisesPropertyChangedEvent(() => prop.Value = null, prop, out EventData<PropertyChangedEventArgs> eventData);
             Test.If.Value.Equals(prop.Value, null);
-            Test.If.Object.IsNull(eventData.Sender);
-            Test.If.Object.IsNull(eventData.EventArgs);
 
             DDTestPropertyChangedEvent<TestEnum?>((null, null), TestEnum.Default, "Value");
             DDTestPropertyChangedEvent<TestEnum?>((null, TestEnum.Default), null, "Value");
@@ -116,7 +114,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestChangeTrackedEvent() {
+        void ChangeTrackedEvent() {
 
             Object owner = new Object();
             ITrackedProperty<Object, TestEnum?> prop = new TrackedProperty<Object, TestEnum?>(owner, null);

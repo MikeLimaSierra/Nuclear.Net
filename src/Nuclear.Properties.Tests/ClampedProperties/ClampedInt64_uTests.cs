@@ -5,7 +5,7 @@ namespace Nuclear.Properties.ClampedProperties {
     class ClampedInt64_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<IClampedInt64, IClampedPropertyT<Int64>>();
             Test.If.Type.Implements<ClampedInt64, IClampedInt64>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             IClampedInt64 prop = null;
             Int64 value = 42;

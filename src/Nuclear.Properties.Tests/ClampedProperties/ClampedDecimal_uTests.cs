@@ -5,7 +5,7 @@ namespace Nuclear.Properties.ClampedProperties {
     class ClampedDecimal_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<IClampedDecimal, IClampedPropertyT<Decimal>>();
             Test.If.Type.Implements<ClampedDecimal, IClampedDecimal>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             IClampedDecimal prop = null;
             Decimal value = 42;

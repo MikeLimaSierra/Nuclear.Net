@@ -5,7 +5,7 @@ namespace Nuclear.Properties.ClampedProperties {
     class ClampedChar_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<IClampedChar, IClampedPropertyT<Char>>();
             Test.If.Type.Implements<ClampedChar, IClampedChar>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             IClampedChar prop = null;
             Char value = 'x';

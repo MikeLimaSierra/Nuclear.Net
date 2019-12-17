@@ -5,7 +5,7 @@ namespace Nuclear.Properties.TrackedProperties {
     class TrackedSByte_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<ITrackedSByte<Object>, ITrackedProperty<Object, SByte>>();
             Test.If.Type.Implements<TrackedSByte<Object>, ITrackedSByte<Object>>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             ITrackedSByte<Object> prop = null;
             Object owner = new Object();

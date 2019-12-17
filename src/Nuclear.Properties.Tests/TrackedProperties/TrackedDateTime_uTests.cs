@@ -5,7 +5,7 @@ namespace Nuclear.Properties.TrackedProperties {
     class TrackedDateTime_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<ITrackedDateTime<Object>, ITrackedProperty<Object, DateTime>>();
             Test.If.Type.Implements<TrackedDateTime<Object>, ITrackedDateTime<Object>>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             ITrackedDateTime<Object> prop = null;
             Object owner = new Object();

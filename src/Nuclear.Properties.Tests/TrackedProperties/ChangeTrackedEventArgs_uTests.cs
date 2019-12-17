@@ -6,7 +6,7 @@ namespace Nuclear.Properties.TrackedProperties {
     class ChangeTrackedEventArgs_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
 #pragma warning disable IDE0022 // Use expression body for methods
             Test.If.Type.IsSubClass<ChangeTrackedEventArgs<Object, String>, EventArgs>();
@@ -15,7 +15,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestConstructorNullable() {
+        void ConstructorNullable() {
 
             Object owner = new Object();
             String _old = "old";
@@ -30,7 +30,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestConstructorNonNullable() {
+        void ConstructorNonNullable() {
 
             Int32 _old = 5;
             Int32 _new = 6;

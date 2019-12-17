@@ -5,7 +5,7 @@ namespace Nuclear.Properties.TrackedProperties {
     class TrackedDecimal_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<ITrackedDecimal<Object>, ITrackedProperty<Object, Decimal>>();
             Test.If.Type.Implements<TrackedDecimal<Object>, ITrackedDecimal<Object>>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             ITrackedDecimal<Object> prop = null;
             Object owner = new Object();

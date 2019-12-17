@@ -5,7 +5,7 @@ namespace Nuclear.Properties.TrackedProperties {
     class TrackedSingle_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<ITrackedSingle<Object>, ITrackedProperty<Object, Single>>();
             Test.If.Type.Implements<TrackedSingle<Object>, ITrackedSingle<Object>>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             ITrackedSingle<Object> prop = null;
             Object owner = new Object();

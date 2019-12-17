@@ -6,7 +6,7 @@ namespace Nuclear.Properties.ClampedProperties {
     class ValueClampedEventArgs_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
 #pragma warning disable IDE0022 // Use expression body for methods
             Test.If.Type.IsSubClass<ValueClampedEventArgs<String>, EventArgs>();
@@ -15,7 +15,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructorNullable() {
+        void ConstructorNullable() {
 
             Int32? _set = 6;
             Int32? _outOfBoundsSet = 7;
@@ -33,7 +33,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructorNonNullable() {
+        void ConstructorNonNullable() {
 
             Int32 _set = 6;
             Int32 _outOfBoundsSet = 7;

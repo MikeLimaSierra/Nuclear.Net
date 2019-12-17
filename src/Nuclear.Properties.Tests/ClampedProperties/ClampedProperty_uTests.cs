@@ -7,7 +7,7 @@ namespace Nuclear.Properties.ClampedProperties {
     class ClampedProperty_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
 #pragma warning disable IDE0022 // Use expression body for methods
             Test.If.Type.Implements<ClampedProperty<Int32>, IClampedProperty<Int32>>();
@@ -18,7 +18,7 @@ namespace Nuclear.Properties.ClampedProperties {
         #region ctors
 
         [TestMethod]
-        void TestConstructorNonNullable() {
+        void ConstructorNonNullable() {
 
             DDTestConstructor((1, 3, -3), (1, -3, 3));
             DDTestConstructor((1, -2, 2), (1, -2, 2));
@@ -27,7 +27,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructorNullable() {
+        void ConstructorNullable() {
 
             IClampedProperty<Version> prop = null;
 
@@ -65,7 +65,7 @@ namespace Nuclear.Properties.ClampedProperties {
         #region properties
 
         [TestMethod]
-        void TestValuePropertyNonNullable() {
+        void ValuePropertyNonNullable() {
 
             DDTestValueProperty((0, -2, 2), 0, (0, -2, 2));
             DDTestValueProperty((0, -2, 2), 1, (1, -2, 2));
@@ -77,7 +77,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestValuePropertyNullable() {
+        void ValuePropertyNullable() {
 
             DDTestValueProperty((new Version(2, 0), new Version(1, 0), new Version(3, 0)), new Version(2, 0), (new Version(2, 0), new Version(1, 0), new Version(3, 0)));
             DDTestValueProperty((new Version(2, 0), new Version(1, 0), new Version(3, 0)), new Version(1, 0), (new Version(1, 0), new Version(1, 0), new Version(3, 0)));
@@ -102,7 +102,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestMinimumPropertyNonNullable() {
+        void MinimumPropertyNonNullable() {
 
             DDTestMinimumProperty((0, -2, 2), -2, (0, -2, 2));
             DDTestMinimumProperty((0, -2, 2), 0, (0, 0, 2));
@@ -113,7 +113,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestMinimumPropertyNullable() {
+        void MinimumPropertyNullable() {
 
             DDTestMinimumProperty((new Version(2, 0), null, null), new Version(1, 0), (new Version(2, 0), new Version(1, 0), null));
             DDTestMinimumProperty((new Version(2, 0), null, null), new Version(2, 0), (new Version(2, 0), new Version(2, 0), null));
@@ -137,7 +137,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestMaximumPropertyNonNullable() {
+        void MaximumPropertyNonNullable() {
 
             DDTestMaximumProperty((0, -2, 2), 2, (0, -2, 2));
             DDTestMaximumProperty((0, -2, 2), 0, (0, -2, 0));
@@ -148,7 +148,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestMaximumPropertyNullable() {
+        void MaximumPropertyNullable() {
 
             DDTestMaximumProperty((new Version(2, 0), null, null), new Version(3, 0), (new Version(2, 0), null, new Version(3, 0)));
             DDTestMaximumProperty((new Version(2, 0), null, null), new Version(2, 0), (new Version(2, 0), null, new Version(2, 0)));
@@ -176,7 +176,7 @@ namespace Nuclear.Properties.ClampedProperties {
         #region events
 
         [TestMethod]
-        void TestValuePropertyChangedEvent() {
+        void ValuePropertyChangedEvent() {
 
             IClampedProperty<Int32> prop = new ClampedProperty<Int32>(0, -1, 1);
 
@@ -186,7 +186,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestMinimumPropertyChangedEvent() {
+        void MinimumPropertyChangedEvent() {
 
             IClampedProperty<Int32> prop = new ClampedProperty<Int32>(0, -1, 1);
 
@@ -197,7 +197,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestMaximumPropertyChangedEvent() {
+        void MaximumPropertyChangedEvent() {
 
             IClampedProperty<Int32> prop = new ClampedProperty<Int32>(0, -1, 1);
 
@@ -221,7 +221,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestValueClampedEvent() {
+        void ValueClampedEvent() {
 
             IClampedProperty<Int32> prop = new ClampedProperty<Int32>(0, -1, 5);
 

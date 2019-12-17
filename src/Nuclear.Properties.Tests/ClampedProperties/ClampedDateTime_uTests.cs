@@ -5,7 +5,7 @@ namespace Nuclear.Properties.ClampedProperties {
     class ClampedDateTime_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<IClampedDateTime, IClampedPropertyT<DateTime>>();
             Test.If.Type.Implements<ClampedDateTime, IClampedDateTime>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             IClampedDateTime prop = null;
             DateTime value = DateTime.Now;

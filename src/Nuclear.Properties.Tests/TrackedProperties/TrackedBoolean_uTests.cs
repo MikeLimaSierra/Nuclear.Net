@@ -5,7 +5,7 @@ namespace Nuclear.Properties.TrackedProperties {
     class TrackedBoolean_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<ITrackedBoolean<Object>, ITrackedProperty<Object, Boolean>>();
             Test.If.Type.Implements<TrackedBoolean<Object>, ITrackedBoolean<Object>>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             ITrackedBoolean<Object> prop = null;
             Object owner = new Object();

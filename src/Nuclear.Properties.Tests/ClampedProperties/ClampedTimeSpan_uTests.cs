@@ -5,7 +5,7 @@ namespace Nuclear.Properties.ClampedProperties {
     class ClampedTimeSpan_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<IClampedTimeSpan, IClampedPropertyT<TimeSpan>>();
             Test.If.Type.Implements<ClampedTimeSpan, IClampedTimeSpan>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             IClampedTimeSpan prop = null;
             TimeSpan value = DateTime.Now.TimeOfDay;

@@ -5,7 +5,7 @@ namespace Nuclear.Properties.ClampedProperties {
     class ClampedTuple_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<IClampedTuple<Byte>, IClampedProperty<Tuple<Byte>>>();
             Test.If.Type.Implements<IClampedTuple<Byte, Byte>, IClampedProperty<Tuple<Byte, Byte>>>();
@@ -28,7 +28,7 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             IClampedByte prop = null;
             Byte value = 42;

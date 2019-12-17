@@ -5,7 +5,7 @@ namespace Nuclear.Properties.TrackedProperties {
     class TrackedInt64_uTests {
 
         [TestMethod]
-        void TestImplementation() {
+        void Implementation() {
 
             Test.If.Type.Implements<ITrackedInt64<Object>, ITrackedProperty<Object, Int64>>();
             Test.If.Type.Implements<TrackedInt64<Object>, ITrackedInt64<Object>>();
@@ -13,7 +13,7 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             ITrackedInt64<Object> prop = null;
             Object owner = new Object();

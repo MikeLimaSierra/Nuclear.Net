@@ -7,7 +7,7 @@ namespace Nuclear.Arguments {
     class ArgumentCollector_uTests {
 
         [TestMethod]
-        void TestConstructors() {
+        void Constructors() {
 
             ArgumentCollector argC = null;
 
@@ -24,7 +24,7 @@ namespace Nuclear.Arguments {
         }
 
         [TestMethod]
-        void TestCollect() {
+        void Collect() {
 
             ArgumentCollector argC = new ArgumentCollector();
 
@@ -111,7 +111,7 @@ namespace Nuclear.Arguments {
         }
 
         [TestMethod]
-        void TestCollectCombined() {
+        void CollectCombined() {
 
             ArgumentCollector argC = new ArgumentCollector();
 
@@ -145,7 +145,7 @@ namespace Nuclear.Arguments {
         }
 
         [TestMethod]
-        void TestTryGetSwitch() {
+        void TryGetSwitch() {
 
             ArgumentCollector argC = new ArgumentCollector();
             argC.Collect(new String[] { "-z", "-Z", "some value of -Z", "-wasd", "--asdf" });
@@ -218,7 +218,7 @@ namespace Nuclear.Arguments {
         }
 
         [TestMethod]
-        void TestGetSeparatedValues() {
+        void GetSeparatedValues() {
 
             ArgumentCollector argC = new ArgumentCollector();
             Argument arg = new Argument();

@@ -6,7 +6,7 @@ namespace Nuclear.Arguments {
     class Argument_uTests {
 
         [TestMethod]
-        void TestDefaultConstructor() {
+        void DefaultConstructor() {
 
             Argument arg = null;
 
@@ -19,7 +19,7 @@ namespace Nuclear.Arguments {
         }
 
         [TestMethod]
-        void TestSingleCharConstructor() {
+        void SingleCharConstructor() {
 
             Argument arg = null;
 
@@ -39,7 +39,7 @@ namespace Nuclear.Arguments {
         }
 
         [TestMethod]
-        void TestMultiCharConstructor() {
+        void MultiCharConstructor() {
 
             Argument arg = null;
 
@@ -68,7 +68,7 @@ namespace Nuclear.Arguments {
         }
 
         [TestMethod]
-        void TestValueProperty() {
+        void ValueProperty() {
 
             Argument arg = new Argument('z');
 
@@ -95,7 +95,7 @@ namespace Nuclear.Arguments {
         }
 
         [TestMethod]
-        void TestToString() {
+        new void ToString() {
 
             Argument arg = new Argument('z');
             Test.If.Value.Equals(arg.ToString(), "-z");

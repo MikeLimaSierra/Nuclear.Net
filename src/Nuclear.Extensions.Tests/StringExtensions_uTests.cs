@@ -9,7 +9,7 @@ namespace Nuclear.Extensions {
         #region StartsWith
 
         [TestMethod]
-        void TestStartsWith() {
+        void StartsWith() {
 
             String value = "xyzabc";
             Boolean result = false;
@@ -44,7 +44,7 @@ namespace Nuclear.Extensions {
         #region EndsWith
 
         [TestMethod]
-        void TestEndsWith() {
+        void EndsWith() {
 
             String value = "abcxyz";
             Boolean result = false;
@@ -136,7 +136,7 @@ namespace Nuclear.Extensions {
         #region TrimOnce
 
         [TestMethod]
-        void TestTrimOnce() {
+        void TrimOnce() {
 
             DDTestTrimOnce("xyzxyzabcxyzxyz", null, "xyzxyzabcxyzxyz");
             DDTestTrimOnce("xyzxyzabcxyzxyz", "xyz", "xyzabcxyz");
@@ -178,7 +178,7 @@ namespace Nuclear.Extensions {
         #region TrimStartOnce
 
         [TestMethod]
-        void TestTrimStartOnce() {
+        void TrimStartOnce() {
 
             DDTestTrimStartOnce("xyzxyzabcxyz", null, "xyzxyzabcxyz");
             DDTestTrimStartOnce("xyzxyzabcxyz", "xyz", "xyzabcxyz");
@@ -220,7 +220,7 @@ namespace Nuclear.Extensions {
         #region TrimEndOnce
 
         [TestMethod]
-        void TestTrimEndOnce() {
+        void TrimEndOnce() {
 
             DDTestTrimEndOnce("xyzabcxyzxyz", null, "xyzabcxyzxyz");
             DDTestTrimEndOnce("xyzabcxyzxyz", "xyz", "xyzabcxyz");

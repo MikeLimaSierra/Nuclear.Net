@@ -5,17 +5,24 @@
     <RootNamespace>Nuclear.Exceptions</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Platforms>AnyCPU;x86;x64</Platforms>
-    <Configurations>Debug;Release;Integration</Configurations>
+    <Configurations>Release;Integration;Debug</Configurations>
   </PropertyGroup>
   
   <Import Project="..\Configurations.targets" />
   
-  <ItemGroup>
-    <PackageReference Include="Nuclear.TestSite" Version="1.2.0" />
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Nuclear.Exceptions" Version="2.0.0" />
+    <PackageReference Include="Nuclear.TestSite" Version="2.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
     <ProjectReference Include="..\Nuclear.Exceptions\Nuclear.Exceptions.csproj" />
+    <Reference Include="Nuclear.TestSite">
+      <HintPath>..\..\..\Nuclear.Test\src\bin\Nuclear.TestSite\$(Platform)\$(Configuration)\netstandard2.0\Nuclear.TestSite.dll</HintPath>
+    </Reference>
+    <Reference Include="Nuclear.TestSite.Contracts">
+      <HintPath>..\..\..\Nuclear.Test\src\bin\Nuclear.TestSite\$(Platform)\$(Configuration)\netstandard2.0\Nuclear.TestSite.Contracts.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

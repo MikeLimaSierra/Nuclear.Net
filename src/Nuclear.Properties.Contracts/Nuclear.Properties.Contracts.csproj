@@ -5,13 +5,13 @@
     <RootNamespace>Nuclear.Properties</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Platforms>AnyCPU;x86;x64</Platforms>
-    <Configurations>Debug;Release;Integration</Configurations>
+    <Configurations>Release;Integration;Debug</Configurations>
   </PropertyGroup>
   
   <Import Project="..\Configurations.targets" />
   
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Nuclear.Extensions" Version="1.8.0" />
+    <PackageReference Include="Nuclear.Extensions" Version="2.0.0" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">

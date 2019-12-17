@@ -5,7 +5,7 @@
     <RootNamespace>Nuclear.Exceptions</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Platforms>AnyCPU;x86;x64</Platforms>
-    <Configurations>Debug;Release;Integration</Configurations>
+    <Configurations>Release;Integration;Debug</Configurations>
   </PropertyGroup>
   
   <Import Project="..\Configurations.targets" />

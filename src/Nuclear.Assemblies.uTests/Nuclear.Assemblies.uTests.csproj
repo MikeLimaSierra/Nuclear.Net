@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Nuclear.Assemblies</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+    <Configurations>Release;Integration;Debug</Configurations>
+    <Version>2.0.0</Version>
+  </PropertyGroup>
+  
+  <Import Project="..\Configurations.targets" />
+  
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Nuclear.Assemblies" Version="2.0.0" />
+    <PackageReference Include="Nuclear.TestSite" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
+    <ProjectReference Include="..\Nuclear.Assemblies\Nuclear.Assemblies.csproj" />
+    <Reference Include="Nuclear.TestSite">
+      <HintPath>..\..\..\Nuclear.Test\src\bin\Nuclear.TestSite\$(Platform)\$(Configuration)\netstandard2.0\Nuclear.TestSite.dll</HintPath>
+    </Reference>
+    <Reference Include="Nuclear.TestSite.Contracts">
+      <HintPath>..\..\..\Nuclear.Test\src\bin\Nuclear.TestSite\$(Platform)\$(Configuration)\netstandard2.0\Nuclear.TestSite.Contracts.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

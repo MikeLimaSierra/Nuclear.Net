@@ -33,7 +33,7 @@ namespace Nuclear.Extensions {
 
         #endregion
 
-        #region Less
+        #region IsLess
 
         /// <summary>
         /// Checks if <paramref name="x"/> is considered less than <paramref name="y"/>.
@@ -48,7 +48,7 @@ namespace Nuclear.Extensions {
         /// Boolean result = new MyComparer().LessThan(value1, value2);
         /// </code>
         /// </example>
-        public static Boolean LessThan(this IComparer _this, Object x, Object y) {
+        public static Boolean IsLessThan(this IComparer _this, Object x, Object y) {
             Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) < 0;
@@ -67,7 +67,7 @@ namespace Nuclear.Extensions {
         /// Boolean result = new MyComparer().LessThanOrEquals(value1, value2);
         /// </code>
         /// </example>
-        public static Boolean LessThanOrEquals(this IComparer _this, Object x, Object y) {
+        public static Boolean IsLessThanOrEqual(this IComparer _this, Object x, Object y) {
             Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) <= 0;
@@ -75,7 +75,7 @@ namespace Nuclear.Extensions {
 
         #endregion
 
-        #region Greater
+        #region IsGreater
 
         /// <summary>
         /// Checks if <paramref name="x"/> is considered greater than <paramref name="y"/>.
@@ -90,7 +90,7 @@ namespace Nuclear.Extensions {
         /// Boolean result = new MyComparer().GreaterThan(value1, value2);
         /// </code>
         /// </example>
-        public static Boolean GreaterThan(this IComparer _this, Object x, Object y) {
+        public static Boolean IsGreaterThan(this IComparer _this, Object x, Object y) {
             Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) > 0;
@@ -109,7 +109,7 @@ namespace Nuclear.Extensions {
         /// Boolean result = new MyComparer().GreaterThanOrEquals(value1, value2);
         /// </code>
         /// </example>
-        public static Boolean GreaterThanOrEquals(this IComparer _this, Object x, Object y) {
+        public static Boolean IsGreaterThanOrEqual(this IComparer _this, Object x, Object y) {
             Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) >= 0;
@@ -137,14 +137,14 @@ namespace Nuclear.Extensions {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Object.IsNull(value, nameof(value));
 
-            if(min != null && max != null && _this.GreaterThan(min, max)) {
+            if(min != null && max != null && _this.IsGreaterThan(min, max)) {
                 return _this.IsClamped(value, max, min);
             }
 
             Boolean result = true;
 
-            result &= min == null || _this.GreaterThanOrEquals(value, min);
-            result &= max == null || _this.LessThanOrEquals(value, max);
+            result &= min == null || _this.IsGreaterThanOrEqual(value, min);
+            result &= max == null || _this.IsLessThanOrEqual(value, max);
 
             return result;
         }
@@ -167,14 +167,14 @@ namespace Nuclear.Extensions {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Object.IsNull(value, nameof(value));
 
-            if(min != null && max != null && _this.GreaterThan(min, max)) {
+            if(min != null && max != null && _this.IsGreaterThan(min, max)) {
                 return _this.IsClampedExclusive(value, max, min);
             }
 
             Boolean result = true;
 
-            result &= min == null || _this.GreaterThan(value, min);
-            result &= max == null || _this.LessThan(value, max);
+            result &= min == null || _this.IsGreaterThan(value, min);
+            result &= max == null || _this.IsLessThan(value, max);
 
             return result;
         }
@@ -201,7 +201,7 @@ namespace Nuclear.Extensions {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Object.IsNull(value, nameof(value));
 
-            if(min != null && max != null && _this.GreaterThan(min, max)) {
+            if(min != null && max != null && _this.IsGreaterThan(min, max)) {
                 return _this.Clamp(value, max, min);
             }
 
@@ -234,7 +234,7 @@ namespace Nuclear.Extensions {
         public static Object Min(this IComparer _this, Object x, Object y) {
             Throw.If.Object.IsNull(_this, nameof(_this));
 
-            return _this.LessThan(x, y) ? x : y;
+            return _this.IsLessThan(x, y) ? x : y;
         }
 
         #endregion
@@ -257,7 +257,7 @@ namespace Nuclear.Extensions {
         public static Object Max(this IComparer _this, Object x, Object y) {
             Throw.If.Object.IsNull(_this, nameof(_this));
 
-            return _this.GreaterThan(x, y) ? x : y;
+            return _this.IsGreaterThan(x, y) ? x : y;
         }
 
         #endregion

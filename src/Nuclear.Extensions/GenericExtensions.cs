@@ -65,7 +65,7 @@ namespace Nuclear.Extensions {
 
         #endregion
 
-        #region Equals
+        #region IsEqual
 
         /// <summary>
         /// Determines equality of <paramref name="left"/> and <paramref name="right"/> using the implementations of
@@ -82,10 +82,10 @@ namespace Nuclear.Extensions {
         /// }
         /// </code>
         /// </example>
-        public static Boolean Equals<T>(this T left, T right) {
+        public static Boolean IsEqual<T>(this T left, T right) {
 
             if(left == null) {
-                return right != null ? right.Equals<T>(left) : true;
+                return right != null ? right.IsEqual<T>(left) : true;
             }
 
             if(right == null) {

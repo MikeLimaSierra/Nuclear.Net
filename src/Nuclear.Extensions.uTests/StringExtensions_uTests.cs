@@ -17,7 +17,7 @@ namespace Nuclear.Extensions {
             Test.Note("StartsWith(xYz, InvariantCultureIgnoreCase)");
             Test.IfNot.Action.ThrowsException(() => result = value.StartsWith("xYz", StringComparison.InvariantCultureIgnoreCase), out Exception ex);
             Test.If.Value.IsTrue(result);
-            Test.If.Value.Equals(value, "xyzabc");
+            Test.If.Value.IsEqual(value, "xyzabc");
 
             DDTestStartsWith("xyzabc", String.Empty, true);
             DDTestStartsWith("xyzabc", "xyz", true);
@@ -34,8 +34,8 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{_value}.StartsWith({match})", _file, _method);
             Test.IfNot.Action.ThrowsException(() => _result = _value.StartsWith(match), out Exception ex, _file, _method);
-            Test.If.Value.Equals(_result, expected, _file, _method);
-            Test.If.Value.Equals(_value, value, _file, _method);
+            Test.If.Value.IsEqual(_result, expected, _file, _method);
+            Test.If.Value.IsEqual(_value, value, _file, _method);
 
         }
 
@@ -52,7 +52,7 @@ namespace Nuclear.Extensions {
             Test.Note("EndsWith(xYz, InvariantCultureIgnoreCase)");
             Test.IfNot.Action.ThrowsException(() => result = value.EndsWith("xYz", StringComparison.InvariantCultureIgnoreCase), out Exception ex);
             Test.If.Value.IsTrue(result);
-            Test.If.Value.Equals(value, "abcxyz");
+            Test.If.Value.IsEqual(value, "abcxyz");
 
             DDTestEndsWith("abcxyz", String.Empty, true);
             DDTestEndsWith("abcxyz", "xyz", true);
@@ -69,8 +69,8 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{_value}.EndsWith({match})", _file, _method);
             Test.IfNot.Action.ThrowsException(() => _result = _value.EndsWith(match), out Exception ex, _file, _method);
-            Test.If.Value.Equals(_result, expected, _file, _method);
-            Test.If.Value.Equals(_value, value, _file, _method);
+            Test.If.Value.IsEqual(_result, expected, _file, _method);
+            Test.If.Value.IsEqual(_value, value, _file, _method);
 
         }
 
@@ -87,7 +87,7 @@ namespace Nuclear.Extensions {
             Test.Note("Contains(xYz, InvariantCultureIgnoreCase)");
             Test.IfNot.Action.ThrowsException(() => result = value.Contains("xYz", StringComparison.InvariantCultureIgnoreCase), out Exception ex);
             Test.If.Value.IsTrue(result);
-            Test.If.Value.Equals(value, "abcxyzabc");
+            Test.If.Value.IsEqual(value, "abcxyzabc");
 
             DDContains("abcxyzabc", String.Empty, StringComparison.InvariantCulture, true);
             DDContains("abcxyzabc", "xyz", StringComparison.InvariantCulture, true);
@@ -126,8 +126,8 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{_value.Format()}.Contains({match.Format()}, {comparison.Format()})", _file, _method);
             Test.IfNot.Action.ThrowsException(() => _result = _value.Contains(match, comparison), out Exception ex, _file, _method);
-            Test.If.Value.Equals(_result, expected, _file, _method);
-            Test.If.Value.Equals(_value, value, _file, _method);
+            Test.If.Value.IsEqual(_result, expected, _file, _method);
+            Test.If.Value.IsEqual(_value, value, _file, _method);
 
         }
 
@@ -155,8 +155,8 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{_value}.TrimOnce({trim})", _file, _method);
             Test.IfNot.Action.ThrowsException(() => _result = _value.TrimOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.Equals(_value, value, _file, _method);
-            Test.If.Value.Equals(_result, expected, _file, _method);
+            Test.If.Value.IsEqual(_value, value, _file, _method);
+            Test.If.Value.IsEqual(_result, expected, _file, _method);
 
         }
 
@@ -168,8 +168,8 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{_value}.TrimOnce({trim})", _file, _method);
             Test.IfNot.Action.ThrowsException(() => _result = _value.TrimOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.Equals(_value, value, _file, _method);
-            Test.If.Value.Equals(_result, expected, _file, _method);
+            Test.If.Value.IsEqual(_value, value, _file, _method);
+            Test.If.Value.IsEqual(_result, expected, _file, _method);
 
         }
 
@@ -197,8 +197,8 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{_value}.TrimStartOnce({trim})", _file, _method);
             Test.IfNot.Action.ThrowsException(() => _result = _value.TrimStartOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.Equals(_value, value, _file, _method);
-            Test.If.Value.Equals(_result, expected, _file, _method);
+            Test.If.Value.IsEqual(_value, value, _file, _method);
+            Test.If.Value.IsEqual(_result, expected, _file, _method);
 
         }
 
@@ -210,8 +210,8 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{_value}.TrimStartOnce({trim})", _file, _method);
             Test.IfNot.Action.ThrowsException(() => _result = _value.TrimStartOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.Equals(_value, value, _file, _method);
-            Test.If.Value.Equals(_result, expected, _file, _method);
+            Test.If.Value.IsEqual(_value, value, _file, _method);
+            Test.If.Value.IsEqual(_result, expected, _file, _method);
 
         }
 
@@ -239,8 +239,8 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{_value}.TrimEndOnce({trim})", _file, _method);
             Test.IfNot.Action.ThrowsException(() => _result = _value.TrimEndOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.Equals(_value, value, _file, _method);
-            Test.If.Value.Equals(_result, expected, _file, _method);
+            Test.If.Value.IsEqual(_value, value, _file, _method);
+            Test.If.Value.IsEqual(_result, expected, _file, _method);
 
         }
 
@@ -252,8 +252,8 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{_value}.TrimEndOnce({trim})", _file, _method);
             Test.IfNot.Action.ThrowsException(() => _result = _value.TrimEndOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.Equals(_value, value, _file, _method);
-            Test.If.Value.Equals(_result, expected, _file, _method);
+            Test.If.Value.IsEqual(_value, value, _file, _method);
+            Test.If.Value.IsEqual(_result, expected, _file, _method);
 
         }
 

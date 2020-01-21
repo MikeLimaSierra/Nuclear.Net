@@ -16,7 +16,7 @@ namespace Nuclear.Exceptions {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Value.IsTrue(true, _paramName, _message), out ArgumentException ex1);
-            Test.If.Value.Equals(_paramName, ex1.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex1.ParamName);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
@@ -32,7 +32,7 @@ namespace Nuclear.Exceptions {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.IfNot.Value.IsTrue(false, _paramName, _message), out ArgumentException ex2);
-            Test.If.Value.Equals(_paramName, ex2.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex2.ParamName);
             Test.If.String.StartsWith(ex2.Message, _message);
 
         }
@@ -70,7 +70,7 @@ namespace Nuclear.Exceptions {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Value.IsFalse(false, _paramName, _message), out ArgumentException ex1);
-            Test.If.Value.Equals(_paramName, ex1.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex1.ParamName);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
@@ -86,7 +86,7 @@ namespace Nuclear.Exceptions {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.IfNot.Value.IsFalse(true, _paramName, _message), out ArgumentException ex2);
-            Test.If.Value.Equals(_paramName, ex2.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex2.ParamName);
             Test.If.String.StartsWith(ex2.Message, _message);
 
         }

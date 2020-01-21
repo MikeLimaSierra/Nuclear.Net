@@ -21,12 +21,12 @@ namespace Nuclear.Properties.TrackedProperties {
 
             Test.IfNot.Action.ThrowsException(() => prop = new TrackedUInt32<Object>(null), out Exception ex);
             Test.IfNot.Object.IsNull(prop);
-            Test.If.Value.Equals(prop.Value, default);
+            Test.If.Value.IsEqual(prop.Value, default);
             Test.If.Value.IsFalse(prop.HasValueChanged);
 
             Test.IfNot.Action.ThrowsException(() => prop = new TrackedUInt32<Object>(owner, value), out ex);
             Test.IfNot.Object.IsNull(prop);
-            Test.If.Value.Equals(prop.Value, value);
+            Test.If.Value.IsEqual(prop.Value, value);
             Test.If.Value.IsFalse(prop.HasValueChanged);
 
         }

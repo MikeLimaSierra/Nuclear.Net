@@ -36,8 +36,8 @@ namespace Nuclear.Properties.TrackedProperties {
             Test.Note($"Test ctor with: '{input}'", _file, _method);
             Test.IfNot.Action.ThrowsException(() => prop = new TrackedProperty<Object, TValue>(input), out Exception ex, _file, _method);
             Test.IfNot.Object.IsNull(prop, _file, _method);
-            Test.If.Value.Equals(prop.Value, expected.value, _file, _method);
-            Test.If.Value.Equals(prop.HasValueChanged, expected.hasChanged, _file, _method);
+            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
+            Test.If.Value.IsEqual(prop.HasValueChanged, expected.hasChanged, _file, _method);
 
         }
 
@@ -49,8 +49,8 @@ namespace Nuclear.Properties.TrackedProperties {
             Test.Note($"Test ctor with: '{input.owner}', '{input.value}'", _file, _method);
             Test.IfNot.Action.ThrowsException(() => prop = new TrackedProperty<Object, TValue>(input.owner, input.value), out Exception ex, _file, _method);
             Test.IfNot.Object.IsNull(prop, _file, _method);
-            Test.If.Value.Equals(prop.Value, expected.value, _file, _method);
-            Test.If.Value.Equals(prop.HasValueChanged, expected.hasChanged, _file, _method);
+            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
+            Test.If.Value.IsEqual(prop.HasValueChanged, expected.hasChanged, _file, _method);
 
         }
 
@@ -77,8 +77,8 @@ namespace Nuclear.Properties.TrackedProperties {
 
             Test.Note($"Value = '{newValue}'", _file, _method);
             Test.IfNot.Action.ThrowsException(() => prop.Value = newValue, out Exception ex, _file, _method);
-            Test.If.Value.Equals(prop.Value, expected.value, _file, _method);
-            Test.If.Value.Equals(prop.HasValueChanged, expected.hasChanged, _file, _method);
+            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
+            Test.If.Value.IsEqual(prop.HasValueChanged, expected.hasChanged, _file, _method);
 
         }
 
@@ -92,7 +92,7 @@ namespace Nuclear.Properties.TrackedProperties {
             ITrackedProperty<Object, TestEnum?> prop = new TrackedProperty<Object, TestEnum?>(null, null);
 
             Test.IfNot.Action.RaisesPropertyChangedEvent(() => prop.Value = null, prop, out EventData<PropertyChangedEventArgs> eventData);
-            Test.If.Value.Equals(prop.Value, null);
+            Test.If.Value.IsEqual(prop.Value, null);
 
             DDTestPropertyChangedEvent<TestEnum?>((null, null), TestEnum.Default, "Value");
             DDTestPropertyChangedEvent<TestEnum?>((null, TestEnum.Default), null, "Value");
@@ -107,9 +107,9 @@ namespace Nuclear.Properties.TrackedProperties {
             Test.Note($"Value = '{newValue}'", _file, _method);
             Test.If.Action.RaisesPropertyChangedEvent(() => prop.Value = newValue, prop, out EventData<PropertyChangedEventArgs> eventData, _file, _method);
             Test.IfNot.Object.IsNull(eventData.Sender, _file, _method);
-            Test.If.Reference.Equals(eventData.Sender, prop, _file, _method);
+            Test.If.Reference.IsEqual(eventData.Sender, prop, _file, _method);
             Test.IfNot.Object.IsNull(eventData.EventArgs, _file, _method);
-            Test.If.Value.Equals(eventData.EventArgs.PropertyName, propertyName, _file, _method);
+            Test.If.Value.IsEqual(eventData.EventArgs.PropertyName, propertyName, _file, _method);
 
         }
 
@@ -134,12 +134,12 @@ namespace Nuclear.Properties.TrackedProperties {
             Test.Note($"Value = '{newValue}'", _file, _method);
             Test.If.Action.RaisesEvent(() => prop.Value = newValue, prop, "ChangeTracked", out EventData<ChangeTrackedEventArgs<Object, TValue>> eventData, _file, _method);
             Test.IfNot.Object.IsNull(eventData.Sender, _file, _method);
-            Test.If.Value.Equals(eventData.Sender, prop, _file, _method);
+            Test.If.Value.IsEqual(eventData.Sender, prop, _file, _method);
             Test.IfNot.Object.IsNull(eventData.EventArgs, _file, _method);
-            Test.If.Value.Equals(eventData.EventArgs.Owner, expected.owner, _file, _method);
-            Test.If.Value.Equals(eventData.EventArgs.Old, expected.old, _file, _method);
-            Test.If.Value.Equals(eventData.EventArgs.New, expected._new, _file, _method);
-            Test.If.Value.Equals(eventData.EventArgs.HasChanged, expected.hasChanged, _file, _method);
+            Test.If.Value.IsEqual(eventData.EventArgs.Owner, expected.owner, _file, _method);
+            Test.If.Value.IsEqual(eventData.EventArgs.Old, expected.old, _file, _method);
+            Test.If.Value.IsEqual(eventData.EventArgs.New, expected._new, _file, _method);
+            Test.If.Value.IsEqual(eventData.EventArgs.HasChanged, expected.hasChanged, _file, _method);
 
         }
 

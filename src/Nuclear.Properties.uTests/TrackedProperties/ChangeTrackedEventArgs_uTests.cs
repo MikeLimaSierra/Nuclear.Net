@@ -48,10 +48,10 @@ namespace Nuclear.Properties.TrackedProperties {
             Test.Note(String.Format("Test ctor with: '{0}', '{1}', '{2}'", owner, oldValue, newValue), _file, _method);
             Test.IfNot.Action.ThrowsException(() => e = new ChangeTrackedEventArgs<TOwner, TValue>(owner, oldValue, newValue), out Exception ex, _file, _method);
             Test.IfNot.Object.IsNull(e, _file, _method);
-            Test.If.Value.Equals(e.Owner, owner, _file, _method);
-            Test.If.Value.Equals(e.Old, oldValue, _file, _method);
-            Test.If.Value.Equals(e.New, newValue, _file, _method);
-            Test.If.Value.Equals(e.HasChanged, hasChanged, _file, _method);
+            Test.If.Value.IsEqual(e.Owner, owner, _file, _method);
+            Test.If.Value.IsEqual(e.Old, oldValue, _file, _method);
+            Test.If.Value.IsEqual(e.New, newValue, _file, _method);
+            Test.If.Value.IsEqual(e.HasChanged, hasChanged, _file, _method);
 
         }
 

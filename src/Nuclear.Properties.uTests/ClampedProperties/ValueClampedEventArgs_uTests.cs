@@ -54,11 +54,11 @@ namespace Nuclear.Properties.ClampedProperties {
             Test.Note(String.Format("Test ctor with: '{0}', '{1}', '{2}'", setValue, oldValue, newValue), _file, _method);
             Test.IfNot.Action.ThrowsException(() => e = new ValueClampedEventArgs<TValue>(setValue, oldValue, newValue), out Exception ex, _file, _method);
             Test.IfNot.Object.IsNull(e, _file, _method);
-            Test.If.Value.Equals(e.Set, setValue, _file, _method);
-            Test.If.Value.Equals(e.Old, oldValue, _file, _method);
-            Test.If.Value.Equals(e.New, newValue, _file, _method);
-            Test.If.Value.Equals(e.HasChanged, hasChanged, _file, _method);
-            Test.If.Value.Equals(e.HasBeenClamped, hasBeenClamped, _file, _method);
+            Test.If.Value.IsEqual(e.Set, setValue, _file, _method);
+            Test.If.Value.IsEqual(e.Old, oldValue, _file, _method);
+            Test.If.Value.IsEqual(e.New, newValue, _file, _method);
+            Test.If.Value.IsEqual(e.HasChanged, hasChanged, _file, _method);
+            Test.If.Value.IsEqual(e.HasBeenClamped, hasBeenClamped, _file, _method);
 
         }
 

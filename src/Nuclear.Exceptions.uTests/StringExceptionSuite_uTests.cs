@@ -16,12 +16,12 @@ namespace Nuclear.Exceptions {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.String.IsNullOrEmpty(null, _paramName, _message), out ArgumentNullException ex1);
-            Test.If.Value.Equals(_paramName, ex1.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex1.ParamName);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.String.IsNullOrEmpty(String.Empty, _paramName, _message), out ArgumentException ex2);
-            Test.If.Value.Equals(_paramName, ex2.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex2.ParamName);
             Test.If.String.StartsWith(ex2.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
@@ -43,12 +43,12 @@ namespace Nuclear.Exceptions {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.IfNot.String.IsNullOrEmpty(" ", _paramName, _message), out ArgumentException ex3);
-            Test.If.Value.Equals(_paramName, ex3.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex3.ParamName);
             Test.If.String.StartsWith(ex3.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
                 Throw.IfNot.String.IsNullOrEmpty("STRING", _paramName, _message), out ArgumentException ex4);
-            Test.If.Value.Equals(_paramName, ex4.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex4.ParamName);
             Test.If.String.StartsWith(ex4.Message, _message);
 
         }
@@ -100,17 +100,17 @@ namespace Nuclear.Exceptions {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.String.IsNullOrWhiteSpace(null, _paramName, _message), out ArgumentNullException ex1);
-            Test.If.Value.Equals(_paramName, ex1.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex1.ParamName);
             Test.If.String.StartsWith(ex1.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.String.IsNullOrWhiteSpace(String.Empty, _paramName, _message), out ArgumentException ex2);
-            Test.If.Value.Equals(_paramName, ex2.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex2.ParamName);
             Test.If.String.StartsWith(ex2.Message, _message);
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.String.IsNullOrWhiteSpace(" ", _paramName, _message), out ArgumentException ex3);
-            Test.If.Value.Equals(_paramName, ex3.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex3.ParamName);
             Test.If.String.StartsWith(ex3.Message, _message);
 
             Test.IfNot.Action.ThrowsException(() =>
@@ -132,7 +132,7 @@ namespace Nuclear.Exceptions {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.IfNot.String.IsNullOrWhiteSpace("STRING", _paramName, _message), out ArgumentException ex4);
-            Test.If.Value.Equals(_paramName, ex4.ParamName);
+            Test.If.Value.IsEqual(_paramName, ex4.ParamName);
             Test.If.String.StartsWith(ex4.Message, _message);
 
         }

@@ -21,12 +21,12 @@ namespace Nuclear.Extensions {
             Int32 result = 0;
 
             Test.If.Action.ThrowsException(() => comp = new InternalComparer<Dummy>(null), out ArgumentNullException ex1);
-            Test.If.Value.Equals(ex1.ParamName, "compare");
+            Test.If.Value.IsEqual(ex1.ParamName, "compare");
 
             Test.IfNot.Action.ThrowsException(() => comp = new InternalComparer<Dummy>((x, y) => 42), out Exception ex2);
 
             result = comp.Compare(0, 1);
-            Test.If.Value.Equals(result, 42);
+            Test.If.Value.IsEqual(result, 42);
 
         }
 
@@ -41,7 +41,7 @@ namespace Nuclear.Extensions {
 
             comp = DynamicComparer.FromDelegate<Dummy>((x, y) => 42);
             Test.IfNot.Action.ThrowsException(() => result = comp.Compare(0, 1), out Exception ex2);
-            Test.If.Value.Equals(result, 42);
+            Test.If.Value.IsEqual(result, 42);
 
         }
 

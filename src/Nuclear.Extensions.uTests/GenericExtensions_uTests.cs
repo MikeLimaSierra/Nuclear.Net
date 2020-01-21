@@ -28,7 +28,7 @@ namespace Nuclear.Extensions {
             String result = null;
 
             Test.IfNot.Action.ThrowsException(() => result = @object.Format(), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 
@@ -53,7 +53,7 @@ namespace Nuclear.Extensions {
             String result = null;
 
             Test.IfNot.Action.ThrowsException(() => result = @object.FormatType(), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 
@@ -96,8 +96,8 @@ namespace Nuclear.Extensions {
             Boolean result = false;
 
             Test.Note($"{input.left.Format()}.Equals({input.right.Format()})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.left.Equals<T>(input.right), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = input.left.IsEqual<T>(input.right), out Exception ex, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 

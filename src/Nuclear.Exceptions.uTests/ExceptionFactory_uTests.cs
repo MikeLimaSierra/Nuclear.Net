@@ -13,7 +13,7 @@ namespace Nuclear.Exceptions {
 
             Test.IfNot.Object.IsNull(ef1);
             Test.IfNot.Object.IsNull(ef2);
-            Test.If.Reference.Equals(ef1, ef2);
+            Test.If.Reference.IsEqual(ef1, ef2);
 
         }
 
@@ -24,13 +24,13 @@ namespace Nuclear.Exceptions {
 
             Test.If.Object.IsNull(argNullEx.InnerException);
             Test.If.String.StartsWith(argNullEx.Message, "this_is_a_test_message");
-            Test.If.Value.Equals(argNullEx.ParamName, "this_is_a_parameter_name");
+            Test.If.Value.IsEqual(argNullEx.ParamName, "this_is_a_parameter_name");
 
             ArgumentException argEx = ExceptionFactory.Instance.Create<ArgumentException>("this_is_another_test_message", "this_is_another_parameter_name", argNullEx);
 
             Test.If.String.StartsWith(argEx.Message, "this_is_another_test_message");
-            Test.If.Value.Equals(argEx.ParamName, "this_is_another_parameter_name");
-            Test.If.Reference.Equals(argNullEx, argEx.InnerException);
+            Test.If.Value.IsEqual(argEx.ParamName, "this_is_another_parameter_name");
+            Test.If.Reference.IsEqual(argNullEx, argEx.InnerException);
 
         }
     }

@@ -22,9 +22,9 @@ namespace Nuclear.Properties.ClampedProperties {
 
             Test.IfNot.Action.ThrowsException(() => prop = new ClampedChar(value, min, max), out Exception ex);
             Test.IfNot.Object.IsNull(prop);
-            Test.If.Value.Equals(prop.Value, value);
-            Test.If.Value.Equals(prop.Minimum, min);
-            Test.If.Value.Equals(prop.Maximum, max);
+            Test.If.Value.IsEqual(prop.Value, value);
+            Test.If.Value.IsEqual(prop.Minimum, min);
+            Test.If.Value.IsEqual(prop.Maximum, max);
 
         }
 

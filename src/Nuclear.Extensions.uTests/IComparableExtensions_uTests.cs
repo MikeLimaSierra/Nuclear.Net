@@ -10,7 +10,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void IsEqualThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsEqual(0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IComparableExtensions.IsEqual((null as DummyIComparable), 0), out ArgumentNullException ex1);
 
         }
 
@@ -29,7 +29,7 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{input.x.Format()}.IsEqual({input.y.Format()}) == {expected.Format()}", _file, _method);
             Test.IfNot.Action.ThrowsException(() => result = input.x.IsEqual(input.y), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 
@@ -40,7 +40,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void LessThanThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).LessThan(0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsLessThan(0), out ArgumentNullException ex1);
 
         }
 
@@ -59,8 +59,8 @@ namespace Nuclear.Extensions {
             Boolean result = default;
 
             Test.Note($"{input.x.Format()}.LessThan({input.y.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.x.LessThan(input.y), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = input.x.IsLessThan(input.y), out Exception ex, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 
@@ -71,7 +71,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void LessThanOrEqualsThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).LessThanOrEquals(0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsLessThanOrEqual(0), out ArgumentNullException ex1);
 
         }
 
@@ -90,8 +90,8 @@ namespace Nuclear.Extensions {
             Boolean result = default;
 
             Test.Note($"{input.x.Format()}.LessThanOrEquals({input.y.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.x.LessThanOrEquals(input.y), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = input.x.IsLessThanOrEqual(input.y), out Exception ex, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 
@@ -102,7 +102,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void GreaterThanThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).GreaterThan(0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsGreaterThan(0), out ArgumentNullException ex1);
 
         }
 
@@ -121,8 +121,8 @@ namespace Nuclear.Extensions {
             Boolean result = default;
 
             Test.Note($"{input.x.Format()}.GreaterThan({input.y.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.x.GreaterThan(input.y), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = input.x.IsGreaterThan(input.y), out Exception ex, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 
@@ -133,7 +133,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void GreaterThanOrEqualsThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).GreaterThanOrEquals(0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsGreaterThanOrEqual(0), out ArgumentNullException ex1);
 
         }
 
@@ -152,8 +152,8 @@ namespace Nuclear.Extensions {
             Boolean result = default;
 
             Test.Note($"{input.x.Format()}.GreaterThanOrEquals({input.y.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.x.GreaterThanOrEquals(input.y), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = input.x.IsGreaterThanOrEqual(input.y), out Exception ex, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 
@@ -191,7 +191,7 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{input.v.Format()}.IsClamped({input.min.Format()}, {input.max.Format()}) == {expected.Format()}", _file, _method);
             Test.IfNot.Action.ThrowsException(() => result = input.v.IsClamped(input.min, input.max), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 
@@ -229,7 +229,7 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{input.v.Format()}.IsClampedExclusive({input.min.Format()}, {input.max.Format()}) == {expected.Format()}", _file, _method);
             Test.IfNot.Action.ThrowsException(() => result = input.v.IsClampedExclusive(input.min, input.max), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 
@@ -267,7 +267,7 @@ namespace Nuclear.Extensions {
 
             Test.Note($"{input.v.Format()}.Clamp({input.min.Format()}, {input.max.Format()}) == {expected.Format()}", _file, _method);
             Test.IfNot.Action.ThrowsException(() => result = input.v.Clamp(input.min, input.max), out Exception ex, _file, _method);
-            Test.If.Value.Equals(result, expected, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
 
         }
 

@@ -34,7 +34,7 @@ namespace Nuclear.Properties.ClampedProperties {
             Test.Note("Test ctor with 'null', [1.1; 1.3]");
             Test.If.Action.ThrowsException(() => prop = new ClampedPropertyT<Version>(null, new Version(1, 1), new Version(1, 3)), out ArgumentNullException argEx);
             Test.IfNot.Object.IsNull(argEx);
-            Test.If.Value.Equals(argEx.ParamName, "value");
+            Test.If.Value.IsEqual(argEx.ParamName, "value");
             Test.If.Object.IsNull(prop);
 
             DDTestConstructor((new Version(1, 2), null, null), (new Version(1, 2), null, null));
@@ -55,9 +55,9 @@ namespace Nuclear.Properties.ClampedProperties {
             Test.Note($"Test ctor with '{input.value}', [{input.min}; {input.max}]", _file, _method);
             Test.IfNot.Action.ThrowsException(() => prop = new ClampedPropertyT<TValue>(input.value, input.min, input.max), out Exception ex, _file, _method);
             Test.IfNot.Object.IsNull(prop, _file, _method);
-            Test.If.Value.Equals(prop.Minimum, expected.min, _file, _method);
-            Test.If.Value.Equals(prop.Maximum, expected.max, _file, _method);
-            Test.If.Value.Equals(prop.Value, expected.value, _file, _method);
+            Test.If.Value.IsEqual(prop.Minimum, expected.min, _file, _method);
+            Test.If.Value.IsEqual(prop.Maximum, expected.max, _file, _method);
+            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
         }
 
         #endregion
@@ -95,9 +95,9 @@ namespace Nuclear.Properties.ClampedProperties {
 
             Test.Note($"Value = '{newValue}'", _file, _method);
             Test.IfNot.Action.ThrowsException(() => prop.Value = newValue, out Exception ex, _file, _method);
-            Test.If.Value.Equals(prop.Minimum, expected.min, _file, _method);
-            Test.If.Value.Equals(prop.Maximum, expected.max, _file, _method);
-            Test.If.Value.Equals(prop.Value, expected.value, _file, _method);
+            Test.If.Value.IsEqual(prop.Minimum, expected.min, _file, _method);
+            Test.If.Value.IsEqual(prop.Maximum, expected.max, _file, _method);
+            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
 
         }
 
@@ -130,9 +130,9 @@ namespace Nuclear.Properties.ClampedProperties {
 
             Test.Note($"Minimum = '{newMin}'", _file, _method);
             Test.IfNot.Action.ThrowsException(() => prop.Minimum = newMin, out Exception ex, _file, _method);
-            Test.If.Value.Equals(prop.Minimum, expected.min, _file, _method);
-            Test.If.Value.Equals(prop.Maximum, expected.max, _file, _method);
-            Test.If.Value.Equals(prop.Value, expected.value, _file, _method);
+            Test.If.Value.IsEqual(prop.Minimum, expected.min, _file, _method);
+            Test.If.Value.IsEqual(prop.Maximum, expected.max, _file, _method);
+            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
 
         }
 
@@ -165,9 +165,9 @@ namespace Nuclear.Properties.ClampedProperties {
 
             Test.Note($"Maximum = '{newMax}'", _file, _method);
             Test.IfNot.Action.ThrowsException(() => prop.Maximum = newMax, out Exception ex, _file, _method);
-            Test.If.Value.Equals(prop.Minimum, expected.min, _file, _method);
-            Test.If.Value.Equals(prop.Maximum, expected.max, _file, _method);
-            Test.If.Value.Equals(prop.Value, expected.value, _file, _method);
+            Test.If.Value.IsEqual(prop.Minimum, expected.min, _file, _method);
+            Test.If.Value.IsEqual(prop.Maximum, expected.max, _file, _method);
+            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
 
         }
 
@@ -214,9 +214,9 @@ namespace Nuclear.Properties.ClampedProperties {
             Test.Note($"Change property: '{propertyName}'", _file, _method);
             Test.If.Action.RaisesPropertyChangedEvent(action, prop, out EventData<PropertyChangedEventArgs> eventData, _file, _method);
             Test.IfNot.Object.IsNull(eventData.Sender, _file, _method);
-            Test.If.Reference.Equals(eventData.Sender, prop, _file, _method);
+            Test.If.Reference.IsEqual(eventData.Sender, prop, _file, _method);
             Test.IfNot.Object.IsNull(eventData.EventArgs, _file, _method);
-            Test.If.Value.Equals(eventData.EventArgs.PropertyName, propertyName, _file, _method);
+            Test.If.Value.IsEqual(eventData.EventArgs.PropertyName, propertyName, _file, _method);
 
         }
 
@@ -231,11 +231,11 @@ namespace Nuclear.Properties.ClampedProperties {
             Test.Note("Value = in range");
             Test.If.Action.RaisesEvent(() => prop.Value = 1, prop, "ValueClamped", out eventData);
             Test.IfNot.Object.IsNull(eventData.Sender);
-            Test.If.Reference.Equals(eventData.Sender, prop);
+            Test.If.Reference.IsEqual(eventData.Sender, prop);
             Test.IfNot.Object.IsNull(eventData.EventArgs);
-            Test.If.Value.Equals(eventData.EventArgs.Set, 1);
-            Test.If.Value.Equals(eventData.EventArgs.Old, 0);
-            Test.If.Value.Equals(eventData.EventArgs.New, 1);
+            Test.If.Value.IsEqual(eventData.EventArgs.Set, 1);
+            Test.If.Value.IsEqual(eventData.EventArgs.Old, 0);
+            Test.If.Value.IsEqual(eventData.EventArgs.New, 1);
             Test.If.Value.IsFalse(eventData.EventArgs.HasBeenClamped);
             Test.If.Value.IsTrue(eventData.EventArgs.HasChanged);
 
@@ -243,11 +243,11 @@ namespace Nuclear.Properties.ClampedProperties {
 
             Test.If.Action.RaisesEvent(() => prop.Value = 6, prop, "ValueClamped", out eventData);
             Test.IfNot.Object.IsNull(eventData.Sender);
-            Test.If.Reference.Equals(eventData.Sender, prop);
+            Test.If.Reference.IsEqual(eventData.Sender, prop);
             Test.IfNot.Object.IsNull(eventData.EventArgs);
-            Test.If.Value.Equals(eventData.EventArgs.Set, 6);
-            Test.If.Value.Equals(eventData.EventArgs.Old, 1);
-            Test.If.Value.Equals(eventData.EventArgs.New, 5);
+            Test.If.Value.IsEqual(eventData.EventArgs.Set, 6);
+            Test.If.Value.IsEqual(eventData.EventArgs.Old, 1);
+            Test.If.Value.IsEqual(eventData.EventArgs.New, 5);
             Test.If.Value.IsTrue(eventData.EventArgs.HasBeenClamped);
             Test.If.Value.IsTrue(eventData.EventArgs.HasChanged);
 

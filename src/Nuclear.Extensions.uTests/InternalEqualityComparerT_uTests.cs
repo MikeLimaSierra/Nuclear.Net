@@ -22,21 +22,21 @@ namespace Nuclear.Extensions {
             Int32 hash = 0;
 
             Test.If.Action.ThrowsException(() => comp = new InternalEqualityComparer<Dummy>(null, null), out ArgumentNullException ex1);
-            Test.If.Value.Equals(ex1.ParamName, "equals");
+            Test.If.Value.IsEqual(ex1.ParamName, "equals");
 
             Test.If.Action.ThrowsException(() => comp = new InternalEqualityComparer<Dummy>(null, (obj) => 42), out ex1);
-            Test.If.Value.Equals(ex1.ParamName, "equals");
+            Test.If.Value.IsEqual(ex1.ParamName, "equals");
 
             Test.If.Action.ThrowsException(() => comp = new InternalEqualityComparer<Dummy>((x, y) => true, null), out ex1);
-            Test.If.Value.Equals(ex1.ParamName, "getHashCode");
+            Test.If.Value.IsEqual(ex1.ParamName, "getHashCode");
 
             Test.IfNot.Action.ThrowsException(() => comp = new InternalEqualityComparer<Dummy>((x, y) => true, (obj) => 42), out Exception ex2);
 
             result = comp.Equals(0, 1);
-            Test.If.Value.Equals(result, true);
+            Test.If.Value.IsEqual(result, true);
 
             hash = comp.GetHashCode(0);
-            Test.If.Value.Equals(hash, 42);
+            Test.If.Value.IsEqual(hash, 42);
 
         }
 
@@ -53,10 +53,10 @@ namespace Nuclear.Extensions {
 
             comp = DynamicEqualityComparer.FromDelegate<Dummy>((x, y) => true, (obj) => 42);
             Test.IfNot.Action.ThrowsException(() => result = comp.Equals(0, 1), out Exception ex2);
-            Test.If.Value.Equals(result, true);
+            Test.If.Value.IsEqual(result, true);
 
             Test.IfNot.Action.ThrowsException(() => hash = comp.GetHashCode(0), out ex2);
-            Test.If.Value.Equals(hash, 42);
+            Test.If.Value.IsEqual(hash, 42);
 
         }
 

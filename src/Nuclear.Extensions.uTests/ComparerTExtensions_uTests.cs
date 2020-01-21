@@ -6,13 +6,19 @@ using Nuclear.TestSite;
 namespace Nuclear.Extensions {
     class ComparerTExtensions_uTests {
 
+        #region static resources
+
+        static readonly Comparer<Dummy> _throwingComparer = new ThrowingComparer();
+
+        #endregion
+
         #region IsEqual
 
         [TestMethod]
         void IsEqualThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as Comparer<Dummy>).IsEqual(0, 0), out ArgumentNullException ex1);
-            Test.If.Action.ThrowsException(() => new ThrowingComparer().IsEqual(0, 0), out NotImplementedException ex2);
+            Test.If.Action.ThrowsException(() => ComparerTExtensions.IsEqual<Dummy>(null, 0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => _throwingComparer.IsEqual(0, 0), out NotImplementedException ex2);
 
         }
 
@@ -42,8 +48,8 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void LessThanThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyComparerT).IsLessThan(0, 0), out ArgumentNullException ex1);
-            Test.If.Action.ThrowsException(() => new ThrowingComparer().IsLessThan(0, 0), out NotImplementedException ex2);
+            Test.If.Action.ThrowsException(() => ComparerTExtensions.IsLessThan<Dummy>(null, 0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => _throwingComparer.IsLessThan(0, 0), out NotImplementedException ex2);
 
         }
 
@@ -74,8 +80,8 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void LessThanOrEqualsThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyComparerT).IsLessThanOrEqual(0, 0), out ArgumentNullException ex1);
-            Test.If.Action.ThrowsException(() => new ThrowingComparer().IsLessThanOrEqual(0, 0), out NotImplementedException ex2);
+            Test.If.Action.ThrowsException(() => ComparerTExtensions.IsLessThanOrEqual<Dummy>(null, 0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => _throwingComparer.IsLessThanOrEqual(0, 0), out NotImplementedException ex2);
 
         }
 
@@ -106,8 +112,8 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void GreaterThanThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyComparerT).IsGreaterThan(0, 0), out ArgumentNullException ex1);
-            Test.If.Action.ThrowsException(() => new ThrowingComparer().IsGreaterThan(0, 0), out NotImplementedException ex2);
+            Test.If.Action.ThrowsException(() => ComparerTExtensions.IsGreaterThan<Dummy>(null, 0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => _throwingComparer.IsGreaterThan(0, 0), out NotImplementedException ex2);
 
         }
 
@@ -138,8 +144,8 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void GreaterThanOrEqualsThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyComparerT).IsGreaterThanOrEqual(0, 0), out ArgumentNullException ex1);
-            Test.If.Action.ThrowsException(() => new ThrowingComparer().IsGreaterThanOrEqual(0, 0), out NotImplementedException ex2);
+            Test.If.Action.ThrowsException(() => ComparerTExtensions.IsGreaterThanOrEqual<Dummy>(null, 0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => _throwingComparer.IsGreaterThanOrEqual(0, 0), out NotImplementedException ex2);
 
         }
 
@@ -170,8 +176,8 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void IsClampedThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyComparerT).IsClamped(0, 0, 0), out ArgumentNullException ex1);
-            Test.If.Action.ThrowsException(() => new ThrowingComparer().IsClamped(0, 0, 0), out NotImplementedException ex2);
+            Test.If.Action.ThrowsException(() => ComparerTExtensions.IsClamped<Dummy>(null, 0, 0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => _throwingComparer.IsClamped(0, 0, 0), out NotImplementedException ex2);
 
         }
 
@@ -209,8 +215,8 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void IsClampedExclusiveThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyComparerT).IsClampedExclusive(0, 0, 0), out ArgumentNullException ex1);
-            Test.If.Action.ThrowsException(() => new ThrowingComparer().IsClampedExclusive(0, 0, 0), out NotImplementedException ex2);
+            Test.If.Action.ThrowsException(() => ComparerTExtensions.IsClampedExclusive<Dummy>(null, 0, 0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => _throwingComparer.IsClampedExclusive(0, 0, 0), out NotImplementedException ex2);
 
         }
 
@@ -248,8 +254,8 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void ClampThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyComparerT).Clamp(0, 0, 0), out ArgumentNullException ex1);
-            Test.If.Action.ThrowsException(() => new ThrowingComparer().Clamp(0, 0, 0), out NotImplementedException ex2);
+            Test.If.Action.ThrowsException(() => ComparerTExtensions.Clamp<Dummy>(null, 0, 0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => _throwingComparer.Clamp(0, 0, 0), out NotImplementedException ex2);
 
         }
 
@@ -287,8 +293,8 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void MinThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyComparerT).Min(0, 0), out ArgumentNullException ex1);
-            Test.If.Action.ThrowsException(() => new ThrowingComparer().Min(0, 0), out NotImplementedException ex2);
+            Test.If.Action.ThrowsException(() => ComparerTExtensions.Min<Dummy>(null, 0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => _throwingComparer.Min(0, 0), out NotImplementedException ex2);
 
         }
 
@@ -319,8 +325,8 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void MaxThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyComparerT).Max(0, 0), out ArgumentNullException ex1);
-            Test.If.Action.ThrowsException(() => new ThrowingComparer().Max(0, 0), out NotImplementedException ex2);
+            Test.If.Action.ThrowsException(() => ComparerTExtensions.Max<Dummy>(null, 0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => _throwingComparer.Max(0, 0), out NotImplementedException ex2);
 
         }
 

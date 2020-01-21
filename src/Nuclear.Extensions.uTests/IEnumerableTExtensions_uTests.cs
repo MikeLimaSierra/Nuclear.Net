@@ -14,10 +14,10 @@ namespace Nuclear.Extensions {
 
             IEnumerable<Int32> enumerable = Enumerable.Empty<Int32>();
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Int32>).ForEach(null), out ArgumentNullException ex);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.ForEach<Int32>(null, null), out ArgumentNullException ex);
             Test.If.Value.IsEqual(ex.ParamName, "_this");
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Int32>).ForEach((value) => { }), out ex);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.ForEach<Int32>(null, (value) => { }), out ex);
             Test.If.Value.IsEqual(ex.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => enumerable.ForEach(null), out ex);
@@ -46,7 +46,7 @@ namespace Nuclear.Extensions {
             IEnumerable<DummyIComparable> empty = Enumerable.Empty<DummyIComparable>();
             IEnumerable<DummyIComparable> nulls = new DummyIComparable[] { null, null };
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<DummyIComparable>).Min(), out ArgumentNullException ex);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Min<DummyIComparable>(null), out ArgumentNullException ex);
             Test.If.Value.IsEqual(ex.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => empty.Min(), out ArgumentException argEx);
@@ -80,7 +80,7 @@ namespace Nuclear.Extensions {
             IEnumerable<DummyIComparableT> empty = Enumerable.Empty<DummyIComparableT>();
             IEnumerable<DummyIComparableT> nulls = new DummyIComparableT[] { null, null };
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<DummyIComparableT>).MinT(), out ArgumentNullException ex);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.MinT<DummyIComparableT>(null), out ArgumentNullException ex);
             Test.If.Value.IsEqual(ex.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => empty.MinT(), out ArgumentException argEx);
@@ -115,10 +115,10 @@ namespace Nuclear.Extensions {
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
             IEnumerable<Dummy> nulls = new Dummy[] { null, null };
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Min(null as Comparer<Dummy>), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Min<Dummy>(null, null), out ArgumentNullException ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Min(Comparer<Dummy>.Default), out ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Min(null, Comparer<Dummy>.Default), out ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => notEmpty.Min(null), out ex1);
@@ -156,10 +156,10 @@ namespace Nuclear.Extensions {
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
             IEnumerable<Dummy> nulls = new Dummy[] { null, null };
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Min(null as IComparer), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Min<Dummy>(null, null as IComparer), out ArgumentNullException ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Min(DynamicComparer.FromDelegate((x, y) => 0)), out ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Min<Dummy>(null, DynamicComparer.FromDelegate((x, y) => 0)), out ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => notEmpty.Min(null as IComparer), out ex1);
@@ -197,10 +197,10 @@ namespace Nuclear.Extensions {
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
             IEnumerable<Dummy> nulls = new Dummy[] { null, null };
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Min(null as IComparer<Dummy>), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Min(null, null as IComparer<Dummy>), out ArgumentNullException ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Min(DynamicComparer.FromDelegate<Dummy>((x, y) => 0)), out ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Min(null, DynamicComparer.FromDelegate<Dummy>((x, y) => 0)), out ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => notEmpty.Min(null as IComparer<Dummy>), out ex1);
@@ -237,7 +237,7 @@ namespace Nuclear.Extensions {
             IEnumerable<DummyIComparable> empty = Enumerable.Empty<DummyIComparable>();
             IEnumerable<DummyIComparable> nulls = new DummyIComparable[] { null, null };
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<DummyIComparable>).Max(), out ArgumentNullException ex);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Max<DummyIComparable>(null), out ArgumentNullException ex);
             Test.If.Value.IsEqual(ex.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => empty.Max(), out ArgumentException argEx);
@@ -271,7 +271,7 @@ namespace Nuclear.Extensions {
             IEnumerable<DummyIComparableT> empty = Enumerable.Empty<DummyIComparableT>();
             IEnumerable<DummyIComparableT> nulls = new DummyIComparableT[] { null, null };
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<DummyIComparableT>).MaxT(), out ArgumentNullException ex);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.MaxT<DummyIComparableT>(null), out ArgumentNullException ex);
             Test.If.Value.IsEqual(ex.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => empty.MaxT(), out ArgumentException argEx);
@@ -306,10 +306,10 @@ namespace Nuclear.Extensions {
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
             IEnumerable<Dummy> nulls = new Dummy[] { null, null };
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Max(null as Comparer<Dummy>), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Max<Dummy>(null, null), out ArgumentNullException ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Max(Comparer<Dummy>.Default), out ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Max(null, Comparer<Dummy>.Default), out ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => notEmpty.Max(null), out ex1);
@@ -347,10 +347,10 @@ namespace Nuclear.Extensions {
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
             IEnumerable<Dummy> nulls = new Dummy[] { null, null };
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Max(null as IComparer), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Max<Dummy>(null, null as IComparer), out ArgumentNullException ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Max(DynamicComparer.FromDelegate((x, y) => 0)), out ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Max<Dummy>(null, DynamicComparer.FromDelegate((x, y) => 0)), out ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => notEmpty.Max(null as IComparer), out ex1);
@@ -388,10 +388,10 @@ namespace Nuclear.Extensions {
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
             IEnumerable<Dummy> nulls = new Dummy[] { null, null };
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Max(null as IComparer<Dummy>), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Max(null, null as IComparer<Dummy>), out ArgumentNullException ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
-            Test.If.Action.ThrowsException(() => (null as IEnumerable<Dummy>).Max(DynamicComparer.FromDelegate<Dummy>((x, y) => 0)), out ex1);
+            Test.If.Action.ThrowsException(() => IEnumerableTExtensions.Max(null, DynamicComparer.FromDelegate<Dummy>((x, y) => 0)), out ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_this");
 
             Test.If.Action.ThrowsException(() => notEmpty.Max(null as IComparer<Dummy>), out ex1);

@@ -57,7 +57,7 @@ namespace Nuclear.Extensions {
             Boolean result = false;
             Int32 hash = 0;
 
-            Test.If.Action.ThrowsException(() => comp = DynamicEqualityComparer.FromComparer<Dummy>(null as IEqualityComparer), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => comp = DynamicEqualityComparer.FromComparer<Dummy>(null), out ArgumentNullException ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "comparer");
 
             Test.IfNot.Action.ThrowsException(() => comp = DynamicEqualityComparer.FromComparer<Dummy>(DynamicEqualityComparer.FromDelegate((x, y) => true, (obj) => 42)), out Exception ex2);

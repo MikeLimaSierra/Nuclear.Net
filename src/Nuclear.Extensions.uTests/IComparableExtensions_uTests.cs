@@ -10,7 +10,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void IsEqualThrows() {
 
-            Test.If.Action.ThrowsException(() => IComparableExtensions.IsEqual((null as DummyIComparable), 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IComparableExtensions.IsEqual(null, 0), out ArgumentNullException ex1);
 
         }
 
@@ -40,7 +40,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void LessThanThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsLessThan(0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IComparableExtensions.IsLessThan(null, 0), out ArgumentNullException ex1);
 
         }
 
@@ -71,7 +71,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void LessThanOrEqualsThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsLessThanOrEqual(0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IComparableExtensions.IsLessThanOrEqual(null, 0), out ArgumentNullException ex1);
 
         }
 
@@ -102,7 +102,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void GreaterThanThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsGreaterThan(0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IComparableExtensions.IsGreaterThan(null, 0), out ArgumentNullException ex1);
 
         }
 
@@ -133,7 +133,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void GreaterThanOrEqualsThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsGreaterThanOrEqual(0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IComparableExtensions.IsGreaterThanOrEqual(null, 0), out ArgumentNullException ex1);
 
         }
 
@@ -164,7 +164,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void IsClampedThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsClamped(0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IComparableExtensions.IsClamped(null, 0, 0), out ArgumentNullException ex1);
 
         }
 
@@ -202,7 +202,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void IsClampedExclusiveThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).IsClampedExclusive(0, 0), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => IComparableExtensions.IsClampedExclusive(null, 0, 0), out ArgumentNullException ex1);
 
         }
 
@@ -240,7 +240,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void ClampThrows() {
 
-            Test.If.Action.ThrowsException(() => (null as DummyIComparable).Clamp(0, 0), out ArgumentNullException ex);
+            Test.If.Action.ThrowsException(() => IComparableExtensions.Clamp<DummyIComparable>(null, 0, 0), out ArgumentNullException ex);
 
         }
 

@@ -24,7 +24,7 @@ namespace Nuclear.Extensions {
             IComparer<Dummy> comp = null;
             Int32 result = 0;
 
-            Test.If.Action.ThrowsException(() => comp = DynamicComparer.FromDelegate(null as Comparison<Dummy>), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => comp = DynamicComparer.FromDelegate<Dummy>(null), out ArgumentNullException ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "compare");
 
             Test.IfNot.Action.ThrowsException(() => comp = DynamicComparer.FromDelegate<Dummy>((x, y) => 42), out Exception ex2);
@@ -40,7 +40,7 @@ namespace Nuclear.Extensions {
             IComparer<Dummy> comp = null;
             Int32 result = 0;
 
-            Test.If.Action.ThrowsException(() => comp = DynamicComparer.FromComparer<Dummy>(null as IComparer), out ArgumentNullException ex1);
+            Test.If.Action.ThrowsException(() => comp = DynamicComparer.FromComparer<Dummy>(null), out ArgumentNullException ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "comparer");
 
             Test.IfNot.Action.ThrowsException(() => comp = DynamicComparer.FromComparer<Dummy>(DynamicComparer.FromDelegate((x, y) => 42)), out Exception ex2);

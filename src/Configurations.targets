@@ -4,7 +4,7 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <OutputPath>..\bin\$(RootNamespace)\$(Platform)\$(Configuration)\</OutputPath>
+        <OutputPath>..\..\bin\$(RootNamespace)\$(Platform)\$(Configuration)\</OutputPath>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PlatformTarget>$(Platform)</PlatformTarget>
         <ErrorReport>prompt</ErrorReport>

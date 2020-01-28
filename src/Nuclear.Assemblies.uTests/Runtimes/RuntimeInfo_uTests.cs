@@ -6,15 +6,6 @@ using Nuclear.TestSite;
 namespace Nuclear.Assemblies.Runtimes {
     class RuntimeInfo_uTests {
 
-        #region statics
-
-        static readonly RuntimeInfo _net_framework_4 = new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0));
-        static readonly RuntimeInfo _net_framework_403 = new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0, 3));
-        static readonly RuntimeInfo _net_framework_45 = new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5));
-        static readonly RuntimeInfo _net_framework_451 = new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1));
-
-        #endregion
-
         #region ctors
 
         [TestMethod]
@@ -45,6 +36,34 @@ namespace Nuclear.Assemblies.Runtimes {
         }
 
         #endregion
+
+        #region Equals
+
+        [TestMethod]
+        void Equals() {
+
+            TTDEquals((new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0))), true);
+            TTDEquals((new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1))), false);
+            TTDEquals((new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0))), false);
+            TTDEquals((new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 0))), false);
+
+        }
+
+        void TTDEquals((RuntimeInfo left, RuntimeInfo right) input, Boolean expected,
+            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+
+            Boolean result = false;
+
+            Test.Note($"{input.left.Format()}.Equals({input.right.Format()}) == {expected.Format()}");
+
+            Test.IfNot.Action.ThrowsException(() => result = input.left.Equals(input.right), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
+
+        }
+
+        #endregion
+
+        #region TryParse
 
         [TestMethod]
         void TryParse() {
@@ -110,6 +129,34 @@ namespace Nuclear.Assemblies.Runtimes {
             }
 
         }
+
+        #endregion
+
+        #region ToString
+
+        [TestMethod]
+        new void ToString() {
+
+            TTDToString(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 0)), "NETFramework 1.0");
+            TTDToString(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), "NETCoreApp 2.1");
+            TTDToString(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(3, 2)), "NETStandard 3.2");
+            TTDToString(new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(4, 3)), "Unsupported 4.3");
+
+        }
+
+        void TTDToString(RuntimeInfo input, String expected,
+            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+
+            String result = null;
+
+            Test.Note($"RuntimeInfo({input.Framework.Format()}, {input.Version.Format()}).ToString() == {expected.Format()}", _file, _method);
+
+            Test.IfNot.Action.ThrowsException(() => result = input.ToString(), out Exception ex, _file, _method);
+            Test.If.Value.IsEqual(result, expected, _file, _method);
+
+        }
+
+        #endregion
 
     }
 }

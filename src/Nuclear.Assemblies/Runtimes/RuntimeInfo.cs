@@ -5,7 +5,7 @@ using Nuclear.Exceptions;
 using Nuclear.Extensions;
 
 namespace Nuclear.Assemblies.Runtimes {
-    internal class RuntimeInfo {
+    internal class RuntimeInfo : IEquatable<RuntimeInfo> {
 
         #region properties
 
@@ -28,6 +28,24 @@ namespace Nuclear.Assemblies.Runtimes {
         #endregion
 
         #region public methods
+
+        public override Boolean Equals(Object obj) {
+            if(obj != null && obj is RuntimeInfo other) {
+                return Equals(other);
+            }
+
+            return false;
+        }
+
+        public Boolean Equals(RuntimeInfo other) {
+            if(other == null) { return false; }
+
+            return Framework == other.Framework && Version == other.Version;
+        }
+
+        public override Int32 GetHashCode() => Framework.GetHashCode() + Version.GetHashCode();
+
+        public override String ToString() => $"{Framework} {Version}";
 
         public static Boolean TryParse(String fullName, out RuntimeInfo runtimeInfo) {
             runtimeInfo = null;

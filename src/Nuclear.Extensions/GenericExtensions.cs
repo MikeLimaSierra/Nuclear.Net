@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Text;
 
 namespace Nuclear.Extensions {
 
@@ -35,15 +34,9 @@ namespace Nuclear.Extensions {
             if(_this is String @string) { return String.Format(CultureInfo.InvariantCulture, "'{0}'", @string); }
 
             if(_this is IEnumerable enumerable) {
-                Boolean first = true;
-                StringBuilder sb = new StringBuilder("[");
-
-                foreach(Object element in enumerable) {
-                    sb.AppendFormat(CultureInfo.InvariantCulture, first ? "{0}" : ", {0}", element.Format());
-                    first = false;
-                }
-
-                return sb.Append("]").ToString();
+                List<String> elements = new List<String>();
+                enumerable.ForEach(element => elements.Add(element.Format()));
+                return $"[{String.Join(", ", elements) }]";
             }
 
             return String.Format(CultureInfo.InvariantCulture, "'{0}'", _this);

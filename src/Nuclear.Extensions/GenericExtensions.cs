@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 
 namespace Nuclear.Extensions {
 
@@ -29,17 +30,19 @@ namespace Nuclear.Extensions {
         public static String Format<T>(this T _this) {
             if(_this == null) { return "'null'"; }
 
-            if(_this is Type type) { return String.Format(CultureInfo.InvariantCulture, "'{0}'", type.FullName); }
-
             if(_this is String @string) { return String.Format(CultureInfo.InvariantCulture, "'{0}'", @string); }
 
-            if(_this is IEnumerable enumerable) {
-                List<String> elements = new List<String>();
-                enumerable.ForEach(element => elements.Add(element.Format()));
-                return $"[{String.Join(", ", elements) }]";
+            if(_this is Type type) { return String.Format(CultureInfo.InvariantCulture, "'{0}'", type.FullName); }
+
+            if(_this is IDictionary dictionary) {
+                return $"[{String.Join(", ", dictionary.Keys.Cast<Object>().Select(key => $"[{key.Format()}, {dictionary[key].Format()}]"))}]";
             }
 
-            return String.Format(CultureInfo.InvariantCulture, "'{0}'", _this);
+            if(_this is IEnumerable enumerable) {
+                return $"[{String.Join(", ", enumerable.Cast<Object>().Select(element => element.Format()))}]";
+            }
+
+            return _this.ToString().Format();
         }
 
         /// <summary>

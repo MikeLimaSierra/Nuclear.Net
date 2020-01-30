@@ -28,21 +28,24 @@ namespace Nuclear.Extensions {
         /// </example>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static String Format<T>(this T _this) {
-            if(_this == null) { return "'null'"; }
 
-            if(_this is String @string) { return String.Format(CultureInfo.InvariantCulture, "'{0}'", @string); }
+            if(_this == null) { return Format("null"); }
 
-            if(_this is Type type) { return String.Format(CultureInfo.InvariantCulture, "'{0}'", type.FullName); }
+            if(_this is String @string) { return $"'{@string}'"; }
 
-            if(_this is IDictionary dictionary) {
-                return $"[{String.Join(", ", dictionary.Keys.Cast<Object>().Select(key => $"[{key.Format()}, {dictionary[key].Format()}]"))}]";
+            if(_this is Type type) { return Format(type.ResolveFriendlyName()); }
+
+            if(_this is DictionaryEntry dictEntry) { return $"[{Format(dictEntry.Key)}] => {Format(dictEntry.Value)}"; }
+
+            if(_this.GetType().FullName.StartsWith("System.Collections.Generic.KeyValuePair`")) {
+                dynamic kvp = _this;
+                return $"[{Format(kvp.Key)}] => {Format(kvp.Value)}";
             }
 
-            if(_this is IEnumerable enumerable) {
-                return $"[{String.Join(", ", enumerable.Cast<Object>().Select(element => element.Format()))}]";
-            }
+            if(_this is IEnumerable enumerable) { return $"[{String.Join(", ", enumerable.Cast<Object>().Select(element => element.Format()))}]"; }
 
-            return _this.ToString().Format();
+            return Format(String.Format(CultureInfo.InvariantCulture, "{0}", _this));
+
         }
 
         /// <summary>

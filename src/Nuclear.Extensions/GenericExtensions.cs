@@ -33,6 +33,8 @@ namespace Nuclear.Extensions {
 
             if(_this is String @string) { return $"'{@string}'"; }
 
+            if(_this is Byte b) { return Format(b.ToString("X2")); }
+
             if(_this is Type type) { return Format(type.ResolveFriendlyName()); }
 
             if(_this is DictionaryEntry dictEntry) { return $"[{Format(dictEntry.Key)}] => {Format(dictEntry.Value)}"; }
@@ -42,7 +44,26 @@ namespace Nuclear.Extensions {
                 return $"[{Format(kvp.Key)}] => {Format(kvp.Value)}";
             }
 
-            if(_this is IEnumerable enumerable) { return $"[{String.Join(", ", enumerable.Cast<Object>().Select(element => element.Format()))}]"; }
+            if(_this.GetType().FullName.StartsWith("System.Tuple`") || _this.GetType().FullName.StartsWith("System.ValueTuple`")) {
+                List<String> items = new List<String>();
+                dynamic tuple = _this;
+
+                try {
+                    items.Add(Format(tuple.Item1));
+                    items.Add(Format(tuple.Item2));
+                    items.Add(Format(tuple.Item3));
+                    items.Add(Format(tuple.Item4));
+                    items.Add(Format(tuple.Item5));
+                    items.Add(Format(tuple.Item6));
+                    items.Add(Format(tuple.Item7));
+                    items.Add(Format(tuple.Item8));
+
+                } catch { /* They should have included ITuple in netstandard1.0 so it's their bloody fault and they fix it! */ }
+
+                return $"({String.Join(", ", items)})";
+            }
+
+            if(_this is IEnumerable enumerable) { return $"[{String.Join(", ", enumerable.Cast<Object>().Select(element => Format(element)))}]"; }
 
             return Format(String.Format(CultureInfo.InvariantCulture, "{0}", _this));
 

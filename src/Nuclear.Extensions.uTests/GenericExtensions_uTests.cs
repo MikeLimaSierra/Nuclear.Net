@@ -19,7 +19,10 @@ namespace Nuclear.Extensions {
             DDTFormat(typeof(Int32), "'System.Int32'");
             DDTFormat(Enumerable.Empty<Int32>(), "[]");
             DDTFormat(new List<Int32>() { 1, 2, 3 }, "['1', '2', '3']");
-            DDTFormat(new Dictionary<Int32, String>() { { 1, "A" }, { 2, "B" }, { 3, "C" } }, "[['1', 'A'], ['2', 'B'], ['3', 'C']]");
+            DDTFormat(new Dictionary<Int32, String>() { { 1, "A" }, { 2, "B" }, { 3, "C" } },
+                "[['1'] => 'A', ['2'] => 'B', ['3'] => 'C']");
+            DDTFormat(new Dictionary<(Int32, Byte), String>() { { (1, 1), "A" }, { (2, 16), "B" }, { (3, 42), "C" } },
+                "[[('1', '0x01')] => 'A', [('2', '0x0A')] => 'B', [('3', '0x2A')] => 'C']");
 
         }
 

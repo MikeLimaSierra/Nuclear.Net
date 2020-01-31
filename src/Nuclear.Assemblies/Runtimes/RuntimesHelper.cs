@@ -49,6 +49,12 @@ namespace Nuclear.Assemblies.Runtimes {
 
         #region methods
 
+        /// <summary>
+        /// Tries to get the implemented <see cref="Version"/> of .NETStandard that is implemented in <paramref name="runtime"/>.
+        /// </summary>
+        /// <param name="runtime">The runtime to check.</param>
+        /// <param name="netStandardVersion">The <see cref="Version"/> of .NETStandard or null if not implemented.</param>
+        /// <returns>True if <paramref name="runtime"/> implements a <see cref="Version"/> of .NETStandard, False if not.</returns>
         internal static Boolean TryGetStandardVersion(RuntimeInfo runtime, out Version netStandardVersion) {
             netStandardVersion = null;
 
@@ -59,7 +65,13 @@ namespace Nuclear.Assemblies.Runtimes {
             return netStandardVersion != null;
         }
 
-        internal static Boolean TryGetSupportedRuntimes(RuntimeInfo runtime, out IEnumerable<RuntimeInfo> runtimes) {
+        /// <summary>
+        /// Tries to get all matching runtimes that can load an assembly targeting <paramref name="runtime"/>.
+        /// </summary>
+        /// <param name="runtime">The runtime to check.</param>
+        /// <param name="runtimes">A collection of matching runtimes.</param>
+        /// <returns>True if any matching runtimes were found.</returns>
+        internal static Boolean TryGetMatchingRuntimes(RuntimeInfo runtime, out IEnumerable<RuntimeInfo> runtimes) {
             List<RuntimeInfo> _runtimes = new List<RuntimeInfo>();
 
             if(runtime != null) {
@@ -79,10 +91,16 @@ namespace Nuclear.Assemblies.Runtimes {
             return runtimes.Count() > 0;
         }
 
-        internal static Boolean TryGetMinimumSupportedRuntimes(RuntimeInfo runtime, out IDictionary<FrameworkIdentifiers, Version> runtimes) {
+        /// <summary>
+        /// Tries to get the minimum matching runtime of all supported frameworks that can load an assembly targeting <paramref name="runtime"/>.
+        /// </summary>
+        /// <param name="runtime">The runtime to check.</param>
+        /// <param name="runtimes">A collection of matching runtimes.</param>
+        /// <returns>True if any matching runtimes were found.</returns>
+        internal static Boolean TryGetMinimumMatchingRuntimes(RuntimeInfo runtime, out IDictionary<FrameworkIdentifiers, Version> runtimes) {
             runtimes = new Dictionary<FrameworkIdentifiers, Version>();
 
-            if(TryGetSupportedRuntimes(runtime, out IEnumerable<RuntimeInfo> supportedRuntimes)) {
+            if(TryGetMatchingRuntimes(runtime, out IEnumerable<RuntimeInfo> supportedRuntimes)) {
                 foreach(FrameworkIdentifiers tfm in supportedRuntimes.Select(_runtime => _runtime.Framework).Distinct()) {
                     IEnumerable<Version> versions = supportedRuntimes.Where(__runtime => __runtime.Framework == tfm).Select(__runtime => __runtime.Version);
 
@@ -93,6 +111,16 @@ namespace Nuclear.Assemblies.Runtimes {
             }
 
             return runtimes.Count() > 0;
+        }
+
+        /// <summary>
+        /// Tries to get all supported runtimes that can be loaded by an assembly targeting <paramref name="runtime"/>.
+        /// </summary>
+        /// <param name="runtime">The runtime to check.</param>
+        /// <param name="runtimes">A collection of matching runtimes.</param>
+        /// <returns>True if any matching runtimes were found.</returns>
+        internal static Boolean TryGetSupportedRuntimes(RuntimeInfo runtime, out IEnumerable<RuntimeInfo> runtimes) {
+            throw new NotImplementedException();
         }
 
         #endregion

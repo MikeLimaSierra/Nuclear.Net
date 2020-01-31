@@ -132,12 +132,12 @@ namespace Nuclear.Assemblies.Runtimes {
         #region TryGetSupportedRuntimes
 
         [TestMethod]
-        void TryGetSupportedRuntimes() {
+        void TryGetMatchingRuntimes() {
 
-            TTDTryGetSupportedRuntimes(null, (false, Enumerable.Empty<RuntimeInfo>()));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), (false, Enumerable.Empty<RuntimeInfo>()));
+            TTDTryGetMatchingRuntimes(null, (false, Enumerable.Empty<RuntimeInfo>()));
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), (false, Enumerable.Empty<RuntimeInfo>()));
 
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
@@ -145,33 +145,33 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
 
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)),
@@ -187,7 +187,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
@@ -202,7 +202,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
@@ -216,7 +216,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
@@ -229,7 +229,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
@@ -241,7 +241,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
@@ -252,7 +252,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
@@ -262,7 +262,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
@@ -271,7 +271,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
@@ -279,33 +279,33 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
             }));
 
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
@@ -323,7 +323,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
@@ -341,7 +341,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
@@ -358,7 +358,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
@@ -373,7 +373,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
@@ -387,7 +387,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
@@ -401,7 +401,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
@@ -415,7 +415,7 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
@@ -427,21 +427,21 @@ namespace Nuclear.Assemblies.Runtimes {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
-            TTDTryGetSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), (true, new List<RuntimeInfo>() {
+            TTDTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), (true, new List<RuntimeInfo>() {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
             }));
 
         }
 
-        void TTDTryGetSupportedRuntimes(RuntimeInfo input, (Boolean result, IEnumerable<RuntimeInfo> runtimes) expected,
+        void TTDTryGetMatchingRuntimes(RuntimeInfo input, (Boolean result, IEnumerable<RuntimeInfo> runtimes) expected,
             [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
 
             Boolean result = false;
             IEnumerable<RuntimeInfo> runtimes = null;
 
-            Test.Note($"RuntimesHelper.TryGetSupportedRuntimes({input.Format()}, out {expected.runtimes.Format()}) == {expected.result.Format()}", _file, _method);
+            Test.Note($"RuntimesHelper.TryGetMatchingRuntimes({input.Format()}, out {expected.runtimes.Format()}) == {expected.result.Format()}", _file, _method);
 
-            Test.IfNot.Action.ThrowsException(() => result = RuntimesHelper.TryGetSupportedRuntimes(input, out runtimes), out Exception ex, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = RuntimesHelper.TryGetMatchingRuntimes(input, out runtimes), out Exception ex, _file, _method);
             Test.If.Value.IsEqual(result, expected.result, _file, _method);
             Test.If.Enumerable.Matches(runtimes, expected.runtimes, _file, _method);
 
@@ -452,65 +452,65 @@ namespace Nuclear.Assemblies.Runtimes {
         #region TryGetMinimumSupportedRuntimes
 
         [TestMethod]
-        void TryGetMinimumSupportedRuntimes() {
+        void TryGetMinimumMatchingRuntimes() {
 
-            TTDTryGetMinimumSupportedRuntimes(null, (false, new Dictionary<FrameworkIdentifiers, Version>()));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), (false, new Dictionary<FrameworkIdentifiers, Version>()));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 0)), (false, new Dictionary<FrameworkIdentifiers, Version>()));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 2)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(1, 1) } }));
+            TTDTryGetMinimumMatchingRuntimes(null, (false, new Dictionary<FrameworkIdentifiers, Version>()));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), (false, new Dictionary<FrameworkIdentifiers, Version>()));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 0)), (false, new Dictionary<FrameworkIdentifiers, Version>()));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 2)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(1, 1) } }));
 
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(1, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(1, 1) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(2, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(2, 1) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(2, 2) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(3, 0) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(1, 0) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(1, 1) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(2, 0) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(2, 1) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(2, 2) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(3, 0) } }));
 
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(1, 1) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(2, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(3, 5) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 5) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 5, 1) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 5, 2) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6, 1) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6, 2) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 7) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 7, 1) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 7, 2) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 8) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(1, 1) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(2, 0) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(3, 5) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 0) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 5) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 5, 1) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 5, 2) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6, 1) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6, 2) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 7) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 7, 1) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 7, 2) } }));
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 8) } }));
 
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
                 (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 5) }, { FrameworkIdentifiers.NETCoreApp, new Version(1, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
                 (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 5) }, { FrameworkIdentifiers.NETCoreApp, new Version(1, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
                 (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 5, 1) }, { FrameworkIdentifiers.NETCoreApp, new Version(1, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
                 (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6) }, { FrameworkIdentifiers.NETCoreApp, new Version(1, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
                 (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6, 1) }, { FrameworkIdentifiers.NETCoreApp, new Version(1, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
                 (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6, 1) }, { FrameworkIdentifiers.NETCoreApp, new Version(1, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
                 (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6, 1) }, { FrameworkIdentifiers.NETCoreApp, new Version(1, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)),
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)),
                 (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETFramework, new Version(4, 6, 1) }, { FrameworkIdentifiers.NETCoreApp, new Version(2, 0) } }));
-            TTDTryGetMinimumSupportedRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)),
+            TTDTryGetMinimumMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)),
                 (true, new Dictionary<FrameworkIdentifiers, Version>() { { FrameworkIdentifiers.NETCoreApp, new Version(3, 0) } }));
 
         }
 
-        void TTDTryGetMinimumSupportedRuntimes(RuntimeInfo input, (Boolean result, IDictionary<FrameworkIdentifiers, Version> runtimes) expected,
+        void TTDTryGetMinimumMatchingRuntimes(RuntimeInfo input, (Boolean result, IDictionary<FrameworkIdentifiers, Version> runtimes) expected,
             [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
 
             Boolean result = false;
             IDictionary<FrameworkIdentifiers, Version> runtimes = null;
 
-            Test.Note($"RuntimesHelper.TryGetMinimumSupportedRuntimes({input.Format()}, out {expected.runtimes.Format()}) == {expected.result.Format()}", _file, _method);
+            Test.Note($"RuntimesHelper.TryGetMinimumMatchingRuntimes({input.Format()}, out {expected.runtimes.Format()}) == {expected.result.Format()}", _file, _method);
 
-            Test.IfNot.Action.ThrowsException(() => result = RuntimesHelper.TryGetMinimumSupportedRuntimes(input, out runtimes), out Exception ex, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = RuntimesHelper.TryGetMinimumMatchingRuntimes(input, out runtimes), out Exception ex, _file, _method);
             Test.If.Value.IsEqual(result, expected.result, _file, _method);
             Test.If.Enumerable.Matches(runtimes, expected.runtimes, _file, _method);
 

@@ -18,5 +18,9 @@
   <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
     <ProjectReference Include="..\Nuclear.Exceptions\Nuclear.Exceptions.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+  </ItemGroup>
 
 </Project>

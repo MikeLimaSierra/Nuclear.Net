@@ -1,23 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Nuclear.Exceptions;
-using Nuclear.Extensions;
 
 namespace Nuclear.Assemblies.Runtimes {
-    internal class RuntimeInfo : IEquatable<RuntimeInfo> {
+
+    /// <summary>
+    /// Represents target framework data of a runtime or library.
+    /// </summary>
+    public class RuntimeInfo : IEquatable<RuntimeInfo> {
 
         #region properties
 
+        /// <summary>
+        /// Gets the targeted framework of the runtime.
+        /// </summary>
         public FrameworkIdentifiers Framework { get; }
 
+        /// <summary>
+        /// Gets the framework version of the runtime.
+        /// </summary>
         public Version Version { get; }
 
         #endregion
 
         #region ctors
 
-        internal RuntimeInfo(FrameworkIdentifiers framework, Version version) {
+        /// <summary>
+        /// Creates a new instance of <see cref="RuntimeInfo"/>.
+        /// </summary>
+        /// <param name="framework">The targeted framework.</param>
+        /// <param name="version">The framework version.</param>
+        public RuntimeInfo(FrameworkIdentifiers framework, Version version) {
             Throw.If.Value.IsFalse(Enum.IsDefined(typeof(FrameworkIdentifiers), framework), nameof(framework));
             Throw.If.Object.IsNull(version, nameof(version));
 
@@ -29,6 +41,11 @@ namespace Nuclear.Assemblies.Runtimes {
 
         #region public methods
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
         public override Boolean Equals(Object obj) {
             if(obj != null && obj is RuntimeInfo other) {
                 return Equals(other);
@@ -37,72 +54,28 @@ namespace Nuclear.Assemblies.Runtimes {
             return false;
         }
 
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>true if the current object is equal to the other parameter; otherwise, false.</returns>
         public Boolean Equals(RuntimeInfo other) {
             if(other == null) { return false; }
 
             return Framework == other.Framework && Version == other.Version;
         }
 
+        /// <summary>
+        /// Gets a hash value of the current object.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
         public override Int32 GetHashCode() => Framework.GetHashCode() + Version.GetHashCode();
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>A string that represents the current object.</returns>
         public override String ToString() => $"{Framework} {Version}";
-
-        public static Boolean TryParse(String fullName, out RuntimeInfo runtimeInfo) {
-            runtimeInfo = null;
-
-            ParseParts(fullName, out FrameworkIdentifiers framework, out Version version);
-
-            try {
-                runtimeInfo = new RuntimeInfo(framework, version);
-
-            } catch { /* Don't worry about exceptions here */ }
-
-            return runtimeInfo != null && runtimeInfo.Framework != FrameworkIdentifiers.Unsupported;
-        }
-
-        #endregion
-
-        #region static methods
-
-        internal static void ParseParts(String fullName, out FrameworkIdentifiers framework, out Version version) {
-            framework = FrameworkIdentifiers.Unsupported;
-            version = null;
-
-            List<String> parts = fullName.Split(new Char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            if(TryGetPart(ref parts, part => part.Trim().StartsWith("Version=v"), out String versionPart)) {
-                String tmp = versionPart.Trim().TrimStartOnce("Version=v");
-
-                try {
-                    version = new Version(tmp);
-
-                } catch { /* Don't worry about exceptions here */ }
-            }
-
-            if(TryGetPart(ref parts, part => {
-                try {
-                    Enum.Parse(typeof(FrameworkIdentifiers), part.Trim().TrimStartOnce('.'), true);
-                    return true;
-
-                } catch {
-                    return false;
-                }
-            }, out String frameworkPart)) {
-                framework = (FrameworkIdentifiers) Enum.Parse(typeof(FrameworkIdentifiers), frameworkPart.Trim().TrimStartOnce('.'), true);
-
-            }
-        }
-
-        internal static Boolean TryGetPart(ref List<String> parts, Predicate<String> match, out String part) {
-            part = null;
-
-            if(parts.Exists(match)) {
-                part = parts.Find(match).Trim();
-                parts.Remove(part);
-            }
-
-            return part != null;
-        }
 
         #endregion
 

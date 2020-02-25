@@ -27,14 +27,14 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Boolean IsEqual<T>(this IComparer<T> _this, T x, T y) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) == 0;
         }
 
         #endregion
 
-        #region Less
+        #region IsLess
 
         /// <summary>
         /// Checks if <paramref name="x"/> is considered less than <paramref name="y"/>.
@@ -50,8 +50,8 @@ namespace Nuclear.Extensions {
         /// Boolean result = new MyComparer().LessThan(value1, value2);
         /// </code>
         /// </example>
-        public static Boolean LessThan<T>(this IComparer<T> _this, T x, T y) {
-            Throw.If.Null(_this, "_this");
+        public static Boolean IsLessThan<T>(this IComparer<T> _this, T x, T y) {
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) < 0;
         }
@@ -70,15 +70,15 @@ namespace Nuclear.Extensions {
         /// Boolean result = new MyComparer().LessThanOrEquals(value1, value2);
         /// </code>
         /// </example>
-        public static Boolean LessThanOrEquals<T>(this IComparer<T> _this, T x, T y) {
-            Throw.If.Null(_this, "_this");
+        public static Boolean IsLessThanOrEqual<T>(this IComparer<T> _this, T x, T y) {
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) <= 0;
         }
 
         #endregion
 
-        #region Greater
+        #region IsGreater
 
         /// <summary>
         /// Checks if <paramref name="x"/> is considered greater than <paramref name="y"/>.
@@ -94,8 +94,8 @@ namespace Nuclear.Extensions {
         /// Boolean result = new MyComparer().GreaterThan(value1, value2);
         /// </code>
         /// </example>
-        public static Boolean GreaterThan<T>(this IComparer<T> _this, T x, T y) {
-            Throw.If.Null(_this, "_this");
+        public static Boolean IsGreaterThan<T>(this IComparer<T> _this, T x, T y) {
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) > 0;
         }
@@ -114,8 +114,8 @@ namespace Nuclear.Extensions {
         /// Boolean result = new MyComparer().GreaterThanOrEquals(value1, value2);
         /// </code>
         /// </example>
-        public static Boolean GreaterThanOrEquals<T>(this IComparer<T> _this, T x, T y) {
-            Throw.If.Null(_this, "_this");
+        public static Boolean IsGreaterThanOrEqual<T>(this IComparer<T> _this, T x, T y) {
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
             return _this.Compare(x, y) >= 0;
         }
@@ -140,17 +140,17 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Boolean IsClamped<T>(this IComparer<T> _this, T value, T min, T max) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.Null(value, "value");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Object.IsNull(value, nameof(value));
 
-            if(min != null && max != null && _this.GreaterThan(min, max)) {
+            if(min != null && max != null && _this.IsGreaterThan(min, max)) {
                 return _this.IsClamped(value, max, min);
             }
 
             Boolean result = true;
 
-            result &= min == null || _this.GreaterThanOrEquals(value, min);
-            result &= max == null || _this.LessThanOrEquals(value, max);
+            result &= min == null || _this.IsGreaterThanOrEqual(value, min);
+            result &= max == null || _this.IsLessThanOrEqual(value, max);
 
             return result;
         }
@@ -171,17 +171,17 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static Boolean IsClampedExclusive<T>(this IComparer<T> _this, T value, T min, T max) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.Null(value, "value");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Object.IsNull(value, nameof(value));
 
-            if(min != null && max != null && _this.GreaterThan(min, max)) {
+            if(min != null && max != null && _this.IsGreaterThan(min, max)) {
                 return _this.IsClampedExclusive(value, max, min);
             }
 
             Boolean result = true;
 
-            result &= min == null || _this.GreaterThan(value, min);
-            result &= max == null || _this.LessThan(value, max);
+            result &= min == null || _this.IsGreaterThan(value, min);
+            result &= max == null || _this.IsLessThan(value, max);
 
             return result;
         }
@@ -206,10 +206,10 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Clamp<T>(this IComparer<T> _this, T value, T min, T max) {
-            Throw.If.Null(_this, "_this");
-            Throw.If.Null(value, "value");
+            Throw.If.Object.IsNull(_this, nameof(_this));
+            Throw.If.Object.IsNull(value, nameof(value));
 
-            if(min != null && max != null && _this.GreaterThan(min, max)) {
+            if(min != null && max != null && _this.IsGreaterThan(min, max)) {
                 return _this.Clamp(value, max, min);
             }
 
@@ -241,9 +241,9 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Min<T>(this IComparer<T> _this, T x, T y) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
-            return _this.LessThan(x, y) ? x : y;
+            return _this.IsLessThan(x, y) ? x : y;
         }
 
         #endregion
@@ -265,9 +265,9 @@ namespace Nuclear.Extensions {
         /// </code>
         /// </example>
         public static T Max<T>(this IComparer<T> _this, T x, T y) {
-            Throw.If.Null(_this, "_this");
+            Throw.If.Object.IsNull(_this, nameof(_this));
 
-            return _this.GreaterThan(x, y) ? x : y;
+            return _this.IsGreaterThan(x, y) ? x : y;
         }
 
         #endregion

@@ -5,11 +5,17 @@
     <RootNamespace>Nuclear.Properties</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Platforms>AnyCPU;x86;x64</Platforms>
+    <Configurations>Release;Integration;Debug</Configurations>
+    <Version>2.0.0</Version>
   </PropertyGroup>
   
   <Import Project="..\Configurations.targets" />
   
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Nuclear.Extensions" Version="2.0.0" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
     <ProjectReference Include="..\Nuclear.Extensions\Nuclear.Extensions.csproj" />
   </ItemGroup>
 

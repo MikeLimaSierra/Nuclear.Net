@@ -106,7 +106,7 @@ namespace Nuclear.Properties.ClampedProperties {
         /// <param name="maximum">The upper border of the range.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is null.</exception>
         public ClampedProperty(TValue value, TValue minimum, TValue maximum) {
-            Throw.If.Null(value, "value");
+            Throw.If.Object.IsNull(value, nameof(value));
 
             if(minimum != null && maximum != null && minimum.CompareTo(maximum) > 0) {
                 _minimum = maximum;

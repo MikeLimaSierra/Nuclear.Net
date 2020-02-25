@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Text;
+using System.Linq;
 
 namespace Nuclear.Extensions {
 
@@ -28,25 +28,45 @@ namespace Nuclear.Extensions {
         /// </example>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static String Format<T>(this T _this) {
-            if(_this == null) { return "'null'"; }
 
-            if(_this is Type type) { return String.Format(CultureInfo.InvariantCulture, "'{0}'", type.FullName); }
+            if(_this == null) { return Format("null"); }
 
-            if(_this is String @string) { return String.Format(CultureInfo.InvariantCulture, "'{0}'", @string); }
+            if(_this is String @string) { return $"'{@string}'"; }
 
-            if(_this is IEnumerable enumerable) {
-                Boolean first = true;
-                StringBuilder sb = new StringBuilder("[");
+            if(_this is Byte b) { return Format($"0x{b.ToString("X2")}"); }
 
-                foreach(Object element in enumerable) {
-                    sb.AppendFormat(CultureInfo.InvariantCulture, first ? "{0}" : ", {0}", element.Format());
-                    first = false;
-                }
+            if(_this is Type type) { return Format(type.ResolveFriendlyName()); }
 
-                return sb.Append("]").ToString();
+            if(_this is DictionaryEntry dictEntry) { return $"[{Format(dictEntry.Key)}] => {Format(dictEntry.Value)}"; }
+
+            if(_this.GetType().FullName.StartsWith("System.Collections.Generic.KeyValuePair`")) {
+                dynamic kvp = _this;
+                return $"[{Format(kvp.Key)}] => {Format(kvp.Value)}";
             }
 
-            return String.Format(CultureInfo.InvariantCulture, "'{0}'", _this);
+            if(_this.GetType().FullName.StartsWith("System.Tuple`") || _this.GetType().FullName.StartsWith("System.ValueTuple`")) {
+                List<String> items = new List<String>();
+                dynamic tuple = _this;
+
+                try {
+                    items.Add(Format(tuple.Item1));
+                    items.Add(Format(tuple.Item2));
+                    items.Add(Format(tuple.Item3));
+                    items.Add(Format(tuple.Item4));
+                    items.Add(Format(tuple.Item5));
+                    items.Add(Format(tuple.Item6));
+                    items.Add(Format(tuple.Item7));
+                    items.Add(Format(tuple.Item8));
+
+                } catch { /* They should have included ITuple in netstandard1.0 so it's their bloody fault and they fix it! */ }
+
+                return $"({String.Join(", ", items)})";
+            }
+
+            if(_this is IEnumerable enumerable) { return $"[{String.Join(", ", enumerable.Cast<Object>().Select(element => Format(element)))}]"; }
+
+            return Format(String.Format(CultureInfo.InvariantCulture, "{0}", _this));
+
         }
 
         /// <summary>
@@ -65,7 +85,7 @@ namespace Nuclear.Extensions {
 
         #endregion
 
-        #region Equals
+        #region IsEqual
 
         /// <summary>
         /// Determines equality of <paramref name="left"/> and <paramref name="right"/> using the implementations of
@@ -82,10 +102,10 @@ namespace Nuclear.Extensions {
         /// }
         /// </code>
         /// </example>
-        public static Boolean Equals<T>(this T left, T right) {
+        public static Boolean IsEqual<T>(this T left, T right) {
 
             if(left == null) {
-                return right != null ? right.Equals<T>(left) : true;
+                return right != null ? right.IsEqual<T>(left) : true;
             }
 
             if(right == null) {

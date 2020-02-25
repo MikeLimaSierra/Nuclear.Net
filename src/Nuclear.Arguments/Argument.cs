@@ -45,7 +45,7 @@ namespace Nuclear.Arguments {
         /// <param name="_switch">The switch letter of the <see cref="Argument"/>.</param>
         /// <exception cref="ArgumentException">Throws if <paramref name="_switch"/> is not a letter.</exception>
         internal Argument(Char _switch) {
-            Throw.If.False(Char.IsLetter(_switch), "_switch", "Single switches can only be letters.");
+            Throw.If.Value.IsFalse(Char.IsLetter(_switch), nameof(_switch), "Single switches can only be letters.");
 
             SwitchName = _switch.ToString();
         }

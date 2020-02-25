@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
+
 using Nuclear.TestSite;
 
 namespace Nuclear.Extensions {
@@ -12,7 +12,7 @@ namespace Nuclear.Extensions {
 
             String name = null;
 
-            Test.If.Action.ThrowsException(() => name = ((Type) null).ResolveFriendlyName(), out NullReferenceException nREx);
+            Test.If.Action.ThrowsException(() => name = ((Type) null).ResolveFriendlyName(), out ArgumentNullException ex);
 
             TTDResolveFriendlyName<Int64>("System.Int64");
             TTDResolveFriendlyName<Tuple<Int16, Int32, Int64, String>>("System.Tuple<System.Int16, System.Int32, System.Int64, System.String>");

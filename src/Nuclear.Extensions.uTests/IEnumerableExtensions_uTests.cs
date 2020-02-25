@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 using Nuclear.TestSite;
 
 namespace Nuclear.Extensions {
@@ -31,7 +32,7 @@ namespace Nuclear.Extensions {
             IEnumerable enumerable = Enumerable.Range(1, 10);
             Int32 result = 0;
 
-            Test.IfNot.Action.ThrowsException(() => enumerable.ForEach((value) => { result += (Int32) value; }), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => enumerable.ForEach((value) => result += (Int32) value), out Exception ex);
             Test.If.Value.IsEqual(result, 55);
 
         }

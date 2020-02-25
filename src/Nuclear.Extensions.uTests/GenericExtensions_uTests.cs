@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+
 using Nuclear.TestSite;
 
 namespace Nuclear.Extensions {
@@ -15,14 +17,17 @@ namespace Nuclear.Extensions {
             DDTFormat<Object>(null, "'null'");
             DDTFormat("some string", "'some string'");
             DDTFormat(42, "'42'");
+            DDTFormat(0x42, "'66'");
+            DDTFormat((Byte) 0x42, "'0x42'");
             DDTFormat(42.GetType(), "'System.Int32'");
             DDTFormat(typeof(Int32), "'System.Int32'");
             DDTFormat(Enumerable.Empty<Int32>(), "[]");
+            DDTFormat(new DictionaryEntry(42, 'v'), "['42'] => 'v'"); ;
             DDTFormat(new List<Int32>() { 1, 2, 3 }, "['1', '2', '3']");
             DDTFormat(new Dictionary<Int32, String>() { { 1, "A" }, { 2, "B" }, { 3, "C" } },
                 "[['1'] => 'A', ['2'] => 'B', ['3'] => 'C']");
             DDTFormat(new Dictionary<(Int32, Byte), String>() { { (1, 1), "A" }, { (2, 16), "B" }, { (3, 42), "C" } },
-                "[[('1', '0x01')] => 'A', [('2', '0x0A')] => 'B', [('3', '0x2A')] => 'C']");
+                "[[('1', '0x01')] => 'A', [('2', '0x10')] => 'B', [('3', '0x2A')] => 'C']");
 
         }
 
@@ -30,6 +35,8 @@ namespace Nuclear.Extensions {
             [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
 
             String result = null;
+
+            Test.Note($"{@object.Format()}.Format<{typeof(T).Format()}>() == {expected.Format()}", _file, _method);
 
             Test.IfNot.Action.ThrowsException(() => result = @object.Format(), out Exception ex, _file, _method);
             Test.If.Value.IsEqual(result, expected, _file, _method);

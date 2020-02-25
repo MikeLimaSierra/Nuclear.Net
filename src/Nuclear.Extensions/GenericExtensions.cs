@@ -33,7 +33,7 @@ namespace Nuclear.Extensions {
 
             if(_this is String @string) { return $"'{@string}'"; }
 
-            if(_this is Byte b) { return Format(b.ToString("X2")); }
+            if(_this is Byte b) { return Format($"0x{b.ToString("X2")}"); }
 
             if(_this is Type type) { return Format(type.ResolveFriendlyName()); }
 

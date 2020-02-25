@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Nuclear.TestSite;
 
 namespace Nuclear.Arguments {
@@ -12,12 +13,12 @@ namespace Nuclear.Arguments {
             ArgumentCollector argC = null;
 
             Test.Note("new ArgumentCollector()");
-            Test.IfNot.Action.ThrowsException(() => { argC = new ArgumentCollector(); }, out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => argC = new ArgumentCollector(), out Exception ex);
             Test.If.Value.IsEqual(argC.SwitchIndicator, '-');
             Test.If.Value.IsEqual(argC.ValueSeparator, ';');
 
             Test.Note("new ArgumentCollector('_', '$')");
-            Test.IfNot.Action.ThrowsException(() => { argC = new ArgumentCollector('_', '$'); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => argC = new ArgumentCollector('_', '$'), out ex);
             Test.If.Value.IsEqual(argC.SwitchIndicator, '_');
             Test.If.Value.IsEqual(argC.ValueSeparator, '$');
 
@@ -29,7 +30,7 @@ namespace Nuclear.Arguments {
             ArgumentCollector argC = new ArgumentCollector();
 
             Test.Note("-z");
-            Test.IfNot.Action.ThrowsException(() => { argC.Collect(new String[] { "-z" }); }, out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => argC.Collect(new String[] { "-z" }), out Exception ex);
             Test.If.Value.IsEqual(argC.Arguments.Count, 1);
 
             Test.If.Value.IsTrue(argC.Arguments[0].IsSwitch);
@@ -37,7 +38,7 @@ namespace Nuclear.Arguments {
             Test.If.Value.IsFalse(argC.Arguments[0].HasValue);
 
             Test.Note("added_value");
-            Test.IfNot.Action.ThrowsException(() => { argC.Collect(new String[] { "added_value" }); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => argC.Collect(new String[] { "added_value" }), out ex);
             Test.If.Value.IsEqual(argC.Arguments.Count, 1);
 
             Test.If.Value.IsTrue(argC.Arguments[0].IsSwitch);
@@ -46,7 +47,7 @@ namespace Nuclear.Arguments {
             Test.If.Value.IsEqual(argC.Arguments[0].Value, "added_value");
 
             Test.Note("-n, 42");
-            Test.IfNot.Action.ThrowsException(() => { argC.Collect(new String[] { "-n", "42" }); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => argC.Collect(new String[] { "-n", "42" }), out ex);
             Test.If.Value.IsEqual(argC.Arguments.Count, 2);
 
             Test.If.Value.IsTrue(argC.Arguments[1].IsSwitch);
@@ -55,7 +56,7 @@ namespace Nuclear.Arguments {
             Test.If.Value.IsEqual(argC.Arguments[1].Value, "42");
 
             Test.Note("--force");
-            Test.IfNot.Action.ThrowsException(() => { argC.Collect(new String[] { "--force" }); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => argC.Collect(new String[] { "--force" }), out ex);
             Test.If.Value.IsEqual(argC.Arguments.Count, 3);
 
             Test.If.Value.IsTrue(argC.Arguments[2].IsSwitch);
@@ -63,7 +64,7 @@ namespace Nuclear.Arguments {
             Test.If.Value.IsFalse(argC.Arguments[2].HasValue);
 
             Test.Note("added_value2");
-            Test.IfNot.Action.ThrowsException(() => { argC.Collect(new String[] { "added_value2" }); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => argC.Collect(new String[] { "added_value2" }), out ex);
             Test.If.Value.IsEqual(argC.Arguments.Count, 3);
 
             Test.If.Value.IsTrue(argC.Arguments[2].IsSwitch);
@@ -72,7 +73,7 @@ namespace Nuclear.Arguments {
             Test.If.Value.IsEqual(argC.Arguments[2].Value, "added_value2");
 
             Test.Note("--unforce, what_was_forced_before");
-            Test.IfNot.Action.ThrowsException(() => { argC.Collect(new String[] { "--unforce", "what_was_forced_before" }); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => argC.Collect(new String[] { "--unforce", "what_was_forced_before" }), out ex);
             Test.If.Value.IsEqual(argC.Arguments.Count, 4);
 
             Test.If.Value.IsTrue(argC.Arguments[3].IsSwitch);
@@ -81,7 +82,7 @@ namespace Nuclear.Arguments {
             Test.If.Value.IsEqual(argC.Arguments[3].Value, "what_was_forced_before");
 
             Test.Note(@"file:\\some\path");
-            Test.IfNot.Action.ThrowsException(() => { argC.Collect(new String[] { @"file:\\some\path" }); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => argC.Collect(new String[] { @"file:\\some\path" }), out ex);
             Test.If.Value.IsEqual(argC.Arguments.Count, 5);
 
             Test.If.Value.IsFalse(argC.Arguments[4].IsSwitch);
@@ -89,7 +90,7 @@ namespace Nuclear.Arguments {
             Test.If.Value.IsEqual(argC.Arguments[4].Value, @"file:\\some\path");
 
             Test.Note("-wasd");
-            Test.IfNot.Action.ThrowsException(() => { argC.Collect(new String[] { "-wasd" }); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => argC.Collect(new String[] { "-wasd" }), out ex);
             Test.If.Value.IsEqual(argC.Arguments.Count, 9);
 
             Test.If.Value.IsTrue(argC.Arguments[5].IsSwitch);
@@ -115,7 +116,7 @@ namespace Nuclear.Arguments {
 
             ArgumentCollector argC = new ArgumentCollector();
 
-            Test.IfNot.Action.ThrowsException(() => { argC.Collect(new String[] { "-z", "--all", "your_base_are_belong_to_us", "unicorn", "--asdf" }); }, out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => argC.Collect(new String[] { "-z", "--all", "your_base_are_belong_to_us", "unicorn", "--asdf" }), out Exception ex);
             Test.If.Value.IsEqual(argC.Arguments.Count, 4);
 
             Test.Note("z");

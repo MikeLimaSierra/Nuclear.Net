@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Nuclear.TestSite;
 
 namespace Nuclear.Arguments {
@@ -10,7 +11,7 @@ namespace Nuclear.Arguments {
 
             Argument arg = null;
 
-            Test.IfNot.Action.ThrowsException(() => { arg = new Argument(); }, out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => arg = new Argument(), out Exception ex);
             Test.If.Value.IsFalse(arg.IsSwitch);
             Test.If.String.IsNullOrWhiteSpace(arg.SwitchName);
             Test.If.Value.IsFalse(arg.HasValue);
@@ -24,13 +25,13 @@ namespace Nuclear.Arguments {
             Argument arg = null;
 
             Test.Note("new Argument('?');");
-            Test.If.Action.ThrowsException(() => { arg = new Argument('?'); }, out ArgumentException ex1);
+            Test.If.Action.ThrowsException(() => arg = new Argument('?'), out ArgumentException ex1);
             Test.If.Value.IsEqual(ex1.ParamName, "_switch");
             Test.If.String.StartsWith(ex1.Message, "Single switches can only be letters.");
             Test.If.Object.IsNull(arg);
 
             Test.Note("new Argument('f');");
-            Test.IfNot.Action.ThrowsException(() => { arg = new Argument('f'); }, out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => arg = new Argument('f'), out Exception ex);
             Test.If.Value.IsTrue(arg.IsSwitch);
             Test.If.Value.IsEqual(arg.SwitchName, "f");
             Test.If.Value.IsFalse(arg.HasValue);
@@ -44,24 +45,24 @@ namespace Nuclear.Arguments {
             Argument arg = null;
 
             Test.Note("new Argument(\"force\");");
-            Test.IfNot.Action.ThrowsException(() => { arg = new Argument("force"); }, out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => arg = new Argument("force"), out Exception ex);
             Test.If.Value.IsTrue(arg.IsSwitch);
             Test.If.Value.IsEqual(arg.SwitchName, "force");
             Test.If.Value.IsFalse(arg.HasValue);
             Test.If.String.IsNullOrWhiteSpace(arg.Value);
 
             Test.Note("new Argument(String.Empty);");
-            Test.IfNot.Action.ThrowsException(() => { arg = new Argument(String.Empty); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => arg = new Argument(String.Empty), out ex);
             Test.If.Value.IsFalse(arg.IsSwitch);
             Test.If.Value.IsFalse(arg.HasValue);
 
             Test.Note("new Argument(\" \");");
-            Test.IfNot.Action.ThrowsException(() => { arg = new Argument(" "); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => arg = new Argument(" "), out ex);
             Test.If.Value.IsFalse(arg.IsSwitch);
             Test.If.Value.IsFalse(arg.HasValue);
 
             Test.Note("new Argument(null);");
-            Test.IfNot.Action.ThrowsException(() => { arg = new Argument(null); }, out ex);
+            Test.IfNot.Action.ThrowsException(() => arg = new Argument(null), out ex);
             Test.If.Value.IsFalse(arg.IsSwitch);
             Test.If.Value.IsFalse(arg.HasValue);
 

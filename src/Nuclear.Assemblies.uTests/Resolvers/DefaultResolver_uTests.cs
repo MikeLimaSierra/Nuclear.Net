@@ -8,9 +8,11 @@ namespace Nuclear.Assemblies.Resolvers {
         void Implementation() {
 
             Test.If.Type.IsSubClass<DefaultResolver, AssemblyResolver>();
+            Test.If.Type.Implements<DefaultResolver, IDefaultResolver>();
+            Test.If.Type.Implements<IDefaultResolver, IAssemblyResolver>();
 
-            IAssemblyResolver instance1 = null;
-            IAssemblyResolver instance2 = null;
+            IDefaultResolver instance1 = null;
+            IDefaultResolver instance2 = null;
 
             Test.IfNot.Action.ThrowsException(() => instance1 = DefaultResolver.Instance, out Exception ex);
             Test.IfNot.Action.ThrowsException(() => instance2 = DefaultResolver.Instance, out ex);
@@ -22,7 +24,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void ConstructorThrows() {
 
-            IAssemblyResolver instance = DefaultResolver.Instance;
+            IDefaultResolver instance = DefaultResolver.Instance;
 
             Test.If.Action.ThrowsException(() => instance = new DefaultResolver(), out AccessViolationException ex);
 

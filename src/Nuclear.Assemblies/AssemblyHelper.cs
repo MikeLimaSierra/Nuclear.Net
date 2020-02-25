@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -7,11 +6,19 @@ using System.Reflection;
 namespace Nuclear.Assemblies {
     public static class AssemblyHelper {
 
+        #region fields
+
+        internal static ProcessorArchitecture[] _validArchitectures =
+            new ProcessorArchitecture[] { ProcessorArchitecture.MSIL, Environment.Is64BitProcess ? ProcessorArchitecture.Amd64 : ProcessorArchitecture.X86 };
+
+        #endregion
+
         #region properties
 
+        /// <summary>
+        /// Gets a list of valid file extensions for .NET assemblies.
+        /// </summary>
         public static String[] AssemblyFileExtensions { get; } = new String[] { "dll", "exe" };
-
-        public static ProcessorArchitecture[] ValidArchitectures { get; } = new ProcessorArchitecture[] { ProcessorArchitecture.MSIL, Environment.Is64BitProcess ? ProcessorArchitecture.Amd64 : ProcessorArchitecture.X86 };
 
         #endregion
 
@@ -66,6 +73,14 @@ namespace Nuclear.Assemblies {
 
             return assemblyName != null;
         }
+
+        #endregion
+
+        #region validation
+
+        public static Boolean ValidateByName(AssemblyName lhs, AssemblyName rhs) => lhs != null && rhs != null && lhs.FullName == rhs.FullName;
+
+        public static Boolean ValidateArchitecture(AssemblyName asmName) => _validArchitectures.Contains(asmName.ProcessorArchitecture);
 
         #endregion
 

@@ -1,7 +1,6 @@
-
-src/.vs
+.vs
 [Bb]in
 [Oo]bj
 src/Nuclear.Units*
 src/Nuclear.Maths.Tests/
-docs/.vs/
+fake-nuget

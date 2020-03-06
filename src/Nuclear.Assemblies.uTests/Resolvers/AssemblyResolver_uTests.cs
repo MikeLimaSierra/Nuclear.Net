@@ -30,8 +30,8 @@ namespace Nuclear.Assemblies.Resolvers {
             INugetResolver instance1 = null;
             INugetResolver instance2 = null;
 
-            Test.IfNot.Action.ThrowsException(() => instance1 = NugetResolver.Instance, out Exception ex);
-            Test.IfNot.Action.ThrowsException(() => instance2 = AssemblyResolver.Nuget, out ex);
+            //Test.IfNot.Action.ThrowsException(() => instance1 = NugetResolver.Instance, out Exception ex);
+            //Test.IfNot.Action.ThrowsException(() => instance2 = AssemblyResolver.Nuget, out ex);
 
             Test.If.Reference.IsEqual(instance1, instance2);
 

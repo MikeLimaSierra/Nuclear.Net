@@ -20,7 +20,7 @@ namespace Nuclear.Assemblies.Resolvers {
         /// <summary>
         /// Gets an instance of the NuGet resolver.
         /// </summary>
-        public static INugetResolver Nuget => NugetResolver.Instance;
+        //public static INugetResolver Nuget => NugetResolver.Instance;
 
         #endregion
 

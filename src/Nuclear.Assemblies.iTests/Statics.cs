@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+
 using Nuclear.Assemblies.Resolvers;
 using Nuclear.Extensions;
 
@@ -18,5 +19,14 @@ namespace Nuclear.Assemblies {
         internal static Assembly TestAsm { get; } = typeof(DefaultResolver_iTests).Assembly;
 
         internal static FileInfo TestPath { get; } = new FileInfo(TestAsm.Location);
+
+        internal static DirectoryInfo GetFakeNugetCache() {
+            Assembly asm = typeof(NugetResolver_iTests).Assembly;
+
+            DirectoryInfo repodir = new FileInfo(asm.Location).Directory.Parent.Parent.Parent.Parent.Parent;
+
+            return new DirectoryInfo(Path.Combine(repodir.FullName, "fake-nuget", "packages"));
+        }
+
     }
 }

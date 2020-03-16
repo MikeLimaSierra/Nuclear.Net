@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 
 namespace Nuclear.Extensions {
 
@@ -40,23 +41,32 @@ namespace Nuclear.Extensions {
             if(_this is DictionaryEntry dictEntry) { return $"[{Format(dictEntry.Key)}] => {Format(dictEntry.Value)}"; }
 
             if(_this.GetType().FullName.StartsWith("System.Collections.Generic.KeyValuePair`")) {
-                dynamic kvp = _this;
-                return $"[{Format(kvp.Key)}] => {Format(kvp.Value)}";
+                Type _type = _this.GetType();
+                Object key = default;
+                Object value = default;
+
+                try {
+                    key = _type.GetRuntimeProperty("Key").GetValue(_this);
+                    value = _type.GetRuntimeProperty("Value").GetValue(_this);
+
+                } catch { }
+
+                return $"[{Format(key)}] => {Format(value)}";
             }
 
             if(_this.GetType().FullName.StartsWith("System.Tuple`") || _this.GetType().FullName.StartsWith("System.ValueTuple`")) {
+                Type _type = _this.GetType();
                 List<String> items = new List<String>();
-                dynamic tuple = _this;
 
                 try {
-                    items.Add(Format(tuple.Item1));
-                    items.Add(Format(tuple.Item2));
-                    items.Add(Format(tuple.Item3));
-                    items.Add(Format(tuple.Item4));
-                    items.Add(Format(tuple.Item5));
-                    items.Add(Format(tuple.Item6));
-                    items.Add(Format(tuple.Item7));
-                    items.Add(Format(tuple.Item8));
+                    items.Add(Format(_type.GetRuntimeProperty("Item1").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeProperty("Item2").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeProperty("Item3").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeProperty("Item4").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeProperty("Item5").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeProperty("Item6").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeProperty("Item7").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeProperty("Item8").GetValue(_this)));
 
                 } catch { /* They should have included ITuple in netstandard1.0 so it's their bloody fault and they fix it! */ }
 

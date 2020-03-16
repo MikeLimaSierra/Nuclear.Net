@@ -273,15 +273,9 @@ namespace Nuclear.Assemblies {
         public static Boolean TryGetLoadableRuntimes(RuntimeInfo runtime, Boolean sortDescending, out List<RuntimeInfo> runtimes) {
             runtimes = new List<RuntimeInfo>();
 
-            if(runtime != null && TryGetLoadableRuntimes(runtime, out IEnumerable<RuntimeInfo> _runtimes)) {
-                runtimes.AddRange(_runtimes.Where(r => r.Framework == runtime.Framework).OrderBy(r => r.Version));
-
-                foreach(RuntimeInfo netStandard in _runtimes.Where(r => r.Framework == FrameworkIdentifiers.NETStandard).OrderBy(r => r.Version)) {
-                    if(!runtimes.Contains(netStandard)) {
-                        RuntimeInfo first = runtimes.Find(r => r.Framework == runtime.Framework && TryGetStandardVersion(r, out Version _netStandard) && _netStandard >= netStandard.Version);
-                        runtimes.Insert(runtimes.IndexOf(first), netStandard);
-                    }
-                }
+            if(TryGetLoadableRuntimes(runtime, out IEnumerable<RuntimeInfo> unsortedRuntimes)) {
+                runtimes.AddRange(unsortedRuntimes);
+                runtimes.Sort(new RuntimeInfoFeatureComparer().Compare);
             }
 
             if(sortDescending) {

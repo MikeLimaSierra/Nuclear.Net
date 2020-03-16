@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Versioning;
+
 using Nuclear.Assemblies.Extensions;
 using Nuclear.Assemblies.Runtimes;
 using Nuclear.Extensions;
@@ -53,7 +56,78 @@ namespace Nuclear.Assemblies {
 
         #endregion
 
-        #region parsing methods
+        #region current runtime
+
+        /// <summary>
+        /// Gets an instance of the currently executed runtime version.
+        /// </summary>
+        /// <param name="runtime">Th ecurrent runtime version.</param>
+        /// <returns>True if the runtime version could be retrieved.</returns>
+        public static Boolean TryGetCurrentRuntime(out RuntimeInfo runtime) {
+            runtime = null;
+
+            Assembly entryAsm = Assembly.GetEntryAssembly();
+            TargetFrameworkAttribute attr = entryAsm.GetCustomAttribute<TargetFrameworkAttribute>();
+
+            return attr != null && TryParseFullName(attr.FrameworkName, out runtime) && runtime.Framework != FrameworkIdentifiers.Unsupported;
+        }
+
+        #endregion
+
+        #region target framework moniker parsing
+
+        /// <summary>
+        /// Converts a target framework moniker into a <see cref="RuntimeInfo"/> instance.
+        /// A return value indicates if the conversion operation was successful.
+        /// </summary>
+        /// <param name="tfm"></param>
+        /// <param name="runtimeInfo">The created <see cref="RuntimeInfo"/> instance.</param>
+        /// <returns>True if <paramref name="runtimeInfo"/> could be created.</returns>
+        public static Boolean TryParseTFM(String tfm, out RuntimeInfo runtimeInfo) {
+            runtimeInfo = null;
+
+            if(!String.IsNullOrWhiteSpace(tfm) && SplitTFM(tfm.ToLower(), out FrameworkIdentifiers identifier, out Version version)) {
+                try {
+                    runtimeInfo = new RuntimeInfo(identifier, version);
+
+                } catch {
+                    return false;
+                }
+            }
+
+            return runtimeInfo != null && runtimeInfo.Framework != FrameworkIdentifiers.Unsupported;
+        }
+
+        internal static Boolean SplitTFM(String tfm, out FrameworkIdentifiers identifier, out Version version) {
+            identifier = FrameworkIdentifiers.Unsupported;
+            version = null;
+
+            if(!String.IsNullOrWhiteSpace(tfm)) {
+                String _tfm = tfm.Trim().ToLower();
+                String _identifier = String.Concat(_tfm.TakeWhile(Char.IsLetter));
+                String _version = _tfm.Substring(_identifier.Length);
+
+                identifier = _identifier switch
+                {
+                    "netcoreapp" => FrameworkIdentifiers.NETCoreApp,
+                    "netstandard" => FrameworkIdentifiers.NETStandard,
+                    "net" => FrameworkIdentifiers.NETFramework,
+                    _ => FrameworkIdentifiers.Unsupported,
+                };
+
+                if(identifier != FrameworkIdentifiers.Unsupported && _version.All(c => Char.IsDigit(c) || c == '.')) {
+                    if(!Version.TryParse(_version, out version)) {
+                        version = new Version(String.Join(".", _version.Select(c => c.ToString())));
+                    }
+                }
+            }
+
+            return Enum.IsDefined(typeof(FrameworkIdentifiers), identifier) && version != null;
+        }
+
+        #endregion
+
+        #region assembly full name parsing
 
         /// <summary>
         /// Converts a runtime name into a <see cref="RuntimeInfo"/> instance.
@@ -62,7 +136,7 @@ namespace Nuclear.Assemblies {
         /// <param name="fullName">The full runtime name.</param>
         /// <param name="runtimeInfo">The created <see cref="RuntimeInfo"/> instance.</param>
         /// <returns>True if <paramref name="runtimeInfo"/> could be created.</returns>
-        public static Boolean TryParse(String fullName, out RuntimeInfo runtimeInfo) {
+        public static Boolean TryParseFullName(String fullName, out RuntimeInfo runtimeInfo) {
             runtimeInfo = null;
 
             ParseParts(fullName, out FrameworkIdentifiers framework, out Version version);
@@ -135,15 +209,11 @@ namespace Nuclear.Assemblies {
             runtimes = Enumerable.Empty<RuntimeInfo>();
 
             if(runtime != null) {
-                switch(runtime.Framework) {
-                    case FrameworkIdentifiers.NETStandard:
-                        runtimes = NetStandardVersions.Keys.Where(key => TryGetStandardVersion(key, out Version version) && version >= runtime.Version);
-                        break;
-
-                    default:
-                        runtimes = NetStandardVersions.Keys.Where(key => key.Framework == runtime.Framework && key.Version >= runtime.Version);
-                        break;
-                }
+                runtimes = runtime.Framework switch
+                {
+                    FrameworkIdentifiers.NETStandard => NetStandardVersions.Keys.Where(key => TryGetStandardVersion(key, out Version version) && version >= runtime.Version),
+                    _ => NetStandardVersions.Keys.Where(key => key.Framework == runtime.Framework && key.Version >= runtime.Version),
+                };
             }
 
             return runtimes.Count() > 0;
@@ -184,10 +254,32 @@ namespace Nuclear.Assemblies {
             runtimes = Enumerable.Empty<RuntimeInfo>();
 
             if(runtime != null) {
-                Boolean implementsStandard = TryGetStandardVersion(runtime, out Version standardVersion);
-
                 runtimes = NetStandardVersions.Keys.Where(key => (key.Framework == runtime.Framework && key.Version <= runtime.Version)
-                    || (implementsStandard && key.Framework == FrameworkIdentifiers.NETStandard && key.Version <= standardVersion));
+                    || (TryGetStandardVersion(runtime, out Version standardVersion) && key.Framework == FrameworkIdentifiers.NETStandard && key.Version <= standardVersion));
+            }
+
+            return runtimes.Count() > 0;
+        }
+
+        /// <summary>
+        /// Gets all supported runtimes that can be loaded by an assembly targeting <paramref name="runtime"/>.
+        /// A return value indicates if a runtime could be retrieved.
+        /// Returned runtimes are sorted by available feature sets.
+        /// </summary>
+        /// <param name="runtime">The runtime to check.</param>
+        /// <param name="sortDescending">Sorts matching runtimes descending if true and ascending if false.</param>
+        /// <param name="runtimes">A collection of matching runtimes.</param>
+        /// <returns>True if any matching runtimes were found.</returns>
+        public static Boolean TryGetLoadableRuntimes(RuntimeInfo runtime, Boolean sortDescending, out List<RuntimeInfo> runtimes) {
+            runtimes = new List<RuntimeInfo>();
+
+            if(TryGetLoadableRuntimes(runtime, out IEnumerable<RuntimeInfo> unsortedRuntimes)) {
+                runtimes.AddRange(unsortedRuntimes);
+                runtimes.Sort(new RuntimeInfoFeatureComparer().Compare);
+            }
+
+            if(sortDescending) {
+                runtimes.Reverse();
             }
 
             return runtimes.Count() > 0;

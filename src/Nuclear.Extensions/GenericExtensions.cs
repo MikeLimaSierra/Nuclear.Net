@@ -40,8 +40,9 @@ namespace Nuclear.Extensions {
 
             if(_this is DictionaryEntry dictEntry) { return $"[{Format(dictEntry.Key)}] => {Format(dictEntry.Value)}"; }
 
-            if(_this.GetType().FullName.StartsWith("System.Collections.Generic.KeyValuePair`")) {
-                Type _type = _this.GetType();
+            Type _type = _this.GetType();
+
+            if(_type.FullName.StartsWith("System.Collections.Generic.KeyValuePair`")) {
                 Object key = default;
                 Object value = default;
 
@@ -54,8 +55,7 @@ namespace Nuclear.Extensions {
                 return $"[{Format(key)}] => {Format(value)}";
             }
 
-            if(_this.GetType().FullName.StartsWith("System.Tuple`") || _this.GetType().FullName.StartsWith("System.ValueTuple`")) {
-                Type _type = _this.GetType();
+            if(_type.FullName.StartsWith("System.Tuple`")) {
                 List<String> items = new List<String>();
 
                 try {
@@ -67,6 +67,24 @@ namespace Nuclear.Extensions {
                     items.Add(Format(_type.GetRuntimeProperty("Item6").GetValue(_this)));
                     items.Add(Format(_type.GetRuntimeProperty("Item7").GetValue(_this)));
                     items.Add(Format(_type.GetRuntimeProperty("Item8").GetValue(_this)));
+
+                } catch { /* They should have included ITuple in netstandard1.0 so it's their bloody fault and they fix it! */ }
+
+                return $"({String.Join(", ", items)})";
+            }
+
+            if(_type.FullName.StartsWith("System.ValueTuple`")) {
+                List<String> items = new List<String>();
+
+                try {
+                    items.Add(Format(_type.GetRuntimeField("Item1").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeField("Item2").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeField("Item3").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeField("Item4").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeField("Item5").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeField("Item6").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeField("Item7").GetValue(_this)));
+                    items.Add(Format(_type.GetRuntimeField("Item8").GetValue(_this)));
 
                 } catch { /* They should have included ITuple in netstandard1.0 so it's their bloody fault and they fix it! */ }
 

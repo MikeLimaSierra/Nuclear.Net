@@ -29,6 +29,8 @@ namespace Nuclear.Extensions {
             DDTFormat(new KeyValuePair<Dummy, Dummy>(1, 2), "['1'] => '2'");
             DDTFormat((1, '2', "3"), "('1', '2', '3')");
             DDTFormat((1, new Dummy(2), '3', "4"), "('1', '2', '3', '4')");
+            DDTFormat(Tuple.Create(1, '2', "3"), "('1', '2', '3')");
+            DDTFormat(Tuple.Create(1, new Dummy(2), '3', "4"), "('1', '2', '3', '4')");
             DDTFormat(new List<Int32>() { 1, 2, 3 }, "['1', '2', '3']");
             DDTFormat(new Dictionary<Int32, String>() { { 1, "A" }, { 2, "B" }, { 3, "C" } },
                 "[['1'] => 'A', ['2'] => 'B', ['3'] => 'C']");

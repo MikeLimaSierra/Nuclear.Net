@@ -2,8 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Versioning;
+using Nuclear.Assemblies.Runtimes;
+using Nuclear.Exceptions;
 
 namespace Nuclear.Assemblies {
+
+    /// <summary>
+    /// Provides helper methods to handle assembly related tasks.
+    /// </summary>
     public static class AssemblyHelper {
 
         #region fields
@@ -24,6 +31,12 @@ namespace Nuclear.Assemblies {
 
         #region loading
 
+        /// <summary>
+        /// Loads an assembly from disk.
+        /// </summary>
+        /// <param name="file">The file on disk.</param>
+        /// <param name="assembly">The loaded assembly.</param>
+        /// <returns>True if the assembly could be loaded.</returns>
         public static Boolean TryLoadFrom(FileInfo file, out Assembly assembly) {
             assembly = null;
 
@@ -41,6 +54,12 @@ namespace Nuclear.Assemblies {
 
         #region assembly name
 
+        /// <summary>
+        /// Gets the <see cref="AssemblyName"/> by parsing <paramref name="e"/>.
+        /// </summary>
+        /// <param name="e">The event arguments used to parse.</param>
+        /// <param name="assemblyName">The resulting <see cref="AssemblyName"/>.</param>
+        /// <returns>True if the <see cref="AssemblyName"/> could be retrieved.</returns>
         public static Boolean TryGetAssemblyName(ResolveEventArgs e, out AssemblyName assemblyName) {
             assemblyName = null;
 
@@ -52,6 +71,12 @@ namespace Nuclear.Assemblies {
             return assemblyName != null;
         }
 
+        /// <summary>
+        /// Gets the <see cref="AssemblyName"/> by parsing <paramref name="fullName"/>.
+        /// </summary>
+        /// <param name="fullName">The full assembly name.</param>
+        /// <param name="assemblyName">The resulting <see cref="AssemblyName"/>.</param>
+        /// <returns>True if the <see cref="AssemblyName"/> could be retrieved.</returns>
         public static Boolean TryGetAssemblyName(String fullName, out AssemblyName assemblyName) {
             assemblyName = null;
 
@@ -63,6 +88,12 @@ namespace Nuclear.Assemblies {
             return assemblyName != null;
         }
 
+        /// <summary>
+        /// Gets the <see cref="AssemblyName"/> from an assembly file on disk.
+        /// </summary>
+        /// <param name="file">The assembly file on disk.</param>
+        /// <param name="assemblyName">The resulting <see cref="AssemblyName"/>.</param>
+        /// <returns>True if the <see cref="AssemblyName"/> could be retrieved.</returns>
         public static Boolean TryGetAssemblyName(FileInfo file, out AssemblyName assemblyName) {
             assemblyName = null;
 
@@ -76,10 +107,42 @@ namespace Nuclear.Assemblies {
 
         #endregion
 
+        #region runtime info
+
+        /// <summary>
+        /// Gets the target runtime of a loaded <see cref="Assembly"/>.
+        /// </summary>
+        /// <param name="assembly">The loaded assembly.</param>
+        /// <param name="runtime">The target runtime of <paramref name="assembly"/>.</param>
+        /// <returns>True if the target runtime could be retrieved.</returns>
+        public static Boolean TryGetRuntime(Assembly assembly, out RuntimeInfo runtime) {
+            runtime = null;
+
+            Throw.If.Object.IsNull(assembly, nameof(assembly));
+
+            TargetFrameworkAttribute attr = assembly.GetCustomAttribute<TargetFrameworkAttribute>();
+
+            return attr != null && RuntimesHelper.TryParseTFM(attr.FrameworkName, out runtime)
+                && runtime.Framework != FrameworkIdentifiers.Unsupported && runtime.Version != new Version();
+        }
+
+        #endregion
+
         #region validation
 
+        /// <summary>
+        /// Validates the equality of two assembly names.
+        /// </summary>
+        /// <param name="lhs">The first <see cref="AssemblyName"/>.</param>
+        /// <param name="rhs">The second <see cref="AssemblyName"/>.</param>
+        /// <returns>True if <paramref name="lhs"/> matches <paramref name="rhs"/>.</returns>
         public static Boolean ValidateByName(AssemblyName lhs, AssemblyName rhs) => lhs != null && rhs != null && lhs.FullName == rhs.FullName;
 
+        /// <summary>
+        /// Validates the <see cref="ProcessorArchitecture"/> of an <see cref="AssemblyName"/> against the current process architecture.
+        /// </summary>
+        /// <param name="asmName">The <see cref="AssemblyName"/> to validate.</param>
+        /// <returns>True if <paramref name="asmName"/> matches the process.</returns>
         public static Boolean ValidateArchitecture(AssemblyName asmName) => _validArchitectures.Contains(asmName.ProcessorArchitecture);
 
         #endregion

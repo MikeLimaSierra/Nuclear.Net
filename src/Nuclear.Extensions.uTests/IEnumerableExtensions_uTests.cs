@@ -15,13 +15,13 @@ namespace Nuclear.Extensions {
 
             IEnumerable enumerable = new List<Object>();
 
-            Test.If.Action.ThrowsException(() => ((IEnumerable) null).ForEach(null), out ArgumentNullException ex);
+            Test.If.Action.ThrowsException(() => ((IEnumerable) null).Foreach(null), out ArgumentNullException ex);
             Test.If.Value.IsEqual(ex.ParamName, "_this");
 
-            Test.If.Action.ThrowsException(() => ((IEnumerable) null).ForEach((value) => { }), out ex);
+            Test.If.Action.ThrowsException(() => ((IEnumerable) null).Foreach((value) => { }), out ex);
             Test.If.Value.IsEqual(ex.ParamName, "_this");
 
-            Test.If.Action.ThrowsException(() => enumerable.ForEach(null), out ex);
+            Test.If.Action.ThrowsException(() => enumerable.Foreach(null), out ex);
             Test.If.Value.IsEqual(ex.ParamName, "action");
 
         }
@@ -32,7 +32,7 @@ namespace Nuclear.Extensions {
             IEnumerable enumerable = Enumerable.Range(1, 10);
             Int32 result = 0;
 
-            Test.IfNot.Action.ThrowsException(() => enumerable.ForEach((value) => result += (Int32) value), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => enumerable.Foreach((value) => result += (Int32) value), out Exception ex);
             Test.If.Value.IsEqual(result, 55);
 
         }

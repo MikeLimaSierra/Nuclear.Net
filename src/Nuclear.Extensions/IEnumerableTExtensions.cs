@@ -27,7 +27,7 @@ namespace Nuclear.Extensions {
         /// myEnumeration.ForEach(element => doSomething(element));
         /// </code>
         /// </example>
-        public static void ForEach<T>(this IEnumerable<T> _this, Action<T> action) {
+        public static void Foreach<T>(this IEnumerable<T> _this, Action<T> action) {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Object.IsNull(action, nameof(action));
 
@@ -54,7 +54,7 @@ namespace Nuclear.Extensions {
         /// var min = myEnumeration.Min();
         /// </code>
         /// </example>
-        public static T Min<T>(this IEnumerable<T> _this) where T : IComparable {
+        public static T Minimum<T>(this IEnumerable<T> _this) where T : IComparable {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
             Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
@@ -70,7 +70,7 @@ namespace Nuclear.Extensions {
                 }
             };
 
-            _this.ForEach(action);
+            _this.Foreach(action);
 
             return min;
         }
@@ -89,7 +89,7 @@ namespace Nuclear.Extensions {
         /// var min = myEnumeration.MinT();
         /// </code>
         /// </example>
-        public static T MinT<T>(this IEnumerable<T> _this) where T : IComparable<T> {
+        public static T MinimumT<T>(this IEnumerable<T> _this) where T : IComparable<T> {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
             Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
@@ -105,7 +105,7 @@ namespace Nuclear.Extensions {
                 }
             };
 
-            _this.ForEach(action);
+            _this.Foreach(action);
 
             return min;
         }
@@ -126,13 +126,13 @@ namespace Nuclear.Extensions {
         /// var min = myEnumeration.Min(new MyComparer());
         /// </code>
         /// </example>
-        public static T Min<T>(this IEnumerable<T> _this, Comparer<T> comparer) {
+        public static T Minimum<T>(this IEnumerable<T> _this, Comparer<T> comparer) {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
             Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
             Throw.If.Object.IsNull(comparer, nameof(comparer));
 
-            return _this.Min(comparer as IComparer<T>);
+            return _this.Minimum(comparer as IComparer<T>);
         }
 
         /// <summary>
@@ -151,13 +151,13 @@ namespace Nuclear.Extensions {
         /// var min = myEnumeration.Min(new MyComparer());
         /// </code>
         /// </example>
-        public static T Min<T>(this IEnumerable<T> _this, IComparer comparer) {
+        public static T Minimum<T>(this IEnumerable<T> _this, IComparer comparer) {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
             Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
             Throw.If.Object.IsNull(comparer, nameof(comparer));
 
-            return _this.Min(DynamicComparer.FromComparer<T>(comparer));
+            return _this.Minimum(DynamicComparer.FromComparer<T>(comparer));
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Nuclear.Extensions {
         /// var min = myEnumeration.Min(new MyComparer());
         /// </code>
         /// </example>
-        public static T Min<T>(this IEnumerable<T> _this, IComparer<T> comparer) {
+        public static T Minimum<T>(this IEnumerable<T> _this, IComparer<T> comparer) {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
             Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
@@ -193,7 +193,7 @@ namespace Nuclear.Extensions {
                 }
             };
 
-            _this.ForEach(action);
+            _this.Foreach(action);
 
             return min;
         }
@@ -216,7 +216,7 @@ namespace Nuclear.Extensions {
         /// var min = myEnumeration.Max();
         /// </code>
         /// </example>
-        public static T Max<T>(this IEnumerable<T> _this) where T : IComparable {
+        public static T Maximum<T>(this IEnumerable<T> _this) where T : IComparable {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
             Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
@@ -232,7 +232,7 @@ namespace Nuclear.Extensions {
                 }
             };
 
-            _this.ForEach(action);
+            _this.Foreach(action);
 
             return max;
         }
@@ -251,7 +251,7 @@ namespace Nuclear.Extensions {
         /// var min = myEnumeration.MaxT();
         /// </code>
         /// </example>
-        public static T MaxT<T>(this IEnumerable<T> _this) where T : IComparable<T> {
+        public static T MaximumT<T>(this IEnumerable<T> _this) where T : IComparable<T> {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
             Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
@@ -267,7 +267,7 @@ namespace Nuclear.Extensions {
                 }
             };
 
-            _this.ForEach(action);
+            _this.Foreach(action);
 
             return max;
         }
@@ -288,11 +288,11 @@ namespace Nuclear.Extensions {
         /// var min = myEnumeration.Max(new MyComparer());
         /// </code>
         /// </example>
-        public static T Max<T>(this IEnumerable<T> _this, Comparer<T> comparer) {
+        public static T Maximum<T>(this IEnumerable<T> _this, Comparer<T> comparer) {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Object.IsNull(comparer, nameof(comparer));
 
-            return _this.Max(comparer as IComparer<T>);
+            return _this.Maximum(comparer as IComparer<T>);
         }
 
         /// <summary>
@@ -311,11 +311,11 @@ namespace Nuclear.Extensions {
         /// var min = myEnumeration.Max(new MyComparer());
         /// </code>
         /// </example>
-        public static T Max<T>(this IEnumerable<T> _this, IComparer comparer) {
+        public static T Maximum<T>(this IEnumerable<T> _this, IComparer comparer) {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Object.IsNull(comparer, nameof(comparer));
 
-            return _this.Max(DynamicComparer.FromComparer<T>(comparer));
+            return _this.Maximum(DynamicComparer.FromComparer<T>(comparer));
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace Nuclear.Extensions {
         /// var min = myEnumeration.Max(new MyComparer());
         /// </code>
         /// </example>
-        public static T Max<T>(this IEnumerable<T> _this, IComparer<T> comparer) {
+        public static T Maximum<T>(this IEnumerable<T> _this, IComparer<T> comparer) {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Value.IsFalse(_this.Count() > 0, nameof(_this), "The enumeration is empty.");
             Throw.If.Value.IsFalse(_this.Any((element) => element != null), nameof(_this), "The enumeration only contains null values.");
@@ -351,7 +351,7 @@ namespace Nuclear.Extensions {
                 }
             };
 
-            _this.ForEach(action);
+            _this.Foreach(action);
 
             return max;
         }

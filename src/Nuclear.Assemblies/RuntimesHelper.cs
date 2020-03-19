@@ -235,7 +235,7 @@ namespace Nuclear.Assemblies {
                 matchingRuntimes
                     .Select(_runtime => _runtime.Framework)
                     .Distinct()
-                    .ForEach(tfm => _runtimes.Add(new RuntimeInfo(tfm, matchingRuntimes.Where(_runtime => _runtime.Framework == tfm).Select(_runtime => _runtime.Version).MinT())));
+                    .Foreach(tfm => _runtimes.Add(new RuntimeInfo(tfm, matchingRuntimes.Where(_runtime => _runtime.Framework == tfm).Select(_runtime => _runtime.Version).MinimumT())));
 
                 runtimes = _runtimes;
             }

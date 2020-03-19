@@ -24,11 +24,11 @@ namespace Nuclear.Extensions {
         /// myEnumeration.ForEach(element => doSomething(element));
         /// </code>
         /// </example>
-        public static void ForEach(this IEnumerable _this, Action<Object> action) {
+        public static void Foreach(this IEnumerable _this, Action<Object> action) {
             Throw.If.Object.IsNull(_this, nameof(_this));
             Throw.If.Object.IsNull(action, nameof(action));
 
-            _this.Cast<Object>().ForEach(action);
+            _this.Cast<Object>().Foreach(action);
         }
 
         /// <summary>

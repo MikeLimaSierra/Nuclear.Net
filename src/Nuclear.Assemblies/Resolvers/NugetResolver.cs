@@ -100,7 +100,7 @@ namespace Nuclear.Assemblies.Resolvers {
             List<FileInfo> candidates = new List<FileInfo>();
 
             if(RuntimesHelper.TryGetLoadableRuntimes(current, out IEnumerable<RuntimeInfo> validRuntimes)) {
-                nugetCaches.ForEach(cache => candidates.AddRange(GetAssemblyCandidatesFromCache(assemblyName, cache, validRuntimes)));
+                nugetCaches.Foreach(cache => candidates.AddRange(GetAssemblyCandidatesFromCache(assemblyName, cache, validRuntimes)));
             }
 
             return candidates;
@@ -154,13 +154,13 @@ namespace Nuclear.Assemblies.Resolvers {
                 foreach(DirectoryInfo semVer in package.EnumerateDirectories("*", SearchOption.TopDirectoryOnly)) {
                     if(Version.TryParse(semVer.Name, out Version version)) {
                         GetPackageVersionRuntimes(new DirectoryInfo(Path.Combine(semVer.FullName, "lib")))
-                            .ForEach(kvp => packageVersions.Add((version, kvp.Key, ProcessorArchitecture.MSIL), kvp.Value));
+                            .Foreach(kvp => packageVersions.Add((version, kvp.Key, ProcessorArchitecture.MSIL), kvp.Value));
 
                         GetPackageVersionRuntimes(new DirectoryInfo(Path.Combine(semVer.FullName, "lib", "x86")))
-                            .ForEach(kvp => packageVersions.Add((version, kvp.Key, ProcessorArchitecture.X86), kvp.Value));
+                            .Foreach(kvp => packageVersions.Add((version, kvp.Key, ProcessorArchitecture.X86), kvp.Value));
 
                         GetPackageVersionRuntimes(new DirectoryInfo(Path.Combine(semVer.FullName, "lib", "x64")))
-                            .ForEach(kvp => packageVersions.Add((version, kvp.Key, ProcessorArchitecture.Amd64), kvp.Value));
+                            .Foreach(kvp => packageVersions.Add((version, kvp.Key, ProcessorArchitecture.Amd64), kvp.Value));
                     }
                 }
             }

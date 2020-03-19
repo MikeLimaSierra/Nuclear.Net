@@ -9,7 +9,9 @@
         <PlatformTarget>$(Platform)</PlatformTarget>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-	    <LangVersion>latest</LangVersion>
+	      <LangVersion>latest</LangVersion>
+        <Platforms>AnyCPU</Platforms>
+        <Configurations>Release;Integration;Debug</Configurations>
     </PropertyGroup>
 
     <!-- Conditional -->
@@ -33,13 +35,7 @@
     </PropertyGroup>
 
     <!-- Available -->
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'" />
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" />
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'" />
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Integration|AnyCPU'" />
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Integration|x64'" />
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Integration|x86'" />
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'" />
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" />
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Integration|AnyCPU'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'" />
 </Project>

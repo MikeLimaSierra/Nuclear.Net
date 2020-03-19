@@ -61,7 +61,7 @@ namespace Nuclear.Assemblies {
         /// <summary>
         /// Gets an instance of the currently executed runtime version.
         /// </summary>
-        /// <param name="runtime">Th ecurrent runtime version.</param>
+        /// <param name="runtime">The current runtime version.</param>
         /// <returns>True if the runtime version could be retrieved.</returns>
         public static Boolean TryGetCurrentRuntime(out RuntimeInfo runtime) {
             runtime = null;

@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
+
 using Nuclear.Assemblies.Runtimes;
-using Nuclear.Exceptions;
 
 namespace Nuclear.Assemblies {
 
@@ -118,12 +118,15 @@ namespace Nuclear.Assemblies {
         public static Boolean TryGetRuntime(Assembly assembly, out RuntimeInfo runtime) {
             runtime = null;
 
-            Throw.If.Object.IsNull(assembly, nameof(assembly));
+            if(assembly != null) {
+                TargetFrameworkAttribute attr = assembly.GetCustomAttribute<TargetFrameworkAttribute>();
 
-            TargetFrameworkAttribute attr = assembly.GetCustomAttribute<TargetFrameworkAttribute>();
+                if(attr != null) {
+                    RuntimesHelper.TryParseFullName(attr.FrameworkName, out runtime);
+                }
+            }
 
-            return attr != null && RuntimesHelper.TryParseTFM(attr.FrameworkName, out runtime)
-                && runtime.Framework != FrameworkIdentifiers.Unsupported && runtime.Version != new Version();
+            return runtime != null && runtime.Framework != FrameworkIdentifiers.Unsupported && runtime.Version != new Version();
         }
 
         #endregion

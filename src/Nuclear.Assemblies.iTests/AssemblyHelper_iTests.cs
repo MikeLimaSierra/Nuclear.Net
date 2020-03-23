@@ -24,7 +24,7 @@ namespace Nuclear.Assemblies {
             Boolean result = false;
             Assembly assembly = null;
 
-            Test.Note($"AssemblyHelper.TryLoadFrom({input.Format()}, out 'null') == {expected.Format()}", _file, _method);
+            Test.Note($"AssemblyHelper.TryLoadFrom({input.Format()}, out null) == {expected.Format()}", _file, _method);
 
             Test.IfNot.Action.ThrowsException(() => result = AssemblyHelper.TryLoadFrom(input, out assembly), out Exception ex, _file, _method);
             Test.If.Value.IsEqual(result, expected, _file, _method);

@@ -14,7 +14,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void Format() {
 
-            DDTFormat<Object>(null, "'null'");
+            DDTFormat<Object>(null, "null");
             DDTFormat("some string", "'some string'");
             DDTFormat(42, "'42'");
             DDTFormat(0x42, "'66'");
@@ -58,7 +58,7 @@ namespace Nuclear.Extensions {
         [TestMethod]
         void FormatType() {
 
-            DDTFormatType<Object>(null, "'null'");
+            DDTFormatType<Object>(null, "null");
             DDTFormatType("some string", "'System.String'");
             DDTFormatType(42, "'System.Int32'");
             DDTFormatType(42.GetType(), "'System.RuntimeType'");

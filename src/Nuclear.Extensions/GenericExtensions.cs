@@ -30,11 +30,11 @@ namespace Nuclear.Extensions {
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static String Format<T>(this T _this) {
 
-            if(_this == null) { return Format("null"); }
+            if(_this == null) { return "null"; }
 
             if(_this is String @string) { return $"'{@string}'"; }
 
-            if(_this is Byte b) { return Format($"0x{b.ToString("X2")}"); }
+            if(_this is Byte b) { return Format($"0x{b:X2}"); }
 
             if(_this is Type type) { return Format(type.ResolveFriendlyName()); }
 

@@ -31,7 +31,7 @@ namespace Nuclear.Properties.ClampedProperties {
 
             IClampedPropertyT<Version> prop = null;
 
-            Test.Note("Test ctor with 'null', [1.1; 1.3]");
+            Test.Note("Test ctor with null, [1.1; 1.3]");
             Test.If.Action.ThrowsException(() => prop = new ClampedPropertyT<Version>(null, new Version(1, 1), new Version(1, 3)), out ArgumentNullException argEx);
             Test.IfNot.Object.IsNull(argEx);
             Test.If.Value.IsEqual(argEx.ParamName, "value");

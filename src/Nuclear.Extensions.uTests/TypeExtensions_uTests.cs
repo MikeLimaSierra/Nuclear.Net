@@ -21,6 +21,7 @@ namespace Nuclear.Extensions {
             TTDResolveFriendlyName<List<Int64>[]>("System.Collections.Generic.List<System.Int64>[]");
             TTDResolveFriendlyName<Dictionary<Int64, String[]>>("System.Collections.Generic.Dictionary<System.Int64, System.String[]>");
             TTDResolveFriendlyName<Dictionary<(Int32, Int64), String[]>>("System.Collections.Generic.Dictionary<System.ValueTuple<System.Int32, System.Int64>, System.String[]>");
+            TTDResolveFriendlyName<Dictionary<(Int32, List<Int64>), String[]>>("System.Collections.Generic.Dictionary<System.ValueTuple<System.Int32, System.Collections.Generic.List<System.Int64>>, System.String[]>");
 
         }
 

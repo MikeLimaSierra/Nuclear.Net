@@ -20,17 +20,25 @@ namespace Nuclear.Extensions {
         public static String ResolveFriendlyName(this Type _this) {
             Throw.If.Object.IsNull(_this, nameof(_this));
 
-            String name = _this.FullName;
+            String name = _this.FullName ?? "";
 
             if(_this.IsArray && name.EndsWith("[]")) {
-                name = $"{Type.GetType(name.Substring(0, name.Length - 2)).ResolveFriendlyName()}[]";
+                String typeName = name.Substring(0, name.Length - 2);
+                Type type = Type.GetType(typeName);
+
+                if(type == null) {
+                    name = $"{typeName}[]";
+
+                } else {
+                    name = $"{type.ResolveFriendlyName()}[]";
+                }
+
             } else if(name.Contains("`")) {
                 name = name.Remove(name.IndexOf('`'));
             }
 
-
-            if(_this.GenericTypeArguments.Length > 0) {
-                name += $"<{String.Join(", ", _this.GenericTypeArguments.Select(type => type.ResolveFriendlyName()))}>";
+            if(_this.GenericTypeArguments != null && _this.GenericTypeArguments.Length > 0) {
+                name += $"<{String.Join(", ", _this.GenericTypeArguments.Select(type => type != null ? type.ResolveFriendlyName() : "UnkownType"))}>";
             }
 
             return name;

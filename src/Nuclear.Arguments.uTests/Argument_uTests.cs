@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using Nuclear.TestSite;
 
 namespace Nuclear.Arguments {
@@ -69,53 +69,47 @@ namespace Nuclear.Arguments {
         }
 
         [TestMethod]
-        void ValueProperty() {
+        [TestData(nameof(ValuePropertyData))]
+        void ValueProperty(String input, String expected) {
 
             Argument arg = new Argument('z');
 
-            Test.Note("some_other_value");
-            Test.IfNot.Action.ThrowsException(() => arg.Value = "some_other_value", out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => arg.Value = input, out Exception ex);
             Test.If.Value.IsEqual(arg.SwitchName, "z");
-            Test.If.Value.IsEqual(arg.Value, "some_other_value");
-
-            Test.Note("null");
-            Test.IfNot.Action.ThrowsException(() => arg.Value = null, out ex);
-            Test.If.Value.IsEqual(arg.SwitchName, "z");
-            Test.If.Object.IsNull(arg.Value);
-
-            Test.Note("<space>");
-            Test.IfNot.Action.ThrowsException(() => arg.Value = " ", out ex);
-            Test.If.Value.IsEqual(arg.SwitchName, "z");
-            Test.If.Value.IsEqual(arg.Value, " ");
-
-            Test.Note("String.Empty");
-            Test.IfNot.Action.ThrowsException(() => arg.Value = String.Empty, out ex);
-            Test.If.Value.IsEqual(arg.SwitchName, "z");
-            Test.If.Value.IsEqual(arg.Value, String.Empty);
+            Test.If.Value.IsEqual(arg.Value, expected);
 
         }
 
+        IEnumerable<Object[]> ValuePropertyData() {
+            return new List<Object[]>() {
+                new Object[] { "some_other_value", "some_other_value" },
+                new Object[] { null, null },
+                new Object[] { " ", " " },
+                new Object[] { "", "" },
+            };
+        }
+
         [TestMethod]
-        new void ToString() {
+        [TestData(nameof(ToStringData))]
+        void ToString(Argument input, String expected) {
 
-            Argument arg = new Argument('z');
-            Test.If.Value.IsEqual(arg.ToString(), "-z");
+            String _toString = default;
 
-            arg.Value = @"file:\\path\to\file";
-            Test.If.Value.IsEqual(arg.ToString(), @"-z file:\\path\to\file");
+            Test.IfNot.Action.ThrowsException(() => _toString = input.ToString(), out Exception ex);
 
-            arg = new Argument();
-            Test.If.Value.IsEqual(arg.ToString(), "");
+            Test.If.Value.IsEqual(_toString, expected);
 
-            arg.Value = "great_fancy_keyword";
-            Test.If.Value.IsEqual(arg.ToString(), "great_fancy_keyword");
+        }
 
-            arg = new Argument("very_long_switch_name");
-            Test.If.Value.IsEqual(arg.ToString(), "--very_long_switch_name");
-
-            arg.Value = @"./another/file/path.exe";
-            Test.If.Value.IsEqual(arg.ToString(), "--very_long_switch_name ./another/file/path.exe");
-
+        IEnumerable<Object[]> ToStringData() {
+            return new List<Object[]>() {
+                new Object[] { new Argument('z'), "-z" },
+                new Object[] { new Argument('z') { Value = @"file:\\path\to\file" }, @"-z file:\\path\to\file" },
+                new Object[] { new Argument(), "" },
+                new Object[] { new Argument() { Value = "great_fancy_keyword" }, "great_fancy_keyword" },
+                new Object[] { new Argument("very_long_switch_name"), "--very_long_switch_name" },
+                new Object[] { new Argument("very_long_switch_name") { Value = "./another/file/path.exe" }, @"--very_long_switch_name ./another/file/path.exe" },
+            };
         }
 
     }

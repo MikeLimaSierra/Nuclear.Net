@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Nuclear.TestSite;
 
@@ -15,44 +16,34 @@ namespace Nuclear.Properties.TrackedProperties {
         }
 
         [TestMethod]
-        void ConstructorNullable() {
-
-            Object owner = new Object();
-            String _old = "old";
-            String _new = "new";
-
-            DDTestConstructor<Object, String>(null, null, null, false);
-            DDTestConstructor(owner, null, _new, true);
-            DDTestConstructor(owner, _old, null, true);
-            DDTestConstructor(owner, _old, _new, true);
-            DDTestConstructor(owner, _old, _old, false);
-
-        }
-
-        [TestMethod]
-        void ConstructorNonNullable() {
-
-            Int32 _old = 5;
-            Int32 _new = 6;
-
-            DDTestConstructor<Object, Int32>(null, _old, _new, true);
-            DDTestConstructor<Object, Int32>(null, _old, _old, false);
-
-        }
-
-        void DDTestConstructor<TOwner, TValue>(TOwner owner, TValue oldValue, TValue newValue, Boolean hasChanged,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestData(nameof(ConstructorData))]
+        void Constructor<TOwner, TValue>(TOwner input1, TValue input2, TValue input3, Boolean hasChanged) {
 
             ChangeTrackedEventArgs<TOwner, TValue> e = null;
 
-            Test.Note(String.Format("Test ctor with: '{0}', '{1}', '{2}'", owner, oldValue, newValue), _file, _method);
-            Test.IfNot.Action.ThrowsException(() => e = new ChangeTrackedEventArgs<TOwner, TValue>(owner, oldValue, newValue), out Exception ex, _file, _method);
-            Test.IfNot.Object.IsNull(e, _file, _method);
-            Test.If.Value.IsEqual(e.Owner, owner, _file, _method);
-            Test.If.Value.IsEqual(e.Old, oldValue, _file, _method);
-            Test.If.Value.IsEqual(e.New, newValue, _file, _method);
-            Test.If.Value.IsEqual(e.HasChanged, hasChanged, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => e = new ChangeTrackedEventArgs<TOwner, TValue>(input1, input2, input3), out Exception ex);
+ 
+            Test.IfNot.Object.IsNull(e);
+            Test.If.Value.IsEqual(e.Owner, input1);
+            Test.If.Value.IsEqual(e.Old, input2);
+            Test.If.Value.IsEqual(e.New, input3);
+            Test.If.Value.IsEqual(e.HasChanged, hasChanged);
 
+        }
+
+        IEnumerable<Object[]> ConstructorData() {
+            Object owner = new Object();
+
+            return new List<Object[]>() {
+                new Object[] { typeof(Object), typeof(Int32), null, 5, 6, true },
+                new Object[] { typeof(Object), typeof(Int32), null, 5, 5, false },
+
+                new Object[] { typeof(Object), typeof(String), null, null, null, false },
+                new Object[] { typeof(Object), typeof(String), owner, null, "new", true },
+                new Object[] { typeof(Object), typeof(String), owner, "old", null, true },
+                new Object[] { typeof(Object), typeof(String), owner, "old", "new", true },
+                new Object[] { typeof(Object), typeof(String), owner, "old", "old", false },
+            };
         }
 
     }

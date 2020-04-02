@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Nuclear.TestSite;
@@ -18,46 +19,40 @@ namespace Nuclear.Properties.ClampedProperties {
         #region ctors
 
         [TestMethod]
-        void ConstructorNonNullable() {
-
-            DDTestConstructor((1, 3, -3), (1, -3, 3));
-            DDTestConstructor((1, -2, 2), (1, -2, 2));
-            DDTestConstructor((1, 2, 4), (2, 2, 4));
-
-        }
-
-        [TestMethod]
-        void ConstructorNullable() {
+        void ConstructorThrows() {
 
             IClampedPropertyT<Version> prop = null;
 
-            Test.Note("Test ctor with null, [1.1; 1.3]");
             Test.If.Action.ThrowsException(() => prop = new ClampedPropertyT<Version>(null, new Version(1, 1), new Version(1, 3)), out ArgumentNullException argEx);
             Test.IfNot.Object.IsNull(argEx);
             Test.If.Value.IsEqual(argEx.ParamName, "value");
             Test.If.Object.IsNull(prop);
 
-            DDTestConstructor((new Version(1, 2), null, null), (new Version(1, 2), null, null));
-            DDTestConstructor((new Version(1, 2), null, new Version(1, 3)), (new Version(1, 2), null, new Version(1, 3)));
-            DDTestConstructor((new Version(1, 2), new Version(1, 1), null), (new Version(1, 2), new Version(1, 1), null));
-            DDTestConstructor((new Version(1, 2), new Version(1, 1), new Version(1, 3)), (new Version(1, 2), new Version(1, 1), new Version(1, 3)));
-            DDTestConstructor((new Version(1, 2), new Version(1, 3), new Version(1, 1)), (new Version(1, 2), new Version(1, 1), new Version(1, 3)));
-            DDTestConstructor((new Version(1, 0), new Version(1, 1), new Version(1, 3)), (new Version(1, 1), new Version(1, 1), new Version(1, 3)));
-
         }
 
-        void DDTestConstructor<TValue>((TValue value, TValue min, TValue max) input, (TValue value, TValue min, TValue max) expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null)
+        [TestMethod]
+        [TestData(nameof(ConstructorData))]
+        void Constructor<TValue>(TValue input1, TValue input2, TValue input3, (TValue value, TValue min, TValue max) expected)
             where TValue : IComparable<TValue> {
 
             IClampedPropertyT<TValue> prop = null;
 
-            Test.Note($"Test ctor with '{input.value}', [{input.min}; {input.max}]", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => prop = new ClampedPropertyT<TValue>(input.value, input.min, input.max), out Exception ex, _file, _method);
-            Test.IfNot.Object.IsNull(prop, _file, _method);
-            Test.If.Value.IsEqual(prop.Minimum, expected.min, _file, _method);
-            Test.If.Value.IsEqual(prop.Maximum, expected.max, _file, _method);
-            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => prop = new ClampedPropertyT<TValue>(input1, input2, input3), out Exception ex);
+            Test.IfNot.Object.IsNull(prop);
+            Test.If.Value.IsEqual(prop.Minimum, expected.min);
+            Test.If.Value.IsEqual(prop.Maximum, expected.max);
+            Test.If.Value.IsEqual(prop.Value, expected.value);
+        }
+
+        IEnumerable<Object[]> ConstructorData() {
+            return new List<Object[]>() {
+                new Object[] { typeof(Version), new Version(1, 2), null, null, (new Version(1, 2), (Version) null, (Version) null) },
+                new Object[] { typeof(Version), new Version(1, 2), null, new Version(1, 3), (new Version(1, 2), (Version) null, new Version(1, 3)) },
+                new Object[] { typeof(Version), new Version(1, 2), new Version(1, 1), null, (new Version(1, 2), new Version(1, 1), (Version) null) },
+                new Object[] { typeof(Version), new Version(1, 2), new Version(1, 1), new Version(1, 3), (new Version(1, 2), new Version(1, 1), new Version(1, 3)) },
+                new Object[] { typeof(Version), new Version(1, 2), new Version(1, 3), new Version(1, 1), (new Version(1, 2), new Version(1, 1), new Version(1, 3)) },
+                new Object[] { typeof(Version), new Version(1, 0), new Version(1, 1), new Version(1, 3), (new Version(1, 1), new Version(1, 1), new Version(1, 3)) },
+            };
         }
 
         #endregion

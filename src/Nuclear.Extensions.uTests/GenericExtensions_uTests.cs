@@ -12,43 +12,39 @@ namespace Nuclear.Extensions {
         #region Format
 
         [TestMethod]
-        void Format() {
-
-            DDTFormat<Object>(null, "null");
-            DDTFormat("some string", "'some string'");
-            DDTFormat(42, "'42'");
-            DDTFormat(0x42, "'66'");
-            DDTFormat((Byte) 0x42, "'0x42'");
-            DDTFormat(42.GetType(), "'System.Int32'");
-            DDTFormat(typeof(Int32), "'System.Int32'");
-            DDTFormat(Enumerable.Empty<Int32>(), "[]");
-            DDTFormat(new DictionaryEntry(42, 'v'), "['42'] => 'v'"); ;
-            DDTFormat(new KeyValuePair<Int32, Char>(42, 'v'), "['42'] => 'v'");
-            DDTFormat(new KeyValuePair<Int32, String>(42, "v"), "['42'] => 'v'");
-            DDTFormat(new KeyValuePair<String, Int32>("v", 42), "['v'] => '42'");
-            DDTFormat(new KeyValuePair<Dummy, Dummy>(1, 2), "['1'] => '2'");
-            DDTFormat((1, '2', "3"), "('1', '2', '3')");
-            DDTFormat((1, new Dummy(2), '3', "4"), "('1', '2', '3', '4')");
-            DDTFormat(Tuple.Create(1, '2', "3"), "('1', '2', '3')");
-            DDTFormat(Tuple.Create(1, new Dummy(2), '3', "4"), "('1', '2', '3', '4')");
-            DDTFormat(new List<Int32>() { 1, 2, 3 }, "['1', '2', '3']");
-            DDTFormat(new Dictionary<Int32, String>() { { 1, "A" }, { 2, "B" }, { 3, "C" } },
-                "[['1'] => 'A', ['2'] => 'B', ['3'] => 'C']");
-            DDTFormat(new Dictionary<(Int32, Byte), String>() { { (1, 1), "A" }, { (2, 16), "B" }, { (3, 42), "C" } },
-                "[[('1', '0x01')] => 'A', [('2', '0x10')] => 'B', [('3', '0x2A')] => 'C']");
-
-        }
-
-        void DDTFormat<T>(T @object, String expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestData(nameof(FormatData))]
+        void Format<T>(T @object, String expected) {
 
             String result = null;
 
-            Test.Note($"{@object.Format()}.Format<{typeof(T).Format()}>() == {expected.Format()}", _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = @object.Format(), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
 
-            Test.IfNot.Action.ThrowsException(() => result = @object.Format(), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
+        }
 
+        IEnumerable<Object[]> FormatData() {
+            return new List<Object[]>() {
+                new Object[] { typeof(Object), null, "null" },
+                new Object[] { typeof(String), "some string", "'some string'" },
+                new Object[] { typeof(Int32), 42, "'42'" },
+                new Object[] { typeof(Int32), 0x42, "'66'" },
+                new Object[] { typeof(Byte), (Byte) 0x42, "'0x42'" },
+                new Object[] { typeof(Type), 42.GetType(), "'System.Int32'" },
+                new Object[] { typeof(Type), typeof(Int32), "'System.Int32'" },
+                new Object[] { typeof(IEnumerable<Int32>), Enumerable.Empty<Int32>(), "[]" },
+                new Object[] { typeof(DictionaryEntry), new DictionaryEntry(42, 'v'), "['42'] => 'v'" },
+                new Object[] { typeof(KeyValuePair<Int32, Char>), new KeyValuePair<Int32, Char>(42, 'v'), "['42'] => 'v'" },
+                new Object[] { typeof(KeyValuePair<Int32, String>), new KeyValuePair<Int32, String>(42, "v"), "['42'] => 'v'" },
+                new Object[] { typeof(KeyValuePair<String, Int32>), new KeyValuePair<String, Int32>("v", 42), "['v'] => '42'" },
+                new Object[] { typeof(KeyValuePair<Dummy, Dummy>), new KeyValuePair<Dummy, Dummy>(1, 2), "['1'] => '2'" },
+                new Object[] { typeof(ValueTuple<Int32, Char, String>), (1, '2', "3"), "('1', '2', '3')" },
+                new Object[] { typeof(ValueTuple<Int32, Dummy, Char, String>), (1, new Dummy(2), '3', "4"), "('1', '2', '3', '4')" },
+                new Object[] { typeof(Tuple<Int32, Char, String>), Tuple.Create(1, '2', "3"), "('1', '2', '3')" },
+                new Object[] { typeof(Tuple<Int32, Dummy, Char, String>), Tuple.Create(1, new Dummy(2), '3', "4"), "('1', '2', '3', '4')" },
+                new Object[] { typeof(List<Int32>), new List<Int32>() { 1, 2, 3 }, "['1', '2', '3']" },
+                new Object[] { typeof(Dictionary<Int32, String>), new Dictionary<Int32, String>() { { 1, "A" }, { 2, "B" }, { 3, "C" } }, "[['1'] => 'A', ['2'] => 'B', ['3'] => 'C']" },
+                new Object[] { typeof(Dictionary<ValueTuple<Int32, Byte>, String>), new Dictionary<(Int32, Byte), String>() { { (1, 1), "A" }, { (2, 16), "B" }, { (3, 42), "C" } }, "[[('1', '0x01')] => 'A', [('2', '0x10')] => 'B', [('3', '0x2A')] => 'C']" },
+            };
         }
 
         #endregion
@@ -56,24 +52,24 @@ namespace Nuclear.Extensions {
         #region FormatType
 
         [TestMethod]
-        void FormatType() {
-
-            DDTFormatType<Object>(null, "null");
-            DDTFormatType("some string", "'System.String'");
-            DDTFormatType(42, "'System.Int32'");
-            DDTFormatType(42.GetType(), "'System.RuntimeType'");
-            DDTFormatType(typeof(Int32), "'System.RuntimeType'");
-
-        }
-
-        void DDTFormatType<T>(T @object, String expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestData(nameof(FormatTypeData))]
+        void FormatType<T>(T @object, String expected) {
 
             String result = null;
 
-            Test.IfNot.Action.ThrowsException(() => result = @object.FormatType(), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = @object.FormatType(), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
 
+        }
+
+        IEnumerable<Object[]> FormatTypeData() {
+            return new List<Object[]>() {
+                new Object[] { typeof(Object), null, "null" },
+                new Object[] { typeof(String), "some string", "'System.String'" },
+                new Object[] { typeof(Int32), 42, "'System.Int32'" },
+                new Object[] { typeof(Type), 42.GetType(), "'System.RuntimeType'" },
+                new Object[] { typeof(Type), typeof(Int32), "'System.RuntimeType'" },
+            };
         }
 
         #endregion
@@ -81,43 +77,42 @@ namespace Nuclear.Extensions {
         #region Equals
 
         [TestMethod]
-        void Equals() {
-
-            DDTEquals<DummyIEquatableT>((null, null), true);
-            DDTEquals((null, new DummyIEquatableT(0)), false);
-            DDTEquals((new DummyIEquatableT(0), null), false);
-            DDTEquals((new DummyIEquatableT(5), new DummyIEquatableT(0)), false);
-            DDTEquals((new DummyIEquatableT(5), new DummyIEquatableT(5)), true);
-
-            DDTEquals<DummyIComparableT>((null, null), true);
-            DDTEquals((null, new DummyIComparableT(0)), false);
-            DDTEquals((new DummyIComparableT(0), null), false);
-            DDTEquals((new DummyIComparableT(5), new DummyIComparableT(0)), false);
-            DDTEquals((new DummyIComparableT(5), new DummyIComparableT(5)), true);
-
-            DDTEquals<DummyIComparable>((null, null), true);
-            DDTEquals((null, new DummyIComparable(0)), false);
-            DDTEquals((new DummyIComparable(0), null), false);
-            DDTEquals((new DummyIComparable(5), new DummyIComparable(0)), false);
-            DDTEquals((new DummyIComparable(5), new DummyIComparable(5)), true);
-
-            DDTEquals<Dummy>((null, null), true);
-            DDTEquals((null, new Dummy(0)), false);
-            DDTEquals((new Dummy(0), null), false);
-            DDTEquals((new Dummy(5), new Dummy(0)), false);
-            DDTEquals((new Dummy(5), new Dummy(5)), false);
-
-        }
-
-        void DDTEquals<T>((T left, T right) input, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestData(nameof(EqualsData))]
+        void Equals<T>(T left, T right, Boolean expected) {
 
             Boolean result = false;
 
-            Test.Note($"{input.left.Format()}.Equals({input.right.Format()})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.left.IsEqual<T>(input.right), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = left.IsEqual<T>(right), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
 
+        }
+
+        IEnumerable<Object[]> EqualsData() {
+            return new List<Object[]>() {
+                new Object[] { typeof(DummyIEquatableT), null, null, true },
+                new Object[] { typeof(DummyIEquatableT), null, new DummyIEquatableT(0), false },
+                new Object[] { typeof(DummyIEquatableT), new DummyIEquatableT(0), null, false },
+                new Object[] { typeof(DummyIEquatableT), new DummyIEquatableT(5), new DummyIEquatableT(0), false },
+                new Object[] { typeof(DummyIEquatableT), new DummyIEquatableT(5), new DummyIEquatableT(5), true },
+
+                new Object[] { typeof(DummyIComparableT), null, null, true },
+                new Object[] { typeof(DummyIComparableT), null, new DummyIComparableT(0), false },
+                new Object[] { typeof(DummyIComparableT), new DummyIComparableT(0), null, false },
+                new Object[] { typeof(DummyIComparableT), new DummyIComparableT(5), new DummyIComparableT(0), false },
+                new Object[] { typeof(DummyIComparableT), new DummyIComparableT(5), new DummyIComparableT(5), true },
+
+                new Object[] { typeof(DummyIComparable), null, null, true },
+                new Object[] { typeof(DummyIComparable), null, new DummyIComparable(0), false },
+                new Object[] { typeof(DummyIComparable), new DummyIComparable(0), null, false },
+                new Object[] { typeof(DummyIComparable), new DummyIComparable(5), new DummyIComparable(0), false },
+                new Object[] { typeof(DummyIComparable), new DummyIComparable(5), new DummyIComparable(5), true },
+
+                new Object[] { typeof(Dummy), null, null, true },
+                new Object[] { typeof(Dummy), null, new Dummy(0), false },
+                new Object[] { typeof(Dummy), new Dummy(0), null, false },
+                new Object[] { typeof(Dummy), new Dummy(5), new Dummy(0), false },
+                new Object[] { typeof(Dummy), new Dummy(5), new Dummy(5), false },
+            };
         }
 
         #endregion

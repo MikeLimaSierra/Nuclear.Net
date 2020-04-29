@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Nuclear.TestSite;
 
@@ -9,33 +10,31 @@ namespace Nuclear.Extensions {
         #region StartsWith
 
         [TestMethod]
-        void StartsWith() {
-
-            String value = "xyzabc";
-            Boolean result = false;
-
-            Test.Note("StartsWith(xYz, InvariantCultureIgnoreCase)");
-            Test.IfNot.Action.ThrowsException(() => result = value.StartsWith("xYz", StringComparison.InvariantCultureIgnoreCase), out Exception ex);
-            Test.If.Value.IsTrue(result);
-            Test.If.Value.IsEqual(value, "xyzabc");
-
-            DDTestStartsWith("xyzabc", String.Empty, true);
-            DDTestStartsWith("xyzabc", "xyz", true);
-            DDTestStartsWith("xyzabc", "xYz", false);
-            DDTestStartsWith("xyzabc", "abc", false);
-
-        }
-
-        void DDTestStartsWith(String value, String match, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestParameters("xyzabc", "xYz", StringComparison.InvariantCultureIgnoreCase, true)]
+        void StartsWithComparison(String value, String match, StringComparison comparison, Boolean expected) {
 
             String _value = value;
             Boolean _result = false;
 
-            Test.Note($"{_value}.StartsWith({match})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => _result = _value.StartsWith(match), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(_result, expected, _file, _method);
-            Test.If.Value.IsEqual(_value, value, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => _result = _value.StartsWith(match, comparison), out Exception ex);
+            Test.If.Value.IsEqual(_result, expected);
+            Test.If.Value.IsEqual(_value, value);
+
+        }
+
+        [TestMethod]
+        [TestParameters("xyzabc", "", true)]
+        [TestParameters("xyzabc", "xyz", true)]
+        [TestParameters("xyzabc", "xYz", false)]
+        [TestParameters("xyzabc", "abc", false)]
+        void StartsWith(String value, String match, Boolean expected) {
+
+            String _value = value;
+            Boolean _result = false;
+
+            Test.IfNot.Action.ThrowsException(() => _result = _value.StartsWith(match), out Exception ex);
+            Test.If.Value.IsEqual(_result, expected);
+            Test.If.Value.IsEqual(_value, value);
 
         }
 
@@ -44,33 +43,31 @@ namespace Nuclear.Extensions {
         #region EndsWith
 
         [TestMethod]
-        void EndsWith() {
-
-            String value = "abcxyz";
-            Boolean result = false;
-
-            Test.Note("EndsWith(xYz, InvariantCultureIgnoreCase)");
-            Test.IfNot.Action.ThrowsException(() => result = value.EndsWith("xYz", StringComparison.InvariantCultureIgnoreCase), out Exception ex);
-            Test.If.Value.IsTrue(result);
-            Test.If.Value.IsEqual(value, "abcxyz");
-
-            DDTestEndsWith("abcxyz", String.Empty, true);
-            DDTestEndsWith("abcxyz", "xyz", true);
-            DDTestEndsWith("abcxyz", "xYz", false);
-            DDTestEndsWith("abcxyz", "abc", false);
-
-        }
-
-        void DDTestEndsWith(String value, String match, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestParameters("abcxyz", "xYz", StringComparison.InvariantCultureIgnoreCase, true)]
+        void EndsWithComparison(String value, String match, StringComparison comparison, Boolean expected) {
 
             String _value = value;
             Boolean _result = false;
 
-            Test.Note($"{_value}.EndsWith({match})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => _result = _value.EndsWith(match), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(_result, expected, _file, _method);
-            Test.If.Value.IsEqual(_value, value, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => _result = _value.EndsWith(match, comparison), out Exception ex);
+            Test.If.Value.IsEqual(_result, expected);
+            Test.If.Value.IsEqual(_value, value);
+
+        }
+
+        [TestMethod]
+        [TestParameters("abcxyz", "", true)]
+        [TestParameters("abcxyz", "xyz", true)]
+        [TestParameters("abcxyz", "xYz", false)]
+        [TestParameters("abcxyz", "abc", false)]
+        void EndsWith(String value, String match, Boolean expected) {
+
+            String _value = value;
+            Boolean _result = false;
+
+            Test.IfNot.Action.ThrowsException(() => _result = _value.EndsWith(match), out Exception ex);
+            Test.If.Value.IsEqual(_result, expected);
+            Test.If.Value.IsEqual(_value, value);
 
         }
 
@@ -79,55 +76,38 @@ namespace Nuclear.Extensions {
         #region Contains
 
         [TestMethod]
-        void Contains() {
-
-            String value = "abcxyzabc";
-            Boolean result = false;
-
-            Test.Note("Contains(xYz, InvariantCultureIgnoreCase)");
-            Test.IfNot.Action.ThrowsException(() => result = value.Contains("xYz", StringComparison.InvariantCultureIgnoreCase), out Exception ex);
-            Test.If.Value.IsTrue(result);
-            Test.If.Value.IsEqual(value, "abcxyzabc");
-
-            DDContains("abcxyzabc", String.Empty, StringComparison.InvariantCulture, true);
-            DDContains("abcxyzabc", "xyz", StringComparison.InvariantCulture, true);
-            DDContains("abcxyzabc", "xYz", StringComparison.InvariantCulture, false);
-            DDContains("abcxyzabc", "xyyz", StringComparison.InvariantCulture, false);
-            DDContains("abcxyzabc", String.Empty, StringComparison.InvariantCultureIgnoreCase, true);
-            DDContains("abcxyzabc", "xyz", StringComparison.InvariantCultureIgnoreCase, true);
-            DDContains("abcxyzabc", "xYz", StringComparison.InvariantCultureIgnoreCase, true);
-            DDContains("abcxyzabc", "xyyz", StringComparison.InvariantCultureIgnoreCase, false);
-
-            DDContains("xyzabc", String.Empty, StringComparison.InvariantCulture, true);
-            DDContains("xyzabc", "xyz", StringComparison.InvariantCulture, true);
-            DDContains("xyzabc", "xYz", StringComparison.InvariantCulture, false);
-            DDContains("xyzabc", "xyyz", StringComparison.InvariantCulture, false);
-            DDContains("xyzabc", String.Empty, StringComparison.InvariantCultureIgnoreCase, true);
-            DDContains("xyzabc", "xyz", StringComparison.InvariantCultureIgnoreCase, true);
-            DDContains("xyzabc", "xYz", StringComparison.InvariantCultureIgnoreCase, true);
-            DDContains("xyzabc", "xyyz", StringComparison.InvariantCultureIgnoreCase, false);
-
-            DDContains("abcxyz", String.Empty, StringComparison.InvariantCulture, true);
-            DDContains("abcxyz", "xyz", StringComparison.InvariantCulture, true);
-            DDContains("abcxyz", "xYz", StringComparison.InvariantCulture, false);
-            DDContains("abcxyz", "xyyz", StringComparison.InvariantCulture, false);
-            DDContains("abcxyz", String.Empty, StringComparison.InvariantCultureIgnoreCase, true);
-            DDContains("abcxyz", "xyz", StringComparison.InvariantCultureIgnoreCase, true);
-            DDContains("abcxyz", "xYz", StringComparison.InvariantCultureIgnoreCase, true);
-            DDContains("abcxyz", "xyyz", StringComparison.InvariantCultureIgnoreCase, false);
-
-        }
-
-        void DDContains(String value, String match, StringComparison comparison, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestParameters("abcxyzabc", "", StringComparison.InvariantCulture, true)]
+        [TestParameters("abcxyzabc", "xyz", StringComparison.InvariantCulture, true)]
+        [TestParameters("abcxyzabc", "xYz", StringComparison.InvariantCulture, false)]
+        [TestParameters("abcxyzabc", "xyyz", StringComparison.InvariantCulture, false)]
+        [TestParameters("abcxyzabc", "", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestParameters("abcxyzabc", "xyz", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestParameters("abcxyzabc", "xYz", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestParameters("abcxyzabc", "xyyz", StringComparison.InvariantCultureIgnoreCase, false)]
+        [TestParameters("xyzabc", "", StringComparison.InvariantCulture, true)]
+        [TestParameters("xyzabc", "xyz", StringComparison.InvariantCulture, true)]
+        [TestParameters("xyzabc", "xYz", StringComparison.InvariantCulture, false)]
+        [TestParameters("xyzabc", "xyyz", StringComparison.InvariantCulture, false)]
+        [TestParameters("xyzabc", "", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestParameters("xyzabc", "xyz", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestParameters("xyzabc", "xYz", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestParameters("xyzabc", "xyyz", StringComparison.InvariantCultureIgnoreCase, false)]
+        [TestParameters("abcxyz", "", StringComparison.InvariantCulture, true)]
+        [TestParameters("abcxyz", "xyz", StringComparison.InvariantCulture, true)]
+        [TestParameters("abcxyz", "xYz", StringComparison.InvariantCulture, false)]
+        [TestParameters("abcxyz", "xyyz", StringComparison.InvariantCulture, false)]
+        [TestParameters("abcxyz", "", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestParameters("abcxyz", "xyz", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestParameters("abcxyz", "xYz", StringComparison.InvariantCultureIgnoreCase, true)]
+        [TestParameters("abcxyz", "xyyz", StringComparison.InvariantCultureIgnoreCase, false)]
+        void Contains(String value, String match, StringComparison comparison, Boolean expected) {
 
             String _value = value;
             Boolean _result = false;
 
-            Test.Note($"{_value.Format()}.Contains({match.Format()}, {comparison.Format()})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => _result = _value.Contains(match, comparison), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(_result, expected, _file, _method);
-            Test.If.Value.IsEqual(_value, value, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => _result = _value.Contains(match, comparison), out Exception ex);
+            Test.If.Value.IsEqual(_result, expected);
+            Test.If.Value.IsEqual(_value, value);
 
         }
 
@@ -136,40 +116,31 @@ namespace Nuclear.Extensions {
         #region TrimOnce
 
         [TestMethod]
-        void TrimOnce() {
-
-            DDTestTrimOnce("xyzxyzabcxyzxyz", null, "xyzxyzabcxyzxyz");
-            DDTestTrimOnce("xyzxyzabcxyzxyz", "xyz", "xyzabcxyz");
-            DDTestTrimOnce("zyxabczyx", "xyz", "zyxabczyx");
-
-            DDTestTrimOnce("xxabcxx", 'x', "xabcx");
-            DDTestTrimOnce("abc", 'x', "abc");
-
-        }
-
-        void DDTestTrimOnce(String value, String trim, String expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestParameters("xyzxyzabcxyzxyz", null, "xyzxyzabcxyzxyz")]
+        [TestParameters("xyzxyzabcxyzxyz", "xyz", "xyzabcxyz")]
+        [TestParameters("zyxabczyx", "xyz", "zyxabczyx")]
+        void TrimOnce(String value, String trim, String expected) {
 
             String _value = value;
             String _result = null;
 
-            Test.Note($"{_value}.TrimOnce({trim})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(_value, value, _file, _method);
-            Test.If.Value.IsEqual(_result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimOnce(trim), out Exception ex);
+            Test.If.Value.IsEqual(_value, value);
+            Test.If.Value.IsEqual(_result, expected);
 
         }
 
-        void DDTestTrimOnce(String value, Char trim, String expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestMethod]
+        [TestParameters("xxabcxx", 'x', "xabcx")]
+        [TestParameters("abc", 'x', "abc")]
+        void TrimOnceChar(String value, Char trim, String expected) {
 
             String _value = value;
             String _result = null;
 
-            Test.Note($"{_value}.TrimOnce({trim})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(_value, value, _file, _method);
-            Test.If.Value.IsEqual(_result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimOnce(trim), out Exception ex);
+            Test.If.Value.IsEqual(_value, value);
+            Test.If.Value.IsEqual(_result, expected);
 
         }
 
@@ -178,40 +149,31 @@ namespace Nuclear.Extensions {
         #region TrimStartOnce
 
         [TestMethod]
-        void TrimStartOnce() {
-
-            DDTestTrimStartOnce("xyzxyzabcxyz", null, "xyzxyzabcxyz");
-            DDTestTrimStartOnce("xyzxyzabcxyz", "xyz", "xyzabcxyz");
-            DDTestTrimStartOnce("zyxabcxyz", "xyz", "zyxabcxyz");
-
-            DDTestTrimStartOnce("xxabcx", 'x', "xabcx");
-            DDTestTrimStartOnce("abcx", 'x', "abcx");
-
-        }
-
-        void DDTestTrimStartOnce(String value, String trim, String expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestParameters("xyzxyzabcxyz", null, "xyzxyzabcxyz")]
+        [TestParameters("xyzxyzabcxyz", "xyz", "xyzabcxyz")]
+        [TestParameters("zyxabcxyz", "xyz", "zyxabcxyz")]
+        void TrimStartOnce(String value, String trim, String expected) {
 
             String _value = value;
             String _result = null;
 
-            Test.Note($"{_value}.TrimStartOnce({trim})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimStartOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(_value, value, _file, _method);
-            Test.If.Value.IsEqual(_result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimStartOnce(trim), out Exception ex);
+            Test.If.Value.IsEqual(_value, value);
+            Test.If.Value.IsEqual(_result, expected);
 
         }
 
-        void DDTestTrimStartOnce(String value, Char trim, String expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestMethod]
+        [TestParameters("xxabcx", 'x', "xabcx")]
+        [TestParameters("abcx", 'x', "abcx")]
+        void TrimStartOnceChar(String value, Char trim, String expected) {
 
             String _value = value;
             String _result = null;
 
-            Test.Note($"{_value}.TrimStartOnce({trim})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimStartOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(_value, value, _file, _method);
-            Test.If.Value.IsEqual(_result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimStartOnce(trim), out Exception ex);
+            Test.If.Value.IsEqual(_value, value);
+            Test.If.Value.IsEqual(_result, expected);
 
         }
 
@@ -220,40 +182,31 @@ namespace Nuclear.Extensions {
         #region TrimEndOnce
 
         [TestMethod]
-        void TrimEndOnce() {
-
-            DDTestTrimEndOnce("xyzabcxyzxyz", null, "xyzabcxyzxyz");
-            DDTestTrimEndOnce("xyzabcxyzxyz", "xyz", "xyzabcxyz");
-            DDTestTrimEndOnce("xyzabczyx", "xyz", "xyzabczyx");
-
-            DDTestTrimEndOnce("xabcxx", 'x', "xabcx");
-            DDTestTrimEndOnce("xabc", 'x', "xabc");
-
-        }
-
-        void DDTestTrimEndOnce(String value, String trim, String expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestParameters("xyzabcxyzxyz", null, "xyzabcxyzxyz")]
+        [TestParameters("xyzabcxyzxyz", "xyz", "xyzabcxyz")]
+        [TestParameters("xyzabczyx", "xyz", "xyzabczyx")]
+        void TrimEndOnce(String value, String trim, String expected) {
 
             String _value = value;
             String _result = null;
 
-            Test.Note($"{_value}.TrimEndOnce({trim})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimEndOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(_value, value, _file, _method);
-            Test.If.Value.IsEqual(_result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimEndOnce(trim), out Exception ex);
+            Test.If.Value.IsEqual(_value, value);
+            Test.If.Value.IsEqual(_result, expected);
 
         }
 
-        void DDTestTrimEndOnce(String value, Char trim, String expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestMethod]
+        [TestParameters("xabcxx", 'x', "xabcx")]
+        [TestParameters("xabc", 'x', "xabc")]
+        void TrimEndOnceChar(String value, Char trim, String expected) {
 
             String _value = value;
             String _result = null;
 
-            Test.Note($"{_value}.TrimEndOnce({trim})", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimEndOnce(trim), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(_value, value, _file, _method);
-            Test.If.Value.IsEqual(_result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => _result = _value.TrimEndOnce(trim), out Exception ex);
+            Test.If.Value.IsEqual(_value, value);
+            Test.If.Value.IsEqual(_result, expected);
 
         }
 

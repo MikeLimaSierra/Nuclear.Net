@@ -6,12 +6,6 @@ using Nuclear.TestSite;
 namespace Nuclear.Extensions {
     class IComparerTExtensions_uTests {
 
-        IEnumerable<Object[]> Data() {
-            return new List<Object[]>() {
-                new Object[] {  },
-            };
-        }
-
         #region static resources
 
         static readonly IComparer<Dummy> _throwingComparer = DynamicComparer.FromDelegate<Dummy>((x, y) => throw new NotImplementedException());
@@ -34,7 +28,7 @@ namespace Nuclear.Extensions {
 
             Boolean result = false;
 
-            Test.IfNot.Action.ThrowsException(() => result = comparer.IsEqual(new Dummy(x), new Dummy(y)), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => result = comparer.IsEqual(x, y), out Exception ex);
             Test.If.Value.IsEqual(result, expected);
 
         }
@@ -64,7 +58,7 @@ namespace Nuclear.Extensions {
 
             Boolean result = false;
 
-            Test.IfNot.Action.ThrowsException(() => result = comparer.IsLessThan(new Dummy(x), new Dummy(y)), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => result = comparer.IsLessThan(x, y), out Exception ex);
             Test.If.Value.IsEqual(result, expected);
 
         }
@@ -95,7 +89,7 @@ namespace Nuclear.Extensions {
 
             Boolean result = false;
 
-            Test.IfNot.Action.ThrowsException(() => result = comparer.IsLessThanOrEqual(new Dummy(x), new Dummy(y)), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => result = comparer.IsLessThanOrEqual(x, y), out Exception ex);
             Test.If.Value.IsEqual(result, expected);
 
         }
@@ -126,7 +120,7 @@ namespace Nuclear.Extensions {
 
             Boolean result = false;
 
-            Test.IfNot.Action.ThrowsException(() => result = comparer.IsGreaterThan(new Dummy(x), new Dummy(y)), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => result = comparer.IsGreaterThan(x, y), out Exception ex);
             Test.If.Value.IsEqual(result, expected);
 
         }
@@ -157,7 +151,7 @@ namespace Nuclear.Extensions {
 
             Boolean result = false;
 
-            Test.IfNot.Action.ThrowsException(() => result = comparer.IsGreaterThanOrEqual(new Dummy(x), new Dummy(y)), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => result = comparer.IsGreaterThanOrEqual(x, y), out Exception ex);
             Test.If.Value.IsEqual(result, expected);
 
         }
@@ -187,11 +181,8 @@ namespace Nuclear.Extensions {
         void IsClamped(IComparer<Dummy> comparer, Int32? v, Int32? min, Int32? max, Boolean expected) {
 
             Boolean result = false;
-            Dummy _v = v.HasValue ? new Dummy(v.Value) : null;
-            Dummy _min = min.HasValue ? new Dummy(min.Value) : null;
-            Dummy _max = max.HasValue ? new Dummy(max.Value) : null;
 
-            Test.IfNot.Action.ThrowsException(() => result = comparer.IsClamped(_v, _min, _max), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => result = comparer.IsClamped(v, min, max), out Exception ex);
             Test.If.Value.IsEqual(result, expected);
 
         }
@@ -228,11 +219,8 @@ namespace Nuclear.Extensions {
         void IsClampedExclusive(IComparer<Dummy> comparer, Int32? v, Int32? min, Int32? max, Boolean expected) {
 
             Boolean result = false;
-            Dummy _v = v.HasValue ? new Dummy(v.Value) : null;
-            Dummy _min = min.HasValue ? new Dummy(min.Value) : null;
-            Dummy _max = max.HasValue ? new Dummy(max.Value) : null;
 
-            Test.IfNot.Action.ThrowsException(() => result = comparer.IsClampedExclusive(_v, _min, _max), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => result = comparer.IsClampedExclusive(v, min, max), out Exception ex);
             Test.If.Value.IsEqual(result, expected);
 
         }
@@ -269,11 +257,8 @@ namespace Nuclear.Extensions {
         void Clamp(IComparer<Dummy> comparer, Int32? v, Int32? min, Int32? max, Int32 expected) {
 
             Dummy result = default;
-            Dummy _v = v.HasValue ? new Dummy(v.Value) : null;
-            Dummy _min = min.HasValue ? new Dummy(min.Value) : null;
-            Dummy _max = max.HasValue ? new Dummy(max.Value) : null;
 
-            Test.IfNot.Action.ThrowsException(() => result = comparer.Clamp(_v, _min, _max), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => result = comparer.Clamp(v, min, max), out Exception ex);
             Test.If.Value.IsEqual(result.Value, expected, comparer);
 
         }
@@ -282,14 +267,14 @@ namespace Nuclear.Extensions {
             return new List<Object[]>() {
                 new Object[] { new DummyIComparerT(), 0, null, null, 0 },
                 new Object[] { new DummyIComparerT(), 0, null, 1, 0 },
-                new Object[] { new DummyIComparerT(), 0, (-1), null, 0 },
-                new Object[] { new DummyIComparerT(), 0, (-1), 1, 0 },
-                new Object[] { new DummyIComparerT(), 0, 1, (-1), 0 },
+                new Object[] { new DummyIComparerT(), 0, -1, null, 0 },
+                new Object[] { new DummyIComparerT(), 0, -1, 1, 0 },
+                new Object[] { new DummyIComparerT(), 0, 1, -1, 0 },
                 new Object[] { new DummyIComparerT(), 0, 0, 1, 0 },
-                new Object[] { new DummyIComparerT(), 0, (-1), 0, 0 },
+                new Object[] { new DummyIComparerT(), 0, -1, 0, 0 },
                 new Object[] { new DummyIComparerT(), 0, 0, 0, 0 },
                 new Object[] { new DummyIComparerT(), 0, 1, 2, 1 },
-                new Object[] { new DummyIComparerT(), 0, (-2), (-1), (-1) },
+                new Object[] { new DummyIComparerT(), 0, -2, -1, -1 },
             };
         }
 
@@ -307,9 +292,9 @@ namespace Nuclear.Extensions {
 
         [TestMethod]
         [TestData(nameof(MinData))]
-        void Min<T>(IComparer<T> comparer, T x, T y, T expected) {
+        void Min(IComparer<Dummy> comparer, Int32? x, Int32? y, Int32 expected) {
 
-            T result = default;
+            Dummy result = default;
 
             Test.IfNot.Action.ThrowsException(() => result = comparer.Min(x, y), out Exception ex);
             Test.If.Value.IsEqual(result, expected, comparer);
@@ -318,9 +303,9 @@ namespace Nuclear.Extensions {
 
         IEnumerable<Object[]> MinData() {
             return new List<Object[]>() {
-                new Object[] { typeof(Dummy), new DummyIComparerT(), (Dummy) 0, (Dummy) 0, (Dummy) 0 },
-                new Object[] { typeof(Dummy), new DummyIComparerT(), (Dummy) 0, (Dummy) 1, (Dummy) 0 },
-                new Object[] { typeof(Dummy), new DummyIComparerT(), (Dummy) 1, (Dummy) 0, (Dummy) 0 },
+                new Object[] { new DummyIComparerT(), 0, 0, 0 },
+                new Object[] { new DummyIComparerT(), 0, 1, 0 },
+                new Object[] { new DummyIComparerT(), 1, 0, 0 },
             };
         }
 
@@ -338,20 +323,20 @@ namespace Nuclear.Extensions {
 
         [TestMethod]
         [TestData(nameof(MaxData))]
-        void Max<T>(IComparer<T> comparer, T x, T y, T expected) {
+        void Max(IComparer<Dummy> comparer, Int32? x, Int32? y, Int32 expected) {
 
-            T result = default;
+            Dummy result = default;
 
             Test.IfNot.Action.ThrowsException(() => result = comparer.Max(x, y), out Exception ex);
-            Test.If.Value.IsEqual(result, expected, comparer);
+            Test.If.Value.IsEqual(result.Value, expected, comparer);
 
         }
 
         IEnumerable<Object[]> MaxData() {
             return new List<Object[]>() {
-                new Object[] { typeof(Dummy), new DummyIComparerT(), (Dummy) 0, (Dummy) 0, (Dummy) 0 },
-                new Object[] { typeof(Dummy), new DummyIComparerT(), (Dummy) 0, (Dummy) 1, (Dummy) 1 },
-                new Object[] { typeof(Dummy), new DummyIComparerT(), (Dummy) 1, (Dummy) 0, (Dummy) 1 },
+                new Object[] { new DummyIComparerT(), 0, 0, 0 },
+                new Object[] { new DummyIComparerT(), 0, 1, 1 },
+                new Object[] { new DummyIComparerT(), 1, 0, 1 },
             };
         }
 

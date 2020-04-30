@@ -259,7 +259,7 @@ namespace Nuclear.Extensions {
             Dummy result = default;
 
             Test.IfNot.Action.ThrowsException(() => result = comparer.Clamp(v, min, max), out Exception ex);
-            Test.If.Value.IsEqual(result.Value, expected, comparer);
+            Test.If.Value.IsEqual(result.Value, expected);
 
         }
 
@@ -297,7 +297,7 @@ namespace Nuclear.Extensions {
             Dummy result = default;
 
             Test.IfNot.Action.ThrowsException(() => result = comparer.Min(x, y), out Exception ex);
-            Test.If.Value.IsEqual(result, expected, comparer);
+            Test.If.Value.IsEqual(result.Value, expected);
 
         }
 
@@ -328,7 +328,7 @@ namespace Nuclear.Extensions {
             Dummy result = default;
 
             Test.IfNot.Action.ThrowsException(() => result = comparer.Max(x, y), out Exception ex);
-            Test.If.Value.IsEqual(result.Value, expected, comparer);
+            Test.If.Value.IsEqual(result.Value, expected);
 
         }
 

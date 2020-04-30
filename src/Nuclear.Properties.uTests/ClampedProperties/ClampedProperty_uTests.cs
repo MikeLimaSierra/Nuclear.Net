@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
 using Nuclear.TestSite;
 
 namespace Nuclear.Properties.ClampedProperties {

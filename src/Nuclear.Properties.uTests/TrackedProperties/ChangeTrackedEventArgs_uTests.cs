@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+
 using Nuclear.TestSite;
 
 namespace Nuclear.Properties.TrackedProperties {
@@ -22,7 +22,7 @@ namespace Nuclear.Properties.TrackedProperties {
             ChangeTrackedEventArgs<TOwner, TValue> e = null;
 
             Test.IfNot.Action.ThrowsException(() => e = new ChangeTrackedEventArgs<TOwner, TValue>(input1, input2, input3), out Exception ex);
- 
+
             Test.IfNot.Object.IsNull(e);
             Test.If.Value.IsEqual(e.Owner, input1);
             Test.If.Value.IsEqual(e.Old, input2);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Nuclear.TestSite;
 
 namespace Nuclear.Properties.ClampedProperties {

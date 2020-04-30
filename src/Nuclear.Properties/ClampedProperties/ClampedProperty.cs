@@ -46,7 +46,8 @@ namespace Nuclear.Properties.ClampedProperties {
             get => _value;
             set {
                 TValue old = _value;
-                _value = value.Clamp(_minimum, _maximum);
+
+                _value = value != null ? value.Clamp(_minimum, _maximum) : (Minimum != null ? Minimum : default);
 
                 if(!ReferenceEquals(old, Value) && old != null && Value != null && old.CompareTo(Value) != 0) {
                     RaisePropertyChanged();
@@ -68,7 +69,7 @@ namespace Nuclear.Properties.ClampedProperties {
                 TValue old = Minimum;
                 _minimum = (value != null && Maximum != null && value.CompareTo(Maximum) > 0) ? Maximum : value;
 
-                if(!ReferenceEquals(old, Minimum) && old != null && Minimum != null && old.CompareTo(Minimum) != 0) {
+                if((!ReferenceEquals(old, Minimum) && !old.IsEqual(Minimum)) || (old != null && Minimum != null && old.CompareTo(Minimum) != 0)) {
                     RaisePropertyChanged();
                 }
 
@@ -86,7 +87,7 @@ namespace Nuclear.Properties.ClampedProperties {
                 TValue old = _maximum;
                 _maximum = (value != null && Minimum != null && value.CompareTo(Minimum) < 0) ? Minimum : value;
 
-                if(!ReferenceEquals(old, Maximum) && old != null && Maximum != null && old.CompareTo(Maximum) != 0) {
+                if((!ReferenceEquals(old, Maximum) && !old.IsEqual(Maximum)) || (old != null && Maximum != null && old.CompareTo(Maximum) != 0)) {
                     RaisePropertyChanged();
                 }
 

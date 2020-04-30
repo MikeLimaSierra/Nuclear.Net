@@ -292,7 +292,7 @@ namespace Nuclear.Extensions {
 
         [TestMethod]
         [TestData(nameof(MinData))]
-        void Min(IComparer<Dummy> comparer, Int32? x, Int32? y, Int32 expected) {
+        void Min(IComparer<Dummy> comparer, Int32 x, Int32 y, Int32 expected) {
 
             Dummy result = default;
 
@@ -323,7 +323,7 @@ namespace Nuclear.Extensions {
 
         [TestMethod]
         [TestData(nameof(MaxData))]
-        void Max(IComparer<Dummy> comparer, Int32? x, Int32? y, Int32 expected) {
+        void Max(IComparer<Dummy> comparer, Int32 x, Int32 y, Int32 expected) {
 
             Dummy result = default;
 

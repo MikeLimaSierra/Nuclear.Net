@@ -340,55 +340,55 @@ namespace Nuclear.Assemblies {
         #region TryGetStandardVersion
 
         [TestMethod]
-        void TryGetStandardVersion() {
+        [TestData(nameof(TryGetStandardVersionData))]
+        void TryGetStandardVersion(RuntimeInfo input, Boolean result, Version version) {
 
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), (true, new Version(1, 1)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)), (true, new Version(1, 2)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)), (true, new Version(1, 2)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)), (true, new Version(1, 3)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)), (true, new Version(2, 0)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)), (true, new Version(2, 0)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)), (true, new Version(2, 0)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)), (true, new Version(2, 0)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)), (true, new Version(2, 0)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), (true, new Version(2, 0)));
+            Boolean _result = false;
+            Version _version = null;
 
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), (true, new Version(1, 6)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)), (true, new Version(1, 6)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)), (true, new Version(2, 0)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), (true, new Version(2, 0)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), (true, new Version(2, 0)));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), (true, new Version(2, 1)));
-
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)), (false, null));
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), (false, null));
-
-            DDTTryGetStandardVersion(new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), (false, null));
+            Test.IfNot.Action.ThrowsException(() => _result = RuntimesHelper.TryGetStandardVersion(input, out _version), out Exception ex);
+         
+            Test.If.Value.IsEqual(_result, result);
+            Test.If.Value.IsEqual(_version, version);
 
         }
 
-        void DDTTryGetStandardVersion(RuntimeInfo input, (Boolean result, Version version) expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        IEnumerable<Object[]> TryGetStandardVersionData() {
+            return new List<Object[]>() {
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), true, new Version(1, 1) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)), true, new Version(1, 2) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)), true, new Version(1, 2) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)), true, new Version(1, 3) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)), true, new Version(2, 0) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)), true, new Version(2, 0) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)), true, new Version(2, 0) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)), true, new Version(2, 0) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)), true, new Version(2, 0) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), true, new Version(2, 0) },
 
-            Boolean result = false;
-            Version version = null;
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), true, new Version(1, 6) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)), true, new Version(1, 6) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)), true, new Version(2, 0) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), true, new Version(2, 0) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), true, new Version(2, 0) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), true, new Version(2, 1) },
 
-            Test.IfNot.Action.ThrowsException(() => result = RuntimesHelper.TryGetStandardVersion(input, out version), out Exception ex);
-         
-            Test.If.Value.IsEqual(result, expected.result);
-            Test.If.Value.IsEqual(version, expected.version);
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)), false, null },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), false, null },
 
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), false, null },
+            };
         }
 
         #endregion
@@ -396,318 +396,316 @@ namespace Nuclear.Assemblies {
         #region TryGetMatchingRuntimes
 
         [TestMethod]
-        void TryGetMatchingRuntimes() {
+        [TestData(nameof(TryGetMatchingRuntimesData))]
+        void TryGetMatchingRuntimes(RuntimeInfo input, Boolean result, IEnumerable<RuntimeInfo> runtimes) {
 
-            DDTTryGetMatchingRuntimes(null, (false, Enumerable.Empty<RuntimeInfo>()));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), (false, Enumerable.Empty<RuntimeInfo>()));
+            Boolean _result = false;
+            IEnumerable<RuntimeInfo> _runtimes = null;
 
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-            }));
-
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
-            DDTTryGetMatchingRuntimes(new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), (true, new List<RuntimeInfo>() {
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
-            }));
+            Test.IfNot.Action.ThrowsException(() => _result = RuntimesHelper.TryGetMatchingRuntimes(input, out _runtimes), out Exception ex);
+       
+            Test.If.Value.IsEqual(_result, result);
+            Test.If.Enumerable.Matches(_runtimes, runtimes);
 
         }
 
-        void DDTTryGetMatchingRuntimes(RuntimeInfo input, (Boolean result, IEnumerable<RuntimeInfo> runtimes) expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        IEnumerable<Object[]> TryGetMatchingRuntimesData() {
+            return new List<Object[]>() {
+                new Object[] { null, false, Enumerable.Empty<RuntimeInfo>() },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), false, Enumerable.Empty<RuntimeInfo>() },
 
-            Boolean result = false;
-            IEnumerable<RuntimeInfo> runtimes = null;
-
-            Test.IfNot.Action.ThrowsException(() => result = RuntimesHelper.TryGetMatchingRuntimes(input, out runtimes), out Exception ex);
-       
-            Test.If.Value.IsEqual(result, expected.result);
-            Test.If.Enumerable.Matches(runtimes, expected.runtimes);
-
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(3, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 7, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                } },
+            };
         }
 
         #endregion

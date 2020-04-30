@@ -187,8 +187,8 @@ namespace Nuclear.Extensions {
         void IsClamped(IComparer<Dummy> comparer, Int32? v, Int32? min, Int32? max, Boolean expected) {
 
             Boolean result = false;
-            Dummy _v = v.HasValue ? new Dummy(v.Value): null;
-            Dummy _min = min.HasValue ? new Dummy(min.Value): null;
+            Dummy _v = v.HasValue ? new Dummy(v.Value) : null;
+            Dummy _min = min.HasValue ? new Dummy(min.Value) : null;
             Dummy _max = max.HasValue ? new Dummy(max.Value) : null;
 
             Test.IfNot.Action.ThrowsException(() => result = comparer.IsClamped(_v, _min, _max), out Exception ex);

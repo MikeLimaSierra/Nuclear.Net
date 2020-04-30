@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+
 using Nuclear.TestSite;
 
 namespace Nuclear.Extensions {
@@ -15,22 +16,21 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void IsEqual() {
-
-            DDTIsEqual(((DummyIComparableT) 0, 0), true);
-            DDTIsEqual(((DummyIComparableT) 0, 1), false);
-
-        }
-
-        void DDTIsEqual<T>((IComparable<T> x, T y) input, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestData(nameof(IsEqualData))]
+        void IsEqual(Int32 x, Int32 y, Boolean expected) {
 
             Boolean result = default;
 
-            Test.Note($"{input.x.Format()}.IsEqual({input.y.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.x.IsEqual(input.y), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = x.IsEqual(y), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
 
+        }
+
+        IEnumerable<Object[]> IsEqualData() {
+            return new List<Object[]>() {
+                new Object[] { 0, 0, true },
+                new Object[] { 0, 1, false },
+            };
         }
 
         #endregion
@@ -45,23 +45,22 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void LessThan() {
-
-            DDTLessThan(((DummyIComparableT) 0, 0), false);
-            DDTLessThan(((DummyIComparableT) 0, 1), true);
-            DDTLessThan(((DummyIComparableT) 1, 0), false);
-
-        }
-
-        void DDTLessThan<T>((IComparable<T> x, T y) input, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestData(nameof(LessThanData))]
+        void LessThan(Int32 x, Int32 y, Boolean expected) {
 
             Boolean result = default;
 
-            Test.Note($"{input.x.Format()}.LessThan({input.y.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.x.IsLessThan(input.y), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = x.IsLessThan(y), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
 
+        }
+
+        IEnumerable<Object[]> LessThanData() {
+            return new List<Object[]>() {
+                new Object[] { 0, 0, false },
+                new Object[] { 0, 1, true },
+                new Object[] { 1, 0, false },
+            };
         }
 
         #endregion
@@ -76,23 +75,22 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void LessThanOrEquals() {
-
-            DDTLessThanOrEquals(((DummyIComparableT) 0, 0), true);
-            DDTLessThanOrEquals(((DummyIComparableT) 0, 1), true);
-            DDTLessThanOrEquals(((DummyIComparableT) 1, 0), false);
-
-        }
-
-        void DDTLessThanOrEquals<T>((IComparable<T> x, T y) input, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestData(nameof(LessThanOrEqualsData))]
+        void LessThanOrEquals(Int32 x, Int32 y, Boolean expected) {
 
             Boolean result = default;
 
-            Test.Note($"{input.x.Format()}.LessThanOrEquals({input.y.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.x.IsLessThanOrEqual(input.y), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = x.IsLessThanOrEqual(y), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
 
+        }
+
+        IEnumerable<Object[]> LessThanOrEqualsData() {
+            return new List<Object[]>() {
+                new Object[] { 0, 0, true },
+                new Object[] { 0, 1, true },
+                new Object[] { 1, 0, false },
+            };
         }
 
         #endregion
@@ -107,23 +105,22 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void GreaterThan() {
-
-            DDTGreaterThan(((DummyIComparableT) 0, 0), false);
-            DDTGreaterThan(((DummyIComparableT) 0, 1), false);
-            DDTGreaterThan(((DummyIComparableT) 1, 0), true);
-
-        }
-
-        void DDTGreaterThan<T>((IComparable<T> x, T y) input, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestData(nameof(GreaterThanData))]
+        void GreaterThan(Int32 x, Int32 y, Boolean expected) {
 
             Boolean result = default;
 
-            Test.Note($"{input.x.Format()}.GreaterThan({input.y.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.x.IsGreaterThan(input.y), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = x.IsGreaterThan(y), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
 
+        }
+
+        IEnumerable<Object[]> GreaterThanData() {
+            return new List<Object[]>() {
+                new Object[] { 0, 0, false },
+                new Object[] { 0, 1, false },
+                new Object[] { 1, 0, true },
+            };
         }
 
         #endregion
@@ -138,23 +135,22 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void GreaterThanOrEquals() {
-
-            DDTGreaterThanOrEquals(((DummyIComparableT) 0, 0), true);
-            DDTGreaterThanOrEquals(((DummyIComparableT) 0, 1), false);
-            DDTGreaterThanOrEquals(((DummyIComparableT) 1, 0), true);
-
-        }
-
-        void DDTGreaterThanOrEquals<T>((IComparable<T> x, T y) input, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
+        [TestData(nameof(GreaterThanOrEqualsData))]
+        void GreaterThanOrEquals(Int32 x, Int32 y, Boolean expected) {
 
             Boolean result = default;
 
-            Test.Note($"{input.x.Format()}.GreaterThanOrEquals({input.y.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.x.IsGreaterThanOrEqual(input.y), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => result = x.IsGreaterThanOrEqual(y), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
 
+        }
+
+        IEnumerable<Object[]> GreaterThanOrEqualsData() {
+            return new List<Object[]>() {
+                new Object[] { 0, 0, true },
+                new Object[] { 0, 1, false },
+                new Object[] { 1, 0, true },
+            };
         }
 
         #endregion
@@ -169,30 +165,32 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void IsClamped() {
+        [TestData(nameof(IsClampedData))]
+        void IsClamped(Int32 v, Int32? min, Int32? max, Boolean expected) {
 
-            DDTIsClamped(((DummyIComparableT) 0, null, null), true);
-            DDTIsClamped(((DummyIComparableT) 0, null, 1), true);
-            DDTIsClamped(((DummyIComparableT) 0, -1, null), true);
-            DDTIsClamped(((DummyIComparableT) 0, -1, 1), true);
-            DDTIsClamped(((DummyIComparableT) 0, 1, -1), false);
-            DDTIsClamped(((DummyIComparableT) 0, 0, 1), true);
-            DDTIsClamped(((DummyIComparableT) 0, -1, 0), true);
-            DDTIsClamped(((DummyIComparableT) 0, 0, 0), true);
-            DDTIsClamped(((DummyIComparableT) 0, 1, 2), false);
-            DDTIsClamped(((DummyIComparableT) 0, -2, -1), false);
+            Boolean result = default;
+            DummyIComparableT _v = new DummyIComparableT(v);
+            DummyIComparableT _min = min.HasValue ? new DummyIComparableT(min.Value) : null;
+            DummyIComparableT _max = max.HasValue ? new DummyIComparableT(max.Value) : null;
+
+            Test.IfNot.Action.ThrowsException(() => result = _v.IsClamped(_min, _max), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
 
         }
 
-        void DDTIsClamped<T>((IComparable<T> v, T min, T max) input, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
-
-            Boolean result = default;
-
-            Test.Note($"{input.v.Format()}.IsClamped({input.min.Format()}, {input.max.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.v.IsClamped(input.min, input.max), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
-
+        IEnumerable<Object[]> IsClampedData() {
+            return new List<Object[]>() {
+                new Object[] { 0, null, null, true },
+                new Object[] { 0, null, 1, true },
+                new Object[] { 0, -1, null, true },
+                new Object[] { 0, -1, 1, true },
+                new Object[] { 0, 1, -1, false },
+                new Object[] { 0, 0, 1, true },
+                new Object[] { 0, -1, 0, true },
+                new Object[] { 0, 0, 0, true },
+                new Object[] { 0, 1, 2, false },
+                new Object[] { 0, -2, -1, false },
+            };
         }
 
         #endregion
@@ -207,30 +205,32 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void IsClampedExclusive() {
+        [TestData(nameof(IsClampedExclusiveData))]
+        void IsClampedExclusive(Int32 v, Int32? min, Int32? max, Boolean expected) {
 
-            DDTIsClampedExclusive(((DummyIComparableT) 0, null, null), true);
-            DDTIsClampedExclusive(((DummyIComparableT) 0, null, 1), true);
-            DDTIsClampedExclusive(((DummyIComparableT) 0, -1, null), true);
-            DDTIsClampedExclusive(((DummyIComparableT) 0, -1, 1), true);
-            DDTIsClampedExclusive(((DummyIComparableT) 0, 1, -1), false);
-            DDTIsClampedExclusive(((DummyIComparableT) 0, 0, 1), false);
-            DDTIsClampedExclusive(((DummyIComparableT) 0, -1, 0), false);
-            DDTIsClampedExclusive(((DummyIComparableT) 0, 0, 0), false);
-            DDTIsClampedExclusive(((DummyIComparableT) 0, 1, 2), false);
-            DDTIsClampedExclusive(((DummyIComparableT) 0, -2, -1), false);
+            Boolean result = default;
+            DummyIComparableT _v = new DummyIComparableT(v);
+            DummyIComparableT _min = min.HasValue ? new DummyIComparableT(min.Value) : null;
+            DummyIComparableT _max = max.HasValue ? new DummyIComparableT(max.Value) : null;
+
+            Test.IfNot.Action.ThrowsException(() => result = _v.IsClampedExclusive(_min, _max), out Exception ex);
+            Test.If.Value.IsEqual(result, expected);
 
         }
 
-        void DDTIsClampedExclusive<T>((IComparable<T> v, T min, T max) input, Boolean expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null) {
-
-            Boolean result = default;
-
-            Test.Note($"{input.v.Format()}.IsClampedExclusive({input.min.Format()}, {input.max.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.v.IsClampedExclusive(input.min, input.max), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
-
+        IEnumerable<Object[]> IsClampedExclusiveData() {
+            return new List<Object[]>() {
+                new Object[] { 0, null, null, true },
+                new Object[] { 0, null, 1, true },
+                new Object[] { 0, -1, null, true },
+                new Object[] { 0, -1, 1, true },
+                new Object[] { 0, 1, -1, false },
+                new Object[] { 0, 0, 1, false },
+                new Object[] { 0, -1, 0, false },
+                new Object[] { 0, 0, 0, false },
+                new Object[] { 0, 1, 2, false },
+                new Object[] { 0, -2, -1, false },
+            };
         }
 
         #endregion
@@ -245,31 +245,32 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void Clamp() {
+        [TestData(nameof(ClampData))]
+        void Clamp(Int32 v, Int32? min, Int32? max, Int32 expected) {
 
-            DDTClamp<DummyIComparableT>((0, null, null), 0);
-            DDTClamp<DummyIComparableT>((0, null, 1), 0);
-            DDTClamp<DummyIComparableT>((0, -1, null), 0);
-            DDTClamp<DummyIComparableT>((0, -1, 1), 0);
-            DDTClamp<DummyIComparableT>((0, 1, -1), 0);
-            DDTClamp<DummyIComparableT>((0, 0, 1), 0);
-            DDTClamp<DummyIComparableT>((0, -1, 0), 0);
-            DDTClamp<DummyIComparableT>((0, 0, 0), 0);
-            DDTClamp<DummyIComparableT>((0, 1, 2), 1);
-            DDTClamp<DummyIComparableT>((0, -2, -1), -1);
+            DummyIComparableT result = default;
+            DummyIComparableT _v = new DummyIComparableT(v);
+            DummyIComparableT _min = min.HasValue ? new DummyIComparableT(min.Value) : null;
+            DummyIComparableT _max = max.HasValue ? new DummyIComparableT(max.Value) : null;
+
+            Test.IfNot.Action.ThrowsException(() => result = _v.Clamp(_min, _max), out Exception ex);
+            Test.If.Value.IsEqual(result.Value, expected);
 
         }
 
-        void DDTClamp<T>((T v, T min, T max) input, T expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null)
-            where T : IComparable<T> {
-
-            T result = default;
-
-            Test.Note($"{input.v.Format()}.Clamp({input.min.Format()}, {input.max.Format()}) == {expected.Format()}", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => result = input.v.Clamp(input.min, input.max), out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(result, expected, _file, _method);
-
+        IEnumerable<Object[]> ClampData() {
+            return new List<Object[]>() {
+                new Object[] { 0, null, null, 0 },
+                new Object[] { 0, null, 1, 0 },
+                new Object[] { 0, -1, null, 0 },
+                new Object[] { 0, -1, 1, 0 },
+                new Object[] { 0, 1, -1, 0 },
+                new Object[] { 0, 0, 1, 0 },
+                new Object[] { 0, -1, 0, 0 },
+                new Object[] { 0, 0, 0, 0 },
+                new Object[] { 0, 1, 2, 1 },
+                new Object[] { 0, -2, -1, -1 },
+            };
         }
 
         #endregion

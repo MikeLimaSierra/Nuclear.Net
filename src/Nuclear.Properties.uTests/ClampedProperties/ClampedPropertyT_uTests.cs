@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Linq;
 
+using Nuclear.Extensions;
 using Nuclear.TestSite;
 
 namespace Nuclear.Properties.ClampedProperties {
@@ -25,6 +26,7 @@ namespace Nuclear.Properties.ClampedProperties {
             IClampedPropertyT<Version> prop = null;
 
             Test.If.Action.ThrowsException(() => prop = new ClampedPropertyT<Version>(null, new Version(1, 1), new Version(1, 3)), out ArgumentNullException argEx);
+
             Test.IfNot.Object.IsNull(argEx);
             Test.If.Value.IsEqual(argEx.ParamName, "value");
             Test.If.Object.IsNull(prop);
@@ -32,28 +34,23 @@ namespace Nuclear.Properties.ClampedProperties {
         }
 
         [TestMethod]
-        [TestData(nameof(ConstructorData))]
-        void Constructor<TValue>(TValue input1, TValue input2, TValue input3, (TValue value, TValue min, TValue max) expected)
+        [TestParameters(typeof(String), "c", null, null, "c", null, null)]
+        [TestParameters(typeof(String), "c", null, "d", "c", null, "d")]
+        [TestParameters(typeof(String), "c", "b", null, "c", "b", null)]
+        [TestParameters(typeof(String), "c", "b", "d", "c", "b", "d")]
+        [TestParameters(typeof(String), "c", "d", "b", "c", "b", "d")]
+        [TestParameters(typeof(String), "a", "b", "d", "b", "b", "d")]
+        void Constructor<TValue>(TValue input1, TValue input2, TValue input3, TValue value, TValue min, TValue max)
             where TValue : IComparable<TValue> {
 
             IClampedPropertyT<TValue> prop = null;
 
             Test.IfNot.Action.ThrowsException(() => prop = new ClampedPropertyT<TValue>(input1, input2, input3), out Exception ex);
-            Test.IfNot.Object.IsNull(prop);
-            Test.If.Value.IsEqual(prop.Minimum, expected.min);
-            Test.If.Value.IsEqual(prop.Maximum, expected.max);
-            Test.If.Value.IsEqual(prop.Value, expected.value);
-        }
 
-        IEnumerable<Object[]> ConstructorData() {
-            return new List<Object[]>() {
-                new Object[] { typeof(Version), new Version(1, 2), null, null, (new Version(1, 2), (Version) null, (Version) null) },
-                new Object[] { typeof(Version), new Version(1, 2), null, new Version(1, 3), (new Version(1, 2), (Version) null, new Version(1, 3)) },
-                new Object[] { typeof(Version), new Version(1, 2), new Version(1, 1), null, (new Version(1, 2), new Version(1, 1), (Version) null) },
-                new Object[] { typeof(Version), new Version(1, 2), new Version(1, 1), new Version(1, 3), (new Version(1, 2), new Version(1, 1), new Version(1, 3)) },
-                new Object[] { typeof(Version), new Version(1, 2), new Version(1, 3), new Version(1, 1), (new Version(1, 2), new Version(1, 1), new Version(1, 3)) },
-                new Object[] { typeof(Version), new Version(1, 0), new Version(1, 1), new Version(1, 3), (new Version(1, 1), new Version(1, 1), new Version(1, 3)) },
-            };
+            Test.IfNot.Object.IsNull(prop);
+            Test.If.Value.IsEqual(prop.Minimum, min);
+            Test.If.Value.IsEqual(prop.Maximum, max);
+            Test.If.Value.IsEqual(prop.Value, value);
         }
 
         #endregion
@@ -61,109 +58,84 @@ namespace Nuclear.Properties.ClampedProperties {
         #region properties
 
         [TestMethod]
-        void ValuePropertyNonNullable() {
-
-            DDTestValueProperty((0, -2, 2), 0, (0, -2, 2));
-            DDTestValueProperty((0, -2, 2), 1, (1, -2, 2));
-            DDTestValueProperty((0, -2, 2), -2, (-2, -2, 2));
-            DDTestValueProperty((0, -2, 2), 2, (2, -2, 2));
-            DDTestValueProperty((0, -2, 2), -3, (-2, -2, 2));
-            DDTestValueProperty((0, -2, 2), 3, (2, -2, 2));
-
-        }
-
-        [TestMethod]
-        void ValuePropertyNullable() {
-
-            DDTestValueProperty((new Version(2, 0), new Version(1, 0), new Version(3, 0)), new Version(2, 0), (new Version(2, 0), new Version(1, 0), new Version(3, 0)));
-            DDTestValueProperty((new Version(2, 0), new Version(1, 0), new Version(3, 0)), new Version(1, 0), (new Version(1, 0), new Version(1, 0), new Version(3, 0)));
-            DDTestValueProperty((new Version(2, 0), new Version(1, 0), new Version(3, 0)), new Version(3, 0), (new Version(3, 0), new Version(1, 0), new Version(3, 0)));
-            DDTestValueProperty((new Version(2, 0), new Version(1, 0), new Version(3, 0)), new Version(0, 1), (new Version(1, 0), new Version(1, 0), new Version(3, 0)));
-            DDTestValueProperty((new Version(2, 0), new Version(1, 0), new Version(3, 0)), new Version(3, 1), (new Version(3, 0), new Version(1, 0), new Version(3, 0)));
-
-        }
-
-        void DDTestValueProperty<TValue>((TValue value, TValue min, TValue max) input, TValue newValue, (TValue value, TValue min, TValue max) expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null)
+        [TestParameters(typeof(Int32), 0, -2, 2, 0, 0, -2, 2)]
+        [TestParameters(typeof(Int32), 0, -2, 2, 1, 1, -2, 2)]
+        [TestParameters(typeof(Int32), 0, -2, 2, -2, -2, -2, 2)]
+        [TestParameters(typeof(Int32), 0, -2, 2, 2, 2, -2, 2)]
+        [TestParameters(typeof(Int32), 0, -2, 2, -3, -2, -2, 2)]
+        [TestParameters(typeof(Int32), 0, -2, 2, 3, 2, -2, 2)]
+        [TestParameters(typeof(String), "d", "b", "f", "d", "d", "b", "f")]
+        [TestParameters(typeof(String), "d", "b", "f", "e", "e", "b", "f")]
+        [TestParameters(typeof(String), "d", "b", "f", "b", "b", "b", "f")]
+        [TestParameters(typeof(String), "d", "b", "f", "f", "f", "b", "f")]
+        [TestParameters(typeof(String), "d", "b", "f", "a", "b", "b", "f")]
+        [TestParameters(typeof(String), "d", "b", "f", "g", "f", "b", "f")]
+        void ValueProperty<TValue>(TValue input1, TValue input2, TValue input3, TValue newValue, TValue value, TValue min, TValue max)
             where TValue : IComparable<TValue> {
 
-            IClampedPropertyT<TValue> prop = new ClampedPropertyT<TValue>(input.value, input.min, input.max);
+            IClampedPropertyT<TValue> prop = new ClampedPropertyT<TValue>(input1, input2, input3);
 
-            Test.Note($"Value = '{newValue}'", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => prop.Value = newValue, out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(prop.Minimum, expected.min, _file, _method);
-            Test.If.Value.IsEqual(prop.Maximum, expected.max, _file, _method);
-            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => prop.Value = newValue, out Exception ex);
 
-        }
-
-        [TestMethod]
-        void MinimumPropertyNonNullable() {
-
-            DDTestMinimumProperty((0, -2, 2), -2, (0, -2, 2));
-            DDTestMinimumProperty((0, -2, 2), 0, (0, 0, 2));
-            DDTestMinimumProperty((0, -2, 2), 1, (1, 1, 2));
-            DDTestMinimumProperty((0, -2, 2), -3, (0, -3, 2));
-            DDTestMinimumProperty((0, -2, 2), 3, (2, 2, 2));
+            Test.If.Value.IsEqual(prop.Minimum, min);
+            Test.If.Value.IsEqual(prop.Maximum, max);
+            Test.If.Value.IsEqual(prop.Value, value);
 
         }
 
         [TestMethod]
-        void MinimumPropertyNullable() {
-
-            DDTestMinimumProperty((new Version(2, 0), null, null), new Version(1, 0), (new Version(2, 0), new Version(1, 0), null));
-            DDTestMinimumProperty((new Version(2, 0), null, null), new Version(2, 0), (new Version(2, 0), new Version(2, 0), null));
-            DDTestMinimumProperty((new Version(2, 0), null, null), new Version(2, 5), (new Version(2, 5), new Version(2, 5), null));
-            DDTestMinimumProperty((new Version(2, 0), null, null), null, (new Version(2, 0), null, null));
-
-        }
-
-        void DDTestMinimumProperty<TValue>((TValue value, TValue min, TValue max) input, TValue newMin, (TValue value, TValue min, TValue max) expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null)
+        [TestParameters(typeof(Int32), 0, -2, 2, -2, 0, -2, 2)]
+        [TestParameters(typeof(Int32), 0, -2, 2, 0, 0, 0, 2)]
+        [TestParameters(typeof(Int32), 0, -2, 2, 1, 1, 1, 2)]
+        [TestParameters(typeof(Int32), 0, -2, 2, -3, 0, -3, 2)]
+        [TestParameters(typeof(Int32), 0, -2, 2, 3, 2, 2, 2)]
+        [TestParameters(typeof(String), "d", "b", "f", "b", "d", "b", "f")]
+        [TestParameters(typeof(String), "d", "b", "f", "d", "d", "d", "f")]
+        [TestParameters(typeof(String), "d", "b", "f", "e", "e", "e", "f")]
+        [TestParameters(typeof(String), "d", "b", "f", "a", "d", "a", "f")]
+        [TestParameters(typeof(String), "d", "b", "f", "g", "f", "f", "f")]
+        [TestParameters(typeof(String), "c", null, null, "a", "c", "a", null)]
+        [TestParameters(typeof(String), "c", null, null, "c", "c", "c", null)]
+        [TestParameters(typeof(String), "c", null, null, "d", "d", "d", null)]
+        [TestParameters(typeof(String), "c", null, null, null, "c", null, null)]
+        void MinimumProperty<TValue>(TValue input1, TValue input2, TValue input3, TValue newMin, TValue value, TValue min, TValue max)
             where TValue : IComparable<TValue> {
 
-            IClampedPropertyT<TValue> prop = new ClampedPropertyT<TValue>(input.value, input.min, input.max);
+            IClampedPropertyT<TValue> prop = new ClampedPropertyT<TValue>(input1, input2, input3);
 
-            Test.Note($"Minimum = '{newMin}'", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => prop.Minimum = newMin, out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(prop.Minimum, expected.min, _file, _method);
-            Test.If.Value.IsEqual(prop.Maximum, expected.max, _file, _method);
-            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => prop.Minimum = newMin, out Exception ex);
 
-        }
-
-        [TestMethod]
-        void MaximumPropertyNonNullable() {
-
-            DDTestMaximumProperty((0, -2, 2), 2, (0, -2, 2));
-            DDTestMaximumProperty((0, -2, 2), 0, (0, -2, 0));
-            DDTestMaximumProperty((0, -2, 2), -1, (-1, -2, -1));
-            DDTestMaximumProperty((0, -2, 2), 3, (0, -2, 3));
-            DDTestMaximumProperty((0, -2, 2), -3, (-2, -2, -2));
+            Test.If.Value.IsEqual(prop.Minimum, min);
+            Test.If.Value.IsEqual(prop.Maximum, max);
+            Test.If.Value.IsEqual(prop.Value, value);
 
         }
 
         [TestMethod]
-        void MaximumPropertyNullable() {
-
-            DDTestMaximumProperty((new Version(2, 0), null, null), new Version(3, 0), (new Version(2, 0), null, new Version(3, 0)));
-            DDTestMaximumProperty((new Version(2, 0), null, null), new Version(2, 0), (new Version(2, 0), null, new Version(2, 0)));
-            DDTestMaximumProperty((new Version(2, 0), null, null), new Version(1, 5), (new Version(1, 5), null, new Version(1, 5)));
-            DDTestMaximumProperty((new Version(2, 0), null, null), null, (new Version(2, 0), null, null));
-
-        }
-
-        void DDTestMaximumProperty<TValue>((TValue value, TValue min, TValue max) input, TValue newMax, (TValue value, TValue min, TValue max) expected,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null)
+        [TestParameters(typeof(Int32), 0, -2, 2, 2, 0, -2, 2)]
+        [TestParameters(typeof(Int32), 0, -2, 2, 0, 0, -2, 0)]
+        [TestParameters(typeof(Int32), 0, -2, 2, -1, -1, -2, -1)]
+        [TestParameters(typeof(Int32), 0, -2, 2, 3, 0, -2, 3)]
+        [TestParameters(typeof(Int32), 0, -2, 2, -3, -2, -2, -2)]
+        [TestParameters(typeof(String), "d", "b", "f", "f", "d", "b", "f")]
+        [TestParameters(typeof(String), "d", "b", "f", "d", "d", "b", "d")]
+        [TestParameters(typeof(String), "d", "b", "f", "c", "c", "b", "c")]
+        [TestParameters(typeof(String), "d", "b", "f", "g", "d", "b", "g")]
+        [TestParameters(typeof(String), "d", "b", "f", "a", "b", "b", "b")]
+        [TestParameters(typeof(String), "c", null, null, "e", "c", null, "e")]
+        [TestParameters(typeof(String), "c", null, null, "c", "c", null, "c")]
+        [TestParameters(typeof(String), "c", null, null, "b", "b", null, "b")]
+        [TestParameters(typeof(String), "c", null, null, null, "c", null, null)]
+        void MaximumProperty<TValue>(TValue input1, TValue input2, TValue input3, TValue newMax, TValue value, TValue min, TValue max)
             where TValue : IComparable<TValue> {
 
-            IClampedPropertyT<TValue> prop = new ClampedPropertyT<TValue>(input.value, input.min, input.max);
+            IClampedPropertyT<TValue> prop = new ClampedPropertyT<TValue>(input1, input2, input3);
 
-            Test.Note($"Maximum = '{newMax}'", _file, _method);
-            Test.IfNot.Action.ThrowsException(() => prop.Maximum = newMax, out Exception ex, _file, _method);
-            Test.If.Value.IsEqual(prop.Minimum, expected.min, _file, _method);
-            Test.If.Value.IsEqual(prop.Maximum, expected.max, _file, _method);
-            Test.If.Value.IsEqual(prop.Value, expected.value, _file, _method);
+            Test.IfNot.Action.ThrowsException(() => prop.Maximum = newMax, out Exception ex);
+
+            Test.If.Value.IsEqual(prop.Minimum, min);
+            Test.If.Value.IsEqual(prop.Maximum, max);
+            Test.If.Value.IsEqual(prop.Value, value);
 
         }
 
@@ -172,48 +144,51 @@ namespace Nuclear.Properties.ClampedProperties {
         #region events
 
         [TestMethod]
-        void ValuePropertyChangedEvent() {
-
-            IClampedPropertyT<Int32> prop = new ClampedPropertyT<Int32>(0, -1, 1);
-
-            Test.IfNot.Action.RaisesPropertyChangedEvent(() => prop.Value = 0, prop, out EventData<PropertyChangedEventArgs> eventData);
-            DDTestRaisePropertyChangedEvent(prop, () => prop.Value = 1, "Value");
-
-        }
-
-        [TestMethod]
-        void MinimumPropertyChangedEvent() {
-
-            IClampedPropertyT<Int32> prop = new ClampedPropertyT<Int32>(0, -1, 1);
-
-            Test.IfNot.Action.RaisesPropertyChangedEvent(() => prop.Minimum = -1, prop, out EventData<PropertyChangedEventArgs> eventData);
-            DDTestRaisePropertyChangedEvent(prop, () => prop.Minimum = 0, "Minimum");
-            DDTestRaisePropertyChangedEvent(prop, () => prop.Minimum = 1, "Value");
-
-        }
-
-        [TestMethod]
-        void MaximumPropertyChangedEvent() {
-
-            IClampedPropertyT<Int32> prop = new ClampedPropertyT<Int32>(0, -1, 1);
-
-            Test.IfNot.Action.RaisesPropertyChangedEvent(() => prop.Maximum = 1, prop, out EventData<PropertyChangedEventArgs> eventData);
-            DDTestRaisePropertyChangedEvent(prop, () => prop.Maximum = 0, "Maximum");
-            DDTestRaisePropertyChangedEvent(prop, () => prop.Maximum = -1, "Value");
-
-        }
-
-        void DDTestRaisePropertyChangedEvent<TValue>(IClampedPropertyT<TValue> prop, Action action, String propertyName,
-            [CallerFilePath] String _file = null, [CallerMemberName] String _method = null)
+        [TestData(nameof(RaisePropertyChangedEventData))]
+        void RaisePropertyChangedEvent<TValue>(IClampedPropertyT<TValue> prop, TValue v, TValue min, TValue max, Action action, IEnumerable<EventData<PropertyChangedEventArgs>> expected)
             where TValue : IComparable<TValue> {
 
-            Test.Note($"Change property: '{propertyName}'", _file, _method);
-            Test.If.Action.RaisesPropertyChangedEvent(action, prop, out EventData<PropertyChangedEventArgs> eventData, _file, _method);
-            Test.IfNot.Object.IsNull(eventData.Sender, _file, _method);
-            Test.If.Reference.IsEqual(eventData.Sender, prop, _file, _method);
-            Test.IfNot.Object.IsNull(eventData.EventArgs, _file, _method);
-            Test.If.Value.IsEqual(eventData.EventArgs.PropertyName, propertyName, _file, _method);
+            prop.Minimum = min;
+            prop.Maximum = max;
+            prop.Value = v;
 
+            if(expected.Count() > 0) {
+                Test.If.Action.RaisesPropertyChangedEvent(action, prop, out EventDataCollection<PropertyChangedEventArgs> eventDatas);
+
+                Test.If.Enumerable.Matches(eventDatas, expected, DynamicEqualityComparer.FromDelegate<EventData<PropertyChangedEventArgs>>(
+                    (x, y) => ReferenceEquals(x.Sender, y.Sender) && x.EventArgs.PropertyName == y.EventArgs.PropertyName,
+                    (obj) => obj.GetHashCode()));
+
+            } else {
+                Test.IfNot.Action.RaisesPropertyChangedEvent(action, prop, out EventDataCollection<PropertyChangedEventArgs> _);
+            }
+
+        }
+
+        IEnumerable<Object[]> RaisePropertyChangedEventData() {
+            IClampedPropertyT<Int32> intProp = new ClampedPropertyT<Int32>(0, -1, 1);
+            IClampedPropertyT<String> stringProp = new ClampedPropertyT<String>("b", "a", "c");
+
+            return new List<Object[]>() {
+                new Object[] { typeof(Int32), intProp, 0, -1, 1, new Action(() => intProp.Value = 1) , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(intProp, new PropertyChangedEventArgs("Value")) } },
+                new Object[] { typeof(Int32), intProp, 0, -1, 1, new Action(() => intProp.Minimum = -1) , Enumerable.Empty<EventData<PropertyChangedEventArgs>>() },
+                new Object[] { typeof(Int32), intProp, 0, -1, 1, new Action(() => intProp.Minimum = 0) , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(intProp, new PropertyChangedEventArgs("Minimum")) } },
+                new Object[] { typeof(Int32), intProp, 0, -1, 1, new Action(() => intProp.Minimum = 1) , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(intProp, new PropertyChangedEventArgs("Minimum")), new EventData<PropertyChangedEventArgs>(intProp, new PropertyChangedEventArgs("Value")) } },
+                new Object[] { typeof(Int32), intProp, 0, -1, 1, new Action(() => intProp.Maximum = 1) , Enumerable.Empty<EventData<PropertyChangedEventArgs>>() },
+                new Object[] { typeof(Int32), intProp, 0, -1, 1, new Action(() => intProp.Maximum = 0) , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(intProp, new PropertyChangedEventArgs("Maximum")) } },
+                new Object[] { typeof(Int32), intProp, 0, -1, 1, new Action(() => intProp.Maximum = -1) , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(intProp, new PropertyChangedEventArgs("Maximum")), new EventData<PropertyChangedEventArgs>(intProp, new PropertyChangedEventArgs("Value")) } },
+                new Object[] { typeof(String), stringProp, "b", "a", "c", new Action(() => stringProp.Value = "c") , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Value")) } },
+                new Object[] { typeof(String), stringProp, "b", "a", "c", new Action(() => stringProp.Minimum = "a") , Enumerable.Empty<EventData<PropertyChangedEventArgs>>() },
+                new Object[] { typeof(String), stringProp, "b", "a", "c", new Action(() => stringProp.Minimum = "b") , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Minimum")) } },
+                new Object[] { typeof(String), stringProp, "b", "a", "c", new Action(() => stringProp.Minimum = "c") , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Minimum")), new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Value")) } },
+                new Object[] { typeof(String), stringProp, "b", "a", "c", new Action(() => stringProp.Maximum = "c") , Enumerable.Empty<EventData<PropertyChangedEventArgs>>() },
+                new Object[] { typeof(String), stringProp, "b", "a", "c", new Action(() => stringProp.Maximum = "b") , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Maximum")) } },
+                new Object[] { typeof(String), stringProp, "b", "a", "c", new Action(() => stringProp.Maximum = "a") , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Maximum")), new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Value")) } },
+                new Object[] { typeof(String), stringProp, "b", "a", "c", new Action(() => stringProp.Minimum = null) , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Minimum")) } },
+                new Object[] { typeof(String), stringProp, "b", "a", "c", new Action(() => stringProp.Maximum = null) , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Maximum")) } },
+                new Object[] { typeof(String), stringProp, null, null, null, new Action(() => stringProp.Minimum = "a") , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Minimum")) } },
+                new Object[] { typeof(String), stringProp, null, null, null, new Action(() => stringProp.Maximum = "a") , new List<EventData<PropertyChangedEventArgs>>() { new EventData<PropertyChangedEventArgs>(stringProp, new PropertyChangedEventArgs("Maximum")) } },
+            };
         }
 
         [TestMethod]
@@ -221,11 +196,10 @@ namespace Nuclear.Properties.ClampedProperties {
 
             IClampedPropertyT<Int32> prop = new ClampedPropertyT<Int32>(0, -1, 5);
 
-            Test.Note("Value = Value");
             Test.IfNot.Action.RaisesEvent(() => prop.Value = 0, prop, "ValueClamped", out EventData<ValueClampedEventArgs<Int32>> eventData);
 
-            Test.Note("Value = in range");
             Test.If.Action.RaisesEvent(() => prop.Value = 1, prop, "ValueClamped", out eventData);
+
             Test.IfNot.Object.IsNull(eventData.Sender);
             Test.If.Reference.IsEqual(eventData.Sender, prop);
             Test.IfNot.Object.IsNull(eventData.EventArgs);
@@ -235,9 +209,8 @@ namespace Nuclear.Properties.ClampedProperties {
             Test.If.Value.IsFalse(eventData.EventArgs.HasBeenClamped);
             Test.If.Value.IsTrue(eventData.EventArgs.HasChanged);
 
-            Test.Note("Value = out of range");
-
             Test.If.Action.RaisesEvent(() => prop.Value = 6, prop, "ValueClamped", out eventData);
+
             Test.IfNot.Object.IsNull(eventData.Sender);
             Test.If.Reference.IsEqual(eventData.Sender, prop);
             Test.IfNot.Object.IsNull(eventData.EventArgs);

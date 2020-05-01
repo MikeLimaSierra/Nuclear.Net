@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 using Nuclear.Assemblies.Runtimes;
-using Nuclear.Extensions;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies {
@@ -25,7 +24,7 @@ namespace Nuclear.Assemblies {
             Test.IfNot.Object.IsNull(versions2);
             Test.If.Reference.IsEqual(versions1, versions2);
             Test.If.Value.IsEqual(versions1.Count, 29);
-            
+
         }
 
         [TestMethod]
@@ -35,7 +34,7 @@ namespace Nuclear.Assemblies {
             Version version = null;
 
             Test.IfNot.Action.ThrowsException(() => version = RuntimesHelper.NetStandardVersions[input], out Exception ex);
-         
+
             Test.If.Value.IsEqual(version, expected);
 
         }
@@ -347,7 +346,7 @@ namespace Nuclear.Assemblies {
             Version _version = null;
 
             Test.IfNot.Action.ThrowsException(() => _result = RuntimesHelper.TryGetStandardVersion(input, out _version), out Exception ex);
-         
+
             Test.If.Value.IsEqual(_result, result);
             Test.If.Value.IsEqual(_version, version);
 
@@ -403,7 +402,7 @@ namespace Nuclear.Assemblies {
             IEnumerable<RuntimeInfo> _runtimes = null;
 
             Test.IfNot.Action.ThrowsException(() => _result = RuntimesHelper.TryGetMatchingRuntimes(input, out _runtimes), out Exception ex);
-       
+
             Test.If.Value.IsEqual(_result, result);
             Test.If.Enumerable.Matches(_runtimes, runtimes);
 
@@ -722,7 +721,7 @@ namespace Nuclear.Assemblies {
             IEnumerable<RuntimeInfo> _runtimes = null;
 
             Test.IfNot.Action.ThrowsException(() => _result = RuntimesHelper.TryGetLowestMatchingRuntimes(input, out _runtimes), out Exception ex);
-       
+
             Test.If.Value.IsEqual(_result, result);
             Test.If.Enumerable.Matches(_runtimes, runtimes);
 
@@ -757,7 +756,7 @@ namespace Nuclear.Assemblies {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
                 } },
-                
+
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)),
                 } },
@@ -1197,7 +1196,7 @@ namespace Nuclear.Assemblies {
             IEnumerable<RuntimeInfo> runtimes = null;
 
             Test.IfNot.Action.ThrowsException(() => result = RuntimesHelper.TryGetLoadableRuntimes(input, out runtimes), out Exception ex);
-     
+
             Test.If.Value.IsEqual(result, expected.result);
             Test.If.Enumerable.Matches(runtimes, expected.runtimes);
 
@@ -1614,7 +1613,7 @@ namespace Nuclear.Assemblies {
             List<RuntimeInfo> runtimes = null;
 
             Test.IfNot.Action.ThrowsException(() => result = RuntimesHelper.TryGetLoadableRuntimes(input.runtime, input.sortDesc, out runtimes), out Exception ex);
-   
+
             Test.If.Value.IsEqual(result, expected.result);
             Test.If.Enumerable.MatchesExactly(runtimes, expected.runtimes);
 

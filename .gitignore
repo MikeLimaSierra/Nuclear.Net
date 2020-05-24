@@ -4,3 +4,4 @@
 src/Nuclear.Units*
 src/Nuclear.Maths.Tests/
 fake-nuget
+*.snk

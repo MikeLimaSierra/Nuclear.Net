@@ -5,7 +5,7 @@ namespace Nuclear.Exceptions.ExceptionSuites.Base {
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class ChildExceptionSuite : ExceptionSuite {
+    public class BaseExceptionSuite : ExceptionSuite {
 
         #region properties
 
@@ -15,7 +15,7 @@ namespace Nuclear.Exceptions.ExceptionSuites.Base {
 
         #region ctors
 
-        internal ChildExceptionSuite(ExceptionSuiteCollection parent) {
+        public BaseExceptionSuite(ExceptionSuiteCollection parent) {
             Parent = parent;
         }
 

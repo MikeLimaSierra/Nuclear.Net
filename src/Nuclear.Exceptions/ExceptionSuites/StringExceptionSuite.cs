@@ -8,7 +8,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
     /// Provides conditional probing instructions for strings.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class StringExceptionSuite : ChildExceptionSuite {
+    public class StringExceptionSuite : BaseExceptionSuite {
 
         #region ctors
 

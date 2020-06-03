@@ -1,7 +1,9 @@
 .vs
 [Bb]in
 [Oo]bj
+[Pp]ublish
+[Pp]ackages
 src/Nuclear.Units*
 src/Nuclear.Maths.Tests/
 fake-nuget
-*.snk
+src/KeyPair.snk

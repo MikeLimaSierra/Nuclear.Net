@@ -1,0 +1,1 @@
+..\..\..\strong-name-resign.bat ..\..\bin\Nuclear.Exceptions\AnyCPU\Release\netstandard1.0\Nuclear.Exceptions.dll ..\KeyPair.snk

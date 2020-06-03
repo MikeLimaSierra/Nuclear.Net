@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Nuclear.Exceptions</id>
-    <version>1.0.0</version>
+    <version>2.0.0-rc1</version>
     <title>Nuclear.Exceptions</title>
     <description>Features improved throwing of exceptions.</description>
     <authors>MikeLimaSierra</authors>
@@ -16,9 +16,9 @@
   </metadata>
   <files>
     <file src="../LICENSE.md" target="" />
-    <file src="../src/bin/Nuclear.Exceptions/AnyCPU/Release/netstandard1.0/Nuclear.Exceptions.deps.json" target="lib/netstandard1.0" />
-    <file src="../src/bin/Nuclear.Exceptions/AnyCPU/Release/netstandard1.0/Nuclear.Exceptions.dll" target="lib/netstandard1.0" />
-    <file src="../src/bin/Nuclear.Exceptions/AnyCPU/Release/netstandard1.0/Nuclear.Exceptions.pdb" target="lib/netstandard1.0" />
-    <file src="../src/bin/Nuclear.Exceptions/AnyCPU/Release/netstandard1.0/Nuclear.Exceptions.xml" target="lib/netstandard1.0" />
+    <file src="../bin/Nuclear.Exceptions/AnyCPU/Release/netstandard1.0/Nuclear.Exceptions.deps.json" target="lib/netstandard1.0" />
+    <file src="../bin/Nuclear.Exceptions/AnyCPU/Release/netstandard1.0/Nuclear.Exceptions.dll" target="lib/netstandard1.0" />
+    <file src="../bin/Nuclear.Exceptions/AnyCPU/Release/netstandard1.0/Nuclear.Exceptions.pdb" target="lib/netstandard1.0" />
+    <file src="../bin/Nuclear.Exceptions/AnyCPU/Release/netstandard1.0/Nuclear.Exceptions.xml" target="lib/netstandard1.0" />
   </files>
 </package>

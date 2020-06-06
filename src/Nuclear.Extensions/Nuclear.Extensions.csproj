@@ -1,20 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <RootNamespace>Nuclear.Extensions</RootNamespace>
     <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <FileVersion>2.0.0</FileVersion>
   </PropertyGroup>
   
   <Import Project="..\Configurations.targets" />
-  
+
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Nuclear.Exceptions" Version="2.0.0-rc1" />
+    <PackageReference Include="Nuclear.Exceptions" Version="2.0.0" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
     <ProjectReference Include="..\Nuclear.Exceptions\Nuclear.Exceptions.csproj" />
   </ItemGroup>
+
+  <Target Condition="'$(Configuration)' == 'Release'" Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="publish.bat" />
+  </Target>
   
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

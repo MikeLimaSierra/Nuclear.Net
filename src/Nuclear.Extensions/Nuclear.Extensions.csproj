@@ -21,9 +21,5 @@
   <Target Condition="'$(Configuration)' == 'Release'" Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="publish.bat" />
   </Target>
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-  </ItemGroup>
 
 </Project>

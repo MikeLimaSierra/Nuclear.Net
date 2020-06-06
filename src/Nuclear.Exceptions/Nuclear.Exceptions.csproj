@@ -9,5 +9,9 @@
   </PropertyGroup>
   
   <Import Project="..\Configurations.targets" />
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="publish.bat" />
+  </Target>
 
 </Project>

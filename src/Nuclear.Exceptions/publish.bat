@@ -10,7 +10,7 @@ SET xml=Nuclear.Exceptions.xml
 SET deps=Nuclear.Exceptions.deps.json
 
 REM delete publish dir
-RMDIR %publish%
+RMDIR /S /Q %publish%
 
 REM resign assembly
 %sn_exe% -Ra %bin%%dll% %key%

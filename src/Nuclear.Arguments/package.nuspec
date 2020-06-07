@@ -21,9 +21,9 @@
   </metadata>
   <files>
     <file src="../../LICENSE.md" target="" />
-    <file src="../publish/Nuclear.Arguments/netstandard1.0/Nuclear.Arguments.deps.json" target="lib/netstandard1.0" />
-    <file src="../publish/Nuclear.Arguments/netstandard1.0/Nuclear.Arguments.dll" target="lib/netstandard1.0" />
-    <file src="../publish/Nuclear.Arguments/netstandard1.0/Nuclear.Arguments.pdb" target="lib/netstandard1.0" />
-    <file src="../publish/Nuclear.Arguments/netstandard1.0/Nuclear.Arguments.xml" target="lib/netstandard1.0" />
+    <file src="../../publish/Nuclear.Arguments/netstandard1.0/Nuclear.Arguments.deps.json" target="lib/netstandard1.0" />
+    <file src="../../publish/Nuclear.Arguments/netstandard1.0/Nuclear.Arguments.dll" target="lib/netstandard1.0" />
+    <file src="../../publish/Nuclear.Arguments/netstandard1.0/Nuclear.Arguments.pdb" target="lib/netstandard1.0" />
+    <file src="../../publish/Nuclear.Arguments/netstandard1.0/Nuclear.Arguments.xml" target="lib/netstandard1.0" />
   </files>
 </package>

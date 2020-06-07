@@ -2,7 +2,7 @@
 
 SET sn_exe="C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\sn.exe"
 SET key=..\KeyPair.snk
-SET bin=..\..\bin\Nuclear.Properties.Contracts\AnyCPU\Release\netstandard1.0\
+SET bin=..\..\bin\Nuclear.Properties\AnyCPU\Release\netstandard1.0\
 SET publish=..\..\publish\Nuclear.Properties.Contracts\netstandard1.0\
 SET dll=Nuclear.Properties.Contracts.dll
 SET pdb=Nuclear.Properties.Contracts.pdb

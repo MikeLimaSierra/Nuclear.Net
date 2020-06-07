@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Nuclear.Assemblies {
-    public static class EnvironmentHelper {
+    internal static class EnvironmentHelper {
 
         #region variables
 

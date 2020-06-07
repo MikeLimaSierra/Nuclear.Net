@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Nuclear.Assemblies</id>
+    <version>1.0.0</version>
+    <title>Nuclear.Assemblies</title>
+    <description>Features improvements in assembly loading and runtimes handling.</description>
+    <authors>MikeLimaSierra</authors>
+    <owners>MikeLimaSierra</owners>
+    <copyright>Copyright (c) 2020 MikeLimaSierra</copyright>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE.md</license>
+    <projectUrl>https://github.com/MikeLimaSierra/Nuclear.Net</projectUrl>
+    <repository type="git" url="https://github.com/MikeLimaSierra/Nuclear.Net" />
+    <language>en-US</language>
+	<dependencies>
+	  <group>
+      <dependency id="Nuclear.Extensions" version="2.0.0" />
+    </group>
+	</dependencies>
+  </metadata>
+  <files>
+    <file src="../../LICENSE.md" target="" />
+    <file src="../../publish/Nuclear.Assemblies/netstandard2.0/Nuclear.Assemblies.deps.json" target="lib/netstandard2.0" />
+    <file src="../../publish/Nuclear.Assemblies/netstandard2.0/Nuclear.Assemblies.dll" target="lib/netstandard2.0" />
+    <file src="../../publish/Nuclear.Assemblies/netstandard2.0/Nuclear.Assemblies.pdb" target="lib/netstandard2.0" />
+    <file src="../../publish/Nuclear.Assemblies/netstandard2.0/Nuclear.Assemblies.xml" target="lib/netstandard2.0" />
+  </files>
+</package>

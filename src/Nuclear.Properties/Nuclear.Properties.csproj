@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Nuclear.Properties.Contracts\Nuclear.Properties.Contracts.csproj" />
   </ItemGroup>
 
+  <Target Condition="'$(Configuration)' == 'Release'" Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="publish.bat" />
+  </Target>
+
 </Project>

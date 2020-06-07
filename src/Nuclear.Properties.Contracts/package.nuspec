@@ -13,11 +13,11 @@
     <projectUrl>https://github.com/MikeLimaSierra/Nuclear.Net</projectUrl>
     <repository type="git" url="https://github.com/MikeLimaSierra/Nuclear.Net" />
     <language>en-US</language>
-	<dependencies>
-	  <group>
-      <dependency id="Nuclear.Extensions" version="2.0.0" />
-    </group>
-	</dependencies>
+	  <dependencies>
+	    <group>
+        <dependency id="Nuclear.Extensions" version="2.0.0" />
+      </group>
+	  </dependencies>
   </metadata>
   <files>
     <file src="../../LICENSE.md" target="" />

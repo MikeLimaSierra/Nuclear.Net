@@ -12,29 +12,33 @@
     <LangVersion>latest</LangVersion>
     <Platforms>AnyCPU</Platforms>
     <Configurations>Release;Integration;Debug</Configurations>
+  </PropertyGroup>
+  
+  <!-- Signing -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release' OR '$(Configuration)' == 'Integration'">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\PublicKey.snk</AssemblyOriginatorKeyFile>
     <DelaySign>true</DelaySign>
   </PropertyGroup>
 
   <!-- Conditional -->
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug' ">
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Integration' ">
+  <PropertyGroup Condition="'$(Configuration)' == 'Integration'">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>INTEGRATION;TRACE</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Release' ">
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>RELEASE;TRACE</DefineConstants>
   </PropertyGroup>
 
   <!-- Available -->

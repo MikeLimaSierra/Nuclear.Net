@@ -41,6 +41,7 @@ namespace Nuclear.Assemblies {
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), new Version(2, 0) },
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), new Version(2, 0) },
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new Version(2, 1) },
+                { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new Version(2, 1) },
 
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), null },
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), null },

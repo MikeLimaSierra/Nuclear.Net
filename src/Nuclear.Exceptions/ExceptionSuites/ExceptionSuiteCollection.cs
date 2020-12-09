@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+
 using Nuclear.Exceptions.ExceptionSuites.Base;
 
 namespace Nuclear.Exceptions.ExceptionSuites {
@@ -33,6 +34,11 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// </summary>
         public ValueExceptionSuite Value { get; private set; }
 
+        /// <summary>
+        /// Test suite with instructions for probing enums.
+        /// </summary>
+        public EnumExceptionSuite Enum { get; private set; }
+
         #endregion
 
         #region ctors
@@ -43,6 +49,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
             Object = new ObjectExceptionSuite(this);
             String = new StringExceptionSuite(this);
             Value = new ValueExceptionSuite(this);
+            Enum = new EnumExceptionSuite(this);
         }
 
         #endregion

@@ -19,74 +19,74 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         #region IsNullOrEmpty
 
         /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="_string"/> is null.
-        /// Throws an <see cref="ArgumentException"/> if <paramref name="_string"/> is empty.
+        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="string"/> is null.
+        /// Throws an <see cref="ArgumentException"/> if <paramref name="string"/> is empty.
         /// </summary>
-        /// <param name="_string">The <see cref="String"/> to evaluate.</param>
+        /// <param name="string">The <see cref="String"/> to evaluate.</param>
         /// <param name="paramName">The parameter name.</param>
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.NullOrEmpty(fileName, "fileName", "The file name must be set.");
+        /// Throw.If.String.IsNullOrEmpty(fileName, nameof(fileName), "The file name must be set.");
         /// </code>
         /// </example>
-        public void IsNullOrEmpty(String _string, String paramName, String message = "") {
+        public void IsNullOrEmpty(String @string, String paramName, String message = "") {
             if(!Parent.Invert) {
-                Throw.If.Object.IsNull(_string, paramName, message);
+                Throw.If.Object.IsNull(@string, paramName, message);
             }
 
-            IsNullOrEmpty<ArgumentException>(_string, message, paramName);
+            IsNullOrEmpty<ArgumentException>(@string, message, paramName);
         }
 
         /// <summary>
-        /// Throws an exception of type <typeparamref name="TException"/> if the <paramref name="_string"/> is null or empty.
+        /// Throws an exception of type <typeparamref name="TException"/> if the <paramref name="string"/> is null or empty.
         /// </summary>
         /// <typeparam name="TException">The type of the exception to be thrown.</typeparam>
-        /// <param name="_string">The <see cref="String"/> to evaluate.</param>
+        /// <param name="string">The <see cref="String"/> to evaluate.</param>
         /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.NullOrWhiteSpace(fileName, "fileName", "The file name must be set.");
+        /// Throw.If.String.IsNullOrEmpty&lt;ArgumentException&gt;(fileName, "The file name must be set.", nameof(fileName));
         /// </code>
         /// </example>
-        public void IsNullOrEmpty<TException>(String _string, params Object[] args) where TException : Exception => InternalThrow<TException>(String.IsNullOrEmpty(_string), args);
+        public void IsNullOrEmpty<TException>(String @string, params Object[] args) where TException : Exception => InternalThrow<TException>(String.IsNullOrEmpty(@string), args);
 
         #endregion
 
         #region IsNullOrWhiteSpace
 
         /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="_string"/> is null.
-        /// Throws an <see cref="ArgumentException"/> if <paramref name="_string"/> is white space or empty.
+        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="string"/> is null.
+        /// Throws an <see cref="ArgumentException"/> if <paramref name="string"/> is white space or empty.
         /// </summary>
-        /// <param name="_string">The <see cref="String"/> to evaluate.</param>
+        /// <param name="string">The <see cref="String"/> to evaluate.</param>
         /// <param name="paramName">The parameter name.</param>
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.NullOrEmpty&lt;NotImplementedException&gt;(fileName, "Implementation does not support file names without content.");
+        /// Throw.If.String.IsNullOrWhiteSpace&lt;NotImplementedException&gt;(fileName, nameof(fileName), "Implementation does not support file names without content.");
         /// </code>
         /// </example>
-        public void IsNullOrWhiteSpace(String _string, String paramName, String message = "") {
+        public void IsNullOrWhiteSpace(String @string, String paramName, String message = "") {
             if(!Parent.Invert) {
-                Throw.If.Object.IsNull(_string, paramName, message);
+                Throw.If.Object.IsNull(@string, paramName, message);
             }
 
-            IsNullOrWhiteSpace<ArgumentException>(_string, message, paramName);
+            IsNullOrWhiteSpace<ArgumentException>(@string, message, paramName);
         }
 
         /// <summary>
-        /// Throws an exception of type <typeparamref name="TException"/> if <paramref name="_string"/> is null or white space or empty.
+        /// Throws an exception of type <typeparamref name="TException"/> if <paramref name="string"/> is null or white space or empty.
         /// </summary>
         /// <typeparam name="TException">The type of the exception to be thrown.</typeparam>
-        /// <param name="_string">The <see cref="String"/> to evaluate.</param>
+        /// <param name="string">The <see cref="String"/> to evaluate.</param>
         /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.NullOrWhiteSpace&lt;NotImplementedException>(fileName, "Implementation does not support file names without content.");
+        /// Throw.If.String.IsNullOrWhiteSpace&lt;NotImplementedException>(fileName, "Implementation does not support file names without content.");
         /// </code>
         /// </example>
-        public void IsNullOrWhiteSpace<TException>(String _string, params Object[] args) where TException : Exception => InternalThrow<TException>(String.IsNullOrWhiteSpace(_string), args);
+        public void IsNullOrWhiteSpace<TException>(String @string, params Object[] args) where TException : Exception => InternalThrow<TException>(String.IsNullOrWhiteSpace(@string), args);
 
         #endregion
 

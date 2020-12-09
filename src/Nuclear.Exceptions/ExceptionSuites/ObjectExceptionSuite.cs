@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+
 using Nuclear.Exceptions.ExceptionSuites.Base;
 
 namespace Nuclear.Exceptions.ExceptionSuites {
@@ -26,7 +27,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.Null(fileName, "fileName", "The file name must not be null!");
+        /// Throw.If.Object.IsNull(fileName, nameof(fileName), "The file name must not be null!");
         /// </code>
         /// </example>
         public void IsNull(Object @object, String paramName, String message = "") => IsNull<ArgumentNullException>(@object, paramName, message);
@@ -39,7 +40,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.Null&lt;ArgumentException&gt;(fileName, "The file name must not be null!", "fileName");
+        /// Throw.If.Object.IsNull&lt;ArgumentException&gt;(fileName, "The file name must not be null!", "fileName");
         /// </code>
         /// </example>
         public void IsNull<TException>(Object @object, params Object[] args) where TException : Exception => InternalThrow<TException>(@object == null, args);
@@ -58,7 +59,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.OfType&lt;MyClass&gt;(obj, "The object must not derive from MyClass.");
+        /// Throw.If.Object.IsOfType&lt;MyClass&gt;(obj, nameof(obj), "The object must not derive from MyClass.");
         /// </code>
         /// </example>
         public void IsOfType<TType>(Object @object, String paramName, String message = "") => IsOfType(@object, typeof(TType), paramName, message);
@@ -74,7 +75,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.OfType&lt;MyClass&gt;(obj, "The object must not derive from MyClass.");
+        /// Throw.If.Object.IsOfType(obj, typeof(MyClass), nameof(obj), "The object must not derive from MyClass.");
         /// </code>
         /// </example>
         public void IsOfType(Object @object, Type type, String paramName, String message = "") => IsOfType<ArgumentException>(@object, type, message, paramName);
@@ -89,7 +90,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.OfType&lt;MyClass, NotImplementedException&gt;(obj, "There is no implemented support for objects of type MyClass.");
+        /// Throw.If.Object.IsOfType&lt;NotImplementedException, MyClass&gt;(obj, "There is no implemented support for objects of type MyClass.");
         /// </code>
         /// </example>
         public void IsOfType<TException, TType>(Object @object, params Object[] args) where TException : Exception => IsOfType<TException>(@object, typeof(TType), args);
@@ -105,7 +106,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.OfType&lt;MyClass, NotImplementedException&gt;(obj, "There is no implemented support for objects of type MyClass.");
+        /// Throw.If.Object.IsOfType&lt;NotImplementedException&gt;(obj, typeof(MyClass), "There is no implemented support for objects of type MyClass.");
         /// </code>
         /// </example>
         public void IsOfType<TException>(Object @object, Type type, params Object[] args) where TException : Exception {
@@ -129,7 +130,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.OfType&lt;MyClass&gt;(obj, "The object must not derive from MyClass.");
+        /// Throw.If.Object.IsOfExactType&lt;MyClass&gt;(obj, nameof(obj), "The object must not derive from MyClass.");
         /// </code>
         /// </example>
         public void IsOfExactType<TType>(Object @object, String paramName, String message = "") => IsOfExactType(@object, typeof(TType), paramName, message);
@@ -144,14 +145,15 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.OfType&lt;MyClass, NotImplementedException&gt;(obj, "There is no implemented support for objects of type MyClass.");
+        /// Throw.If.Object.IsOfExactType&lt;NotImplementedException, MyClass&gt;(obj, "There is no implemented support for objects of type MyClass.");
         /// </code>
         /// </example>
         public void IsOfExactType<TException, TType>(Object @object, params Object[] args) where TException : Exception => IsOfExactType<TException>(@object, typeof(TType), args);
 
         /// <summary>
         /// Throws an <see cref="ArgumentNullException"/> if <paramref name="object"/> is null.
-        /// Throws an <see cref="ArgumentException"/> if <paramref name="object"/> is of type <typeparamref name="TType"/>.
+        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="type"/> is null.
+        /// Throws an <see cref="ArgumentException"/> if <paramref name="object"/> is of type <paramref name="type"/>.
         /// </summary>
         /// <param name="object">The object to be checked.</param>
         /// <param name="type">The type to be checked for.</param>
@@ -159,14 +161,15 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.OfType&lt;MyClass&gt;(obj, "The object must not derive from MyClass.");
+        /// Throw.If.Object.IsOfExactType(obj, typeof(MyClass), nameof(obj), "The object must not derive from MyClass.");
         /// </code>
         /// </example>
         public void IsOfExactType(Object @object, Type type, String paramName, String message = "") => IsOfExactType<ArgumentException>(@object, type, message, paramName);
 
         /// <summary>
         /// Throws an <see cref="ArgumentNullException"/> if <paramref name="object"/> is null.
-        /// Throws an exception of type <typeparamref name="TException"/> if <paramref name="object"/> is of type <typeparamref name="TType"/>.
+        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="type"/> is null.
+        /// Throws an exception of type <typeparamref name="TException"/> if <paramref name="object"/> is of type <paramref name="type"/>.
         /// </summary>
         /// <typeparam name="TException">The type of the exception to be thrown.</typeparam>
         /// <param name="object">The object to be checked.</param>
@@ -174,7 +177,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.OfType&lt;MyClass, NotImplementedException&gt;(obj, "There is no implemented support for objects of type MyClass.");
+        /// Throw.If.Object.IsOfExactType&lt;NotImplementedException&gt;(obj, typeof(MyClass), "There is no implemented support for objects of type MyClass.");
         /// </code>
         /// </example>
         public void IsOfExactType<TException>(Object @object, Type type, params Object[] args) where TException : Exception {

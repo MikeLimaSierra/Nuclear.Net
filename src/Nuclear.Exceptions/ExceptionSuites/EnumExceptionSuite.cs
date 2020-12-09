@@ -20,21 +20,24 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         #region IsDefined
 
         /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="_object"/> is null.
+        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="value"/> is null.
+        /// Throws an exception of type <see cref="ArgumentException"/> if <paramref name="value"/> is not defined in <typeparamref name="TEnum"/>.
         /// </summary>
-        /// <param name="enum">The enum type.</param>
+        /// <typeparam name="TEnum">The enum type.</typeparam>
         /// <param name="value">The enum value.</param>
         /// <param name="paramName">The parameter name.</param>
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.Null(fileName, "fileName", "The file name must not be null!");
+        /// Throw.If.Enum.IsDefined&lt;MyEnum&gt;(enumVal, nameof(enumVal), $"The value of {nameof(enumVal)} must be defined!");
         /// </code>
         /// </example>
         public void IsDefined<TEnum>(Object value, String paramName, String message = "") where TEnum : Enum => IsDefined(typeof(TEnum), value, paramName, message);
 
         /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="_object"/> is null.
+        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="enum"/> is null.
+        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="value"/> is null.
+        /// Throws an exception of type <see cref="ArgumentException"/> if <paramref name="value"/> is not defined in <paramref name="enum"/>.
         /// </summary>
         /// <param name="enum">The enum type.</param>
         /// <param name="value">The enum value.</param>
@@ -42,28 +45,31 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.Null(fileName, "fileName", "The file name must not be null!");
+        /// Throw.If.Enum.IsDefined(typeof(MyEnum), enumVal, nameof(enumVal), $"The value of {nameof(enumVal)} must be defined!");
         /// </code>
         /// </example>
         public void IsDefined(Type @enum, Object value, String paramName, String message = "") => IsDefined<ArgumentException>(@enum, value, message, paramName);
 
         /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="_object"/> is null.
+        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="value"/> is null.
+        /// Throws an exception of type <typeparamref name="TException"/> if <paramref name="value"/> is not defined in <typeparamref name="TEnum"/>.
         /// </summary>
-        /// <param name="enum">The enum type.</param>
+        /// <typeparam name="TException">The type of the exception to be thrown.</typeparam>
+        /// <typeparam name="TEnum">The enum type.</typeparam>
         /// <param name="value">The enum value.</param>
-        /// <param name="paramName">The parameter name.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.Null(fileName, "fileName", "The file name must not be null!");
+        /// Throw.If.Enum.IsDefined&lt;ArgumentException, MyEnum&gt;(enumVal, $"The value of {nameof(enumVal)} must be defined!", nameof(enumVal));
         /// </code>
         /// </example>
         public void IsDefined<TException, TEnum>(Object value, params Object[] args) where TException : Exception where TEnum : Enum
             => IsDefined<TException>(typeof(TEnum), value, args);
 
         /// <summary>
-        /// Throws an exception of type <typeparamref name="TException"/> if <paramref name="_object"/> is null.
+        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="enum"/> is null.
+        /// Throws an <see cref="ArgumentNullException"/> if <paramref name="value"/> is null.
+        /// Throws an exception of type <typeparamref name="TException"/> if <paramref name="value"/> is not defined in <paramref name="enum"/>.
         /// </summary>
         /// <typeparam name="TException">The type of the exception to be thrown.</typeparam>
         /// <param name="enum">The enum type.</param>
@@ -71,7 +77,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.Null&lt;ArgumentException&gt;(fileName, "The file name must not be null!", "fileName");
+        /// Throw.If.Enum.IsDefined&lt;ArgumentException&gt;(typeof(MyEnum), enumVal, $"The value of {nameof(enumVal)} must be defined!", nameof(enumVal));
         /// </code>
         /// </example>
         public void IsDefined<TException>(Type @enum, Object value, params Object[] args) where TException : Exception {

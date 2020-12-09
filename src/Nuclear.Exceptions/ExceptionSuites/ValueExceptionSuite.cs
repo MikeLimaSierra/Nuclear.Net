@@ -26,7 +26,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.True(myStream.CanRead, "The stream must not be able to read.");
+        /// Throw.If.Value.IsTrue(myStream.CanRead, "The stream must not be able to read.");
         /// </code>
         /// </example>
         public void IsTrue(Boolean condition, String paramName, String message = "") => IsTrue<ArgumentException>(condition, message, paramName);
@@ -39,7 +39,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.False(myStream.CanRead, "The stream must be able to read.");
+        /// Throw.If.Value.IsTrue&lt;NotImplementedException&gt;(myStream.CanRead, "The stream must be able to read.");
         /// </code>
         /// </example>
         public void IsTrue<TException>(Boolean condition, params Object[] args) where TException : Exception => InternalThrow<TException>(condition, args);
@@ -56,7 +56,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="message">The message.</param>
         /// <example>
         /// <code>
-        /// Throw.If.True&lt;NotImplementedException&gt;(myStream.CanTimeout, "Why are we having timeouts?");
+        /// Throw.If.Value.IsFalse(myStream.CanTimeout, "Why are we having timeouts?");
         /// </code>
         /// </example>
         public void IsFalse(Boolean condition, String paramName, String message = "") => IsFalse<ArgumentException>(condition, message, paramName);
@@ -69,7 +69,7 @@ namespace Nuclear.Exceptions.ExceptionSuites {
         /// <param name="args">The arguments needed to create the exception.</param>
         /// <example>
         /// <code>
-        /// Throw.If.False&lt;NotImplementedException&gt;(myStream.CanTimeout, "Why can't we have timeouts?");
+        /// Throw.If.Value.IsFalse&lt;NotImplementedException&gt;(myStream.CanTimeout, "Why can't we have timeouts?");
         /// </code>
         /// </example>
         public void IsFalse<TException>(Boolean condition, params Object[] args) where TException : Exception => InternalThrow<TException>(!condition, args);

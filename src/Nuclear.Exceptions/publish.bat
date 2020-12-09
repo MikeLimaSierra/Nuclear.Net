@@ -2,8 +2,8 @@
 
 SET sn_exe="C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\sn.exe"
 SET key=..\KeyPair.snk
-SET bin=..\..\bin\Nuclear.Exceptions\AnyCPU\Release\netstandard1.0\
-SET publish=..\..\publish\Nuclear.Exceptions\netstandard1.0\
+SET bin=..\..\bin\Nuclear.Exceptions\AnyCPU\Release\netstandard2.0\
+SET publish=..\..\publish\Nuclear.Exceptions\netstandard2.0\
 SET dll=Nuclear.Exceptions.dll
 SET pdb=Nuclear.Exceptions.pdb
 SET xml=Nuclear.Exceptions.xml

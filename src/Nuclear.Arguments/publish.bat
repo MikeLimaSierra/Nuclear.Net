@@ -2,8 +2,8 @@
 
 SET sn_exe="C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\sn.exe"
 SET key=..\KeyPair.snk
-SET bin=..\..\bin\Nuclear.Arguments\AnyCPU\Release\netstandard1.0\
-SET publish=..\..\publish\Nuclear.Arguments\netstandard1.0\
+SET bin=..\..\bin\Nuclear.Arguments\AnyCPU\Release\netstandard2.0\
+SET publish=..\..\publish\Nuclear.Arguments\netstandard2.0\
 SET dll=Nuclear.Arguments.dll
 SET pdb=Nuclear.Arguments.pdb
 SET xml=Nuclear.Arguments.xml

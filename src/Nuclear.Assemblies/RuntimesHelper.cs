@@ -43,6 +43,12 @@ namespace Nuclear.Assemblies {
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new Version(2, 1) },
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new Version(2, 1) },
 
+                { new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)), new Version(2, 1) },
+
+                { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)), new Version(1, 6) },
+                { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)), new Version(2, 0) },
+                { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)), new Version(2, 1) },
+
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), null },
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), null },
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), null },
@@ -110,6 +116,7 @@ namespace Nuclear.Assemblies {
 
                 identifier = _identifier switch
                 {
+                    // TODO: handle Mono and NET
                     "netcoreapp" => FrameworkIdentifiers.NETCoreApp,
                     "netstandard" => FrameworkIdentifiers.NETStandard,
                     "net" => FrameworkIdentifiers.NETFramework,

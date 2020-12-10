@@ -63,6 +63,12 @@ namespace Nuclear.Assemblies {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new Version(2, 1) },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new Version(2, 1) },
 
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)), new Version(2, 1) },
+
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)), new Version(1, 6) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)), new Version(2, 0) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)), new Version(2, 1) },
+
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), null },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), null },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), null },
@@ -117,6 +123,13 @@ namespace Nuclear.Assemblies {
                 new Object[] { "netcoreapp2.2", true, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)) },
                 new Object[] { "netcoreapp3.0", true, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)) },
                 new Object[] { "netcoreapp3.1", true, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)) },
+
+                new Object[] { "net5.0", true, new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)) },
+                
+                // TODO: Add Mono
+                //new Object[] { "mono4.6", true, new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)) },
+                //new Object[] { "mono5.4", true, new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)) },
+                //new Object[] { "mono6.4", true, new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)) },
 
                 new Object[] { "netstandard1.0", true, new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)) },
                 new Object[] { "netstandard1.1", true, new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)) },
@@ -192,6 +205,13 @@ namespace Nuclear.Assemblies {
                 new Object[] { "netcoreapp3.0", true, FrameworkIdentifiers.NETCoreApp, new Version(3, 0) },
                 new Object[] { "netcoreapp3.1", true, FrameworkIdentifiers.NETCoreApp, new Version(3, 1) },
 
+                new Object[] { "net5.0", true, FrameworkIdentifiers.NET, new Version(5, 0) },
+                
+                // TODO: Add Mono
+                //new Object[] { "mono4.6", true, FrameworkIdentifiers.Mono, new Version(4, 6) },
+                //new Object[] { "mono5.4", true, FrameworkIdentifiers.Mono, new Version(5, 4) },
+                //new Object[] { "mono6.4", true, FrameworkIdentifiers.Mono, new Version(6, 4) },
+
                 new Object[] { "netstandard1.0", true, FrameworkIdentifiers.NETStandard, new Version(1, 0) },
                 new Object[] { "netstandard1.1", true, FrameworkIdentifiers.NETStandard, new Version(1, 1) },
                 new Object[] { "netstandard1.2", true, FrameworkIdentifiers.NETStandard, new Version(1, 2) },
@@ -246,6 +266,13 @@ namespace Nuclear.Assemblies {
                 new Object[] { ".NETCoreApp,Version=v2.2", true, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)) },
                 new Object[] { ".NETCoreApp,Version=v3.0", true, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)) },
                 new Object[] { ".NETCoreApp,Version=v3.1", true, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)) },
+
+                new Object[] { ".NETCoreApp,Version=v5.0", true, new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)) },
+
+                // TODO: Add Mono
+                //new Object[] { "Mono,Version=v4.6", true, new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)) },
+                //new Object[] { "Mono,Version=v5.4", true, new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)) },
+                //new Object[] { "Mono,Version=v6.4", true, new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)) },
 
                 new Object[] { ".NETStandard,Version=v1.0", true, new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)) },
                 new Object[] { ".NETStandard,Version=v1.1", true, new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)) },
@@ -308,6 +335,13 @@ namespace Nuclear.Assemblies {
                 new Object[] { ".NETCoreApp,Version=v2.2", FrameworkIdentifiers.NETCoreApp, new Version(2, 2) },
                 new Object[] { ".NETCoreApp,Version=v3.0", FrameworkIdentifiers.NETCoreApp, new Version(3, 0) },
                 new Object[] { ".NETCoreApp,Version=v3.1", FrameworkIdentifiers.NETCoreApp, new Version(3, 1) },
+
+                new Object[] { ".NETCoreApp,Version=v5.0", FrameworkIdentifiers.NET, new Version(5, 0) },
+
+                // TODO: Add Mono
+                //new Object[] { "Mono,Version=v4.6", FrameworkIdentifiers.Mono, new Version(4, 6) },
+                //new Object[] { "Mono,Version=v5.4", FrameworkIdentifiers.Mono, new Version(5, 4) },
+                //new Object[] { "Mono,Version=v6.4", FrameworkIdentifiers.Mono, new Version(6, 4) },
 
                 new Object[] { ".NETStandard,Version=v1.0", FrameworkIdentifiers.NETStandard, new Version(1, 0) },
                 new Object[] { ".NETStandard,Version=v1.1", FrameworkIdentifiers.NETStandard, new Version(1, 1) },
@@ -377,6 +411,12 @@ namespace Nuclear.Assemblies {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), true, new Version(2, 1) },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), true, new Version(2, 1) },
 
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)), true, new Version(2, 1) },
+
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)), true, new Version(1, 6) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)), true, new Version(2, 0) },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)), true, new Version(2, 1) },
+
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), false, null },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), false, null },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), false, null },
@@ -413,6 +453,31 @@ namespace Nuclear.Assemblies {
             return new List<Object[]>() {
                 new Object[] { null, false, Enumerable.Empty<RuntimeInfo>() },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), false, Enumerable.Empty<RuntimeInfo>() },
+
+                #region Mono
+                
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                } },
+
+                #endregion
+
+                #region NET
+
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                } },
+
+                #endregion
 
                 #region NETCoreApp
 
@@ -770,6 +835,7 @@ namespace Nuclear.Assemblies {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 2)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)),
                 } },
+
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
                 } },
@@ -790,6 +856,20 @@ namespace Nuclear.Assemblies {
                 } },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)),
+                } },
+
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                } },
+
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)),
                 } },
 
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), true, new List<RuntimeInfo>() {
@@ -838,37 +918,55 @@ namespace Nuclear.Assemblies {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
                 } },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
                 } },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5, 1)),
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
                 } },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
                 } },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
                 } },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
                 } },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
                 } },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6, 1)),
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)),
                 } },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)),
                 } },
             };
         }
@@ -986,6 +1084,64 @@ namespace Nuclear.Assemblies {
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)),
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
                     new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)),
+                } },
+
+                #endregion
+
+                #region NET
+
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)),
+                } },
+
+                #endregion
+
+                #region Mono
+                
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)),
                     new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
                     new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
                     new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
@@ -1393,6 +1549,64 @@ namespace Nuclear.Assemblies {
 
                 #endregion
 
+                #region Mono desc
+                
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)), true, true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)), true, true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)), true, true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+                } },
+
+                #endregion
+
+                #region NET desc
+
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+                } },
+
+                #endregion
+
                 #region NETFramework desc
                 
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), true, true, new List<RuntimeInfo>() {
@@ -1661,6 +1875,32 @@ namespace Nuclear.Assemblies {
 
                 #region asc
                 
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)), true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)),
+                } },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)), true, true, new List<RuntimeInfo>() {
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)),
+                    new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)),
+                    new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)),
+                } },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), false, true, new List<RuntimeInfo>() {
                     new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)),
                     new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)),

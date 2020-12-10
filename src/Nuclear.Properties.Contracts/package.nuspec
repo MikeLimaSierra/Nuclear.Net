@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Nuclear.Properties.Contracts</id>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <title>Nuclear.Properties.Contracts</title>
     <description>Contracts for Nuclear.Properties</description>
     <authors>MikeLimaSierra</authors>
@@ -15,7 +15,7 @@
     <language>en-US</language>
 	  <dependencies>
 	    <group>
-        <dependency id="Nuclear.Extensions" version="2.0.0" />
+        <dependency id="Nuclear.Extensions" version="2.0.1" />
       </group>
 	  </dependencies>
   </metadata>

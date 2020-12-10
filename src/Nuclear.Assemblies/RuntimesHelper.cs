@@ -41,6 +41,8 @@ namespace Nuclear.Assemblies {
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), new Version(2, 0) },
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), new Version(2, 0) },
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new Version(2, 1) },
+                { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new Version(2, 1) },
+                { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new Version(2, 1) },
 
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), null },
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), null },
@@ -107,11 +109,10 @@ namespace Nuclear.Assemblies {
                 String _identifier = String.Concat(_tfm.TakeWhile(Char.IsLetter));
                 String _version = _tfm.Substring(_identifier.Length);
 
-                identifier = _identifier switch
-                {
-                    "netcoreapp" => FrameworkIdentifiers.NETCoreApp,
+                identifier = _identifier switch {
                     "netstandard" => FrameworkIdentifiers.NETStandard,
-                    "net" => FrameworkIdentifiers.NETFramework,
+                    "netcoreapp" => FrameworkIdentifiers.NETCoreApp,
+                    "net" => _version.Contains('.') ? FrameworkIdentifiers.NETCoreApp : FrameworkIdentifiers.NETFramework,
                     _ => FrameworkIdentifiers.Unsupported,
                 };
 
@@ -164,15 +165,15 @@ namespace Nuclear.Assemblies {
                 } catch { /* Don't worry about exceptions here */ }
             }
 
-            if(parts.TryTake(part => {
+            Predicate<String> match = part => {
                 try {
                     Enum.Parse(typeof(FrameworkIdentifiers), part.Trim().TrimStartOnce('.'), true);
                     return true;
 
-                } catch {
-                    return false;
-                }
-            }, out String frameworkPart)) {
+                } catch { return false; }
+            };
+
+            if(parts.TryTake(match, out String frameworkPart)) {
                 framework = (FrameworkIdentifiers) Enum.Parse(typeof(FrameworkIdentifiers), frameworkPart.Trim().TrimStartOnce('.'), true);
             }
         }

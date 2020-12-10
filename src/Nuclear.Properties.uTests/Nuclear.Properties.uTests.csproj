@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,18 +8,20 @@
   <Import Project="..\Configurations.targets" />
   
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Nuclear.Properties" Version="2.0.0" />
-    <PackageReference Include="Nuclear.TestSite" Version="2.0.0" />
+    <PackageReference Include="Nuclear.TestSite" Version="2.0.1" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
-    <ProjectReference Include="..\Nuclear.Properties\Nuclear.Properties.csproj" />
     <Reference Include="Nuclear.TestSite.Contracts">
       <HintPath>..\..\..\Nuclear.TestSite\bin\Nuclear.TestSite\AnyCPU\$(Configuration)\netstandard1.0\Nuclear.TestSite.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="Nuclear.TestSite">
       <HintPath>..\..\..\Nuclear.TestSite\bin\Nuclear.TestSite\AnyCPU\$(Configuration)\netstandard2.0\Nuclear.TestSite.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nuclear.Properties\Nuclear.Properties.csproj" />
   </ItemGroup>
 
 </Project>

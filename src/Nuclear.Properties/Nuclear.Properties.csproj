@@ -3,23 +3,19 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Nuclear.Properties</RootNamespace>
-    <Version>2.0.0</Version>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
+    <Version>2.0.1</Version>
+    <AssemblyVersion>2.0.1</AssemblyVersion>
+    <FileVersion>2.0.1</FileVersion>
   </PropertyGroup>
   
   <Import Project="..\Configurations.targets" />
   
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Nuclear.Properties.Contracts" Version="2.0.0" />
+    <PackageReference Include="Nuclear.Properties.Contracts" Version="2.0.1" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
     <ProjectReference Include="..\Nuclear.Properties.Contracts\Nuclear.Properties.Contracts.csproj" />
   </ItemGroup>
-
-  <Target Condition="'$(Configuration)' == 'Release'" Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="publish.bat" />
-  </Target>
 
 </Project>

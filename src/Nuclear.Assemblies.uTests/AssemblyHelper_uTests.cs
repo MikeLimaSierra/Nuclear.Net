@@ -38,7 +38,7 @@ namespace Nuclear.Assemblies {
         IEnumerable<Object[]> TryGetRuntimeData() {
             return new List<Object[]>() {
                 new Object[] { null, false, null },
-                new Object[] { typeof(TestMethodAttribute).Assembly, true, new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)) },
+                new Object[] { typeof(TestMethodAttribute).Assembly, true, new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)) },
                 new Object[] { typeof(Test).Assembly, true, new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)) },
             };
         }

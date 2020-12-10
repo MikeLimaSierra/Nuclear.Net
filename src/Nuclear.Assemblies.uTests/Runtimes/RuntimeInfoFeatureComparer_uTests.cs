@@ -29,7 +29,7 @@ namespace Nuclear.Assemblies.Runtimes {
         IEnumerable<Object[]> CompareData() {
             return new List<Object[]>() {
 
-                #region MyRegion
+                #region
 
                 new Object[] { null, null, 0 },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 0)), null, 1 },
@@ -277,6 +277,16 @@ namespace Nuclear.Assemblies.Runtimes {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)), 1 },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)), 1 },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), 1 },
+
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), 1 },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), 1 },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 2)), 1 },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 3)), 1 },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 4)), 1 },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 5)), 1 },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 6)), 1 },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)), 1 },
+                new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), 1 },
 
                 #endregion
 

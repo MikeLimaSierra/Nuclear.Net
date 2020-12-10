@@ -13,41 +13,6 @@ namespace Nuclear.Assemblies.Runtimes {
 
         }
 
-        void Compare() {
-
-            Compare((FrameworkIdentifiers) 1337, (FrameworkIdentifiers) 1337, 0);
-            Compare((FrameworkIdentifiers) 1337, (FrameworkIdentifiers) 1338, 0);
-            Compare((FrameworkIdentifiers) 1339, (FrameworkIdentifiers) 1338, 0);
-
-            Compare(FrameworkIdentifiers.Unsupported, (FrameworkIdentifiers) 1337, 1);
-            Compare((FrameworkIdentifiers) 1337, FrameworkIdentifiers.Unsupported, -1);
-            Compare(FrameworkIdentifiers.NETStandard, (FrameworkIdentifiers) 1337, 1);
-            Compare((FrameworkIdentifiers) 1337, FrameworkIdentifiers.NETStandard, -1);
-            Compare(FrameworkIdentifiers.NETFramework, (FrameworkIdentifiers) 1337, 1);
-            Compare((FrameworkIdentifiers) 1337, FrameworkIdentifiers.NETFramework, -1);
-            Compare(FrameworkIdentifiers.NETCoreApp, (FrameworkIdentifiers) 1337, 1);
-            Compare((FrameworkIdentifiers) 1337, FrameworkIdentifiers.NETCoreApp, -1);
-
-            Compare(FrameworkIdentifiers.NETFramework, FrameworkIdentifiers.Unsupported, 1);
-            Compare(FrameworkIdentifiers.NETCoreApp, FrameworkIdentifiers.Unsupported, 1);
-            Compare(FrameworkIdentifiers.NETStandard, FrameworkIdentifiers.Unsupported, 1);
-
-            Compare(FrameworkIdentifiers.Unsupported, FrameworkIdentifiers.NETFramework, -1);
-            Compare(FrameworkIdentifiers.Unsupported, FrameworkIdentifiers.NETCoreApp, -1);
-            Compare(FrameworkIdentifiers.Unsupported, FrameworkIdentifiers.NETStandard, -1);
-
-            Compare(FrameworkIdentifiers.Unsupported, FrameworkIdentifiers.Unsupported, 0);
-            Compare(FrameworkIdentifiers.NETFramework, FrameworkIdentifiers.NETFramework, 0);
-            Compare(FrameworkIdentifiers.NETCoreApp, FrameworkIdentifiers.NETCoreApp, 0);
-            Compare(FrameworkIdentifiers.NETStandard, FrameworkIdentifiers.NETStandard, 0);
-
-            Compare(FrameworkIdentifiers.NETFramework, FrameworkIdentifiers.NETStandard, 1);
-            Compare(FrameworkIdentifiers.NETStandard, FrameworkIdentifiers.NETFramework, -1);
-            Compare(FrameworkIdentifiers.NETCoreApp, FrameworkIdentifiers.NETStandard, 1);
-            Compare(FrameworkIdentifiers.NETStandard, FrameworkIdentifiers.NETCoreApp, -1);
-
-        }
-
         [TestMethod]
         [TestParameters((FrameworkIdentifiers) 1337, (FrameworkIdentifiers) 1337, 0)]
         [TestParameters((FrameworkIdentifiers) 1337, (FrameworkIdentifiers) 1338, 0)]

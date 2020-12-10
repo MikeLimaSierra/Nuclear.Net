@@ -50,6 +50,25 @@ namespace Nuclear.Assemblies {
             return assembly != null;
         }
 
+        /// <summary>
+        /// Loads an assembly from disk.
+        /// </summary>
+        /// <param name="file">The file on disk.</param>
+        /// <param name="assembly">The loaded assembly.</param>
+        /// <returns>True if the assembly could be loaded.</returns>
+        public static Boolean TryUnsafeLoadFrom(FileInfo file, out Assembly assembly) {
+            assembly = null;
+
+            if(file != null && file.Exists) {
+                try {
+                    assembly = Assembly.UnsafeLoadFrom(file.FullName);
+
+                } catch { /* Don't worry about exceptions here */ }
+            }
+
+            return assembly != null;
+        }
+
         #endregion
 
         #region assembly name

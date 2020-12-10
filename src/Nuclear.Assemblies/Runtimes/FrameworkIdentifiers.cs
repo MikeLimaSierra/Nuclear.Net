@@ -9,18 +9,30 @@
         /// Unknown TFM placeholder.
         /// </summary>
         Unsupported,
+
         /// <summary>
         /// .NET Standard Api framework.
         /// </summary>
         NETStandard,
+
         /// <summary>
         /// .NET Desktop framework.
         /// </summary>
         NETFramework,
+
         /// <summary>
         /// .NET Core framework.
         /// </summary>
         NETCoreApp,
 
+        /// <summary>
+        /// .NET framework.
+        /// </summary>
+        NET,
+
+        /// <summary>
+        /// Mono platform.
+        /// </summary>
+        Mono,
     }
 }

@@ -114,14 +114,23 @@ namespace Nuclear.Assemblies {
                 String _identifier = String.Concat(_tfm.TakeWhile(Char.IsLetter));
                 String _version = _tfm.Substring(_identifier.Length);
 
-                identifier = _identifier switch
-                {
-                    // TODO: handle Mono and NET
-                    "netcoreapp" => FrameworkIdentifiers.NETCoreApp,
-                    "netstandard" => FrameworkIdentifiers.NETStandard,
-                    "net" => FrameworkIdentifiers.NETFramework,
-                    _ => FrameworkIdentifiers.Unsupported,
-                };
+                switch(_identifier) {
+                    case "netstandard":
+                        identifier = FrameworkIdentifiers.NETStandard;
+                        break;
+
+                    case "netcoreapp":
+                        identifier = FrameworkIdentifiers.NETCoreApp;
+                        break;
+
+                    case "net":
+                        identifier = _version.Contains('.') ? FrameworkIdentifiers.NET : FrameworkIdentifiers.NETFramework;
+                        break;
+
+                    default:
+                        identifier = FrameworkIdentifiers.Unsupported;
+                        break;
+                }
 
                 if(identifier != FrameworkIdentifiers.Unsupported && _version.All(c => Char.IsDigit(c) || c == '.')) {
                     if(!Version.TryParse(_version, out version)) {
@@ -172,16 +181,20 @@ namespace Nuclear.Assemblies {
                 } catch { /* Don't worry about exceptions here */ }
             }
 
-            if(parts.TryTake(part => {
+            Predicate<String> match = part => {
                 try {
                     Enum.Parse(typeof(FrameworkIdentifiers), part.Trim().TrimStartOnce('.'), true);
                     return true;
 
-                } catch {
-                    return false;
-                }
-            }, out String frameworkPart)) {
+                } catch { return false; }
+            };
+
+            if(parts.TryTake(match, out String frameworkPart)) {
                 framework = (FrameworkIdentifiers) Enum.Parse(typeof(FrameworkIdentifiers), frameworkPart.Trim().TrimStartOnce('.'), true);
+
+                if(framework == FrameworkIdentifiers.NETCoreApp && version >= new Version(5, 0)) {
+                    framework = FrameworkIdentifiers.NET;
+                }
             }
         }
 

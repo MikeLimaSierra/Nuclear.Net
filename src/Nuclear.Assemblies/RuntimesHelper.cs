@@ -42,12 +42,7 @@ namespace Nuclear.Assemblies {
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 2)), new Version(2, 0) },
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new Version(2, 1) },
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new Version(2, 1) },
-
-                { new RuntimeInfo(FrameworkIdentifiers.NET, new Version(5, 0)), new Version(2, 1) },
-
-                { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(4, 6)), new Version(1, 6) },
-                { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(5, 4)), new Version(2, 0) },
-                { new RuntimeInfo(FrameworkIdentifiers.Mono, new Version(6, 4)), new Version(2, 1) },
+                { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new Version(2, 1) },
 
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), null },
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), null },
@@ -114,23 +109,12 @@ namespace Nuclear.Assemblies {
                 String _identifier = String.Concat(_tfm.TakeWhile(Char.IsLetter));
                 String _version = _tfm.Substring(_identifier.Length);
 
-                switch(_identifier) {
-                    case "netstandard":
-                        identifier = FrameworkIdentifiers.NETStandard;
-                        break;
-
-                    case "netcoreapp":
-                        identifier = FrameworkIdentifiers.NETCoreApp;
-                        break;
-
-                    case "net":
-                        identifier = _version.Contains('.') ? FrameworkIdentifiers.NET : FrameworkIdentifiers.NETFramework;
-                        break;
-
-                    default:
-                        identifier = FrameworkIdentifiers.Unsupported;
-                        break;
-                }
+                identifier = _identifier switch {
+                    "netstandard" => FrameworkIdentifiers.NETStandard,
+                    "netcoreapp" => FrameworkIdentifiers.NETCoreApp,
+                    "net" => _version.Contains('.') ? FrameworkIdentifiers.NETCoreApp : FrameworkIdentifiers.NETFramework,
+                    _ => FrameworkIdentifiers.Unsupported,
+                };
 
                 if(identifier != FrameworkIdentifiers.Unsupported && _version.All(c => Char.IsDigit(c) || c == '.')) {
                     if(!Version.TryParse(_version, out version)) {
@@ -191,10 +175,6 @@ namespace Nuclear.Assemblies {
 
             if(parts.TryTake(match, out String frameworkPart)) {
                 framework = (FrameworkIdentifiers) Enum.Parse(typeof(FrameworkIdentifiers), frameworkPart.Trim().TrimStartOnce('.'), true);
-
-                if(framework == FrameworkIdentifiers.NETCoreApp && version >= new Version(5, 0)) {
-                    framework = FrameworkIdentifiers.NET;
-                }
             }
         }
 

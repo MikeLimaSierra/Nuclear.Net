@@ -25,14 +25,5 @@
         /// </summary>
         NETCoreApp,
 
-        /// <summary>
-        /// .NET framework.
-        /// </summary>
-        NET,
-
-        /// <summary>
-        /// Mono platform.
-        /// </summary>
-        Mono,
     }
 }

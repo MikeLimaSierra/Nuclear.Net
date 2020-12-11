@@ -30,7 +30,7 @@ namespace Nuclear.Assemblies.Runtimes {
         /// <param name="framework">The targeted framework.</param>
         /// <param name="version">The framework version.</param>
         public RuntimeInfo(FrameworkIdentifiers framework, Version version) {
-            Throw.If.Value.IsFalse(Enum.IsDefined(typeof(FrameworkIdentifiers), framework), nameof(framework));
+            Throw.IfNot.Enum.IsDefined<FrameworkIdentifiers>(framework, nameof(framework));
             Throw.If.Object.IsNull(version, nameof(version));
 
             Framework = framework;

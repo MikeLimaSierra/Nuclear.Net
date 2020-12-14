@@ -21,7 +21,7 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
 
-  <Target Condition="'$(Configuration)' == 'Release'" Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Condition="'$(Configuration)' == 'Release' OR '$(Configuration)' == 'Integration'" Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="publish.bat " />
   </Target>
 

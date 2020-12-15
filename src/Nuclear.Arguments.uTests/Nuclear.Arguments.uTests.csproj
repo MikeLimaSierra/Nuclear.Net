@@ -13,7 +13,7 @@
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
     <Reference Include="Nuclear.TestSite.Contracts">
-      <HintPath>..\..\..\Nuclear.TestSite\bin\Nuclear.TestSite\AnyCPU\$(Configuration)\netstandard1.0\Nuclear.TestSite.Contracts.dll</HintPath>
+      <HintPath>..\..\..\Nuclear.TestSite\bin\Nuclear.TestSite\AnyCPU\$(Configuration)\netstandard2.0\Nuclear.TestSite.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="Nuclear.TestSite">
       <HintPath>..\..\..\Nuclear.TestSite\bin\Nuclear.TestSite\AnyCPU\$(Configuration)\netstandard2.0\Nuclear.TestSite.dll</HintPath>

@@ -6,18 +6,9 @@
   </PropertyGroup>
   
   <Import Project="..\Configurations.targets" />
-  
-  <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Nuclear.TestSite" Version="2.0.1" />
-  </ItemGroup>
-  
-  <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
-    <Reference Include="Nuclear.TestSite.Contracts">
-      <HintPath>..\..\..\Nuclear.TestSite\bin\Nuclear.TestSite\AnyCPU\$(Configuration)\netstandard2.0\Nuclear.TestSite.Contracts.dll</HintPath>
-    </Reference>
-    <Reference Include="Nuclear.TestSite">
-      <HintPath>..\..\..\Nuclear.TestSite\bin\Nuclear.TestSite\AnyCPU\$(Configuration)\netstandard2.0\Nuclear.TestSite.dll</HintPath>
-    </Reference>
+
+  <ItemGroup>
+    <PackageReference Include="Nuclear.TestSite" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>

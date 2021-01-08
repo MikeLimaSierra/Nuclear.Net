@@ -8,7 +8,7 @@
   <Import Project="..\Configurations.targets" />
   
   <ItemGroup>
-    <PackageReference Include="Nuclear.TestSite" Version="2.1.1" />
+    <PackageReference Include="Nuclear.TestSite" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

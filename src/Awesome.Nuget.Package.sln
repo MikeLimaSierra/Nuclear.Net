@@ -10,13 +10,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Configurations.ANP.targets = Configurations.ANP.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Nuget.Package", "Simple.Nuget.Package\Simple.Nuget.Package.csproj", "{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.Nuget.Package", "Simple.Nuget.Package\Simple.Nuget.Package.csproj", "{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		1.1.0|Any CPU = 1.1.0|Any CPU
 		1.1.0|x64 = 1.1.0|x64
 		1.1.0|x86 = 1.1.0|x86
+		1.1.0-beta|Any CPU = 1.1.0-beta|Any CPU
+		1.1.0-beta|x64 = 1.1.0-beta|x64
+		1.1.0-beta|x86 = 1.1.0-beta|x86
 		1.1.1|Any CPU = 1.1.1|Any CPU
 		1.1.1|x64 = 1.1.1|x64
 		1.1.1|x86 = 1.1.1|x86
@@ -64,6 +67,12 @@ Global
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0|x64.Build.0 = 1.1.0|x64
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0|x86.ActiveCfg = 1.1.0|x86
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0|x86.Build.0 = 1.1.0|x86
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta|Any CPU.ActiveCfg = 1.1.0-beta|Any CPU
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta|Any CPU.Build.0 = 1.1.0-beta|Any CPU
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta|x64.ActiveCfg = 1.1.0-beta|x64
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta|x64.Build.0 = 1.1.0-beta|x64
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta|x86.ActiveCfg = 1.1.0-beta|x86
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta|x86.Build.0 = 1.1.0-beta|x86
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.1|Any CPU.ActiveCfg = 1.1.1|Any CPU
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.1|Any CPU.Build.0 = 1.1.1|Any CPU
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.1|x64.ActiveCfg = 1.1.1|x64
@@ -148,6 +157,12 @@ Global
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0|x64.Build.0 = 1.1.0|x64
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0|x86.ActiveCfg = 1.1.0|x86
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0|x86.Build.0 = 1.1.0|x86
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta|Any CPU.ActiveCfg = 1.1.0-beta|Any CPU
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta|Any CPU.Build.0 = 1.1.0-beta|Any CPU
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta|x64.ActiveCfg = 1.1.0-beta|x64
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta|x64.Build.0 = 1.1.0-beta|x64
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta|x86.ActiveCfg = 1.1.0-beta|x86
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta|x86.Build.0 = 1.1.0-beta|x86
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.1|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.1|x64.ActiveCfg = Debug|Any CPU
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.1|x64.Build.0 = Debug|Any CPU

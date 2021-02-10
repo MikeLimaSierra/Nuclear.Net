@@ -8,6 +8,31 @@ using Nuclear.TestSite;
 namespace Nuclear.Assemblies {
     class AssemblyHelper_iTests {
 
+        #region TryLoadFile
+
+        [TestMethod]
+        [TestData(nameof(TryLoadFileData))]
+        void TryLoadFile(FileInfo input, Boolean expected) {
+
+            Boolean result = false;
+            Assembly assembly = null;
+
+            Test.IfNot.Action.ThrowsException(() => result = AssemblyHelper.TryLoadFile(input, out assembly), out Exception ex);
+
+            Test.If.Value.IsEqual(result, expected);
+            Test.If.Object.IsNull(assembly);
+
+        }
+
+        IEnumerable<Object[]> TryLoadFileData() {
+            return new List<Object[]>() {
+                new Object[] { null, false },
+                new Object[] { new FileInfo(@"C:/nonexistent.file"), false },
+            };
+        }
+
+        #endregion
+
         #region TryLoadFrom
 
         [TestMethod]

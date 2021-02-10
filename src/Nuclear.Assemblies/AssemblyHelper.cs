@@ -37,6 +37,25 @@ namespace Nuclear.Assemblies {
         /// <param name="file">The file on disk.</param>
         /// <param name="assembly">The loaded assembly.</param>
         /// <returns>True if the assembly could be loaded.</returns>
+        public static Boolean TryLoadFile(FileInfo file, out Assembly assembly) {
+            assembly = null;
+
+            if(file != null && file.Exists) {
+                try {
+                    assembly = Assembly.LoadFile(file.FullName);
+
+                } catch { /* Don't worry about exceptions here */ }
+            }
+
+            return assembly != null;
+        }
+
+        /// <summary>
+        /// Loads an assembly from disk.
+        /// </summary>
+        /// <param name="file">The file on disk.</param>
+        /// <param name="assembly">The loaded assembly.</param>
+        /// <returns>True if the assembly could be loaded.</returns>
         public static Boolean TryLoadFrom(FileInfo file, out Assembly assembly) {
             assembly = null;
 

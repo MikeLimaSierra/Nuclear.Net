@@ -969,9 +969,9 @@ namespace Nuclear.Assemblies.Resolvers {
 
         [TestMethod]
         [TestData(nameof(GetPackageVersionsData))]
-        void GetPackageVersions(DirectoryInfo input, Dictionary<(Version version, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> expected) {
+        void GetPackageVersions(DirectoryInfo input, Dictionary<(Version version, String label, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> expected) {
 
-            IDictionary<(Version version, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> versions = default;
+            IDictionary<(Version version, String label, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> versions = default;
 
             Test.IfNot.Action.ThrowsException(() => versions = NugetResolver.GetPackageVersions(input), out Exception ex);
 
@@ -986,23 +986,37 @@ namespace Nuclear.Assemblies.Resolvers {
             NugetResolver.TryGetPackage("Simple.Nuget.Package", fakeCache, out DirectoryInfo package);
 
             return new List<Object[]>() {
-                new Object[] { new DirectoryInfo(@"C:\non\existent\path"), new Dictionary<(Version, RuntimeInfo, ProcessorArchitecture), DirectoryInfo>() },
-                new Object[] { package, new Dictionary<(Version, RuntimeInfo, ProcessorArchitecture), DirectoryInfo>() {
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "net48")) },
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "net5.0")) },
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "netcoreapp3.0")) },
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "netstandard2.1")) },
+                new Object[] { new DirectoryInfo(@"C:\non\existent\path"), new Dictionary<(Version, String, RuntimeInfo, ProcessorArchitecture), DirectoryInfo>() },
+                new Object[] { package, new Dictionary<(Version, String, RuntimeInfo, ProcessorArchitecture), DirectoryInfo>() {
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "net48")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "net5.0")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "netcoreapp3.0")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "netstandard2.1")) },
 
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "net48")) },
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "net5.0")) },
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "netcoreapp3.0")) },
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "netstandard2.1")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "net48")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "net5.0")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "netcoreapp3.0")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "netstandard2.1")) },
 
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "net48")) },
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "net5.0")) },
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "netcoreapp3.0")) },
-                    { (new Version(1, 1, 0), new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "netstandard2.1")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "net48")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "net5.0")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "netcoreapp3.0")) },
+                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "netstandard2.1")) },
 
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "net48")) },
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "net5.0")) },
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "netcoreapp3.0")) },
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "netstandard2.1")) },
+
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "net48")) },
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "net5.0")) },
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "netcoreapp3.0")) },
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "netstandard2.1")) },
+
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "net48")) },
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "net5.0")) },
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "netcoreapp3.0")) },
+                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "netstandard2.1")) },
                 } },
             };
         }
@@ -1048,6 +1062,24 @@ namespace Nuclear.Assemblies.Resolvers {
                     { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "net5.0")) },
                     { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "netcoreapp3.0")) },
                     { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "netstandard2.1")) },
+                }  },                
+                new Object[] { new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib")), new Dictionary<RuntimeInfo, DirectoryInfo>() {
+                    { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "net48")) },
+                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "net5.0")) },
+                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "netcoreapp3.0")) },
+                    { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "netstandard2.1")) },
+                } },
+                new Object[] { new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86")), new Dictionary<RuntimeInfo, DirectoryInfo>() {
+                    { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "net48")) },
+                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "net5.0")) },
+                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "netcoreapp3.0")) },
+                    { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "netstandard2.1")) },
+                } },
+                new Object[] {new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64")), new Dictionary<RuntimeInfo, DirectoryInfo>() {
+                    { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "net48")) },
+                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "net5.0")) },
+                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "netcoreapp3.0")) },
+                    { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "netstandard2.1")) },
                 }  },
             };
         }

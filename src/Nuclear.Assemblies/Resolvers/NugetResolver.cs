@@ -115,13 +115,13 @@ namespace Nuclear.Assemblies.Resolvers {
             IComparer<RuntimeInfo> comparer = new RuntimeInfoFeatureComparer();
 
             if(TryGetPackage(assemblyName.Name, nugetCache, out DirectoryInfo package)) {
-                IOrderedEnumerable<KeyValuePair<(Version, RuntimeInfo, ProcessorArchitecture), DirectoryInfo>> packageVersions =
+                IOrderedEnumerable<KeyValuePair<(Version, String, RuntimeInfo, ProcessorArchitecture), DirectoryInfo>> packageVersions =
                     GetPackageVersions(package)
                         .Where(pv => validRuntimes.Contains(pv.Key.runtime))
                         .OrderByDescending(pv => pv.Key.version)
                         .ThenByDescending(pv => pv.Key.runtime, comparer);
 
-                foreach(KeyValuePair<(Version version, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> packageVersion in packageVersions) {
+                foreach(KeyValuePair<(Version version, String label, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> packageVersion in packageVersions) {
                     candidates.AddRange(FilterCandidates(assemblyName, packageVersion.Value.EnumerateFiles($"{assemblyName.Name}.dll", SearchOption.AllDirectories)));
                 }
             }
@@ -147,20 +147,29 @@ namespace Nuclear.Assemblies.Resolvers {
             return package != null && package.Exists;
         }
 
-        internal static IDictionary<(Version version, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> GetPackageVersions(DirectoryInfo package) {
-            Dictionary<(Version, RuntimeInfo, ProcessorArchitecture), DirectoryInfo> packageVersions = new Dictionary<(Version, RuntimeInfo, ProcessorArchitecture), DirectoryInfo>();
+        internal static IDictionary<(Version version, String label, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> GetPackageVersions(DirectoryInfo package) {
+            Dictionary<(Version, String, RuntimeInfo, ProcessorArchitecture), DirectoryInfo> packageVersions = new Dictionary<(Version, String, RuntimeInfo, ProcessorArchitecture), DirectoryInfo>();
 
             if(package != null && package.Exists) {
                 foreach(DirectoryInfo semVer in package.EnumerateDirectories("*", SearchOption.TopDirectoryOnly)) {
+                    String versionString = semVer.Name;
+                    String label = String.Empty;
+                    Int32 indexOfDash = semVer.Name.IndexOf('-');
+
+                    if(indexOfDash >= 0) {
+                        versionString = semVer.Name.Substring(0, indexOfDash);
+                        label = semVer.Name.Substring(indexOfDash + 1);
+                    }
+
                     if(Version.TryParse(semVer.Name, out Version version)) {
                         GetPackageVersionRuntimes(new DirectoryInfo(Path.Combine(semVer.FullName, "lib")))
-                            .Foreach(kvp => packageVersions.Add((version, kvp.Key, ProcessorArchitecture.MSIL), kvp.Value));
+                            .Foreach(kvp => packageVersions.Add((version, label, kvp.Key, ProcessorArchitecture.MSIL), kvp.Value));
 
                         GetPackageVersionRuntimes(new DirectoryInfo(Path.Combine(semVer.FullName, "lib", "x86")))
-                            .Foreach(kvp => packageVersions.Add((version, kvp.Key, ProcessorArchitecture.X86), kvp.Value));
+                            .Foreach(kvp => packageVersions.Add((version, label, kvp.Key, ProcessorArchitecture.X86), kvp.Value));
 
                         GetPackageVersionRuntimes(new DirectoryInfo(Path.Combine(semVer.FullName, "lib", "x64")))
-                            .Foreach(kvp => packageVersions.Add((version, kvp.Key, ProcessorArchitecture.Amd64), kvp.Value));
+                            .Foreach(kvp => packageVersions.Add((version, label, kvp.Key, ProcessorArchitecture.Amd64), kvp.Value));
                     }
                 }
             }

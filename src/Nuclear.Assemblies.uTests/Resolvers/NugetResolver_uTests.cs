@@ -60,7 +60,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void GetPackageVersions() {
 
-            IDictionary<(Version version, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> versions = default;
+            IDictionary<(Version version, String label, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> versions = default;
 
             Test.IfNot.Action.ThrowsException(() => versions = NugetResolver.GetPackageVersions(null), out Exception ex);
 

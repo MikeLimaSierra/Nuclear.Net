@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <Target Condition="'$(Configuration)' == 'Release'" Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="publish.bat " />
+    <Exec Command="..\publish.bat $(TargetFramework) $(RootNamespace) $(AssemblyName)" />
   </Target>
 
   <!-- Conditional -->

@@ -7,4 +7,5 @@ namespace Nuclear.Assemblies.Resolvers {
     /// Directories can be the location of the calling assembly or of the entry assembly.
     /// </summary>
     public interface IDefaultResolver : IAssemblyResolver<IDefaultResolverData> { }
+
 }

@@ -14,8 +14,13 @@
     <repository type="git" url="https://github.com/MikeLimaSierra/Nuclear.Net" />
     <language>en-US</language>
 	<dependencies>
-	  <group>
-      <dependency id="Nuclear.Extensions" version="2.0.1" />
+    <group targetFramework=".NETFramework4.5">
+      <dependency id="Nuclear.Extensions" version="2.0.2" exclude="Build,Analyzers" />
+      <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+    </group>
+    <group targetFramework=".NETStandard2.0">
+      <dependency id="Nuclear.Extensions" version="2.0.2" exclude="Build,Analyzers" />
+      <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
     </group>
 	</dependencies>
   </metadata>
@@ -25,5 +30,8 @@
     <file src="../../publish/Nuclear.Assemblies/netstandard2.0/Nuclear.Assemblies.dll" target="lib/netstandard2.0" />
     <file src="../../publish/Nuclear.Assemblies/netstandard2.0/Nuclear.Assemblies.pdb" target="lib/netstandard2.0" />
     <file src="../../publish/Nuclear.Assemblies/netstandard2.0/Nuclear.Assemblies.xml" target="lib/netstandard2.0" />
+    <file src="../../publish/Nuclear.Assemblies/net45/Nuclear.Assemblies.dll" target="lib/net45" />
+    <file src="../../publish/Nuclear.Assemblies/net45/Nuclear.Assemblies.pdb" target="lib/net45" />
+    <file src="../../publish/Nuclear.Assemblies/net45/Nuclear.Assemblies.xml" target="lib/net45" />
   </files>
 </package>

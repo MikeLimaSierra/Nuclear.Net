@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+
+using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.Exceptions;
 
 namespace Nuclear.Assemblies.Resolvers {
-    internal class DefaultResolver : AssemblyResolver, IDefaultResolver {
+    internal class DefaultResolver : AssemblyResolver<IDefaultResolverData>, IDefaultResolver {
 
         #region properties
 
@@ -24,34 +26,34 @@ namespace Nuclear.Assemblies.Resolvers {
 
         #region public methods
 
-        public override Boolean TryResolve(ResolveEventArgs e, out IEnumerable<FileInfo> files) {
-            files = Enumerable.Empty<FileInfo>();
+        public override Boolean TryResolve(ResolveEventArgs e, out IEnumerable<IDefaultResolverData> data) {
+            data = Enumerable.Empty<IDefaultResolverData>();
 
             if(AssemblyHelper.TryGetAssemblyName(e, out AssemblyName assemblyName)) {
                 if(e.RequestingAssembly == null) {
-                    files = ResolveInternal(assemblyName);
+                    data = ResolveInternal(assemblyName).Select(_ => new DefaultResolverData(_));
                 } else {
-                    files = ResolveInternal(assemblyName, new FileInfo(e.RequestingAssembly.Location).Directory, SearchOption.AllDirectories);
+                    data = ResolveInternal(assemblyName, new FileInfo(e.RequestingAssembly.Location).Directory, SearchOption.AllDirectories).Select(_ => new DefaultResolverData(_));
                 }
             }
 
-            return files != null && files.Count() > 0;
+            return data != null && data.Count() > 0;
         }
 
-        public override Boolean TryResolve(String fullName, out IEnumerable<FileInfo> files) {
-            files = Enumerable.Empty<FileInfo>();
+        public override Boolean TryResolve(String fullName, out IEnumerable<IDefaultResolverData> data) {
+            data = Enumerable.Empty<IDefaultResolverData>();
 
-            return AssemblyHelper.TryGetAssemblyName(fullName, out AssemblyName assemblyName) && TryResolve(assemblyName, out files);
+            return AssemblyHelper.TryGetAssemblyName(fullName, out AssemblyName assemblyName) && TryResolve(assemblyName, out data);
         }
 
-        public override Boolean TryResolve(AssemblyName assemblyName, out IEnumerable<FileInfo> files) {
-            files = Enumerable.Empty<FileInfo>();
+        public override Boolean TryResolve(AssemblyName assemblyName, out IEnumerable<IDefaultResolverData> data) {
+            data = Enumerable.Empty<IDefaultResolverData>();
 
             if(assemblyName != null) {
-                files = ResolveInternal(assemblyName);
+                data = ResolveInternal(assemblyName).Select(_ => new DefaultResolverData(_));
             }
 
-            return files != null && files.Count() > 0;
+            return data != null && data.Count() > 0;
         }
 
         #endregion

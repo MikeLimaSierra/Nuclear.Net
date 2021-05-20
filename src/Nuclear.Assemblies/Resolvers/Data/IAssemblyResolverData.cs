@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 
 namespace Nuclear.Assemblies.Resolvers.Data {
 
@@ -11,9 +10,9 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         #region properties
 
         /// <summary>
-        /// Gets the resolved assemblies.
+        /// Gets the resolved assembly.
         /// </summary>
-        public IEnumerable<FileInfo> Files { get; }
+        public FileInfo File { get; }
 
         #endregion
 

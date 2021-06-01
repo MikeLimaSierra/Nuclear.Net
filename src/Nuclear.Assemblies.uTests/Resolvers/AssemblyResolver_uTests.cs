@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Resolvers {
@@ -8,7 +9,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void Implementation() {
 
-            Test.If.Type.Implements<AssemblyResolver, IAssemblyResolver>();
+            Test.If.Type.Implements<AssemblyResolver<IDefaultResolverData>, IAssemblyResolver<IDefaultResolverData>>();
 
         }
 
@@ -18,10 +19,10 @@ namespace Nuclear.Assemblies.Resolvers {
             IDefaultResolver instance1 = null;
             IDefaultResolver instance2 = null;
 
-            Test.IfNot.Action.ThrowsException(() => instance1 = DefaultResolver.Instance, out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => instance1 = AssemblyResolver.Default, out Exception ex);
             Test.IfNot.Action.ThrowsException(() => instance2 = AssemblyResolver.Default, out ex);
 
-            Test.If.Reference.IsEqual(instance1, instance2);
+            Test.IfNot.Reference.IsEqual(instance1, instance2);
 
         }
 
@@ -31,10 +32,10 @@ namespace Nuclear.Assemblies.Resolvers {
             INugetResolver instance1 = null;
             INugetResolver instance2 = null;
 
-            Test.IfNot.Action.ThrowsException(() => instance1 = NugetResolver.Instance, out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => instance1 = AssemblyResolver.Nuget, out Exception ex);
             Test.IfNot.Action.ThrowsException(() => instance2 = AssemblyResolver.Nuget, out ex);
 
-            Test.If.Reference.IsEqual(instance1, instance2);
+            Test.IfNot.Reference.IsEqual(instance1, instance2);
 
         }
 

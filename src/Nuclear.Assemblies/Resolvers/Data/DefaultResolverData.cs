@@ -1,24 +1,12 @@
 ﻿using System.IO;
 
-using Nuclear.Exceptions;
-
 namespace Nuclear.Assemblies.Resolvers.Data {
 
-    internal class DefaultResolverData : IDefaultResolverData {
-
-        #region properties
-
-        public FileInfo File { get; }
-
-        #endregion
+    internal class DefaultResolverData : AssemblyResolverData, IDefaultResolverData {
 
         #region ctors
 
-        internal DefaultResolverData(FileInfo file) {
-            Throw.If.Object.IsNull(file, nameof(file));
-
-            File = file;
-        }
+        internal DefaultResolverData(FileInfo file) : base(file) { }
 
         #endregion
 

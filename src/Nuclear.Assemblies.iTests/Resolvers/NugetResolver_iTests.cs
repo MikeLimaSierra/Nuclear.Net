@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.Assemblies.Runtimes;
 using Nuclear.Extensions;
 using Nuclear.TestSite;
@@ -19,14 +20,14 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveArgsData))]
         void TryResolveArgs(ResolveEventArgs input, Boolean result, IEnumerable<FileInfo> files) {
 
-            INugetResolver instance = NugetResolver.Instance;
+            INugetResolver instance = AssemblyResolver.Nuget;
             Boolean _result = false;
-            IEnumerable<FileInfo> _files = null;
+            IEnumerable<INugetResolverData> _files = null;
 
             Test.IfNot.Action.ThrowsException(() => _result = instance.TryResolve(input, out _files), out Exception ex);
 
             Test.If.Value.IsEqual(_result, result);
-            Test.If.Enumerable.MatchesExactly(_files, files, Statics.FileInfoComparer);
+            Test.If.Enumerable.MatchesExactly(_files.Select(_ => _.File), files, Statics.FileInfoComparer);
 
         }
 
@@ -53,14 +54,14 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveStringData))]
         void TryResolveString(String input, Boolean result, IEnumerable<FileInfo> files) {
 
-            INugetResolver instance = NugetResolver.Instance;
+            INugetResolver instance = AssemblyResolver.Nuget;
             Boolean _result = false;
-            IEnumerable<FileInfo> _files = null;
+            IEnumerable<INugetResolverData> _files = null;
 
             Test.IfNot.Action.ThrowsException(() => _result = instance.TryResolve(input, out _files), out Exception ex);
 
             Test.If.Value.IsEqual(_result, result);
-            Test.If.Enumerable.MatchesExactly(_files, files, Statics.FileInfoComparer);
+            Test.If.Enumerable.MatchesExactly(_files.Select(_ => _.File), files, Statics.FileInfoComparer);
 
         }
 
@@ -86,14 +87,14 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveNameData))]
         void TryResolveName(AssemblyName input, Boolean result, IEnumerable<FileInfo> files) {
 
-            INugetResolver instance = NugetResolver.Instance;
+            INugetResolver instance = AssemblyResolver.Nuget;
             Boolean _result = default;
-            IEnumerable<FileInfo> _files = default;
+            IEnumerable<INugetResolverData> _files = default;
 
             Test.IfNot.Action.ThrowsException(() => _result = instance.TryResolve(input, out _files), out Exception ex);
 
             Test.If.Value.IsEqual(_result, result);
-            Test.If.Enumerable.MatchesExactly(_files, files, Statics.FileInfoComparer);
+            Test.If.Enumerable.MatchesExactly(_files.Select(_ => _.File), files, Statics.FileInfoComparer);
 
         }
 
@@ -139,12 +140,12 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(GetAssemblyCandidatesData))]
         void GetAssemblyCandidates(AssemblyName input1, IEnumerable<DirectoryInfo> input2, RuntimeInfo input3, IEnumerable<FileInfo> expected) {
 
-            IEnumerable<FileInfo> files = default;
+            IEnumerable<INugetResolverData> files = default;
 
             Test.IfNot.Action.ThrowsException(() => files = NugetResolver.GetAssemblyCandidates(input1, input2, input3), out Exception ex);
 
             Test.IfNot.Object.IsNull(files);
-            Test.If.Enumerable.MatchesExactly(files, expected, Statics.FileInfoComparer);
+            Test.If.Enumerable.MatchesExactly(files.Select(_ => _.File), expected, Statics.FileInfoComparer);
 
         }
 
@@ -534,13 +535,13 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(GetAssemblyCandidatesFromCacheData))]
         void GetAssemblyCandidatesFromCache(AssemblyName input1, DirectoryInfo input2, RuntimeInfo input3, IEnumerable<FileInfo> expected) {
 
-            IEnumerable<FileInfo> files = default;
+            IEnumerable<INugetResolverData> files = default;
             RuntimesHelper.TryGetLoadableRuntimes(input3, out IEnumerable<RuntimeInfo> validRuntimes);
 
             Test.IfNot.Action.ThrowsException(() => files = NugetResolver.GetAssemblyCandidatesFromCache(input1, input2, validRuntimes), out Exception ex);
 
             Test.IfNot.Object.IsNull(files);
-            Test.If.Enumerable.MatchesExactly(files, expected, Statics.FileInfoComparer);
+            Test.If.Enumerable.MatchesExactly(files.Select(_ => _.File), expected, Statics.FileInfoComparer);
 
         }
 
@@ -960,127 +961,6 @@ namespace Nuclear.Assemblies.Resolvers {
                 new Object[] { "netstandard.library", cache, true, Path.Combine(cache.FullName, "netstandard.library") },
                 new Object[] { "non.existent.library", cache, false, null },
                 new Object[] { "Awesome.Nuget.Package", fakeCache, true, Path.Combine(fakeCache.FullName, "Awesome.Nuget.Package") },
-            };
-        }
-
-        #endregion
-
-        #region GetPackageVersions
-
-        [TestMethod]
-        [TestData(nameof(GetPackageVersionsData))]
-        void GetPackageVersions(DirectoryInfo input, Dictionary<(Version version, String label, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> expected) {
-
-            IDictionary<(Version version, String label, RuntimeInfo runtime, ProcessorArchitecture arch), DirectoryInfo> versions = default;
-
-            Test.IfNot.Action.ThrowsException(() => versions = NugetResolver.GetPackageVersions(input), out Exception ex);
-
-            Test.IfNot.Object.IsNull(versions);
-            Test.If.Enumerable.Matches(versions.Keys, expected.Keys);
-            Test.If.Enumerable.Matches(versions.Values.Select(v => v.FullName), expected.Values.Select(v => v.FullName));
-
-        }
-
-        IEnumerable<Object[]> GetPackageVersionsData() {
-            DirectoryInfo fakeCache = Statics.GetFakeNugetCache();
-            NugetResolver.TryGetPackage("Simple.Nuget.Package", fakeCache, out DirectoryInfo package);
-
-            return new List<Object[]>() {
-                new Object[] { new DirectoryInfo(@"C:\non\existent\path"), new Dictionary<(Version, String, RuntimeInfo, ProcessorArchitecture), DirectoryInfo>() },
-                new Object[] { package, new Dictionary<(Version, String, RuntimeInfo, ProcessorArchitecture), DirectoryInfo>() {
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "net48")) },
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "net5.0")) },
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "netcoreapp3.0")) },
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "netstandard2.1")) },
-
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "net48")) },
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "net5.0")) },
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "netcoreapp3.0")) },
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "netstandard2.1")) },
-
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "net48")) },
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "net5.0")) },
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "netcoreapp3.0")) },
-                    { (new Version(1, 1, 0), "", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "netstandard2.1")) },
-
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "net48")) },
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "net5.0")) },
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "netcoreapp3.0")) },
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.MSIL), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "netstandard2.1")) },
-
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "net48")) },
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "net5.0")) },
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "netcoreapp3.0")) },
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.X86), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "netstandard2.1")) },
-
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "net48")) },
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "net5.0")) },
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "netcoreapp3.0")) },
-                    { (new Version(1, 1, 0), "beta", new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), ProcessorArchitecture.Amd64), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "netstandard2.1")) },
-                } },
-            };
-        }
-
-        #endregion
-
-        #region GetPackageVersionRuntimes
-
-        [TestMethod]
-        [TestData(nameof(GetPackageVersionRuntimesData))]
-        void GetPackageVersionRuntimes(DirectoryInfo input, Dictionary<RuntimeInfo, DirectoryInfo> expected) {
-
-            IDictionary<RuntimeInfo, DirectoryInfo> versions = default;
-
-            Test.IfNot.Action.ThrowsException(() => versions = NugetResolver.GetPackageVersionRuntimes(input), out Exception ex);
-
-            Test.IfNot.Object.IsNull(versions);
-            Test.If.Enumerable.Matches(versions.Keys, expected.Keys);
-            Test.If.Enumerable.Matches(versions.Values.Select(v => v.FullName), expected.Values.Select(v => v.FullName));
-
-        }
-
-        IEnumerable<Object[]> GetPackageVersionRuntimesData() {
-            DirectoryInfo fakeCache = Statics.GetFakeNugetCache();
-            NugetResolver.TryGetPackage("Simple.Nuget.Package", fakeCache, out DirectoryInfo package);
-
-            return new List<Object[]>() {
-                new Object[] { new DirectoryInfo(@"C:\non\existent\path"), new Dictionary<RuntimeInfo, DirectoryInfo>() },
-                new Object[] { new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib")), new Dictionary<RuntimeInfo, DirectoryInfo>() {
-                    { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "net48")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "net5.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "netcoreapp3.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "netstandard2.1")) },
-                } },
-                new Object[] { new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86")), new Dictionary<RuntimeInfo, DirectoryInfo>() {
-                    { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "net48")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "net5.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "netcoreapp3.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x86", "netstandard2.1")) },
-                } },
-                new Object[] {new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64")), new Dictionary<RuntimeInfo, DirectoryInfo>() {
-                    { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "net48")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "net5.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "netcoreapp3.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0", "lib", "x64", "netstandard2.1")) },
-                }  },                
-                new Object[] { new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib")), new Dictionary<RuntimeInfo, DirectoryInfo>() {
-                    { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "net48")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "net5.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "netcoreapp3.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "netstandard2.1")) },
-                } },
-                new Object[] { new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86")), new Dictionary<RuntimeInfo, DirectoryInfo>() {
-                    { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "net48")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "net5.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "netcoreapp3.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x86", "netstandard2.1")) },
-                } },
-                new Object[] {new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64")), new Dictionary<RuntimeInfo, DirectoryInfo>() {
-                    { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "net48")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "net5.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "netcoreapp3.0")) },
-                    { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 1)), new DirectoryInfo(Path.Combine(package.FullName, "1.1.0-beta", "lib", "x64", "netstandard2.1")) },
-                }  },
             };
         }
 

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.Extensions;
 using Nuclear.TestSite;
 
@@ -16,14 +17,14 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveArgsData))]
         void TryResolveArgs(ResolveEventArgs input, Boolean result, IEnumerable<FileInfo> files) {
 
-            IDefaultResolver instance = DefaultResolver.Instance;
+            IDefaultResolver instance = AssemblyResolver.Default;
             Boolean _result = false;
-            IEnumerable<FileInfo> _files = null;
+            IEnumerable<IDefaultResolverData> _files = null;
 
             Test.IfNot.Action.ThrowsException(() => _result = instance.TryResolve(input, out _files), out Exception ex);
 
             Test.If.Value.IsEqual(_result, result);
-            Test.If.Enumerable.Matches(_files, files, Statics.FileInfoComparer);
+            Test.If.Enumerable.Matches(_files.Select(_ => _.File), files, Statics.FileInfoComparer);
 
         }
 
@@ -47,14 +48,14 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveStringData))]
         void TryResolveString(String input, Boolean result, IEnumerable<FileInfo> files) {
 
-            IDefaultResolver instance = DefaultResolver.Instance;
+            IDefaultResolver instance = AssemblyResolver.Default;
             Boolean _result = false;
-            IEnumerable<FileInfo> _files = null;
+            IEnumerable<IDefaultResolverData> _files = null;
 
             Test.IfNot.Action.ThrowsException(() => _result = instance.TryResolve(input, out _files), out Exception ex);
 
             Test.If.Value.IsEqual(_result, result);
-            Test.If.Enumerable.Matches(_files, files, Statics.FileInfoComparer);
+            Test.If.Enumerable.Matches(_files.Select(_ => _.File), files, Statics.FileInfoComparer);
 
         }
 
@@ -74,14 +75,14 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveNameData))]
         void TryResolveName(AssemblyName input, Boolean result, IEnumerable<FileInfo> files) {
 
-            IDefaultResolver instance = DefaultResolver.Instance;
+            IDefaultResolver instance = AssemblyResolver.Default;
             Boolean _result = false;
-            IEnumerable<FileInfo> _files = null;
+            IEnumerable<IDefaultResolverData> _files = null;
 
             Test.IfNot.Action.ThrowsException(() => _result = instance.TryResolve(input, out _files), out Exception ex);
 
             Test.If.Value.IsEqual(_result, result);
-            Test.If.Enumerable.Matches(_files, files, Statics.FileInfoComparer);
+            Test.If.Enumerable.Matches(_files.Select(_ => _.File), files, Statics.FileInfoComparer);
 
         }
 
@@ -90,6 +91,58 @@ namespace Nuclear.Assemblies.Resolvers {
                 new Object[] { null, false, Enumerable.Empty<FileInfo>() },
                 new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), false, Enumerable.Empty<FileInfo>() },
                 new Object[] { typeof(StringExtensions).Assembly.GetName(), true, new FileInfo[] {
+                    new FileInfo(Path.Combine(Statics.EntryPath.DirectoryName, "Nuclear.Extensions.dll"))
+                } },
+            };
+        }
+
+        #endregion
+
+        #region ResolveInternal
+
+        [TestMethod]
+        [TestData(nameof(ResolveInternalData))]
+        void ResolveInternal(AssemblyName input1, SearchOption input2, IEnumerable<FileInfo> expected) {
+
+            IEnumerable<FileInfo> files = null;
+
+            Test.IfNot.Action.ThrowsException(() => files = DefaultResolver.ResolveInternal(input1, input2), out Exception ex);
+
+            Test.If.Enumerable.Matches(files, expected, Statics.FileInfoComparer);
+
+        }
+
+        IEnumerable<Object[]> ResolveInternalData() {
+            return new List<Object[]>() {
+                new Object[] { null, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
+                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
+                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
+                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), SearchOption.AllDirectories, Enumerable.Empty<FileInfo>() },
+                new Object[] { typeof(StringExtensions).Assembly.GetName(), SearchOption.AllDirectories, new FileInfo[] {
+                    new FileInfo(Path.Combine(Statics.EntryPath.DirectoryName, "Nuclear.Extensions.dll"))
+                } },
+            };
+        }
+
+        [TestMethod]
+        [TestData(nameof(ResolveInternalDirData))]
+        void ResolveInternalDir(AssemblyName input1, DirectoryInfo input2, SearchOption input3, IEnumerable<FileInfo> expected) {
+
+            IEnumerable<FileInfo> files = null;
+
+            Test.IfNot.Action.ThrowsException(() => files = DefaultResolver.ResolveInternal(input1, input2, input3), out Exception ex);
+
+            Test.If.Enumerable.Matches(files, expected, Statics.FileInfoComparer);
+
+        }
+
+        IEnumerable<Object[]> ResolveInternalDirData() {
+            return new List<Object[]>() {
+                new Object[] { null, null, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
+                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), null, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
+                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), Statics.EntryPath.Directory, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
+                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), Statics.EntryPath.Directory, SearchOption.AllDirectories, Enumerable.Empty<FileInfo>() },
+                new Object[] { typeof(StringExtensions).Assembly.GetName(), Statics.EntryPath.Directory, SearchOption.AllDirectories, new FileInfo[] {
                     new FileInfo(Path.Combine(Statics.EntryPath.DirectoryName, "Nuclear.Extensions.dll"))
                 } },
             };

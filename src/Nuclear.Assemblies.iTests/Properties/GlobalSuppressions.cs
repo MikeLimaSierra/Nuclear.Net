@@ -6,3 +6,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Code Quality", "IDE0051:Remove unused private members", Justification = "Unit tests", Scope = "namespaceanddescendants", Target = "Nuclear.Assemblies")]
+[assembly: SuppressMessage("Style", "IDE0022:Use expression body for methods", Justification = "Unit tests", Scope = "namespaceanddescendants", Target = "Nuclear.Assemblies")]

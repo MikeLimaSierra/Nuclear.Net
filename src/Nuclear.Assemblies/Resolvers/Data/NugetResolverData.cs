@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 
 using Nuclear.Assemblies.Runtimes;
-using Nuclear.Exceptions;
 
 namespace Nuclear.Assemblies.Resolvers.Data {
 
@@ -17,7 +16,7 @@ namespace Nuclear.Assemblies.Resolvers.Data {
 
         public String PackageVersionLabel { get; private set; }
 
-        public ProcessorArchitecture PackageArchitecture { get; private set; }
+        public ProcessorArchitecture PackageArchitecture { get; private set; } = ProcessorArchitecture.None;
 
         public RuntimeInfo PackageTargetFramework { get; private set; }
 
@@ -31,66 +30,66 @@ namespace Nuclear.Assemblies.Resolvers.Data {
 
         #region methods
 
-        protected override void Init() {
-            base.Init();
+        protected override Boolean Init() => TryGetTargetFramework(out DirectoryInfo runtimeDir)
+            && TryGetArchitecture(runtimeDir, out DirectoryInfo libDir)
+            && TryGetVersion(libDir, out DirectoryInfo versionDir)
+            && TryGetName(versionDir);
 
-            // packages/name/version/lib/[arch/]runtime/assembly.dll
-
-            GetTargetFramework(out DirectoryInfo runtimeDir);
-            GetArchitecture(runtimeDir, out DirectoryInfo libDir);
-            GetVersion(libDir, out DirectoryInfo versionDir);
-            GetName(versionDir, out DirectoryInfo nameDir);
-        }
-
-        private void GetTargetFramework(out DirectoryInfo runtimeDir) {
-            Throw.If.Value.IsFalse(RuntimesHelper.TryParseTFM(File.Directory.Name, out RuntimeInfo runtime), nameof(File), "Could not resolve the targeted framework.");
-
+        private Boolean TryGetTargetFramework(out DirectoryInfo runtimeDir) {
             runtimeDir = File.Directory;
 
-            PackageTargetFramework = runtime;
+            if(RuntimesHelper.TryParseTFM(File.Directory.Name, out RuntimeInfo runtime)) {
+                PackageTargetFramework = runtime;
+            }
+
+            return PackageTargetFramework != null && runtimeDir != null;
         }
 
-        private void GetArchitecture(DirectoryInfo runtimeDir, out DirectoryInfo libDir) {
+        private Boolean TryGetArchitecture(DirectoryInfo runtimeDir, out DirectoryInfo libDir) {
             libDir = runtimeDir.Parent;
 
-            switch(libDir.Name) {
-                case "x86":
-                    PackageArchitecture = ProcessorArchitecture.X86;
-                    libDir = libDir.Parent;
-                    break;
+            if(libDir != null) {
+                switch(libDir.Name) {
+                    case "x86":
+                        PackageArchitecture = ProcessorArchitecture.X86;
+                        libDir = libDir.Parent;
+                        break;
 
-                case "x64":
-                    PackageArchitecture = ProcessorArchitecture.Amd64;
-                    libDir = libDir.Parent;
-                    break;
+                    case "x64":
+                        PackageArchitecture = ProcessorArchitecture.Amd64;
+                        libDir = libDir.Parent;
+                        break;
 
-                case "lib":
-                    PackageArchitecture = ProcessorArchitecture.MSIL;
-                    break;
+                    case "lib":
+                        PackageArchitecture = ProcessorArchitecture.MSIL;
+                        break;
 
-                default: break;
+                    default: break;
+                }
             }
 
-            if(libDir.Name != "lib") {
-                throw new ArgumentException("Could not resolve lib directory.", nameof(File));
-            }
+            return PackageArchitecture != ProcessorArchitecture.None && libDir != null && libDir.Name == "lib";
         }
 
-        private void GetVersion(DirectoryInfo libDir, out DirectoryInfo versionDir) {
+        private Boolean TryGetVersion(DirectoryInfo libDir, out DirectoryInfo versionDir) {
             versionDir = libDir.Parent;
-            String v = versionDir.Name;
 
-            Int32 dashIndex = v.IndexOf('-');
+            if(versionDir != null) {
+                String v = versionDir.Name;
 
-            PackageVersionLabel = dashIndex >= 0 ? v.Substring(dashIndex + 1) : null;
-            PackageVersion = Version.TryParse(dashIndex >= 0 ? v.Substring(0, dashIndex) : v, out Version version)
-                ? version : throw new ArgumentException("Could not resolve version.", nameof(File));
+                Int32 dashIndex = v.IndexOf('-');
+
+                PackageVersionLabel = dashIndex >= 0 ? v.Substring(dashIndex + 1) : null;
+                PackageVersion = Version.TryParse(dashIndex >= 0 ? v.Substring(0, dashIndex) : v, out Version version) ? version : new Version(0, 0, 0);
+            }
+
+            return PackageVersion != null && versionDir != null;
         }
 
-        private void GetName(DirectoryInfo versionDir, out DirectoryInfo nameDir) {
-            nameDir = versionDir.Parent;
+        private Boolean TryGetName(DirectoryInfo versionDir) {
+            PackageName = versionDir?.Parent?.Name;
 
-            PackageName = nameDir.Name;
+            return PackageName == Name.Name;
         }
 
         #endregion

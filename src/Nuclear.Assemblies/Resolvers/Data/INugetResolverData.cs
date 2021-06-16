@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 using Nuclear.Assemblies.Runtimes;
 
@@ -25,6 +26,11 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         /// Gets the package version label.
         /// </summary>
         String PackageVersionLabel { get; }
+
+        /// <summary>
+        /// Gets the tergeted processor architecture.
+        /// </summary>
+        ProcessorArchitecture PackageArchitecture { get; }
 
         /// <summary>
         /// Gets the targeted framework.

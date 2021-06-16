@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 
 namespace Nuclear.Assemblies.Resolvers.Data {
@@ -19,6 +20,11 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         /// Gets the <see cref="AssemblyName"/> of the assembly.
         /// </summary>
         AssemblyName Name { get; }
+
+        /// <summary>
+        /// Gets if the given <see cref="FileInfo"/> is valid.
+        /// </summary>
+        Boolean IsValid { get; }
 
         #endregion
 

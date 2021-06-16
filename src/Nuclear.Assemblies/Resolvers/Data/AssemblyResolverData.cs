@@ -1,16 +1,16 @@
-﻿using System.ComponentModel;
+﻿using System;
 using System.IO;
 using System.Reflection;
 
 using Nuclear.Exceptions;
+using Nuclear.Extensions;
 
 namespace Nuclear.Assemblies.Resolvers.Data {
 
     /// <summary>
     /// Implements the assembly information that was found by an <see cref="IAssemblyResolver{TData}"/>.
     /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public class AssemblyResolverData : IAssemblyResolverData {
+    internal abstract class AssemblyResolverData : IAssemblyResolverData {
 
         #region properties
 
@@ -24,6 +24,11 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         /// </summary>
         public AssemblyName Name { get; private set; }
 
+        /// <summary>
+        /// Gets if the given <see cref="FileInfo"/> is valid.
+        /// </summary>
+        public Boolean IsValid { get; }
+
         #endregion
 
         #region ctors
@@ -32,12 +37,14 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         /// Creates a new instance of <see cref="AssemblyResolverData"/>.
         /// </summary>
         /// <param name="file">The assembly file that was resolved.</param>
-        protected internal AssemblyResolverData(FileInfo file) {
-            Throw.If.Object.IsNull(file, nameof(file));
+        internal AssemblyResolverData(FileInfo file) {
+            Throw.If.Object.IsNull(file, nameof(file), $"Parameter {nameof(file).Format()} must not be null.");
+            Throw.If.Value.IsFalse(AssemblyHelper.TryGetAssemblyName(file, out AssemblyName name), nameof(file), $"Could not resolve the AssemblyName of file {file.Format()}.");
 
             File = file;
+            Name = name;
 
-            Init();
+            IsValid = Init();
         }
 
         #endregion
@@ -47,11 +54,8 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         /// <summary>
         /// Initializes the data object by analyzing the <see cref="File"/> object.
         /// </summary>
-        protected virtual void Init() {
-            Throw.If.Value.IsFalse(AssemblyHelper.TryGetAssemblyName(File, out AssemblyName name), nameof(File), "Could not resolve the AssemblyName object.");
-
-            Name = name;
-        }
+        /// <returns>True if the instance could be initialized.</returns>
+        protected abstract Boolean Init();
 
         #endregion
 

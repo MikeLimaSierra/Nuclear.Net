@@ -39,7 +39,7 @@ namespace Nuclear.Assemblies.Resolvers {
                     new FileInfo(Path.Combine(Statics.EntryPath.DirectoryName, "Nuclear.Extensions.dll"))
                 } },
                 new Object[] { new ResolveEventArgs(typeof(DefaultResolver).Assembly.FullName, Statics.TestAsm), true, new FileInfo[] {
-                    new FileInfo(Path.Combine(Statics.TestPath.DirectoryName, "Nuclear.Assemblies.dll"))
+                    new FileInfo(typeof(DefaultResolver).Assembly.Location)
                 } },
             };
         }
@@ -142,8 +142,8 @@ namespace Nuclear.Assemblies.Resolvers {
                 new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), null, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
                 new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), Statics.EntryPath.Directory, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
                 new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), Statics.EntryPath.Directory, SearchOption.AllDirectories, Enumerable.Empty<FileInfo>() },
-                new Object[] { typeof(StringExtensions).Assembly.GetName(), Statics.EntryPath.Directory, SearchOption.AllDirectories, new FileInfo[] {
-                    new FileInfo(Path.Combine(Statics.EntryPath.DirectoryName, "Nuclear.Extensions.dll"))
+                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), new FileInfo(typeof(DefaultResolver_iTests).Assembly.Location).Directory, SearchOption.AllDirectories, new FileInfo[] {
+                    new FileInfo(typeof(DefaultResolver_iTests).Assembly.Location)
                 } },
             };
         }

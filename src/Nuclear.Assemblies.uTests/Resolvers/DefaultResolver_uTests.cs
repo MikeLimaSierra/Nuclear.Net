@@ -1,5 +1,4 @@
-﻿
-using Nuclear.Assemblies.Resolvers.Data;
+﻿using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Resolvers {

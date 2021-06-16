@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Nuclear.Assemblies.Resolvers.Data {
 
@@ -7,6 +8,12 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         #region ctors
 
         internal DefaultResolverData(FileInfo file) : base(file) { }
+
+        #endregion
+
+        #region methods
+
+        protected override Boolean Init() => true;
 
         #endregion
 

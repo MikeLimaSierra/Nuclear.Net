@@ -5,7 +5,7 @@ namespace Nuclear.SemVer {
     /// <summary>
     /// Defines a semantic version object.
     /// </summary>
-    public interface ISemVer {
+    public interface ISemVer : IEquatable<ISemVer>, IComparable<ISemVer> {
 
         #region properties
 
@@ -23,6 +23,26 @@ namespace Nuclear.SemVer {
         /// Gets the patch part of the version.
         /// </summary>
         Int32 Patch { get; }
+
+        /// <summary>
+        /// Gets if the version is a pre-release.
+        /// </summary>
+        Boolean IsPreRelease { get; }
+
+        /// <summary>
+        /// Gets the pre-release part of the version.
+        /// </summary>
+        String PreRelease { get; }
+
+        /// <summary>
+        /// Gets if the version has meta data.
+        /// </summary>
+        Boolean HasMetaData { get; }
+
+        /// <summary>
+        /// Gets the meta data of the version.
+        /// </summary>
+        String MetaData { get; }
 
         #endregion
 

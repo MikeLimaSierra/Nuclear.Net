@@ -8,10 +8,16 @@
     <FileVersion>1.0.0</FileVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Factories\" />
+  <Import Project="..\Configurations.targets" />
+
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Nuclear.Exceptions" Version="2.0.1" />
+    <PackageReference Include="Nuclear.Creation" Version="1.0.0" />
   </ItemGroup>
 
-  <Import Project="..\Configurations.targets" />
+  <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
+    <ProjectReference Include="..\Nuclear.Exceptions\Nuclear.Exceptions.csproj" />
+    <ProjectReference Include="..\Nuclear.Creation\Nuclear.Creation.csproj" />
+  </ItemGroup>
 
 </Project>

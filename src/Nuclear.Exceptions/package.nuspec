@@ -2,9 +2,9 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Nuclear.Exceptions</id>
-    <version>2.1.1</version>
+    <version>2.2.0</version>
     <title>Nuclear.Exceptions</title>
-    <description>Features improved throwing of exceptions.</description>
+    <description>Features improved throwing and handling of exceptions.</description>
     <authors>MikeLimaSierra</authors>
     <owners>MikeLimaSierra</owners>
     <copyright>Copyright (c) 2020 MikeLimaSierra</copyright>

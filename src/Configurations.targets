@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <Target Condition="'$(Configuration)' == 'Release'" Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="..\publish.bat $(TargetFramework) $(RootNamespace) $(AssemblyName)" />
+    <Exec Command="C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy RemoteSigned -File &quot;..\publish.ps1&quot; &quot;$(TargetFramework)&quot; &quot;$(RootNamespace)&quot; &quot;$(AssemblyName)&quot;" />
   </Target>
 
   <!-- Conditional -->

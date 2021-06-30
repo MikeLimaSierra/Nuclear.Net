@@ -12,7 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1939BFF1-B590-46D7-80D6-4290FA299810}"
 	ProjectSection(SolutionItems) = preProject
 		Configurations.targets = Configurations.targets
-		publish.bat = publish.bat
+		publish.ps1 = publish.ps1
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nuclear.Properties.Contracts", "Nuclear.Properties.Contracts\Nuclear.Properties.Contracts.csproj", "{6BE9101A-6144-463D-8741-9B1CED4F189D}"
@@ -47,9 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nuclear.Creation", "Nuclear
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nuclear.Creation.uTests", "Nuclear.Creation.uTests\Nuclear.Creation.uTests.csproj", "{05322872-9C7B-4F92-A054-C56B36B70157}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuclear.SemVer", "Nuclear.SemVer\Nuclear.SemVer.csproj", "{BB344B93-717D-41A2-8D10-832D44511CA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nuclear.SemVer", "Nuclear.SemVer\Nuclear.SemVer.csproj", "{BB344B93-717D-41A2-8D10-832D44511CA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuclear.SemVer.uTests", "Nuclear.SemVer.uTests\Nuclear.SemVer.uTests.csproj", "{C65C8121-C775-42AC-A40D-EADA4EAD4CBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nuclear.SemVer.uTests", "Nuclear.SemVer.uTests\Nuclear.SemVer.uTests.csproj", "{C65C8121-C775-42AC-A40D-EADA4EAD4CBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

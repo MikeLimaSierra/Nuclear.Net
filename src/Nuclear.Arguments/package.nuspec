@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Nuclear.Arguments</id>
-    <version>2.0.2</version>
+    <version>2.0.3</version>
     <title>Nuclear.Arguments</title>
     <description>Features argument handling.</description>
     <authors>MikeLimaSierra</authors>
@@ -15,10 +15,10 @@
     <language>en-US</language>
 	<dependencies>
     <group targetFramework=".NETFramework4.5">
-      <dependency id="Nuclear.Extensions" version="2.0.2" exclude="Build,Analyzers" />
+      <dependency id="Nuclear.Extensions" version="2.0.3" exclude="Build,Analyzers" />
     </group>
     <group targetFramework=".NETStandard2.0">
-      <dependency id="Nuclear.Extensions" version="2.0.2" exclude="Build,Analyzers" />
+      <dependency id="Nuclear.Extensions" version="2.0.3" exclude="Build,Analyzers" />
     </group>
 	</dependencies>
   </metadata>

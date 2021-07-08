@@ -41,7 +41,7 @@ namespace Nuclear.Exceptions {
 
         #endregion
 
-        #region Action
+        #region Func
 
         /// <summary>
         /// Invokes <paramref name="func"/> and catches all thrown exceptions.

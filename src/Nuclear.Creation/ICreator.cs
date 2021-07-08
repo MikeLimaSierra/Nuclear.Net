@@ -21,6 +21,14 @@ namespace Nuclear.Creation {
         /// <returns>True if the object was created.</returns>
         Boolean TryCreate(out TOut obj);
 
+        /// <summary>
+        /// Tries to create an instance of <typeparamref name="TOut"/> and returns it via the out parameter <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">The creted instance of type <typeparamref name="TOut"/>.</param>
+        /// <param name="ex">The caught exception.</param>
+        /// <returns>True if the object was created.</returns>
+        Boolean TryCreate(out TOut obj, out Exception ex);
+
     }
 
     /// <summary>
@@ -44,6 +52,15 @@ namespace Nuclear.Creation {
         /// <param name="in1">The 1st input parameter.</param>
         /// <returns>True if the object was created.</returns>
         Boolean TryCreate(out TOut obj, TIn1 in1);
+
+        /// <summary>
+        /// Tries to create an instance of <typeparamref name="TOut"/> and returns it via the out parameter <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">The creted instance of type <typeparamref name="TOut"/>.</param>
+        /// <param name="in1">The 1st input parameter.</param>
+        /// <param name="ex">The caught exception.</param>
+        /// <returns>True if the object was created.</returns>
+        Boolean TryCreate(out TOut obj, TIn1 in1, out Exception ex);
 
     }
 
@@ -71,6 +88,16 @@ namespace Nuclear.Creation {
         /// <param name="in2">The 2nd input parameter.</param>
         /// <returns>True if the object was created.</returns>
         Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2);
+
+        /// <summary>
+        /// Tries to create an instance of <typeparamref name="TOut"/> and returns it via the out parameter <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">The creted instance of type <typeparamref name="TOut"/>.</param>
+        /// <param name="in1">The 1st input parameter.</param>
+        /// <param name="in2">The 2nd input parameter.</param>
+        /// <param name="ex">The caught exception.</param>
+        /// <returns>True if the object was created.</returns>
+        Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, out Exception ex);
 
     }
 
@@ -101,6 +128,17 @@ namespace Nuclear.Creation {
         /// <param name="in3">The 3rd input parameter.</param>
         /// <returns>True if the object was created.</returns>
         Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3);
+
+        /// <summary>
+        /// Tries to create an instance of <typeparamref name="TOut"/> and returns it via the out parameter <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">The creted instance of type <typeparamref name="TOut"/>.</param>
+        /// <param name="in1">The 1st input parameter.</param>
+        /// <param name="in2">The 2nd input parameter.</param>
+        /// <param name="in3">The 3rd input parameter.</param>
+        /// <param name="ex">The caught exception.</param>
+        /// <returns>True if the object was created.</returns>
+        Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, out Exception ex);
 
     }
 
@@ -134,6 +172,18 @@ namespace Nuclear.Creation {
         /// <param name="in4">The 4th input parameter.</param>
         /// <returns>True if the object was created.</returns>
         Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, TIn4 in4);
+
+        /// <summary>
+        /// Tries to create an instance of <typeparamref name="TOut"/> and returns it via the out parameter <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">The creted instance of type <typeparamref name="TOut"/>.</param>
+        /// <param name="in1">The 1st input parameter.</param>
+        /// <param name="in2">The 2nd input parameter.</param>
+        /// <param name="in3">The 3rd input parameter.</param>
+        /// <param name="in4">The 4th input parameter.</param>
+        /// <param name="ex">The caught exception.</param>
+        /// <returns>True if the object was created.</returns>
+        Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, TIn4 in4, out Exception ex);
 
     }
 
@@ -170,6 +220,19 @@ namespace Nuclear.Creation {
         /// <param name="in5">The 5th input parameter.</param>
         /// <returns>True if the object was created.</returns>
         Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, TIn4 in4, TIn5 in5);
+
+        /// <summary>
+        /// Tries to create an instance of <typeparamref name="TOut"/> and returns it via the out parameter <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">The creted instance of type <typeparamref name="TOut"/>.</param>
+        /// <param name="in1">The 1st input parameter.</param>
+        /// <param name="in2">The 2nd input parameter.</param>
+        /// <param name="in3">The 3rd input parameter.</param>
+        /// <param name="in4">The 4th input parameter.</param>
+        /// <param name="in5">The 5th input parameter.</param>
+        /// <param name="ex">The caught exception.</param>
+        /// <returns>True if the object was created.</returns>
+        Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, TIn4 in4, TIn5 in5, out Exception ex);
 
     }
 
@@ -209,6 +272,20 @@ namespace Nuclear.Creation {
         /// <param name="in6">The 6th input parameter.</param>
         /// <returns>True if the object was created.</returns>
         Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, TIn4 in4, TIn5 in5, TIn6 in6);
+
+        /// <summary>
+        /// Tries to create an instance of <typeparamref name="TOut"/> and returns it via the out parameter <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">The creted instance of type <typeparamref name="TOut"/>.</param>
+        /// <param name="in1">The 1st input parameter.</param>
+        /// <param name="in2">The 2nd input parameter.</param>
+        /// <param name="in3">The 3rd input parameter.</param>
+        /// <param name="in4">The 4th input parameter.</param>
+        /// <param name="in5">The 5th input parameter.</param>
+        /// <param name="in6">The 6th input parameter.</param>
+        /// <param name="ex">The caught exception.</param>
+        /// <returns>True if the object was created.</returns>
+        Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, TIn4 in4, TIn5 in5, TIn6 in6, out Exception ex);
 
     }
 
@@ -251,6 +328,21 @@ namespace Nuclear.Creation {
         /// <param name="in7">The 7th input parameter.</param>
         /// <returns>True if the object was created.</returns>
         Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, TIn4 in4, TIn5 in5, TIn6 in6, TIn7 in7);
+
+        /// <summary>
+        /// Tries to create an instance of <typeparamref name="TOut"/> and returns it via the out parameter <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">The creted instance of type <typeparamref name="TOut"/>.</param>
+        /// <param name="in1">The 1st input parameter.</param>
+        /// <param name="in2">The 2nd input parameter.</param>
+        /// <param name="in3">The 3rd input parameter.</param>
+        /// <param name="in4">The 4th input parameter.</param>
+        /// <param name="in5">The 5th input parameter.</param>
+        /// <param name="in6">The 6th input parameter.</param>
+        /// <param name="in7">The 7th input parameter.</param>
+        /// <param name="ex">The caught exception.</param>
+        /// <returns>True if the object was created.</returns>
+        Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, TIn4 in4, TIn5 in5, TIn6 in6, TIn7 in7, out Exception ex);
 
     }
 
@@ -296,6 +388,22 @@ namespace Nuclear.Creation {
         /// <param name="in8">The 8th input parameter.</param>
         /// <returns>True if the object was created.</returns>
         Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, TIn4 in4, TIn5 in5, TIn6 in6, TIn7 in7, TIn8 in8);
+
+        /// <summary>
+        /// Tries to create an instance of <typeparamref name="TOut"/> and returns it via the out parameter <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">The creted instance of type <typeparamref name="TOut"/>.</param>
+        /// <param name="in1">The 1st input parameter.</param>
+        /// <param name="in2">The 2nd input parameter.</param>
+        /// <param name="in3">The 3rd input parameter.</param>
+        /// <param name="in4">The 4th input parameter.</param>
+        /// <param name="in5">The 5th input parameter.</param>
+        /// <param name="in6">The 6th input parameter.</param>
+        /// <param name="in7">The 7th input parameter.</param>
+        /// <param name="in8">The 8th input parameter.</param>
+        /// <param name="ex">The caught exception.</param>
+        /// <returns>True if the object was created.</returns>
+        Boolean TryCreate(out TOut obj, TIn1 in1, TIn2 in2, TIn3 in3, TIn4 in4, TIn5 in5, TIn6 in6, TIn7 in7, TIn8 in8, out Exception ex);
 
     }
 

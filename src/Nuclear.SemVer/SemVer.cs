@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Nuclear.Exceptions;
+
 namespace Nuclear.SemVer {
     internal class SemVer : ISemVer {
 
@@ -26,6 +28,9 @@ namespace Nuclear.SemVer {
         #region ctors
 
         public SemVer(String input) {
+            Throw.If.Object.IsNull(input, nameof(input));
+            Throw.If.String.IsNullOrWhiteSpace(input, nameof(input));
+
             throw new NotImplementedException();
         }
 

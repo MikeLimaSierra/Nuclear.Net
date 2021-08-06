@@ -9,60 +9,57 @@ namespace Nuclear.SemVer {
         [TestMethod]
         void Implementation() {
 
-            Test.If.Type.Implements<ISemVer, IComparable<ISemVer>>();
-            Test.If.Type.Implements<ISemVer, IEquatable<ISemVer>>();
-            Test.If.Type.Implements<SemVer, ISemVer>();
+            Test.If.Type.Implements<SemanticVersion, IComparable<SemanticVersion>>();
+            Test.If.Type.Implements<SemanticVersion, IEquatable<SemanticVersion>>();
 
         }
 
-        #region ctor
+        #region TryParse
 
         [TestMethod]
-        [TestParameters(typeof(ArgumentNullException), null, "input")]
-        [TestParameters(typeof(ArgumentException), "", "input")]
-        [TestParameters(typeof(ArgumentException), " ", "input")]
-        void CtorThrowsArgEx<TEx>(String input, String expected)
-            where TEx : ArgumentException {
+        [TestParameters(null)]
+        [TestParameters("")]
+        [TestParameters(" ")]
+        [TestParameters("1")]
+        [TestParameters("1.2")]
+        [TestParameters("01.2.3")]
+        [TestParameters("1.02.3")]
+        [TestParameters("1.2.03")]
+        [TestParameters("1.2.3.alpha")]
+        [TestParameters("1.2.3_alpha")]
+        [TestParameters("1.2.3+alpha")]
+        [TestParameters("1.2.3-")]
+        [TestParameters("1.2.3-abc/def")]
+        [TestParameters("1.2.3-abc_def")]
+        [TestParameters("1.2.3-0123")]
+        [TestParameters("1.2.3.beta")]
+        [TestParameters("1.2.3_beta")]
+        [TestParameters("1.2.3-beta")]
+        [TestParameters("1.2.3+")]
+        [TestParameters("1.2.3+abc/def")]
+        [TestParameters("1.2.3+abc_def")]
+        void TryParseFails(String input) {
 
-            Test.If.Action.ThrowsException(() => new SemVer(input), out TEx _);
+            SemanticVersion version = default;
+            Boolean result = default;
 
-        }
+            Test.IfNot.Action.ThrowsException(() => result = SemanticVersion.TryParse(input, out version), out Exception _);
 
-        [TestMethod]
-        [TestParameters("1", "input")]
-        [TestParameters("1.2", "input")]
-        [TestParameters("01.2.3", "input")]
-        [TestParameters("1.02.3", "input")]
-        [TestParameters("1.2.03", "input")]
-
-        [TestParameters("1.2.3.alpha", "input")]
-        [TestParameters("1.2.3_alpha", "input")]
-        [TestParameters("1.2.3+alpha", "input")]
-        [TestParameters("1.2.3-", "input")]
-        [TestParameters("1.2.3-abc/def", "input")]
-        [TestParameters("1.2.3-abc_def", "input")]
-        [TestParameters("1.2.3-0123", "input")]
-
-        [TestParameters("1.2.3.beta", "input")]
-        [TestParameters("1.2.3_beta", "input")]
-        [TestParameters("1.2.3-beta", "input")]
-        [TestParameters("1.2.3+", "input")]
-        [TestParameters("1.2.3+abc/def", "input")]
-        [TestParameters("1.2.3+abc_def", "input")]
-        void CtorThrowsFormatEx(String input, String expected) {
-
-            Test.If.Action.ThrowsException(() => new SemVer(input), out FormatException _);
+            Test.If.Value.IsFalse(result);
+            Test.If.Object.IsNull(version);
 
         }
 
         [TestMethod]
         [TestData(nameof(CtorData))]
-        void Ctor(String input, (Int32 major, Int32 minor, Int32 patch, String pre, Boolean isPre, String meta, Boolean hasMeta) expected) {
+        void TryParse(String input, (Int32 major, Int32 minor, Int32 patch, String pre, Boolean isPre, String meta, Boolean hasMeta) expected) {
 
-            ISemVer version = default;
+            SemanticVersion version = default;
+            Boolean result = default;
 
-            Test.IfNot.Action.ThrowsException(() => version = new SemVer(input), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = SemanticVersion.TryParse(input, out version), out Exception _);
 
+            Test.If.Value.IsTrue(result);
             Test.If.Value.IsEqual(version.Major, expected.major);
             Test.If.Value.IsEqual(version.Minor, expected.minor);
             Test.If.Value.IsEqual(version.Patch, expected.patch);

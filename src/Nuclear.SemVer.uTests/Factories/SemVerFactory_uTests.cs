@@ -11,7 +11,7 @@ namespace Nuclear.SemVer.Factories {
         [TestMethod]
         void Implementation() {
 
-            Test.If.Type.Implements<ISemVerFactory, ICreator<ISemVer, String>>();
+            Test.If.Type.Implements<ISemVerFactory, ICreator<SemanticVersion, String>>();
             Test.If.Type.Implements<SemVerFactory, ISemVerFactory>();
 
         }
@@ -25,7 +25,7 @@ namespace Nuclear.SemVer.Factories {
         void CreateThrows<TException>(String input) where TException : Exception {
 
             ISemVerFactory factory = Factory.Instance.SemVer();
-            ISemVer obj = default;
+            SemanticVersion obj = default;
 
             Test.If.Action.ThrowsException(() => factory.Create(out obj, input), out TException ex);
 
@@ -38,7 +38,7 @@ namespace Nuclear.SemVer.Factories {
         void Create(String input, (Int32 major, Int32 minor, Int32 patch, String pr, String md) expected) {
 
             ISemVerFactory factory = Factory.Instance.SemVer();
-            ISemVer obj = default;
+            SemanticVersion obj = default;
 
             Test.IfNot.Action.ThrowsException(() => factory.Create(out obj, input), out Exception ex);
 

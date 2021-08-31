@@ -19,5 +19,11 @@
 
         #endregion
 
+        #region ctors
+
+        static Factory() { }
+
+        #endregion
+
     }
 }

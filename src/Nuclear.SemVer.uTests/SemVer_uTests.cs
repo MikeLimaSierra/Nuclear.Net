@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Nuclear.Extensions;
 using Nuclear.TestSite;
 
 namespace Nuclear.SemVer {
@@ -16,15 +17,19 @@ namespace Nuclear.SemVer {
 
         #region TryParse
 
-        [TestMethod]
+        [TestMethod("asdf")]
         [TestParameters(null)]
         [TestParameters("")]
         [TestParameters(" ")]
+        [TestParameters(".")]
         [TestParameters("1")]
         [TestParameters("1.2")]
+        [TestParameters("1.2.")]
         [TestParameters("01.2.3")]
         [TestParameters("1.02.3")]
         [TestParameters("1.2.03")]
+        [TestParameters("1.2.3.")]
+        [TestParameters("1.2.3.4")]
         [TestParameters("1.2.3.alpha")]
         [TestParameters("1.2.3_alpha")]
         [TestParameters("1.2.3+alpha")]
@@ -32,9 +37,9 @@ namespace Nuclear.SemVer {
         [TestParameters("1.2.3-abc/def")]
         [TestParameters("1.2.3-abc_def")]
         [TestParameters("1.2.3-0123")]
+        [TestParameters("1.2.3-123.0456")]
         [TestParameters("1.2.3.beta")]
         [TestParameters("1.2.3_beta")]
-        [TestParameters("1.2.3-beta")]
         [TestParameters("1.2.3+")]
         [TestParameters("1.2.3+abc/def")]
         [TestParameters("1.2.3+abc_def")]
@@ -43,14 +48,15 @@ namespace Nuclear.SemVer {
             SemanticVersion version = default;
             Boolean result = default;
 
-            Test.IfNot.Action.ThrowsException(() => result = SemanticVersion.TryParse(input, out version), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = SemanticVersion.TryParse(input, out version), out FormatException ex);
 
             Test.If.Value.IsFalse(result);
             Test.If.Object.IsNull(version);
+            Test.If.Value.IsEqual(ex.Message, $"Version string {input.Format()} has a bad format.");
 
         }
 
-        [TestMethod]
+        [TestMethod("asdf")]
         [TestData(nameof(CtorData))]
         void TryParse(String input, (Int32 major, Int32 minor, Int32 patch, String pre, Boolean isPre, String meta, Boolean hasMeta) expected) {
 
@@ -87,6 +93,14 @@ namespace Nuclear.SemVer {
                 new Object[] { "1.2.3-alpha+001", (1, 2, 3, "alpha", true, "001", true) },
                 new Object[] { "1.2.3-alpha+e.s.456", (1, 2, 3, "alpha", true, "e.s.456", true) }
             };
+        }
+
+        #endregion
+
+        #region ctors
+
+        [TestMethod]
+        void CtorThrows() {
         }
 
         #endregion

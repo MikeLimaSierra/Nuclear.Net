@@ -2,9 +2,9 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Nuclear.Creation</id>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <title>Nuclear.Creation</title>
-    <description>Features a barebone factory implementation and factory interfaces.</description>
+    <description>Features extensible barebone implementations and interfaces for factories and parsers.</description>
     <authors>MikeLimaSierra</authors>
     <owners>MikeLimaSierra</owners>
     <copyright>Copyright (c) 2021 MikeLimaSierra</copyright>

@@ -139,6 +139,20 @@ namespace Nuclear.SemVer {
 
         }
 
+        [TestMethod]
+        [TestParameters(0u, 0u, 0u, "abc/def")]
+        [TestParameters(0u, 0u, 0u, "abc_def")]
+        void Ctor_WithPreRelease_Throws(UInt32 major, UInt32 minor, UInt32 patch, String preRelease) {
+
+            SemanticVersion sut = default;
+
+            Test.If.Action.ThrowsException(() => sut = new SemanticVersion(major, minor, patch, preRelease: preRelease), out ArgumentException ex);
+
+            Test.If.Value.IsEqual(ex.ParamName, "preRelease");
+            Test.If.String.Contains(ex.Message, "Input has a bad format");
+
+        }
+
         #endregion
 
         #region ValidatePreRelease

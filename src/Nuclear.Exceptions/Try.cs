@@ -36,7 +36,7 @@ namespace Nuclear.Exceptions {
 
             } catch(Exception _) { ex = _; } finally { @finally?.Invoke(); }
 
-            return ex != null;
+            return ex == null;
         }
 
         #endregion
@@ -76,7 +76,7 @@ namespace Nuclear.Exceptions {
 
             } catch(Exception _) { ex = _; } finally { @finally?.Invoke(); }
 
-            return ex != null;
+            return ex == null;
         }
 
         #endregion

@@ -120,10 +120,11 @@ namespace Nuclear.SemVer {
         }
 
         [TestMethod]
-        [TestParameters(0u, 0u, 0u, "alpha")]
-        [TestParameters(1u, 2u, 3u, "alpha-alpha")]
-        [TestParameters(3u, 2u, 1u, "4.5.6")]
-        void Ctor_WithPreRelease(UInt32 major, UInt32 minor, UInt32 patch, String preRelease) {
+        [TestParameters(0u, 0u, 0u, null, false)]
+        [TestParameters(0u, 0u, 0u, "alpha", true)]
+        [TestParameters(1u, 2u, 3u, "alpha-alpha", true)]
+        [TestParameters(3u, 2u, 1u, "4.5.6", true)]
+        void Ctor_WithPreRelease(UInt32 major, UInt32 minor, UInt32 patch, String preRelease, Boolean expectedIsPreRelease) {
 
             SemanticVersion sut = default;
 
@@ -133,13 +134,17 @@ namespace Nuclear.SemVer {
             Test.If.Value.IsEqual(sut.Minor, minor);
             Test.If.Value.IsEqual(sut.Patch, patch);
             Test.If.Value.IsEqual(sut.PreRelease, preRelease);
-            Test.If.Value.IsTrue(sut.IsPreRelease);
+            Test.If.Value.IsEqual(sut.IsPreRelease, expectedIsPreRelease);
             Test.If.Object.IsNull(sut.MetaData);
             Test.If.Value.IsFalse(sut.HasMetaData);
 
         }
 
         [TestMethod]
+        [TestParameters(0u, 0u, 0u, "")]
+        [TestParameters(0u, 0u, 0u, " ")]
+        [TestParameters(0u, 0u, 0u, "01")]
+        [TestParameters(0u, 0u, 0u, "1.02")]
         [TestParameters(0u, 0u, 0u, "abc/def")]
         [TestParameters(0u, 0u, 0u, "abc_def")]
         void Ctor_WithPreRelease_Throws(UInt32 major, UInt32 minor, UInt32 patch, String preRelease) {
@@ -149,6 +154,45 @@ namespace Nuclear.SemVer {
             Test.If.Action.ThrowsException(() => sut = new SemanticVersion(major, minor, patch, preRelease: preRelease), out ArgumentException ex);
 
             Test.If.Value.IsEqual(ex.ParamName, "preRelease");
+            Test.If.String.Contains(ex.Message, "Input has a bad format");
+
+        }
+
+        [TestMethod]
+        [TestParameters(0u, 0u, 0u, null, false)]
+        [TestParameters(0u, 0u, 0u, "alpha", true)]
+        [TestParameters(1u, 2u, 3u, "alpha-alpha", true)]
+        [TestParameters(3u, 2u, 1u, "4.5.6", true)]
+        [TestParameters(0u, 0u, 0u, "01", true)]
+        [TestParameters(0u, 0u, 0u, "1.02", true)]
+        void Ctor_WithMetaData(UInt32 major, UInt32 minor, UInt32 patch, String metaData, Boolean expectedHasMetaData) {
+
+            SemanticVersion sut = default;
+
+            Test.IfNot.Action.ThrowsException(() => sut = new SemanticVersion(major, minor, patch, metaData: metaData), out Exception _);
+
+            Test.If.Value.IsEqual(sut.Major, major);
+            Test.If.Value.IsEqual(sut.Minor, minor);
+            Test.If.Value.IsEqual(sut.Patch, patch);
+            Test.If.Object.IsNull(sut.PreRelease);
+            Test.If.Value.IsFalse(sut.IsPreRelease);
+            Test.If.Value.IsEqual(sut.MetaData, metaData);
+            Test.If.Value.IsEqual(sut.HasMetaData, expectedHasMetaData);
+
+        }
+
+        [TestMethod]
+        [TestParameters(0u, 0u, 0u, "")]
+        [TestParameters(0u, 0u, 0u, " ")]
+        [TestParameters(0u, 0u, 0u, "abc/def")]
+        [TestParameters(0u, 0u, 0u, "abc_def")]
+        void Ctor_WithMetaData_Throws(UInt32 major, UInt32 minor, UInt32 patch, String metaData) {
+
+            SemanticVersion sut = default;
+
+            Test.If.Action.ThrowsException(() => sut = new SemanticVersion(major, minor, patch, metaData: metaData), out ArgumentException ex);
+
+            Test.If.Value.IsEqual(ex.ParamName, "metaData");
             Test.If.String.Contains(ex.Message, "Input has a bad format");
 
         }
@@ -213,5 +257,180 @@ namespace Nuclear.SemVer {
 
         #endregion
 
+        #region ToString
+
+        [TestMethod]
+        [TestParameters(0u, 0u, 0u, null, null, "0.0.0")]
+        [TestParameters(1u, 2u, 3u, null, null, "1.2.3")]
+        [TestParameters(1u, 2u, 3u, "alpha", null, "1.2.3-alpha")]
+        [TestParameters(1u, 2u, 3u, null, "meta", "1.2.3+meta")]
+        [TestParameters(1u, 2u, 3u, "alpha", "meta", "1.2.3-alpha+meta")]
+        void ToString(UInt32 major, UInt32 minor, UInt32 patch, String preRelease, String metaData, String expected) {
+
+            String result = default;
+            SemanticVersion sut = new SemanticVersion(major, minor, patch, preRelease, metaData);
+
+            Test.IfNot.Action.ThrowsException(() => result = sut.ToString(), out Exception _);
+
+            Test.If.Value.IsEqual(result, expected);
+
+        }
+
+        #endregion
+
+        #region GetHashCode
+
+        [TestMethod]
+        [TestData(nameof(GetHashCodeData))]
+        void GetHashCode(SemanticVersion lhs, SemanticVersion rhs, Boolean expected) {
+
+            Int32 hash1 = default;
+            Int32 hash2 = default;
+
+            Test.IfNot.Action.ThrowsException(() => hash1 = lhs.GetHashCode(), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => hash2 = rhs.GetHashCode(), out Exception _);
+
+            Test.If.Value.IsEqual(hash1 == hash2, expected);
+
+        }
+
+        IEnumerable<Object[]> GetHashCodeData() {
+            return new List<Object[]>() {
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 0, 0), true },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(1, 0, 0), false },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 1, 0), false },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 0, 1), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0), false },
+                new Object[] { new SemanticVersion(1, 0, 0), new SemanticVersion(1, 0, 0, "alpha"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha"), true },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "beta"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha.beta"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha.1"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha.1"), new SemanticVersion(1, 0, 0, "alpha.2"), false },
+                new Object[] { new SemanticVersion(1, 0, 0), new SemanticVersion(1, 0, 0, null, "meta"), true },
+                new Object[] { new SemanticVersion(1, 0, 0, null, "meta"), new SemanticVersion(1, 0, 0), true },
+                new Object[] { new SemanticVersion(1, 0, 0, null, "meta"), new SemanticVersion(1, 0, 0, null, "meta.1"), true },
+            };
+        }
+
+        #endregion
+
+        #region Equals
+
+        [TestMethod]
+        [TestData(nameof(EqualsData))]
+        void Equals(SemanticVersion lhs, Object rhs, Boolean expected) {
+
+            Boolean result = default;
+
+            Test.IfNot.Action.ThrowsException(() => result = lhs.Equals(rhs), out Exception _);
+
+            Test.If.Value.IsEqual(result, expected);
+
+        }
+
+        IEnumerable<Object[]> EqualsData() {
+            return new List<Object[]>() {
+                new Object[] { new SemanticVersion(0, 0, 0), null, false },
+                new Object[] { new SemanticVersion(0, 0, 0), "Hello World!", false },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 0, 0), true },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(1, 0, 0), false },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 1, 0), false },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 0, 1), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0), false },
+                new Object[] { new SemanticVersion(1, 0, 0), new SemanticVersion(1, 0, 0, "alpha"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha"), true },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "beta"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha.beta"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha.1"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha.1"), new SemanticVersion(1, 0, 0, "alpha.2"), false },
+                new Object[] { new SemanticVersion(1, 0, 0), new SemanticVersion(1, 0, 0, null, "meta"), true },
+                new Object[] { new SemanticVersion(1, 0, 0, null, "meta"), new SemanticVersion(1, 0, 0), true },
+                new Object[] { new SemanticVersion(1, 0, 0, null, "meta"), new SemanticVersion(1, 0, 0, null, "meta.1"), true },
+            };
+        }
+
+        #endregion
+
+        #region EqualsT
+
+        [TestMethod]
+        [TestData(nameof(EqualsTData))]
+        void EqualsT(SemanticVersion lhs, SemanticVersion rhs, Boolean expected) {
+
+            Boolean result = default;
+
+            Test.IfNot.Action.ThrowsException(() => result = lhs.Equals(rhs), out Exception _);
+
+            Test.If.Value.IsEqual(result, expected);
+
+        }
+
+        IEnumerable<Object[]> EqualsTData() {
+            return new List<Object[]>() {
+                new Object[] { new SemanticVersion(0, 0, 0), null, false },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 0, 0), true },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(1, 0, 0), false },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 1, 0), false },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 0, 1), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0), false },
+                new Object[] { new SemanticVersion(1, 0, 0), new SemanticVersion(1, 0, 0, "alpha"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha"), true },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "beta"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha.beta"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha.1"), false },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha.1"), new SemanticVersion(1, 0, 0, "alpha.2"), false },
+                new Object[] { new SemanticVersion(1, 0, 0), new SemanticVersion(1, 0, 0, null, "meta"), true },
+                new Object[] { new SemanticVersion(1, 0, 0, null, "meta"), new SemanticVersion(1, 0, 0), true },
+                new Object[] { new SemanticVersion(1, 0, 0, null, "meta"), new SemanticVersion(1, 0, 0, null, "meta.1"), true },
+            };
+        }
+
+        #endregion
+
+        #region CompareTo
+
+        [TestMethod]
+        [TestData(nameof(CompareToData))]
+        void CompareTo(SemanticVersion lhs, SemanticVersion rhs, Int32 expected) {
+
+            Int32 result = default;
+
+            Test.IfNot.Action.ThrowsException(() => result = lhs.CompareTo(rhs), out Exception _);
+
+            Test.If.Value.IsEqual(result, expected);
+
+        }
+
+        IEnumerable<Object[]> CompareToData() {
+            return new List<Object[]>() {
+                new Object[] { new SemanticVersion(0, 0, 0), null, 1 },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 0, 0), 0 },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(1, 0, 0), -1 },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 1, 0), -1 },
+                new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 0, 1), -1 },
+                new Object[] { new SemanticVersion(1, 0, 0), new SemanticVersion(0, 0, 0), 1 },
+                new Object[] { new SemanticVersion(0, 1, 0), new SemanticVersion(0, 0, 0), 1 },
+                new Object[] { new SemanticVersion(0, 0, 1), new SemanticVersion(0, 0, 0), 1 },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0), -1 },
+                new Object[] { new SemanticVersion(1, 0, 0), new SemanticVersion(1, 0, 0, "alpha"), 1 },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha"), 0 },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "beta"), -1 },
+                new Object[] { new SemanticVersion(1, 0, 0, "beta"), new SemanticVersion(1, 0, 0, "alpha"), 1 },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha.beta"), -1 },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha.beta"), new SemanticVersion(1, 0, 0, "alpha"), 1 },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha"), new SemanticVersion(1, 0, 0, "alpha.1"), -1 },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha.1"), new SemanticVersion(1, 0, 0, "alpha"), 1 },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha.1"), new SemanticVersion(1, 0, 0, "alpha.2"), -1 },
+                new Object[] { new SemanticVersion(1, 0, 0, "alpha.2"), new SemanticVersion(1, 0, 0, "alpha.1"), 1 },
+                new Object[] { new SemanticVersion(1, 0, 0), new SemanticVersion(1, 0, 0, null, "meta"), 0 },
+                new Object[] { new SemanticVersion(1, 0, 0, null, "meta"), new SemanticVersion(1, 0, 0), 0 },
+                new Object[] { new SemanticVersion(1, 0, 0, null, "meta"), new SemanticVersion(1, 0, 0, null, "meta.1"), 0 },
+            };
+        }
+
+        #endregion
+
     }
+
 }

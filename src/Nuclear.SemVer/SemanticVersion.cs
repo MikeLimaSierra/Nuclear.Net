@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
 using Nuclear.Exceptions;
 using Nuclear.Extensions;
 
 namespace Nuclear.SemVer {
+
+    /// <summary>
+    /// Implements a semantic version structure that behaves according to https://semver.org/ .
+    /// </summary>
     public class SemanticVersion : IEquatable<SemanticVersion>, IComparable<SemanticVersion> {
 
         #region static fields
@@ -84,8 +90,8 @@ namespace Nuclear.SemVer {
         /// <param name="preRelease">The pre-release component of the version, defaults to null.</param>
         /// <param name="metaData">The versions meta data, defaults to null.</param>
         public SemanticVersion(UInt32 major, UInt32 minor, UInt32 patch, String preRelease = null, String metaData = null) : this(major, minor, patch) {
-            PreRelease = preRelease;
-            MetaData = metaData;
+            PreRelease = ValidatePreRelease(preRelease) || preRelease == null ? preRelease : throw new ArgumentException("Input has a bad format.", nameof(preRelease));
+            MetaData = ValidateMetaData(metaData) || metaData == null ? metaData : throw new ArgumentException("Input has a bad format.", nameof(metaData));
         }
 
         #endregion
@@ -145,27 +151,73 @@ namespace Nuclear.SemVer {
 
         #endregion
 
-        #region methods
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        #region override methods
 
-        public override String ToString() => base.ToString();
+        public override String ToString() {
+            StringBuilder sb = new StringBuilder($"{Major}.{Minor}.{Patch}");
 
-        public override Int32 GetHashCode() => base.GetHashCode();
+            if(IsPreRelease) { sb.AppendFormat("-{0}", PreRelease); }
+            if(HasMetaData) { sb.AppendFormat("+{0}", MetaData); }
 
-        public override Boolean Equals(Object obj) => base.Equals(obj);
+            return sb.ToString();
+        }
+
+        public override Int32 GetHashCode() {
+            Int32 hashCode = 829241888;
+            hashCode = hashCode * -1521134295 + Major.GetHashCode();
+            hashCode = hashCode * -1521134295 + Minor.GetHashCode();
+            hashCode = hashCode * -1521134295 + Patch.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<String>.Default.GetHashCode(PreRelease);
+            return hashCode;
+        }
+
+        public override Boolean Equals(Object obj) => obj != null && obj is SemanticVersion other && Equals(other);
 
         #endregion
 
         #region IEquatable
 
-        public Boolean Equals(SemanticVersion other) => throw new NotImplementedException();
+        public Boolean Equals(SemanticVersion other) {
+            if(other == null) { return false; }
+
+            if(Major != other.Major) { return false; }
+            if(Minor != other.Minor) { return false; }
+            if(Patch != other.Patch) { return false; }
+            if(IsPreRelease != other.IsPreRelease) { return false; }
+
+            return PreRelease.IsEqual(other.PreRelease);
+        }
 
         #endregion
 
         #region IComparable
 
-        public Int32 CompareTo(SemanticVersion other) => throw new NotImplementedException();
+        public Int32 CompareTo(SemanticVersion other) {
+            if(other == null) { return 1; }
+
+            if(!Equals(other)) {
+                Int32 result = Major.CompareTo(other.Major);
+                if(result != 0) { return result; }
+
+                result = Minor.CompareTo(other.Minor);
+                if(result != 0) { return result; }
+
+                result = Patch.CompareTo(other.Patch);
+                if(result != 0) { return result; }
+
+                if(IsPreRelease && other.IsPreRelease) {
+                    return PreRelease.CompareTo(other.PreRelease);
+                }
+
+                return IsPreRelease ? -1 : 1;
+            }
+
+            return 0;
+        }
 
         #endregion
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
     }
 }

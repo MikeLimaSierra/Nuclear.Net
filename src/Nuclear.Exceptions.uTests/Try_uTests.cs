@@ -19,7 +19,7 @@ namespace Nuclear.Exceptions {
 
             Test.If.Value.IsEqual(result, expected.result);
 
-            if(expected.result || result) {
+            if(!expected.result || !result) {
                 Test.If.Object.IsOfExactType(ex, expected.exType);
             }
 
@@ -27,10 +27,10 @@ namespace Nuclear.Exceptions {
 
         IEnumerable<Object[]> DoActionData() {
             return new List<Object[]>() {
-                new Object[] { null, (true, typeof(NullReferenceException)) },
-                new Object[] { new Action(() => { }), (false, null as Type) },
-                new Object[] { new Action(() => throw new ArgumentNullException()), (true, typeof(ArgumentNullException)) },
-                new Object[] { new Action(() => throw new NotImplementedException()), (true, typeof(NotImplementedException)) }
+                new Object[] { null, (false, typeof(NullReferenceException)) },
+                new Object[] { new Action(() => { }), (true, null as Type) },
+                new Object[] { new Action(() => throw new ArgumentNullException()), (false, typeof(ArgumentNullException)) },
+                new Object[] { new Action(() => throw new NotImplementedException()), (false, typeof(NotImplementedException)) }
             };
         }
 
@@ -45,7 +45,7 @@ namespace Nuclear.Exceptions {
 
             Test.If.Value.IsEqual(result, expected.result);
 
-            if(expected.result || result) {
+            if(!expected.result || !result) {
                 Test.If.Object.IsOfExactType(ex, expected.exType);
             }
 
@@ -53,12 +53,12 @@ namespace Nuclear.Exceptions {
 
         IEnumerable<Object[]> DoActionWithFinallyData() {
             return new List<Object[]>() {
-                new Object[] { (null as Action, null as Action), (true, typeof(NullReferenceException)) },
-                new Object[] { (new Action(() => { }), null as Action), (false, null as Type) },
-                new Object[] { (null as Action, new Action(() => { })), (true, typeof(NullReferenceException)) },
-                new Object[] { (new Action(() => { }), new Action(() => { })), (false, null as Type) },
-                new Object[] { (new Action(() => throw new ArgumentNullException()), new Action(() => { })), (true, typeof(ArgumentNullException)) },
-                new Object[] { (new Action(() => throw new NotImplementedException()), new Action(() => { })), (true, typeof(NotImplementedException)) }
+                new Object[] { (null as Action, null as Action), (false, typeof(NullReferenceException)) },
+                new Object[] { (new Action(() => { }), null as Action), (true, null as Type) },
+                new Object[] { (null as Action, new Action(() => { })), (false, typeof(NullReferenceException)) },
+                new Object[] { (new Action(() => { }), new Action(() => { })), (true, null as Type) },
+                new Object[] { (new Action(() => throw new ArgumentNullException()), new Action(() => { })), (false, typeof(ArgumentNullException)) },
+                new Object[] { (new Action(() => throw new NotImplementedException()), new Action(() => { })), (false, typeof(NotImplementedException)) }
             };
         }
 
@@ -91,7 +91,7 @@ namespace Nuclear.Exceptions {
             Test.If.Value.IsEqual(result, expected.result);
             Test.If.Value.IsEqual(returnVal, expected.returnVal);
 
-            if(expected.result || result) {
+            if(!expected.result || !result) {
                 Test.If.Object.IsOfExactType(ex, expected.exType);
             }
 
@@ -99,11 +99,11 @@ namespace Nuclear.Exceptions {
 
         IEnumerable<Object[]> DoFuncData() {
             return new List<Object[]>() {
-                new Object[] { typeof(Boolean), null, (true, false, typeof(NullReferenceException)) },
-                new Object[] { typeof(Boolean), new Func<Boolean>(() => false), (false, false, null as Type) },
-                new Object[] { typeof(Boolean), new Func<Boolean>(() => true), (false, true, null as Type) },
-                new Object[] { typeof(Boolean), new Func<Boolean>(() => throw new ArgumentNullException()), (true, false, typeof(ArgumentNullException)) },
-                new Object[] { typeof(Boolean), new Func<Boolean>(() => throw new NotImplementedException()), (true, false, typeof(NotImplementedException)) }
+                new Object[] { typeof(Boolean), null, (false, false, typeof(NullReferenceException)) },
+                new Object[] { typeof(Boolean), new Func<Boolean>(() => false), (true, false, null as Type) },
+                new Object[] { typeof(Boolean), new Func<Boolean>(() => true), (true, true, null as Type) },
+                new Object[] { typeof(Boolean), new Func<Boolean>(() => throw new ArgumentNullException()), (false, false, typeof(ArgumentNullException)) },
+                new Object[] { typeof(Boolean), new Func<Boolean>(() => throw new NotImplementedException()), (false, false, typeof(NotImplementedException)) }
             };
         }
 
@@ -120,7 +120,7 @@ namespace Nuclear.Exceptions {
             Test.If.Value.IsEqual(result, expected.result);
             Test.If.Value.IsEqual(returnVal, expected.returnVal);
 
-            if(expected.result || result) {
+            if(!expected.result || !result) {
                 Test.If.Object.IsOfExactType(ex, expected.exType);
             }
 
@@ -128,14 +128,14 @@ namespace Nuclear.Exceptions {
 
         IEnumerable<Object[]> DoFuncWithFinallyData() {
             return new List<Object[]>() {
-                new Object[] { typeof(Boolean), (null as Func<Boolean>, null as Action), (true, false, typeof(NullReferenceException)) },
-                new Object[] { typeof(Boolean), (new Func<Boolean>(() => false), null as Action), (false, false, null as Type) },
-                new Object[] { typeof(Boolean), (new Func<Boolean>(() => true), null as Action), (false, true, null as Type) },
-                new Object[] { typeof(Boolean), (null as Func<Boolean>, new Action(() => { })), (true, false, typeof(NullReferenceException)) },
-                new Object[] { typeof(Boolean), (new Func<Boolean>(() => false), new Action(() => { })), (false, false, null as Type) },
-                new Object[] { typeof(Boolean), (new Func<Boolean>(() => true), new Action(() => { })), (false, true, null as Type) },
-                new Object[] { typeof(Boolean), (new Func<Boolean>(() => throw new ArgumentNullException()), new Action(() => { })), (true, false, typeof(ArgumentNullException)) },
-                new Object[] { typeof(Boolean), (new Func<Boolean>(() => throw new NotImplementedException()), new Action(() => { })), (true, false, typeof(NotImplementedException)) }
+                new Object[] { typeof(Boolean), (null as Func<Boolean>, null as Action), (false, false, typeof(NullReferenceException)) },
+                new Object[] { typeof(Boolean), (new Func<Boolean>(() => false), null as Action), (true, false, null as Type) },
+                new Object[] { typeof(Boolean), (new Func<Boolean>(() => true), null as Action), (true, true, null as Type) },
+                new Object[] { typeof(Boolean), (null as Func<Boolean>, new Action(() => { })), (false, false, typeof(NullReferenceException)) },
+                new Object[] { typeof(Boolean), (new Func<Boolean>(() => false), new Action(() => { })), (true, false, null as Type) },
+                new Object[] { typeof(Boolean), (new Func<Boolean>(() => true), new Action(() => { })), (true, true, null as Type) },
+                new Object[] { typeof(Boolean), (new Func<Boolean>(() => throw new ArgumentNullException()), new Action(() => { })), (false, false, typeof(ArgumentNullException)) },
+                new Object[] { typeof(Boolean), (new Func<Boolean>(() => throw new NotImplementedException()), new Action(() => { })), (false, false, typeof(NotImplementedException)) }
             };
         }
 

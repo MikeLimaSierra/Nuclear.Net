@@ -15,10 +15,18 @@ namespace Nuclear.SemVer {
 
         }
 
-        #region TryParse
+        #region Parse
 
-        [TestMethod("asdf")]
-        [TestParameters(null)]
+        [TestMethod]
+        void Parse_ThrowsArgNullException() {
+
+            Test.If.Action.ThrowsException(() => SemanticVersion.Parse(null), out ArgumentNullException ex);
+
+            Test.If.Value.IsEqual(ex.ParamName, "input");
+
+        }
+
+        [TestMethod]
         [TestParameters("")]
         [TestParameters(" ")]
         [TestParameters(".")]
@@ -32,66 +40,61 @@ namespace Nuclear.SemVer {
         [TestParameters("1.2.3.4")]
         [TestParameters("1.2.3.alpha")]
         [TestParameters("1.2.3_alpha")]
-        [TestParameters("1.2.3+alpha")]
         [TestParameters("1.2.3-")]
+        [TestParameters("1.2.3- ")]
+        [TestParameters("1.2.3-01")]
+        [TestParameters("1.2.3-1.02")]
         [TestParameters("1.2.3-abc/def")]
         [TestParameters("1.2.3-abc_def")]
-        [TestParameters("1.2.3-0123")]
-        [TestParameters("1.2.3-123.0456")]
-        [TestParameters("1.2.3.beta")]
-        [TestParameters("1.2.3_beta")]
         [TestParameters("1.2.3+")]
+        [TestParameters("1.2.3+ ")]
         [TestParameters("1.2.3+abc/def")]
         [TestParameters("1.2.3+abc_def")]
-        void TryParseFails(String input) {
+        void Parse_ThrowsFormatException(String input) {
 
-            SemanticVersion version = default;
-            Boolean result = default;
+            Test.If.Action.ThrowsException(() => SemanticVersion.Parse(input), out FormatException ex);
 
-            Test.IfNot.Action.ThrowsException(() => result = SemanticVersion.TryParse(input, out version), out FormatException ex);
-
-            Test.If.Value.IsFalse(result);
-            Test.If.Object.IsNull(version);
-            Test.If.Value.IsEqual(ex.Message, $"Version string {input.Format()} has a bad format.");
+            Test.If.Value.IsEqual(ex.Message, $"Parameter 'input' has an incorrect format: {input.Format()}");
 
         }
 
-        [TestMethod("asdf")]
-        [TestData(nameof(CtorData))]
-        void TryParse(String input, (Int32 major, Int32 minor, Int32 patch, String pre, Boolean isPre, String meta, Boolean hasMeta) expected) {
+        [TestMethod]
+        [TestData(nameof(ParseData))]
+        void Parse(String input, (Int32 major, Int32 minor, Int32 patch, String pre, String meta) expected) {
 
-            SemanticVersion version = default;
-            Boolean result = default;
+            SemanticVersion result = default;
 
-            Test.IfNot.Action.ThrowsException(() => result = SemanticVersion.TryParse(input, out version), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = SemanticVersion.Parse(input), out Exception _);
 
-            Test.If.Value.IsTrue(result);
-            Test.If.Value.IsEqual(version.Major, expected.major);
-            Test.If.Value.IsEqual(version.Minor, expected.minor);
-            Test.If.Value.IsEqual(version.Patch, expected.patch);
-            Test.If.Value.IsEqual(version.PreRelease, expected.pre);
-            Test.If.Value.IsEqual(version.IsPreRelease, expected.isPre);
-            Test.If.Value.IsEqual(version.MetaData, expected.meta);
-            Test.If.Value.IsEqual(version.HasMetaData, expected.hasMeta);
+            Test.IfNot.Object.IsNull(result);
+            Test.If.Value.IsEqual(result.Major, expected.major);
+            Test.If.Value.IsEqual(result.Minor, expected.minor);
+            Test.If.Value.IsEqual(result.Patch, expected.patch);
+            Test.If.Value.IsEqual(result.PreRelease, expected.pre);
+            Test.If.Value.IsEqual(result.MetaData, expected.meta);
 
         }
 
-        IEnumerable<Object[]> CtorData() {
+        IEnumerable<Object[]> ParseData() {
             return new List<Object[]> {
-                new Object[] { "1.2.3", (1, 2, 3, (String) null, false, (String) null, false) },
-                new Object[] { "1.2.3-alpha", (1, 2, 3, "alpha", true, (String) null, false) },
-                new Object[] { "1.2.3-alpha-alpha", (1, 2, 3, "alpha-alpha", true, (String) null, false) },
-                new Object[] { "1.2.3-alpha.1", (1, 2, 3, "alpha.1", true, (String) null, false) },
-                new Object[] { "1.2.3-4.5.6", (1, 2, 3, "4.5.6", true, (String) null, false) },
-                new Object[] { "1.2.3-a.2.c.45", (1, 2, 3, "a.2.c.45", true, (String) null, false) },
-                new Object[] { "1.2.3+1-a", (1, 2, 3, (String) null, false, "1-a", true) },
-                new Object[] { "1.2.3+1", (1, 2, 3, (String) null, false, "1", true) },
-                new Object[] { "1.2.3+001", (1, 2, 3, (String) null, false, "001", true) },
-                new Object[] { "1.2.3+e.s.456", (1, 2, 3, (String) null, false, "e.s.456", true) },
-                new Object[] { "1.2.3-alpha+1", (1, 2, 3, "alpha", true, "1", true) },
-                new Object[] { "1.2.3-alpha+1-a", (1, 2, 3, "alpha", true, "1-a", true) },
-                new Object[] { "1.2.3-alpha+001", (1, 2, 3, "alpha", true, "001", true) },
-                new Object[] { "1.2.3-alpha+e.s.456", (1, 2, 3, "alpha", true, "e.s.456", true) }
+                new Object[] { "1.2.3", (1, 2, 3, (String) null, (String) null) },
+                new Object[] { "1.2.3-alpha.1", (1, 2, 3, "alpha.1", (String) null) },
+                //new Object[] { "1.2.3-0", (1, 2, 3, "0", (String) null) },
+                //new Object[] { "1.2.3-1.2", (1, 2, 3, "1.2", (String) null) },
+                //new Object[] { "1.2.3-1.2.3", (1, 2, 3, "1.2.3", (String) null) },
+                //new Object[] { "1.2.3-a.2.c.45", (1, 2, 3, "a.2.c.45", (String) null) },
+                //new Object[] { "1.2.3-alpha", (1, 2, 3, "alpha", (String) null) },
+                //new Object[] { "1.2.3-alpha-alpha", (1, 2, 3, "alpha-alpha", (String) null) },
+                //new Object[] { "1.2.3+0", (1, 2, 3, (String) null, "0") },
+                //new Object[] { "1.2.3+01", (1, 2, 3, (String) null, "01") },
+                //new Object[] { "1.2.3+1.02", (1, 2, 3, (String) null, "1.02") },
+                //new Object[] { "1.2.3+1.2", (1, 2, 3, (String) null, "1.2") },
+                //new Object[] { "1.2.3+1.2.3", (1, 2, 3, (String) null, "1.2.3") },
+                //new Object[] { "1.2.3+a.2.c.45", (1, 2, 3, (String) null, "a.2.c.45") },
+                //new Object[] { "1.2.3+alpha", (1, 2, 3, (String) null, "alpha") },
+                //new Object[] { "1.2.3+alpha-alpha", (1, 2, 3, (String) null, "alpha-alpha") },
+                //new Object[] { "1.2.3+alpha.1", (1, 2, 3, (String) null, "alpha.1") },
+                //new Object[] { "1.2.3-alpha-beta", (1, 2, 3, "alpha", "beta") },
             };
         }
 
@@ -154,7 +157,7 @@ namespace Nuclear.SemVer {
             Test.If.Action.ThrowsException(() => sut = new SemanticVersion(major, minor, patch, preRelease: preRelease), out ArgumentException ex);
 
             Test.If.Value.IsEqual(ex.ParamName, "preRelease");
-            Test.If.String.Contains(ex.Message, "Input has a bad format");
+            Test.If.String.Contains(ex.Message, $"Pre-release has an incorrect format: {preRelease.Format()}");
 
         }
 
@@ -193,7 +196,7 @@ namespace Nuclear.SemVer {
             Test.If.Action.ThrowsException(() => sut = new SemanticVersion(major, minor, patch, metaData: metaData), out ArgumentException ex);
 
             Test.If.Value.IsEqual(ex.ParamName, "metaData");
-            Test.If.String.Contains(ex.Message, "Input has a bad format");
+            Test.If.String.Contains(ex.Message, $"Meta data has an incorrect format: {metaData.Format()}");
 
         }
 

@@ -18,13 +18,14 @@ namespace Nuclear.SemVer {
         /// <summary>
         /// ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
         /// </summary>
-        private static readonly String _pattern = "(0|[1-9]\\d*)";
+        private static readonly String _pattern = $"(?<major>0|[1-9]\\d*)\\.(?<minor>0|[1-9]\\d*)\\.(?<patch>0|[1-9]\\d*)" +
+            $"(?:-(?<pre>(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(\\.(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?" +
+            $"(?:\\+(?<meta>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?";
+        private static readonly String pattern_ = $"(?<major>0|[1-9]\\d*)\\.(?<minor>0|[1-9]\\d*)\\.(?<patch>0|[1-9]\\d*)(-{_preReleasePattern})?(\\+{_metaDataPattern})?";
 
         private static readonly String _preReleasePattern = "(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(\\.(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*";
 
         private static readonly String _metaDataPattern = "[0-9a-zA-Z-]+(\\.[0-9a-zA-Z-]+)*";
-
-        private static readonly Regex _regex = new Regex(_pattern);
 
         #endregion
 
@@ -90,8 +91,8 @@ namespace Nuclear.SemVer {
         /// <param name="preRelease">The pre-release component of the version, defaults to null.</param>
         /// <param name="metaData">The versions meta data, defaults to null.</param>
         public SemanticVersion(UInt32 major, UInt32 minor, UInt32 patch, String preRelease = null, String metaData = null) : this(major, minor, patch) {
-            PreRelease = ValidatePreRelease(preRelease) || preRelease == null ? preRelease : throw new ArgumentException("Input has a bad format.", nameof(preRelease));
-            MetaData = ValidateMetaData(metaData) || metaData == null ? metaData : throw new ArgumentException("Input has a bad format.", nameof(metaData));
+            PreRelease = ValidatePreRelease(preRelease) || preRelease == null ? preRelease : throw new ArgumentException($"Pre-release has an incorrect format: {preRelease.Format()}", nameof(preRelease));
+            MetaData = ValidateMetaData(metaData) || metaData == null ? metaData : throw new ArgumentException($"Meta data has an incorrect format: {metaData.Format()}", nameof(metaData));
         }
 
         #endregion
@@ -99,38 +100,27 @@ namespace Nuclear.SemVer {
         #region static methods
 
         /// <summary>
-        /// Tries to parse a given version string into a semantic versioning instance.
+        /// Parses a given version string into a <see cref="SemanticVersion"/> instance.
         /// </summary>
         /// <param name="input">The version string.</param>
-        /// <param name="version">The parsed semantic version.</param>
-        /// <returns>True if the string can be parsed.</returns>
-        public static SemanticVersion Parse(String input) {
+        /// <returns>The semantic version instance.</returns>
+        internal static SemanticVersion Parse(String input) {
             Throw.If.Object.IsNull(input, nameof(input));
-            Throw.If.String.IsNullOrWhiteSpace(input, nameof(input));
 
-            SemanticVersion version = default;
+            Regex regex = new Regex($"^{_pattern}$");
 
-            if(!Try.Do(() => _regex.IsMatch(input), out Exception _)) {
+            if(Try.Do(() => regex.IsMatch(input), out Boolean result, out Exception _) && result) {
+                Match match = regex.Match(input);
+
+                return new SemanticVersion(
+                    UInt32.Parse(match.Groups["major"].Value),
+                    UInt32.Parse(match.Groups["minor"].Value),
+                    UInt32.Parse(match.Groups["patch"].Value),
+                    match.Groups["pre"].Value);
+
+            } else {
                 throw new FormatException($"Parameter {nameof(input).Format()} has an incorrect format: {input.Format()}");
             }
-
-            return version;
-        }
-
-        /// <summary>
-        /// Tries to parse a given version string into a semantic versioning instance.
-        /// </summary>
-        /// <param name="input">The version string.</param>
-        /// <param name="version">The parsed semantic version.</param>
-        /// <returns>True if the string can be parsed.</returns>
-        public static Boolean TryParse(String input, out SemanticVersion version) {
-            version = default;
-            SemanticVersion _version = default;
-
-            Try.Do(() => _version = Parse(input), out Exception _);
-            version = _version;
-
-            return version != null;
         }
 
         /// <summary>

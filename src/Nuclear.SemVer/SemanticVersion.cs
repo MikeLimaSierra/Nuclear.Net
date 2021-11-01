@@ -15,17 +15,13 @@ namespace Nuclear.SemVer {
 
         #region static fields
 
-        /// <summary>
-        /// ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-        /// </summary>
+        private static readonly String _preReleasePattern = "(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*";
+
+        private static readonly String _metaDataPattern = "[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*";
+       
         private static readonly String _pattern = $"(?<major>0|[1-9]\\d*)\\.(?<minor>0|[1-9]\\d*)\\.(?<patch>0|[1-9]\\d*)" +
-            $"(?:-(?<pre>(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(\\.(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?" +
-            $"(?:\\+(?<meta>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?";
-        private static readonly String pattern_ = $"(?<major>0|[1-9]\\d*)\\.(?<minor>0|[1-9]\\d*)\\.(?<patch>0|[1-9]\\d*)(-{_preReleasePattern})?(\\+{_metaDataPattern})?";
-
-        private static readonly String _preReleasePattern = "(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(\\.(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*";
-
-        private static readonly String _metaDataPattern = "[0-9a-zA-Z-]+(\\.[0-9a-zA-Z-]+)*";
+            $"(?:-(?<pre>{_preReleasePattern}))?" +
+            $"(?:\\+(?<meta>{_metaDataPattern}))?";
 
         #endregion
 
@@ -112,11 +108,15 @@ namespace Nuclear.SemVer {
             if(Try.Do(() => regex.IsMatch(input), out Boolean result, out Exception _) && result) {
                 Match match = regex.Match(input);
 
+                String pre = String.IsNullOrEmpty(match.Groups["pre"].Value) ? null : match.Groups["pre"].Value;
+                String meta = String.IsNullOrEmpty(match.Groups["meta"].Value) ? null : match.Groups["meta"].Value;
+
                 return new SemanticVersion(
                     UInt32.Parse(match.Groups["major"].Value),
                     UInt32.Parse(match.Groups["minor"].Value),
                     UInt32.Parse(match.Groups["patch"].Value),
-                    match.Groups["pre"].Value);
+                    pre,
+                    meta);
 
             } else {
                 throw new FormatException($"Parameter {nameof(input).Format()} has an incorrect format: {input.Format()}");

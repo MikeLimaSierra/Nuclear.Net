@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nuclear.Creation {
+namespace Nuclear.Creation.Internal {
 
     internal class CreatorFactory : ICreatorFactory {
 

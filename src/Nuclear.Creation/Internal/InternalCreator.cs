@@ -2,7 +2,7 @@
 
 using Nuclear.Exceptions;
 
-namespace Nuclear.Creation {
+namespace Nuclear.Creation.Internal {
 
     internal class InternalCreator<TOut> : ICreator<TOut> {
 

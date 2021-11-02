@@ -1,12 +1,12 @@
 ﻿using Nuclear.TestSite;
 
 namespace Nuclear.Creation.Internal {
-    class InternalParser_uTests {
+    class Parser_uTests {
 
         [TestMethod]
         void Implementation() {
 
-            Test.If.Type.Implements<InternalParser, IParser>();
+            Test.If.Type.Implements<Parser, IParser>();
 
         }
 

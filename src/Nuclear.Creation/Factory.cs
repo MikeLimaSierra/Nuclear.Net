@@ -10,12 +10,12 @@
         /// <summary>
         /// Gets a new instance of type <see cref="IFactory"/>.
         /// </summary>
-        public static IFactory New => new InternalFactory();
+        public static IFactory New => new Internal.Factory();
 
         /// <summary>
         /// Gets a cached instance of type <see cref="IFactory"/>.
         /// </summary>
-        public static IFactory Instance { get; } = new InternalFactory();
+        public static IFactory Instance { get; } = new Internal.Factory();
 
         #endregion
 

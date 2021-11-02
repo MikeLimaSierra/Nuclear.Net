@@ -10,12 +10,12 @@
         /// <summary>
         /// Gets a new instance of type <see cref="IFactory"/>.
         /// </summary>
-        public static IParser New => new InternalParser();
+        public static IParser New => new Internal.Parser();
 
         /// <summary>
         /// Gets a cached instance of type <see cref="IParser"/>.
         /// </summary>
-        public static IParser Instance { get; } = new InternalParser();
+        public static IParser Instance { get; } = new Internal.Parser();
 
         #endregion
 

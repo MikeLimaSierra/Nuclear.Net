@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Code Quality", "IDE0051:Remove unused private members", Justification = "Unit tests", Scope = "namespaceanddescendants", Target = "Nuclear.Creation")]
+[assembly: SuppressMessage("Code Quality", "IDE0051:Remove unused private members", Justification = "Unit tests", Scope = "namespaceanddescendants", Target = "~N:Nuclear.Creation")]

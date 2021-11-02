@@ -1,7 +1,6 @@
-﻿
-using Nuclear.TestSite;
+﻿using Nuclear.TestSite;
 
-namespace Nuclear.Creation {
+namespace Nuclear.Creation.Internal {
     class InternalParser_uTests {
 
         [TestMethod]

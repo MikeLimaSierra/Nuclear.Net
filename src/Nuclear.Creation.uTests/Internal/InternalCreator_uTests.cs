@@ -1,9 +1,8 @@
-﻿
-using System;
+﻿using System;
 
 using Nuclear.TestSite;
 
-namespace Nuclear.Creation {
+namespace Nuclear.Creation.Internal {
     class InternalCreator_uTests {
 
         [TestMethod]

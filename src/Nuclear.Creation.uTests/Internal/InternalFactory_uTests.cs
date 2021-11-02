@@ -2,7 +2,7 @@
 
 using Nuclear.TestSite;
 
-namespace Nuclear.Creation {
+namespace Nuclear.Creation.Internal {
     class InternalFactory_uTests {
 
         [TestMethod]

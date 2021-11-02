@@ -10,4 +10,12 @@
 
   <Import Project="..\Configurations.targets" />
 
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Nuclear.Exceptions" Version="2.2.0" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
+    <ProjectReference Include="..\Nuclear.Exceptions\Nuclear.Exceptions.csproj" />
+  </ItemGroup>
+
 </Project>

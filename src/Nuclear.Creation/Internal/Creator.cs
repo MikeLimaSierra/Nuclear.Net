@@ -4,11 +4,11 @@ using Nuclear.Exceptions;
 
 namespace Nuclear.Creation.Internal {
 
-    internal class InternalCreator<TOut> : ICreator<TOut> {
+    internal class Creator<TOut> : ICreator<TOut> {
 
         private readonly Func<TOut> _func;
 
-        internal InternalCreator(Func<TOut> func) {
+        internal Creator(Func<TOut> func) {
             Throw.If.Object.IsNull(func, nameof(func));
 
             _func = func;
@@ -34,11 +34,11 @@ namespace Nuclear.Creation.Internal {
 
     }
 
-    internal class InternalCreator<TOut, TIn1> : ICreator<TOut, TIn1> {
+    internal class Creator<TOut, TIn1> : ICreator<TOut, TIn1> {
 
         private readonly Func<TIn1, TOut> _func;
 
-        internal InternalCreator(Func<TIn1, TOut> func) {
+        internal Creator(Func<TIn1, TOut> func) {
             Throw.If.Object.IsNull(func, nameof(func));
 
             _func = func;
@@ -64,11 +64,11 @@ namespace Nuclear.Creation.Internal {
 
     }
 
-    internal class InternalCreator<TOut, TIn1, TIn2> : ICreator<TOut, TIn1, TIn2> {
+    internal class Creator<TOut, TIn1, TIn2> : ICreator<TOut, TIn1, TIn2> {
 
         private readonly Func<TIn1, TIn2, TOut> _func;
 
-        internal InternalCreator(Func<TIn1, TIn2, TOut> func) {
+        internal Creator(Func<TIn1, TIn2, TOut> func) {
             Throw.If.Object.IsNull(func, nameof(func));
 
             _func = func;
@@ -94,11 +94,11 @@ namespace Nuclear.Creation.Internal {
 
     }
 
-    internal class InternalCreator<TOut, TIn1, TIn2, TIn3> : ICreator<TOut, TIn1, TIn2, TIn3> {
+    internal class Creator<TOut, TIn1, TIn2, TIn3> : ICreator<TOut, TIn1, TIn2, TIn3> {
 
         private readonly Func<TIn1, TIn2, TIn3, TOut> _func;
 
-        internal InternalCreator(Func<TIn1, TIn2, TIn3, TOut> func) {
+        internal Creator(Func<TIn1, TIn2, TIn3, TOut> func) {
             Throw.If.Object.IsNull(func, nameof(func));
 
             _func = func;
@@ -124,11 +124,11 @@ namespace Nuclear.Creation.Internal {
 
     }
 
-    internal class InternalCreator<TOut, TIn1, TIn2, TIn3, TIn4> : ICreator<TOut, TIn1, TIn2, TIn3, TIn4> {
+    internal class Creator<TOut, TIn1, TIn2, TIn3, TIn4> : ICreator<TOut, TIn1, TIn2, TIn3, TIn4> {
 
         private readonly Func<TIn1, TIn2, TIn3, TIn4, TOut> _func;
 
-        internal InternalCreator(Func<TIn1, TIn2, TIn3, TIn4, TOut> func) {
+        internal Creator(Func<TIn1, TIn2, TIn3, TIn4, TOut> func) {
             Throw.If.Object.IsNull(func, nameof(func));
 
             _func = func;
@@ -154,11 +154,11 @@ namespace Nuclear.Creation.Internal {
 
     }
 
-    internal class InternalCreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5> : ICreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5> {
+    internal class Creator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5> : ICreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5> {
 
         private readonly Func<TIn1, TIn2, TIn3, TIn4, TIn5, TOut> _func;
 
-        internal InternalCreator(Func<TIn1, TIn2, TIn3, TIn4, TIn5, TOut> func) {
+        internal Creator(Func<TIn1, TIn2, TIn3, TIn4, TIn5, TOut> func) {
             Throw.If.Object.IsNull(func, nameof(func));
 
             _func = func;
@@ -184,11 +184,11 @@ namespace Nuclear.Creation.Internal {
 
     }
 
-    internal class InternalCreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6> : ICreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6> {
+    internal class Creator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6> : ICreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6> {
 
         private readonly Func<TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TOut> _func;
 
-        internal InternalCreator(Func<TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TOut> func) {
+        internal Creator(Func<TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TOut> func) {
             Throw.If.Object.IsNull(func, nameof(func));
 
             _func = func;
@@ -214,11 +214,11 @@ namespace Nuclear.Creation.Internal {
 
     }
 
-    internal class InternalCreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7> : ICreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7> {
+    internal class Creator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7> : ICreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7> {
 
         private readonly Func<TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7, TOut> _func;
 
-        internal InternalCreator(Func<TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7, TOut> func) {
+        internal Creator(Func<TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7, TOut> func) {
             Throw.If.Object.IsNull(func, nameof(func));
 
             _func = func;
@@ -244,11 +244,11 @@ namespace Nuclear.Creation.Internal {
 
     }
 
-    internal class InternalCreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7, TIn8> : ICreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7, TIn8> {
+    internal class Creator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7, TIn8> : ICreator<TOut, TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7, TIn8> {
 
         private readonly Func<TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7, TIn8, TOut> _func;
 
-        internal InternalCreator(Func<TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7, TIn8, TOut> func) {
+        internal Creator(Func<TIn1, TIn2, TIn3, TIn4, TIn5, TIn6, TIn7, TIn8, TOut> func) {
             Throw.If.Object.IsNull(func, nameof(func));
 
             _func = func;

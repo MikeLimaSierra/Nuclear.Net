@@ -11,8 +11,8 @@
   <Import Project="..\Configurations.targets" />
 
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Nuclear.Extensions" Version="2.0.3" />
-    <PackageReference Include="Nuclear.Creation" Version="1.1.0" />
+    <PackageReference Include="Nuclear.Extensions" Version="2.0.4" />
+    <PackageReference Include="Nuclear.Creation" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">

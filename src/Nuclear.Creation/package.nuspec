@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Nuclear.Creation</id>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <title>Nuclear.Creation</title>
     <description>Features extensible barebone implementations and interfaces for factories and parsers.</description>
     <authors>MikeLimaSierra</authors>
@@ -15,10 +15,10 @@
     <language>en-US</language>
     <dependencies>
       <group targetFramework=".NETFramework4.0">
-        <dependency id="Nuclear.Exceptions" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Nuclear.Exceptions" version="2.3.0" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="Nuclear.Exceptions" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Nuclear.Exceptions" version="2.3.0" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>

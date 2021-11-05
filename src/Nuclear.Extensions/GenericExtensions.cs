@@ -133,7 +133,7 @@ namespace Nuclear.Extensions {
         public static Boolean IsEqual<T>(this T left, T right) {
 
             if(left == null) {
-                return right != null ? right.IsEqual<T>(left) : true;
+                return right == null || right.IsEqual<T>(left);
             }
 
             if(right == null) {

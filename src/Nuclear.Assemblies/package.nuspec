@@ -13,16 +13,18 @@
     <projectUrl>https://github.com/MikeLimaSierra/Nuclear.Net</projectUrl>
     <repository type="git" url="https://github.com/MikeLimaSierra/Nuclear.Net" />
     <language>en-US</language>
-	<dependencies>
-    <group targetFramework=".NETFramework4.5">
-      <dependency id="Nuclear.Extensions" version="2.0.2" exclude="Build,Analyzers" />
-      <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
-    </group>
-    <group targetFramework=".NETStandard2.0">
-      <dependency id="Nuclear.Extensions" version="2.0.2" exclude="Build,Analyzers" />
-      <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
-    </group>
-	</dependencies>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Nuclear.Creation" version="1.2.1" exclude="Build,Analyzers" />
+        <dependency id="Nuclear.Extensions" version="2.0.4" exclude="Build,Analyzers" />
+        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Nuclear.Creation" version="1.2.1" exclude="Build,Analyzers" />
+        <dependency id="Nuclear.Extensions" version="2.0.4" exclude="Build,Analyzers" />
+        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
     <file src="../../LICENSE.md" target="" />

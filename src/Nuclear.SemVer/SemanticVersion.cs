@@ -18,7 +18,7 @@ namespace Nuclear.SemVer {
         private static readonly String _preReleasePattern = "(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*";
 
         private static readonly String _metaDataPattern = "[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*";
-       
+
         private static readonly String _pattern = $"(?<major>0|[1-9]\\d*)\\.(?<minor>0|[1-9]\\d*)\\.(?<patch>0|[1-9]\\d*)" +
             $"(?:-(?<pre>{_preReleasePattern}))?" +
             $"(?:\\+(?<meta>{_metaDataPattern}))?";

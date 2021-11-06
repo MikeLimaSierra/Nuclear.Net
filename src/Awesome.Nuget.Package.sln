@@ -20,6 +20,9 @@ Global
 		1.1.0-beta|Any CPU = 1.1.0-beta|Any CPU
 		1.1.0-beta|x64 = 1.1.0-beta|x64
 		1.1.0-beta|x86 = 1.1.0-beta|x86
+		1.1.0-beta+meta|Any CPU = 1.1.0-beta+meta|Any CPU
+		1.1.0-beta+meta|x64 = 1.1.0-beta+meta|x64
+		1.1.0-beta+meta|x86 = 1.1.0-beta+meta|x86
 		1.1.1|Any CPU = 1.1.1|Any CPU
 		1.1.1|x64 = 1.1.1|x64
 		1.1.1|x86 = 1.1.1|x86
@@ -73,6 +76,12 @@ Global
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta|x64.Build.0 = 1.1.0-beta|x64
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta|x86.ActiveCfg = 1.1.0-beta|x86
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta|x86.Build.0 = 1.1.0-beta|x86
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta+meta|Any CPU.ActiveCfg = 1.1.0-beta+meta|Any CPU
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta+meta|Any CPU.Build.0 = 1.1.0-beta+meta|Any CPU
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta+meta|x64.ActiveCfg = 1.1.0-beta+meta|x64
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta+meta|x64.Build.0 = 1.1.0-beta+meta|x64
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta+meta|x86.ActiveCfg = 1.1.0-beta+meta|x86
+		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.0-beta+meta|x86.Build.0 = 1.1.0-beta+meta|x86
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.1|Any CPU.ActiveCfg = 1.1.1|Any CPU
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.1|Any CPU.Build.0 = 1.1.1|Any CPU
 		{742CAF12-BF8D-4803-9335-C574CF75E7A6}.1.1.1|x64.ActiveCfg = 1.1.1|x64
@@ -163,6 +172,12 @@ Global
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta|x64.Build.0 = 1.1.0-beta|x64
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta|x86.ActiveCfg = 1.1.0-beta|x86
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta|x86.Build.0 = 1.1.0-beta|x86
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta+meta|Any CPU.ActiveCfg = 1.1.0-beta+meta|Any CPU
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta+meta|Any CPU.Build.0 = 1.1.0-beta+meta|Any CPU
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta+meta|x64.ActiveCfg = 1.1.0-beta+meta|x64
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta+meta|x64.Build.0 = 1.1.0-beta+meta|x64
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta+meta|x86.ActiveCfg = 1.1.0-beta+meta|x86
+		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.0-beta+meta|x86.Build.0 = 1.1.0-beta+meta|x86
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.1|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.1|x64.ActiveCfg = Debug|Any CPU
 		{F4D222A4-1CF6-466A-AD3D-F04D02C363EB}.1.1.1|x64.Build.0 = Debug|Any CPU

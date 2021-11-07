@@ -11,13 +11,11 @@
   <Import Project="..\Configurations.targets" />
   
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Nuclear.Extensions" Version="2.0.4" />
-    <PackageReference Include="Nuclear.Creation" Version="1.2.1" />
+    <PackageReference Include="Nuclear.SemVer" Version="1.0.0" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Integration'">
-    <ProjectReference Include="..\Nuclear.Extensions\Nuclear.Extensions.csproj" />
-    <ProjectReference Include="..\Nuclear.Creation\Nuclear.Creation.csproj" />
+    <ProjectReference Include="..\Nuclear.SemVer\Nuclear.SemVer.csproj" />
   </ItemGroup>
   
   <ItemGroup>

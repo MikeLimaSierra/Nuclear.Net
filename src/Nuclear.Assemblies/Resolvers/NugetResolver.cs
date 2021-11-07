@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Nuclear.Assemblies.Factories;
+using Nuclear.Assemblies.Factory;
 using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.Assemblies.Runtimes;
 using Nuclear.Creation;
@@ -16,7 +16,7 @@ namespace Nuclear.Assemblies.Resolvers {
 
         #region fields
 
-        private static readonly ICreator<INugetResolverData, FileInfo> _factory = Factory.Instance.Nuget();
+        private static readonly ICreator<INugetResolverData, FileInfo> _factory = Creation.Factory.Instance.NugetResolver();
 
         private static readonly String _nugetDirName = ".nuget";
 

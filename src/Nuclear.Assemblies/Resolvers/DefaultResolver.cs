@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Nuclear.Assemblies.Factories;
+using Nuclear.Assemblies.Factory;
 using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.Creation;
 
@@ -14,7 +14,7 @@ namespace Nuclear.Assemblies.Resolvers {
 
         #region fields
 
-        private static readonly ICreator<IDefaultResolverData, FileInfo> _factory = Factory.Instance.Default();
+        private static readonly ICreator<IDefaultResolverData, FileInfo> _factory = Creation.Factory.Instance.DefaultResolver();
 
         #endregion
 

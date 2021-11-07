@@ -1,34 +1,45 @@
-﻿using Nuclear.Assemblies.Factories;
-using Nuclear.Creation;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+
+using Nuclear.Assemblies.Resolvers.Data;
 
 namespace Nuclear.Assemblies.Resolvers {
 
     /// <summary>
-    /// Static ease-of-use access class for <see cref="IDefaultResolver"/> and <see cref="INugetResolver"/>.
+    /// Abstract base implementation of <see cref="IAssemblyResolver{TData}"/> including some basic resolving functionality.
     /// </summary>
-    public static class AssemblyResolver {
+    /// <typeparam name="TData">The type of the resolver data, must inherit from <see cref="IAssemblyResolverData"/>.</typeparam>
+    internal abstract class AssemblyResolver<TData> : IAssemblyResolver<TData> where TData : IAssemblyResolverData {
 
-        #region static properties
-
-        /// <summary>
-        /// Gets an instance of the default resolver.
-        /// </summary>
-        public static IDefaultResolver Default {
-            get {
-                Factory.Instance.Default().Create(out IDefaultResolver obj);
-                return obj;
-            }
-        }
+        #region public methods
 
         /// <summary>
-        /// Gets an instance of the NuGet resolver.
+        /// Resolves a reference assembly by <see cref="ResolveEventArgs"/>.
+        /// A return value indicates if the resolving operation was successful.
         /// </summary>
-        public static INugetResolver Nuget {
-            get {
-                Factory.Instance.Nuget().Create(out INugetResolver obj);
-                return obj;
-            }
-        }
+        /// <param name="e">The given <see cref="ResolveEventArgs"/>.</param>
+        /// <param name="data">The resolved data.</param>
+        /// <returns>True if a file could be found.</returns>
+        public abstract Boolean TryResolve(ResolveEventArgs e, out IEnumerable<TData> data);
+
+        /// <summary>
+        /// Resolves a reference assembly by the full name.
+        /// A return value indicates if the resolving operation was successful.
+        /// </summary>
+        /// <param name="fullName">The full name of the assembly.</param>
+        /// <param name="data">The resolved data.</param>
+        /// <returns>True if a file could be found.</returns>
+        public abstract Boolean TryResolve(String fullName, out IEnumerable<TData> data);
+
+        /// <summary>
+        /// Resolves a reference assembly by an <see cref="AssemblyName"/>.
+        /// A return value indicates if the resolving operation was successful.
+        /// </summary>
+        /// <param name="assemblyName">The <see cref="AssemblyName"/> of the assembly.</param>
+        /// <param name="data">The resolved data.</param>
+        /// <returns>True if a file could be found.</returns>
+        public abstract Boolean TryResolve(AssemblyName assemblyName, out IEnumerable<TData> data);
 
         #endregion
 

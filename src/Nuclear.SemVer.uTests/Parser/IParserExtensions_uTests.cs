@@ -25,5 +25,111 @@ namespace Nuclear.SemVer.Parser {
 
         #endregion
 
+        #region Create
+
+        [TestMethod]
+        void CreateThrows() {
+
+            var creator = Creation.Parser.Instance.SemVer();
+
+            Test.If.Action.ThrowsException(() => creator.Create(out _, "01.2.3"), out FormatException ex);
+
+            Test.If.Value.IsEqual(ex.Message, "Parameter 'input' has an incorrect format: '01.2.3'");
+
+        }
+
+        [TestMethod]
+        void Create() {
+
+            var creator = Creation.Parser.Instance.SemVer();
+            SemanticVersion obj = default;
+
+            Test.IfNot.Action.ThrowsException(() => creator.Create(out obj, "1.2.3"), out Exception _);
+
+            Test.IfNot.Object.IsNull(obj);
+            Test.If.Value.IsEqual(obj.Major, 1u);
+            Test.If.Value.IsEqual(obj.Minor, 2u);
+            Test.If.Value.IsEqual(obj.Patch, 3u);
+
+        }
+
+        #endregion
+
+        #region TryCreate
+
+        [TestMethod]
+        void TryCreateDoesNotThrow() {
+
+            var creator = Creation.Parser.Instance.SemVer();
+            Boolean result = default;
+            SemanticVersion obj = default;
+
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, "01.2.3"), out Exception _);
+
+            Test.If.Value.IsFalse(result);
+            Test.If.Object.IsNull(obj);
+
+        }
+
+        [TestMethod]
+        void TryCreate() {
+
+            var creator = Creation.Parser.Instance.SemVer();
+            Boolean result = default;
+            SemanticVersion obj = default;
+
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, "1.2.3"), out Exception _);
+
+            Test.If.Value.IsTrue(result);
+            Test.IfNot.Object.IsNull(obj);
+            Test.If.Value.IsEqual(obj.Major, 1u);
+            Test.If.Value.IsEqual(obj.Minor, 2u);
+            Test.If.Value.IsEqual(obj.Patch, 3u);
+
+        }
+
+        #endregion
+
+        #region TryCreateWithExOut
+
+        [TestMethod]
+        void TryCreateWithExOutDoesNotThrow() {
+
+            var creator = Creation.Parser.Instance.SemVer();
+            Boolean result = default;
+            SemanticVersion obj = default;
+            Exception ex = default;
+
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, "01.2.3", out ex), out Exception _);
+
+            Test.If.Value.IsFalse(result);
+            Test.IfNot.Object.IsNull(ex);
+            Test.If.Object.IsNull(obj);
+            Test.If.Object.IsOfExactType<FormatException>(ex);
+            Test.If.Value.IsEqual(((FormatException) ex).Message, "Parameter 'input' has an incorrect format: '01.2.3'");
+
+        }
+
+        [TestMethod]
+        void TryCreateWithExOut() {
+
+            var creator = Creation.Parser.Instance.SemVer();
+            Boolean result = default;
+            SemanticVersion obj = default;
+            Exception ex = default;
+
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, "1.2.3", out ex), out Exception _);
+
+            Test.If.Value.IsTrue(result);
+            Test.If.Object.IsNull(ex);
+            Test.IfNot.Object.IsNull(obj);
+            Test.If.Value.IsEqual(obj.Major, 1u);
+            Test.If.Value.IsEqual(obj.Minor, 2u);
+            Test.If.Value.IsEqual(obj.Patch, 3u);
+
+        }
+
+        #endregion
+
     }
 }

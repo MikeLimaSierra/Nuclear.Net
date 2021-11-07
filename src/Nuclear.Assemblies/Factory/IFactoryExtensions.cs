@@ -1,6 +1,6 @@
 ﻿using Nuclear.Creation;
 
-namespace Nuclear.Assemblies.Factories {
+namespace Nuclear.Assemblies.Factory {
 
     /// <summary>
     /// Extends the functionality of <see cref="IFactory"/>.
@@ -13,7 +13,7 @@ namespace Nuclear.Assemblies.Factories {
         /// <param name="this">The extended <see cref="IFactory"/> instance.</param>
         /// <returns>A new instance of type <see cref="IDefaultResolverFactory"/>.</returns>
 #pragma warning disable IDE0060 // Remove unused parameter
-        public static IDefaultResolverFactory Default(this IFactory @this) => new DefaultResolverFactory();
+        public static IDefaultResolverFactory DefaultResolver(this IFactory @this) => new DefaultResolverFactory();
 #pragma warning restore IDE0060 // Remove unused parameter
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Nuclear.Assemblies.Factories {
         /// <param name="this">The extended <see cref="IFactory"/> instance.</param>
         /// <returns>A new instance of type <see cref="INugetResolverFactory"/>.</returns>
 #pragma warning disable IDE0060 // Remove unused parameter
-        public static INugetResolverFactory Nuget(this IFactory @this) => new NugetResolverFactory();
+        public static INugetResolverFactory NugetResolver(this IFactory @this) => new NugetResolverFactory();
 #pragma warning restore IDE0060 // Remove unused parameter
 
     }

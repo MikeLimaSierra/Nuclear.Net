@@ -9,7 +9,7 @@ namespace Nuclear.SemVer.Parser {
         #region SemVer
 
         [TestMethod]
-        public void MyTestMethod() {
+        public void SemVer() {
 
             ICreator<SemanticVersion, String> fac1 = default;
             ICreator<SemanticVersion, String> fac2 = default;

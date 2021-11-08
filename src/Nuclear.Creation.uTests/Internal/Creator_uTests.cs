@@ -24,7 +24,7 @@ namespace Nuclear.Creation.Internal {
         #region Ctors
 
         [TestMethod]
-        void CtorThrows_P0() {
+        void Ctor_Throws_P0() {
 
             Test.If.Action.ThrowsException(() => new Creator<Object>(null), out ArgumentNullException ex);
 
@@ -33,7 +33,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CtorThrows_P1() {
+        void Ctor_Throws_P1() {
 
             Test.If.Action.ThrowsException(() => new Creator<Object, Object>(null), out ArgumentNullException ex);
 
@@ -42,7 +42,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CtorThrows_P2() {
+        void Ctor_Throws_P2() {
 
             Test.If.Action.ThrowsException(() => new Creator<Object, Object, Object>(null), out ArgumentNullException ex);
 
@@ -51,7 +51,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CtorThrows_P3() {
+        void Ctor_Throws_P3() {
 
             Test.If.Action.ThrowsException(() => new Creator<Object, Object, Object, Object>(null), out ArgumentNullException ex);
 
@@ -60,7 +60,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CtorThrows_P4() {
+        void Ctor_Throws_P4() {
 
             Test.If.Action.ThrowsException(() => new Creator<Object, Object, Object, Object, Object>(null), out ArgumentNullException ex);
 
@@ -69,7 +69,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CtorThrows_P5() {
+        void Ctor_Throws_P5() {
 
             Test.If.Action.ThrowsException(() => new Creator<Object, Object, Object, Object, Object, Object>(null), out ArgumentNullException ex);
 
@@ -78,7 +78,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CtorThrows_P6() {
+        void Ctor_Throws_P6() {
 
             Test.If.Action.ThrowsException(() => new Creator<Object, Object, Object, Object, Object, Object, Object>(null), out ArgumentNullException ex);
 
@@ -87,7 +87,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CtorThrows_P7() {
+        void Ctor_Throws_P7() {
 
             Test.If.Action.ThrowsException(() => new Creator<Object, Object, Object, Object, Object, Object, Object, Object>(null), out ArgumentNullException ex);
 
@@ -96,7 +96,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CtorThrows_P8() {
+        void Ctor_Throws_P8() {
 
             Test.If.Action.ThrowsException(() => new Creator<Object, Object, Object, Object, Object, Object, Object, Object, Object>(null), out ArgumentNullException ex);
 
@@ -172,7 +172,7 @@ namespace Nuclear.Creation.Internal {
         #region Create
 
         [TestMethod]
-        void CreateThrows_P0() {
+        void Create_Throws_P0() {
 
             var creator = new Creator<String>(() => throw new NotImplementedException("Dummy message"));
 
@@ -183,7 +183,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CreateThrows_P1() {
+        void Create_Throws_P1() {
 
             var creator = new Creator<String, Int32>((_) => throw new NotImplementedException("Dummy message"));
 
@@ -194,7 +194,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CreateThrows_P2() {
+        void Create_Throws_P2() {
 
             var creator = new Creator<String, Int32, Int32>((_, _) => throw new NotImplementedException("Dummy message"));
 
@@ -205,7 +205,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CreateThrows_P3() {
+        void Create_Throws_P3() {
 
             var creator = new Creator<String, Int32, Int32, Int32>((_, _, _) => throw new NotImplementedException("Dummy message"));
 
@@ -216,7 +216,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CreateThrows_P4() {
+        void Create_Throws_P4() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32>((_, _, _, _) => throw new NotImplementedException("Dummy message"));
 
@@ -227,7 +227,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CreateThrows_P5() {
+        void Create_Throws_P5() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _) => throw new NotImplementedException("Dummy message"));
 
@@ -238,7 +238,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CreateThrows_P6() {
+        void Create_Throws_P6() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _, _) => throw new NotImplementedException("Dummy message"));
 
@@ -249,7 +249,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CreateThrows_P7() {
+        void Create_Throws_P7() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _, _, _) => throw new NotImplementedException("Dummy message"));
 
@@ -260,7 +260,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void CreateThrows_P8() {
+        void Create_Throws_P8() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _, _, _, _) => throw new NotImplementedException("Dummy message"));
 
@@ -383,7 +383,7 @@ namespace Nuclear.Creation.Internal {
         #region TryCreate
 
         [TestMethod]
-        void TryCreateDoesNotThrow_P0() {
+        void TryCreate_DoesNotThrow_P0() {
 
             var creator = new Creator<String>(() => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -397,7 +397,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateDoesNotThrow_P1() {
+        void TryCreate_DoesNotThrow_P1() {
 
             var creator = new Creator<String, Int32>((_) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -411,7 +411,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateDoesNotThrow_P2() {
+        void TryCreate_DoesNotThrow_P2() {
 
             var creator = new Creator<String, Int32, Int32>((_, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -425,7 +425,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateDoesNotThrow_P3() {
+        void TryCreate_DoesNotThrow_P3() {
 
             var creator = new Creator<String, Int32, Int32, Int32>((_, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -439,7 +439,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateDoesNotThrow_P4() {
+        void TryCreate_DoesNotThrow_P4() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32>((_, _, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -453,7 +453,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateDoesNotThrow_P5() {
+        void TryCreate_DoesNotThrow_P5() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -467,7 +467,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateDoesNotThrow_P6() {
+        void TryCreate_DoesNotThrow_P6() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -481,7 +481,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateDoesNotThrow_P7() {
+        void TryCreate_DoesNotThrow_P7() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -495,7 +495,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateDoesNotThrow_P8() {
+        void TryCreate_DoesNotThrow_P8() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _, _, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -639,7 +639,7 @@ namespace Nuclear.Creation.Internal {
         #region TryCreateWithExOut
 
         [TestMethod]
-        void TryCreateWithExOutDoesNotThrow_P0() {
+        void TryCreateWithExOut_DoesNotThrow_P0() {
 
             var creator = new Creator<String>(() => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -657,7 +657,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateWithExOutDoesNotThrow_P1() {
+        void TryCreateWithExOut_DoesNotThrow_P1() {
 
             var creator = new Creator<String, Int32>((_) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -675,7 +675,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateWithExOutDoesNotThrow_P2() {
+        void TryCreateWithExOut_DoesNotThrow_P2() {
 
             var creator = new Creator<String, Int32, Int32>((_, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -693,7 +693,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateWithExOutDoesNotThrow_P3() {
+        void TryCreateWithExOut_DoesNotThrow_P3() {
 
             var creator = new Creator<String, Int32, Int32, Int32>((_, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -711,7 +711,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateWithExOutDoesNotThrow_P4() {
+        void TryCreateWithExOut_DoesNotThrow_P4() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32>((_, _, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -729,7 +729,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateWithExOutDoesNotThrow_P5() {
+        void TryCreateWithExOut_DoesNotThrow_P5() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -747,7 +747,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateWithExOutDoesNotThrow_P6() {
+        void TryCreateWithExOut_DoesNotThrow_P6() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -765,7 +765,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateWithExOutDoesNotThrow_P7() {
+        void TryCreateWithExOut_DoesNotThrow_P7() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;
@@ -783,7 +783,7 @@ namespace Nuclear.Creation.Internal {
         }
 
         [TestMethod]
-        void TryCreateWithExOutDoesNotThrow_P8() {
+        void TryCreateWithExOut_DoesNotThrow_P8() {
 
             var creator = new Creator<String, Int32, Int32, Int32, Int32, Int32, Int32, Int32, Int32>((_, _, _, _, _, _, _, _) => throw new NotImplementedException("Dummy message"));
             Boolean result = default;

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+using Nuclear.Assemblies.Factory;
 using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.Extensions;
 using Nuclear.TestSite;
@@ -11,13 +12,15 @@ using Nuclear.TestSite;
 namespace Nuclear.Assemblies.Resolvers {
     class DefaultResolver_iTests {
 
+        private static readonly FileInfo _nonExistentAssembly = new FileInfo(@"C:\NonExistent.dll");
+
         #region TryResolve
 
         [TestMethod]
         [TestData(nameof(TryResolveArgsData))]
         void TryResolveArgs(ResolveEventArgs input, Boolean result, IEnumerable<FileInfo> files) {
 
-            IDefaultResolver instance = AssemblyResolver.Default;
+            Creation.Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance);
             Boolean _result = false;
             IEnumerable<IDefaultResolverData> _files = null;
 
@@ -34,7 +37,7 @@ namespace Nuclear.Assemblies.Resolvers {
                 new Object[] { new ResolveEventArgs(null, null), false, Enumerable.Empty<FileInfo>() },
                 new Object[] { new ResolveEventArgs("", null), false, Enumerable.Empty<FileInfo>() },
                 new Object[] { new ResolveEventArgs("some name", null), false, Enumerable.Empty<FileInfo>() },
-                new Object[] { new ResolveEventArgs(typeof(DefaultResolver_iTests).Assembly.FullName, null), false, Enumerable.Empty<FileInfo>() },
+                new Object[] { new ResolveEventArgs(Statics.TestAsm.FullName, null), false, Enumerable.Empty<FileInfo>() },
                 new Object[] { new ResolveEventArgs(typeof(StringExtensions).Assembly.FullName, null), true, new FileInfo[] {
                     new FileInfo(Path.Combine(Statics.EntryPath.DirectoryName, "Nuclear.Extensions.dll"))
                 } },
@@ -48,7 +51,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveStringData))]
         void TryResolveString(String input, Boolean result, IEnumerable<FileInfo> files) {
 
-            IDefaultResolver instance = AssemblyResolver.Default;
+            Creation.Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance);
             Boolean _result = false;
             IEnumerable<IDefaultResolverData> _files = null;
 
@@ -64,7 +67,7 @@ namespace Nuclear.Assemblies.Resolvers {
                 new Object[] { null, false, Enumerable.Empty<FileInfo>() },
                 new Object[] { "", false, Enumerable.Empty<FileInfo>() },
                 new Object[] { "some name", false, Enumerable.Empty<FileInfo>() },
-                new Object[] { typeof(DefaultResolver_iTests).Assembly.FullName, false, Enumerable.Empty<FileInfo>() },
+                new Object[] { Statics.TestAsm.FullName, false, Enumerable.Empty<FileInfo>() },
                 new Object[] { typeof(StringExtensions).Assembly.FullName, true, new FileInfo[] {
                     new FileInfo(Path.Combine(Statics.EntryPath.DirectoryName, "Nuclear.Extensions.dll"))
                 } },
@@ -75,7 +78,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveNameData))]
         void TryResolveName(AssemblyName input, Boolean result, IEnumerable<FileInfo> files) {
 
-            IDefaultResolver instance = AssemblyResolver.Default;
+            Creation.Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance);
             Boolean _result = false;
             IEnumerable<IDefaultResolverData> _files = null;
 
@@ -89,7 +92,7 @@ namespace Nuclear.Assemblies.Resolvers {
         IEnumerable<Object[]> TryResolveNameData() {
             return new List<Object[]>() {
                 new Object[] { null, false, Enumerable.Empty<FileInfo>() },
-                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), false, Enumerable.Empty<FileInfo>() },
+                new Object[] { Statics.TestAsm.GetName(), false, Enumerable.Empty<FileInfo>() },
                 new Object[] { typeof(StringExtensions).Assembly.GetName(), true, new FileInfo[] {
                     new FileInfo(Path.Combine(Statics.EntryPath.DirectoryName, "Nuclear.Extensions.dll"))
                 } },
@@ -115,9 +118,9 @@ namespace Nuclear.Assemblies.Resolvers {
         IEnumerable<Object[]> ResolveInternalData() {
             return new List<Object[]>() {
                 new Object[] { null, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
-                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
-                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
-                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), SearchOption.AllDirectories, Enumerable.Empty<FileInfo>() },
+                new Object[] { Statics.TestAsm.GetName(), (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
+                new Object[] { Statics.TestAsm.GetName(), (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
+                new Object[] { Statics.TestAsm.GetName(), SearchOption.AllDirectories, Enumerable.Empty<FileInfo>() },
                 new Object[] { typeof(StringExtensions).Assembly.GetName(), SearchOption.AllDirectories, new FileInfo[] {
                     new FileInfo(Path.Combine(Statics.EntryPath.DirectoryName, "Nuclear.Extensions.dll"))
                 } },
@@ -139,12 +142,10 @@ namespace Nuclear.Assemblies.Resolvers {
         IEnumerable<Object[]> ResolveInternalDirData() {
             return new List<Object[]>() {
                 new Object[] { null, null, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
-                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), null, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
-                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), Statics.EntryPath.Directory, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
-                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), Statics.EntryPath.Directory, SearchOption.AllDirectories, Enumerable.Empty<FileInfo>() },
-                new Object[] { typeof(DefaultResolver_iTests).Assembly.GetName(), new FileInfo(typeof(DefaultResolver_iTests).Assembly.Location).Directory, SearchOption.AllDirectories, new FileInfo[] {
-                    new FileInfo(typeof(DefaultResolver_iTests).Assembly.Location)
-                } },
+                new Object[] { Statics.TestAsm.GetName(), null, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
+                new Object[] { Statics.TestAsm.GetName(), Statics.EntryPath.Directory, (SearchOption) 1000, Enumerable.Empty<FileInfo>() },
+                new Object[] { Statics.TestAsm.GetName(), Statics.EntryPath.Directory, SearchOption.AllDirectories, Enumerable.Empty<FileInfo>() },
+                new Object[] { Statics.TestAsm.GetName(), Statics.TestPath.Directory, SearchOption.AllDirectories, new FileInfo[] { Statics.TestPath } },
             };
         }
 

@@ -16,16 +16,18 @@ namespace Nuclear.Assemblies {
 
         internal static FileInfo EntryPath { get; } = new FileInfo(EntryAsm.Location);
 
-        internal static Assembly TestAsm { get; } = typeof(DefaultResolver_iTests).Assembly;
+        internal static Assembly TestAsm { get; } = typeof(Statics).Assembly;
 
         internal static FileInfo TestPath { get; } = new FileInfo(TestAsm.Location);
 
-        internal static DirectoryInfo GetFakeNugetCache() {
-            Assembly asm = typeof(NugetResolver_iTests).Assembly;
+        internal static DirectoryInfo FakeNugetCache { get; }
 
-            DirectoryInfo repodir = new FileInfo(asm.Location).Directory.Parent.Parent.Parent.Parent.Parent;
-
-            return new DirectoryInfo(Path.Combine(repodir.FullName, "fake-nuget", "packages"));
+        static Statics() {
+            EntryAsm = Assembly.GetEntryAssembly();
+            EntryPath = new FileInfo(EntryAsm.Location);
+            TestAsm = typeof(DefaultResolver_iTests).Assembly;
+            TestPath = new FileInfo(TestAsm.Location);
+            FakeNugetCache = new DirectoryInfo(Path.Combine(new FileInfo(TestAsm.Location).Directory.Parent.Parent.Parent.Parent.Parent.FullName, "fake-nuget", "packages"));
         }
 
     }

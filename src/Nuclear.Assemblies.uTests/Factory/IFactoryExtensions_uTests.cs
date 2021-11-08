@@ -1,12 +1,11 @@
 ﻿using System;
 
-using Nuclear.Creation;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Factory {
     class IFactoryExtensions_uTests {
 
-        #region SemVer
+        #region DefaultResolver
 
         [TestMethod]
         public void DefaultResolver() {
@@ -25,7 +24,7 @@ namespace Nuclear.Assemblies.Factory {
 
         #endregion
 
-        #region SemVer
+        #region NugetResolver
 
         [TestMethod]
         public void NugetResolver() {

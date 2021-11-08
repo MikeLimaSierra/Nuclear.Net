@@ -1,8 +1,6 @@
-﻿using System.IO;
+﻿using System;
 
 using Nuclear.Assemblies.Factory;
-using Nuclear.Assemblies.Resolvers.Data;
-using Nuclear.Creation;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Resolvers {
@@ -11,12 +9,63 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void Implementation() {
 
-            Test.If.Type.Implements<INugetResolverFactory, ICreator<INugetResolver>>();
-            Test.If.Type.Implements<INugetResolverFactory, ICreator<INugetResolverData, FileInfo>>();
-
             Test.If.Type.Implements<NugetResolverFactory, INugetResolverFactory>();
 
         }
+
+        #region CreateResolver
+
+        [TestMethod]
+        void CreateResolver() {
+
+            var creator = Creation.Factory.Instance.NugetResolver();
+            INugetResolver obj = default;
+
+            Test.IfNot.Action.ThrowsException(() => creator.Create(out obj), out Exception _);
+
+            Test.IfNot.Object.IsNull(obj);
+
+        }
+
+        #endregion
+
+        #region TryCreateResolver
+
+        [TestMethod]
+        void TryCreateResolver() {
+
+            var creator = Creation.Factory.Instance.NugetResolver();
+            Boolean result = default;
+            INugetResolver obj = default;
+
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj), out Exception _);
+
+            Test.If.Value.IsTrue(result);
+            Test.IfNot.Object.IsNull(obj);
+
+        }
+
+        #endregion
+
+        #region TryCreateResolverWithExOut
+
+        [TestMethod]
+        void TryCreateResolverWithExOut() {
+
+            var creator = Creation.Factory.Instance.NugetResolver();
+            Boolean result = default;
+            INugetResolver obj = default;
+            Exception ex = default;
+
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, out ex), out Exception _);
+
+            Test.If.Value.IsTrue(result);
+            Test.If.Object.IsNull(ex);
+            Test.IfNot.Object.IsNull(obj);
+
+        }
+
+        #endregion
 
     }
 }

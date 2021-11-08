@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+using Nuclear.Assemblies.Factory;
 using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.Assemblies.Runtimes;
 using Nuclear.Extensions;
@@ -12,6 +13,7 @@ using Nuclear.TestSite;
 using static System.Environment;
 
 namespace Nuclear.Assemblies.Resolvers {
+    [TestClass("todo")]
     class NugetResolver_iTests {
 
         #region TryResolve
@@ -20,7 +22,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveArgsData))]
         void TryResolveArgs(ResolveEventArgs input, Boolean result, IEnumerable<FileInfo> files) {
 
-            INugetResolver instance = AssemblyResolver.Nuget;
+            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance);
             Boolean _result = false;
             IEnumerable<INugetResolverData> _files = null;
 
@@ -54,7 +56,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveStringData))]
         void TryResolveString(String input, Boolean result, IEnumerable<FileInfo> files) {
 
-            INugetResolver instance = AssemblyResolver.Nuget;
+            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance);
             Boolean _result = false;
             IEnumerable<INugetResolverData> _files = null;
 
@@ -87,7 +89,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveNameData))]
         void TryResolveName(AssemblyName input, Boolean result, IEnumerable<FileInfo> files) {
 
-            INugetResolver instance = AssemblyResolver.Nuget;
+            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance);
             Boolean _result = default;
             IEnumerable<INugetResolverData> _files = default;
 
@@ -150,9 +152,8 @@ namespace Nuclear.Assemblies.Resolvers {
         }
 
         IEnumerable<Object[]> GetAssemblyCandidatesData() {
-            DirectoryInfo fakeCache = Statics.GetFakeNugetCache();
-            IEnumerable<DirectoryInfo> caches = new List<DirectoryInfo>() { fakeCache };
-            NugetResolver.TryGetPackage("Awesome.Nuget.Package", fakeCache, out DirectoryInfo package);
+            IEnumerable<DirectoryInfo> caches = new List<DirectoryInfo>() { Statics.FakeNugetCache };
+            NugetResolver.TryGetPackage("Awesome.Nuget.Package", Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Is64BitProcess ? "x64" : "x86";
 
@@ -546,15 +547,17 @@ namespace Nuclear.Assemblies.Resolvers {
         }
 
         IEnumerable<Object[]> GetAssemblyCandidatesFromCacheData() {
-            DirectoryInfo fakeCache = Statics.GetFakeNugetCache();
-            NugetResolver.TryGetPackage("Awesome.Nuget.Package", fakeCache, out DirectoryInfo package);
+            NugetResolver.TryGetPackage("Awesome.Nuget.Package", Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Is64BitProcess ? "x64" : "x86";
 
             return new List<Object[]>() {
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), Enumerable.Empty<FileInfo>() },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), Enumerable.Empty<FileInfo>() },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), Enumerable.Empty<FileInfo>() },
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), Enumerable.Empty<FileInfo>() },
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", "net45", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", arch, "net45", "Awesome.Nuget.Package.dll")),
@@ -573,7 +576,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", "net46", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", arch, "net46", "Awesome.Nuget.Package.dll")),
@@ -600,7 +604,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", "net48", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", arch, "net48", "Awesome.Nuget.Package.dll")),
@@ -643,7 +648,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", "netcoreapp1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", arch, "netcoreapp1.0", "Awesome.Nuget.Package.dll")),
@@ -662,7 +668,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", "netcoreapp2.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", arch, "netcoreapp2.0", "Awesome.Nuget.Package.dll")),
@@ -697,7 +704,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", "netcoreapp3.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", arch, "netcoreapp3.0", "Awesome.Nuget.Package.dll")),
@@ -749,8 +757,10 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
 
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), Enumerable.Empty<FileInfo>() },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), Enumerable.Empty<FileInfo>() },
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "net45", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "net45", "Awesome.Nuget.Package.dll")),
@@ -761,7 +771,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "net46", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "net46", "Awesome.Nuget.Package.dll")),
@@ -776,7 +787,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "net48", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "net48", "Awesome.Nuget.Package.dll")),
@@ -799,7 +811,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netcoreapp1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "netcoreapp1.0", "Awesome.Nuget.Package.dll")),
@@ -810,7 +823,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netcoreapp2.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "netcoreapp2.0", "Awesome.Nuget.Package.dll")),
@@ -829,7 +843,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netcoreapp3.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "netcoreapp3.0", "Awesome.Nuget.Package.dll")),
@@ -857,14 +872,16 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
 
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net45", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net45", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net46", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net46", "Awesome.Nuget.Package.dll")),
@@ -873,7 +890,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net48", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net48", "Awesome.Nuget.Package.dll")),
@@ -886,14 +904,16 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netcoreapp1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netcoreapp1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netcoreapp2.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netcoreapp2.0", "Awesome.Nuget.Package.dll")),
@@ -904,7 +924,8 @@ namespace Nuclear.Assemblies.Resolvers {
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", "Awesome.Nuget.Package.dll")),
                     } },
-                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), fakeCache, new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
+                new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                    new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
                     new List<FileInfo>() {
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netcoreapp3.0", "Awesome.Nuget.Package.dll")),
                         new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netcoreapp3.0", "Awesome.Nuget.Package.dll")),
@@ -954,13 +975,12 @@ namespace Nuclear.Assemblies.Resolvers {
 
         IEnumerable<Object[]> TryGetPackageData() {
             DirectoryInfo cache = NugetResolver.GetCaches().First();
-            DirectoryInfo fakeCache = Statics.GetFakeNugetCache();
 
             return new List<Object[]>() {
                 new Object[] { "microsoft.csharp", cache, true, Path.Combine(cache.FullName, "microsoft.csharp") },
                 new Object[] { "netstandard.library", cache, true, Path.Combine(cache.FullName, "netstandard.library") },
                 new Object[] { "non.existent.library", cache, false, null },
-                new Object[] { "Awesome.Nuget.Package", fakeCache, true, Path.Combine(fakeCache.FullName, "Awesome.Nuget.Package") },
+                new Object[] { "Awesome.Nuget.Package", Statics.FakeNugetCache, true, Path.Combine(Statics.FakeNugetCache.FullName, "Awesome.Nuget.Package") },
             };
         }
 

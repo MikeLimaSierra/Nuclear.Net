@@ -12,8 +12,8 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         #region ctors
 
         [TestMethod]
-        [TestData(nameof(CtorThrowsData))]
-        void CtorThrows<TException>(FileInfo input, String message) where TException : Exception {
+        [TestData(nameof(Ctor_Throws_Data))]
+        void Ctor_Throws<TException>(FileInfo input, String message) where TException : Exception {
 
             IDefaultResolverData data = default;
 
@@ -24,7 +24,7 @@ namespace Nuclear.Assemblies.Resolvers.Data {
 
         }
 
-        IEnumerable<Object[]> CtorThrowsData() {
+        IEnumerable<Object[]> Ctor_Throws_Data() {
             FileInfo file = new FileInfo(@"C:\NonExistentFile.txt");
 
             return new List<Object[]>() {
@@ -34,7 +34,7 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         }
 
         [TestMethod]
-        [TestData(nameof(CtorData))]
+        [TestData(nameof(Ctor_Data))]
         void Ctor(FileInfo input, Boolean expected) {
 
             IDefaultResolverData data = default;
@@ -46,7 +46,7 @@ namespace Nuclear.Assemblies.Resolvers.Data {
 
         }
 
-        IEnumerable<Object[]> CtorData() {
+        IEnumerable<Object[]> Ctor_Data() {
             return new List<Object[]>() {
                 new Object[] { new FileInfo(Assembly.GetEntryAssembly().Location), true },
                 new Object[] { new FileInfo(typeof(IDefaultResolver).Assembly.Location), true }

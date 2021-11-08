@@ -9,7 +9,7 @@ namespace Nuclear.Assemblies.Runtimes {
         #region ctors
 
         [TestMethod]
-        void ConstructorThrows() {
+        void Constructor_Throws() {
 
             RuntimeInfo info = null;
 
@@ -19,7 +19,7 @@ namespace Nuclear.Assemblies.Runtimes {
         }
 
         [TestMethod]
-        [TestData(nameof(ConstructorData))]
+        [TestData(nameof(Constructor_Data))]
         void Constructor(FrameworkIdentifiers input1, Version input2, FrameworkIdentifiers framework, Version version) {
 
             RuntimeInfo info = null;
@@ -31,7 +31,7 @@ namespace Nuclear.Assemblies.Runtimes {
 
         }
 
-        IEnumerable<Object[]> ConstructorData() {
+        IEnumerable<Object[]> Constructor_Data() {
             return new List<Object[]>() {
                 new Object[] { FrameworkIdentifiers.Unsupported, new Version(1, 2, 3), FrameworkIdentifiers.Unsupported, new Version(1, 2, 3) },
                 new Object[] { FrameworkIdentifiers.NETStandard, new Version(2, 3, 4), FrameworkIdentifiers.NETStandard, new Version(2, 3, 4) },
@@ -43,7 +43,7 @@ namespace Nuclear.Assemblies.Runtimes {
         #region Equals
 
         [TestMethod]
-        [TestData(nameof(EqualsObjectData))]
+        [TestData(nameof(EqualsObject_Data))]
         void EqualsObject(RuntimeInfo left, Object right, Boolean expected) {
 
             Boolean result = false;
@@ -53,7 +53,7 @@ namespace Nuclear.Assemblies.Runtimes {
 
         }
 
-        IEnumerable<Object[]> EqualsObjectData() {
+        IEnumerable<Object[]> EqualsObject_Data() {
             return new List<Object[]>() {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), null, false },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), "wrong type", false },
@@ -66,7 +66,7 @@ namespace Nuclear.Assemblies.Runtimes {
         }
 
         [TestMethod]
-        [TestData(nameof(EqualsData))]
+        [TestData(nameof(Equals_Data))]
         void Equals(RuntimeInfo left, RuntimeInfo right, Boolean expected) {
 
             Boolean result = false;
@@ -76,7 +76,7 @@ namespace Nuclear.Assemblies.Runtimes {
 
         }
 
-        IEnumerable<Object[]> EqualsData() {
+        IEnumerable<Object[]> Equals_Data() {
             return new List<Object[]>() {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), true },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)), new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 1)), false },
@@ -90,7 +90,7 @@ namespace Nuclear.Assemblies.Runtimes {
         #region ToString
 
         [TestMethod]
-        [TestData(nameof(ToStringData))]
+        [TestData(nameof(ToString_Data))]
         void ToString(RuntimeInfo input, String expected) {
 
             String result = null;
@@ -100,7 +100,7 @@ namespace Nuclear.Assemblies.Runtimes {
 
         }
 
-        IEnumerable<Object[]> ToStringData() {
+        IEnumerable<Object[]> ToString_Data() {
             return new List<Object[]>() {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 0)), "NETFramework 1.0" },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 1)), "NETCoreApp 2.1" },

@@ -59,7 +59,7 @@ namespace Nuclear.SemVer {
         }
 
         [TestMethod]
-        [TestData(nameof(ParseData))]
+        [TestData(nameof(Parse_Data))]
         void Parse(String input, (Int32 major, Int32 minor, Int32 patch, String pre, String meta) expected) {
 
             SemanticVersion result = default;
@@ -75,7 +75,7 @@ namespace Nuclear.SemVer {
 
         }
 
-        IEnumerable<Object[]> ParseData() {
+        IEnumerable<Object[]> Parse_Data() {
             return new List<Object[]> {
                 new Object[] { "1.2.3", (1, 2, 3, (String) null, (String) null) },
                 new Object[] { "1.2.3-0", (1, 2, 3, "0", (String) null) },
@@ -321,7 +321,7 @@ namespace Nuclear.SemVer {
         #region Equals
 
         [TestMethod]
-        [TestData(nameof(EqualsData))]
+        [TestData(nameof(Equals_Data))]
         void Equals(SemanticVersion lhs, Object rhs, Boolean expected) {
 
             Boolean result = default;
@@ -332,7 +332,7 @@ namespace Nuclear.SemVer {
 
         }
 
-        IEnumerable<Object[]> EqualsData() {
+        IEnumerable<Object[]> Equals_Data() {
             return new List<Object[]>() {
                 new Object[] { new SemanticVersion(0, 0, 0), null, false },
                 new Object[] { new SemanticVersion(0, 0, 0), "Hello World!", false },
@@ -358,7 +358,7 @@ namespace Nuclear.SemVer {
         #region EqualsT
 
         [TestMethod]
-        [TestData(nameof(EqualsTData))]
+        [TestData(nameof(EqualsT_Data))]
         void EqualsT(SemanticVersion lhs, SemanticVersion rhs, Boolean expected) {
 
             Boolean result = default;
@@ -369,7 +369,7 @@ namespace Nuclear.SemVer {
 
         }
 
-        IEnumerable<Object[]> EqualsTData() {
+        IEnumerable<Object[]> EqualsT_Data() {
             return new List<Object[]>() {
                 new Object[] { new SemanticVersion(0, 0, 0), null, false },
                 new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 0, 0), true },
@@ -394,7 +394,7 @@ namespace Nuclear.SemVer {
         #region CompareTo
 
         [TestMethod]
-        [TestData(nameof(CompareToData))]
+        [TestData(nameof(CompareTo_Data))]
         void CompareTo(SemanticVersion lhs, SemanticVersion rhs, Int32 expected) {
 
             Int32 result = default;
@@ -405,7 +405,7 @@ namespace Nuclear.SemVer {
 
         }
 
-        IEnumerable<Object[]> CompareToData() {
+        IEnumerable<Object[]> CompareTo_Data() {
             return new List<Object[]>() {
                 new Object[] { new SemanticVersion(0, 0, 0), null, 1 },
                 new Object[] { new SemanticVersion(0, 0, 0), new SemanticVersion(0, 0, 0), 0 },

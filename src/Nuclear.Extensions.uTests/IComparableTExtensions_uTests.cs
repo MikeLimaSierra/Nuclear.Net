@@ -9,14 +9,14 @@ namespace Nuclear.Extensions {
         #region IsEqual
 
         [TestMethod]
-        void IsEqualThrows() {
+        void IsEqual_Throws() {
 
             Test.If.Action.ThrowsException(() => IComparableTExtensions.IsEqual<DummyIComparableT>(null, 0), out ArgumentNullException ex1);
 
         }
 
         [TestMethod]
-        [TestData(nameof(IsEqualData))]
+        [TestData(nameof(IsEqual_Data))]
         void IsEqual(Int32 x, Int32 y, Boolean expected) {
 
             Boolean result = default;
@@ -26,7 +26,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> IsEqualData() {
+        IEnumerable<Object[]> IsEqual_Data() {
             return new List<Object[]>() {
                 new Object[] { 0, 0, true },
                 new Object[] { 0, 1, false },
@@ -38,14 +38,14 @@ namespace Nuclear.Extensions {
         #region LessThan
 
         [TestMethod]
-        void LessThanThrows() {
+        void LessThan_Throws() {
 
             Test.If.Action.ThrowsException(() => IComparableTExtensions.IsLessThan<DummyIComparableT>(null, 0), out ArgumentNullException ex1);
 
         }
 
         [TestMethod]
-        [TestData(nameof(LessThanData))]
+        [TestData(nameof(LessThan_Data))]
         void LessThan(Int32 x, Int32 y, Boolean expected) {
 
             Boolean result = default;
@@ -55,7 +55,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> LessThanData() {
+        IEnumerable<Object[]> LessThan_Data() {
             return new List<Object[]>() {
                 new Object[] { 0, 0, false },
                 new Object[] { 0, 1, true },
@@ -68,14 +68,14 @@ namespace Nuclear.Extensions {
         #region LessThanOrEquals
 
         [TestMethod]
-        void LessThanOrEqualsThrows() {
+        void LessThanOrEquals_Throws() {
 
             Test.If.Action.ThrowsException(() => IComparableTExtensions.IsLessThanOrEqual<DummyIComparableT>(null, 0), out ArgumentNullException ex1);
 
         }
 
         [TestMethod]
-        [TestData(nameof(LessThanOrEqualsData))]
+        [TestData(nameof(LessThanOrEquals_Data))]
         void LessThanOrEquals(Int32 x, Int32 y, Boolean expected) {
 
             Boolean result = default;
@@ -85,7 +85,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> LessThanOrEqualsData() {
+        IEnumerable<Object[]> LessThanOrEquals_Data() {
             return new List<Object[]>() {
                 new Object[] { 0, 0, true },
                 new Object[] { 0, 1, true },
@@ -98,14 +98,14 @@ namespace Nuclear.Extensions {
         #region GreaterThan
 
         [TestMethod]
-        void GreaterThanThrows() {
+        void GreaterThan_Throws() {
 
             Test.If.Action.ThrowsException(() => IComparableTExtensions.IsGreaterThan<DummyIComparableT>(null, 0), out ArgumentNullException ex1);
 
         }
 
         [TestMethod]
-        [TestData(nameof(GreaterThanData))]
+        [TestData(nameof(GreaterThan_Data))]
         void GreaterThan(Int32 x, Int32 y, Boolean expected) {
 
             Boolean result = default;
@@ -115,7 +115,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> GreaterThanData() {
+        IEnumerable<Object[]> GreaterThan_Data() {
             return new List<Object[]>() {
                 new Object[] { 0, 0, false },
                 new Object[] { 0, 1, false },
@@ -128,14 +128,14 @@ namespace Nuclear.Extensions {
         #region GreaterThanOrEquals
 
         [TestMethod]
-        void GreaterThanOrEqualsThrows() {
+        void GreaterThanOrEquals_Throws() {
 
             Test.If.Action.ThrowsException(() => IComparableTExtensions.IsGreaterThanOrEqual<DummyIComparableT>(null, 0), out ArgumentNullException ex1);
 
         }
 
         [TestMethod]
-        [TestData(nameof(GreaterThanOrEqualsData))]
+        [TestData(nameof(GreaterThanOrEquals_Data))]
         void GreaterThanOrEquals(Int32 x, Int32 y, Boolean expected) {
 
             Boolean result = default;
@@ -145,7 +145,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> GreaterThanOrEqualsData() {
+        IEnumerable<Object[]> GreaterThanOrEquals_Data() {
             return new List<Object[]>() {
                 new Object[] { 0, 0, true },
                 new Object[] { 0, 1, false },
@@ -158,14 +158,14 @@ namespace Nuclear.Extensions {
         #region IsClamped
 
         [TestMethod]
-        void IsClampedThrows() {
+        void IsClamped_Throws() {
 
             Test.If.Action.ThrowsException(() => IComparableTExtensions.IsClamped<DummyIComparableT>(null, 0, 0), out ArgumentNullException ex1);
 
         }
 
         [TestMethod]
-        [TestData(nameof(IsClampedData))]
+        [TestData(nameof(IsClamped_Data))]
         void IsClamped(Int32 v, Int32? min, Int32? max, Boolean expected) {
 
             Boolean result = default;
@@ -178,7 +178,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> IsClampedData() {
+        IEnumerable<Object[]> IsClamped_Data() {
             return new List<Object[]>() {
                 new Object[] { 0, null, null, true },
                 new Object[] { 0, null, 1, true },
@@ -198,14 +198,14 @@ namespace Nuclear.Extensions {
         #region IsClampedExclusive
 
         [TestMethod]
-        void IsClampedExclusiveThrows() {
+        void IsClampedExclusive_Throws() {
 
             Test.If.Action.ThrowsException(() => IComparableTExtensions.IsClampedExclusive<DummyIComparableT>(null, 0, 0), out ArgumentNullException ex1);
 
         }
 
         [TestMethod]
-        [TestData(nameof(IsClampedExclusiveData))]
+        [TestData(nameof(IsClampedExclusive_Data))]
         void IsClampedExclusive(Int32 v, Int32? min, Int32? max, Boolean expected) {
 
             Boolean result = default;
@@ -218,7 +218,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> IsClampedExclusiveData() {
+        IEnumerable<Object[]> IsClampedExclusive_Data() {
             return new List<Object[]>() {
                 new Object[] { 0, null, null, true },
                 new Object[] { 0, null, 1, true },
@@ -238,14 +238,14 @@ namespace Nuclear.Extensions {
         #region Clamp
 
         [TestMethod]
-        void ClampThrows() {
+        void Clamp_Throws() {
 
             Test.If.Action.ThrowsException(() => IComparableTExtensions.Clamp<DummyIComparableT>(null, 0, 0), out ArgumentNullException ex);
 
         }
 
         [TestMethod]
-        [TestData(nameof(ClampData))]
+        [TestData(nameof(Clamp_Data))]
         void Clamp(Int32 v, Int32? min, Int32? max, Int32 expected) {
 
             DummyIComparableT result = default;
@@ -258,7 +258,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> ClampData() {
+        IEnumerable<Object[]> Clamp_Data() {
             return new List<Object[]>() {
                 new Object[] { 0, null, null, 0 },
                 new Object[] { 0, null, 1, 0 },

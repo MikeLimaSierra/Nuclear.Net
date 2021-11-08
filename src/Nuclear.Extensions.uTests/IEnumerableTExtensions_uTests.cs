@@ -11,7 +11,7 @@ namespace Nuclear.Extensions {
         #region ForEach
 
         [TestMethod]
-        void ForeachThrowsException() {
+        void Foreach_ThrowsException() {
 
             IEnumerable<Int32> enumerable = Enumerable.Empty<Int32>();
 
@@ -27,7 +27,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void ForeachAppliesAction() {
+        void Foreach() {
 
             IEnumerable<Int32> enumerable = Enumerable.Range(1, 10);
             Int32 result = 0;
@@ -42,7 +42,7 @@ namespace Nuclear.Extensions {
         #region Min
 
         [TestMethod]
-        void MinThrowsException() {
+        void Min_ThrowsException() {
 
             IEnumerable<DummyIComparable> empty = Enumerable.Empty<DummyIComparable>();
             IEnumerable<DummyIComparable> nulls = new DummyIComparable[] { null, null };
@@ -61,7 +61,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void MinGetsMin() {
+        void Min() {
 
             IEnumerable<DummyIComparable> nullEnumerable = new DummyIComparable[] { null, -1, -1, null, 0, 1, 1 };
             DummyIComparable result = null;
@@ -76,7 +76,7 @@ namespace Nuclear.Extensions {
         #region MinT
 
         [TestMethod]
-        void MinTThrowsException() {
+        void MinT_ThrowsException() {
 
             IEnumerable<DummyIComparableT> empty = Enumerable.Empty<DummyIComparableT>();
             IEnumerable<DummyIComparableT> nulls = new DummyIComparableT[] { null, null };
@@ -95,7 +95,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void MinTGetsMin() {
+        void MinT() {
 
             IEnumerable<DummyIComparableT> nullEnumerable = new DummyIComparableT[] { null, -1, -1, null, 0, 1, 1 };
             DummyIComparableT result = null;
@@ -110,7 +110,7 @@ namespace Nuclear.Extensions {
         #region MinComparerT
 
         [TestMethod]
-        void MinComparerTThrowsException() {
+        void MinComparerT_ThrowsException() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
@@ -136,7 +136,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void MinComparerTGetsMin() {
+        void MinComparerT() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             Dummy result = null;
@@ -151,7 +151,7 @@ namespace Nuclear.Extensions {
         #region MinIComparer
 
         [TestMethod]
-        void MinIComparerThrowsException() {
+        void MinIComparer_ThrowsException() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
@@ -177,7 +177,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void MinIComparerGetsMin() {
+        void MinIComparer() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             Dummy result = null;
@@ -192,7 +192,7 @@ namespace Nuclear.Extensions {
         #region MinIComparerT
 
         [TestMethod]
-        void MinIComparerTThrowsException() {
+        void MinIComparerT_ThrowsException() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
@@ -218,7 +218,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void MinIComparerTGetsMin() {
+        void MinIComparerT() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             Dummy result = null;
@@ -233,7 +233,7 @@ namespace Nuclear.Extensions {
         #region Max
 
         [TestMethod]
-        void MaxThrowsException() {
+        void Max_ThrowsException() {
 
             IEnumerable<DummyIComparable> empty = Enumerable.Empty<DummyIComparable>();
             IEnumerable<DummyIComparable> nulls = new DummyIComparable[] { null, null };
@@ -252,7 +252,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void MaxGetsMax() {
+        void Max() {
 
             IEnumerable<DummyIComparable> nullEnumerable = new DummyIComparable[] { null, -1, -1, null, 0, 1, 1 };
             DummyIComparable result = null;
@@ -267,7 +267,7 @@ namespace Nuclear.Extensions {
         #region MaxT
 
         [TestMethod]
-        void MaxTThrowsException() {
+        void MaxT_ThrowsException() {
 
             IEnumerable<DummyIComparableT> empty = Enumerable.Empty<DummyIComparableT>();
             IEnumerable<DummyIComparableT> nulls = new DummyIComparableT[] { null, null };
@@ -286,7 +286,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void MaxTGetsMax() {
+        void MaxT() {
 
             IEnumerable<DummyIComparableT> nullEnumerable = new DummyIComparableT[] { null, -1, -1, null, 0, 1, 1 };
             DummyIComparableT result = null;
@@ -301,7 +301,7 @@ namespace Nuclear.Extensions {
         #region MaxComparerT
 
         [TestMethod]
-        void MaxComparerTThrowsException() {
+        void MaxComparerT_ThrowsException() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
@@ -327,7 +327,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void MaxComparerTGetsMin() {
+        void MaxComparerT() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             Dummy result = null;
@@ -342,7 +342,7 @@ namespace Nuclear.Extensions {
         #region MaxIComparer
 
         [TestMethod]
-        void MaxIComparerThrowsException() {
+        void MaxIComparer_ThrowsException() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
@@ -368,7 +368,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void MaxIComparerGetsMin() {
+        void MaxIComparer() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             Dummy result = null;
@@ -383,7 +383,7 @@ namespace Nuclear.Extensions {
         #region MaxIComparerT
 
         [TestMethod]
-        void MaxIComparerTThrowsException() {
+        void MaxIComparerT_ThrowsException() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             IEnumerable<Dummy> empty = Enumerable.Empty<Dummy>();
@@ -409,7 +409,7 @@ namespace Nuclear.Extensions {
         }
 
         [TestMethod]
-        void MaxIComparerTGetsMin() {
+        void MaxIComparerT() {
 
             IEnumerable<Dummy> notEmpty = new Dummy[] { null, -1, -1, null, 0, 1, 1 };
             Dummy result = null;

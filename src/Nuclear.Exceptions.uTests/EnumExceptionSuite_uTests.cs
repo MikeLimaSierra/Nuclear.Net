@@ -63,7 +63,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfIsDefinedGeneric() {
+        void ThrowIfIsDefined_Generic() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Enum.IsDefined<NotImplementedException>(typeof(DummyEnum), DummyEnum.Value1, _message), out NotImplementedException ex);
@@ -87,7 +87,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotIsDefinedGeneric() {
+        void ThrowIfNotIsDefined_Generic() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.Enum.IsDefined<NotImplementedException>(typeof(DummyEnum), DummyEnum.Value1, _message), out Exception _);
@@ -149,7 +149,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfIsDefinedGenericT() {
+        void ThrowIfIsDefined_GenericT() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Enum.IsDefined<NotImplementedException, DummyEnum>(DummyEnum.Value1, _message), out NotImplementedException ex);
@@ -165,7 +165,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotIsDefinedGenericT() {
+        void ThrowIfNotIsDefined_GenericT() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.Enum.IsDefined<NotImplementedException, DummyEnum>(DummyEnum.Value1, _message), out Exception _);

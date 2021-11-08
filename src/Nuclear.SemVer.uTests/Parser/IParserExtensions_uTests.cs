@@ -28,7 +28,7 @@ namespace Nuclear.SemVer.Parser {
         #region Create
 
         [TestMethod]
-        void CreateThrows() {
+        void Create_Throws() {
 
             var creator = Creation.Parser.Instance.SemVer();
 
@@ -58,7 +58,7 @@ namespace Nuclear.SemVer.Parser {
         #region TryCreate
 
         [TestMethod]
-        void TryCreateDoesNotThrow() {
+        void TryCreate_DoesNotThrow() {
 
             var creator = Creation.Parser.Instance.SemVer();
             Boolean result = default;
@@ -93,7 +93,7 @@ namespace Nuclear.SemVer.Parser {
         #region TryCreateWithExOut
 
         [TestMethod]
-        void TryCreateWithExOutDoesNotThrow() {
+        void TryCreateWithExOut_DoesNotThrow() {
 
             var creator = Creation.Parser.Instance.SemVer();
             Boolean result = default;

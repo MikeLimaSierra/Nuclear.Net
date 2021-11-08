@@ -55,7 +55,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNullOrEmptyGeneric() {
+        void ThrowIfNullOrEmpty_Generic() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.String.IsNullOrEmpty<NotImplementedException>(null, _message), out NotImplementedException ex1);
@@ -74,7 +74,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotNullOrEmptyGeneric() {
+        void ThrowIfNotNullOrEmpty_Generic() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.String.IsNullOrEmpty<NotImplementedException>(null, _message), out Exception ex1);
@@ -139,7 +139,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNullOrWhiteSpaceGeneric() {
+        void ThrowIfNullOrWhiteSpace_Generic() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.String.IsNullOrWhiteSpace<NotImplementedException>(null, _message), out NotImplementedException ex1);
@@ -159,7 +159,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotNullOrWhiteSpaceGeneric() {
+        void ThrowIfNotNullOrWhiteSpace_Generic() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.String.IsNullOrWhiteSpace<NotImplementedException>(null, _message), out Exception ex1);

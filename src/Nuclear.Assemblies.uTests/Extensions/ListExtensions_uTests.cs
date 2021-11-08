@@ -7,7 +7,7 @@ namespace Nuclear.Assemblies.Extensions {
     class ListExtensions_uTests {
 
         [TestMethod]
-        void TryTakeThrows() {
+        void TryTake_Throws() {
 
             Test.If.Action.ThrowsException(() => ((List<Object>) null).TryTake(_ => _ != null, out Object element), out ArgumentNullException ex);
             Test.If.Value.IsEqual(ex.ParamName, "this");
@@ -26,7 +26,7 @@ namespace Nuclear.Assemblies.Extensions {
         }
 
         [TestMethod]
-        [TestData(nameof(TryTakeData))]
+        [TestData(nameof(TryTake_Data))]
         void TryTake<T>(List<T> input1, Predicate<T> input2, Boolean result, T element, List<T> list) {
 
             Boolean _result = false;
@@ -39,7 +39,7 @@ namespace Nuclear.Assemblies.Extensions {
 
         }
 
-        IEnumerable<Object[]> TryTakeData() {
+        IEnumerable<Object[]> TryTake_Data() {
             return new List<Object[]>() {
                 new Object[] { typeof(String), new List<String>() { "the quick fox", "jumps over", "the lazy dog" }, new Predicate<String>((_) => _.StartsWith("jumps")), true, "jumps over", new List<String>() { "the quick fox", "the lazy dog" } },
                 new Object[] { typeof(String), new List<String>() { "the quick fox", " jumps over", "the lazy dog" }, new Predicate<String>((_) => _.StartsWith("jumps")), false, null, new List<String>() { "the quick fox", " jumps over", "the lazy dog" } },

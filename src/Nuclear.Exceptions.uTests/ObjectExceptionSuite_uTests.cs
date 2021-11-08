@@ -39,7 +39,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNullGeneric() {
+        void ThrowIfNull_Generic() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Object.IsNull<NotImplementedException>(null, _message), out NotImplementedException ex);
@@ -51,7 +51,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotNullGeneric() {
+        void ThrowIfNotNull_Generic() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.Object.IsNull<NotImplementedException>(null, _message), out Exception _);
@@ -117,7 +117,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfOfTypeGeneric() {
+        void ThrowIfOfType_Generic() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Object.IsOfType<NotImplementedException>("STRING", typeof(String), _message), out NotImplementedException ex);
@@ -141,7 +141,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotOfTypeGeneric() {
+        void ThrowIfNotOfType_Generic() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.Object.IsOfType<NotImplementedException>("STRING", typeof(String), _message), out Exception _);
@@ -201,7 +201,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfOfTypeGenericT() {
+        void ThrowIfOfType_GenericT() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Object.IsOfType<NotImplementedException, String>("STRING", _message), out NotImplementedException ex1);
@@ -216,7 +216,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotOfTypeGenericT() {
+        void ThrowIfNotOfType_GenericT() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.Object.IsOfType<NotImplementedException, String>("STRING", _message), out Exception _);
@@ -293,7 +293,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfOfExactTypeGeneric() {
+        void ThrowIfOfExactType_Generic() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Object.IsOfExactType<NotImplementedException>("STRING", typeof(String), _message), out NotImplementedException ex);
@@ -320,7 +320,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotOfExactTypeGeneric() {
+        void ThrowIfNotOfExactType_Generic() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.Object.IsOfExactType<NotImplementedException>("STRING", typeof(String), _message), out Exception _);
@@ -392,7 +392,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfOfExactTypeGenericT() {
+        void ThrowIfOfExactType_GenericT() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Object.IsOfExactType<NotImplementedException, String>("STRING", _message), exception: out NotImplementedException ex);
@@ -410,7 +410,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotOfExactTypeGenericT() {
+        void ThrowIfNotOfExactType_GenericT() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.Object.IsOfExactType<NotImplementedException, String>("STRING", _message), out Exception _);

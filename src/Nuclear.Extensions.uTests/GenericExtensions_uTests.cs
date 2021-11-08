@@ -11,7 +11,7 @@ namespace Nuclear.Extensions {
         #region Format
 
         [TestMethod]
-        [TestData(nameof(FormatData))]
+        [TestData(nameof(Format_Data))]
         void Format<T>(T @object, String expected) {
 
             String result = null;
@@ -21,7 +21,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> FormatData() {
+        IEnumerable<Object[]> Format_Data() {
             return new List<Object[]>() {
                 new Object[] { typeof(Object), null, "null" },
                 new Object[] { typeof(String), "some string", "'some string'" },
@@ -51,7 +51,7 @@ namespace Nuclear.Extensions {
         #region FormatType
 
         [TestMethod]
-        [TestData(nameof(FormatTypeData))]
+        [TestData(nameof(FormatType_Data))]
         void FormatType<T>(T @object, String expected) {
 
             String result = null;
@@ -61,7 +61,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> FormatTypeData() {
+        IEnumerable<Object[]> FormatType_Data() {
             return new List<Object[]>() {
                 new Object[] { typeof(Object), null, "null" },
                 new Object[] { typeof(String), "some string", "'System.String'" },
@@ -76,7 +76,7 @@ namespace Nuclear.Extensions {
         #region Equals
 
         [TestMethod]
-        [TestData(nameof(EqualsData))]
+        [TestData(nameof(Equals_Data))]
         void Equals<T>(T left, T right, Boolean expected) {
 
             Boolean result = false;
@@ -86,7 +86,7 @@ namespace Nuclear.Extensions {
 
         }
 
-        IEnumerable<Object[]> EqualsData() {
+        IEnumerable<Object[]> Equals_Data() {
             return new List<Object[]>() {
                 new Object[] { typeof(DummyIEquatableT), null, null, true },
                 new Object[] { typeof(DummyIEquatableT), null, new DummyIEquatableT(0), false },

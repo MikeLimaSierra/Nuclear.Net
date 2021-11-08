@@ -39,7 +39,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfTrueGeneric() {
+        void ThrowIfTrue_Generic() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Value.IsTrue<NotImplementedException>(true, _message), out NotImplementedException ex1);
@@ -51,7 +51,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotTrueGeneric() {
+        void ThrowIfNotTrue_Generic() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.Value.IsTrue<NotImplementedException>(true, _message), out Exception ex1);
@@ -93,7 +93,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfFalseGeneric() {
+        void ThrowIfFalse_Generic() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Value.IsFalse<NotImplementedException>(false, _message), out NotImplementedException ex1);
@@ -105,7 +105,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void ThrowIfNotFalseGeneric() {
+        void ThrowIfNotFalse_Generic() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.Value.IsFalse<NotImplementedException>(false, _message), out Exception ex1);

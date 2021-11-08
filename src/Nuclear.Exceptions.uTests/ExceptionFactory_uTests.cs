@@ -19,7 +19,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void CreateMethod() {
+        void Create() {
 
             ArgumentNullException argNullEx = ExceptionFactory.Instance.Create<ArgumentNullException>("this_is_a_parameter_name", "this_is_a_test_message");
 

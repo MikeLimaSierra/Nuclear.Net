@@ -14,7 +14,7 @@ namespace Nuclear.Assemblies.Runtimes {
         }
 
         [TestMethod]
-        [TestData(nameof(CompareData))]
+        [TestData(nameof(Compare_Data))]
         void Compare(RuntimeInfo input1, RuntimeInfo input2, Int32 expected) {
 
             IComparer<RuntimeInfo> comparer = new RuntimeInfoFeatureComparer();
@@ -26,7 +26,7 @@ namespace Nuclear.Assemblies.Runtimes {
 
         }
 
-        IEnumerable<Object[]> CompareData() {
+        IEnumerable<Object[]> Compare_Data() {
             return new List<Object[]>() {
 
                 #region

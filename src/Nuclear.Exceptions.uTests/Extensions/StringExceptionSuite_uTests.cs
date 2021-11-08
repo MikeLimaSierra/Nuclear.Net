@@ -67,7 +67,7 @@ namespace Nuclear.Exceptions.Extensions {
         #region IsHelloGeneric
 
         [TestMethod]
-        void ThrowIfIsHelloGeneric() {
+        void ThrowIfIsHello_Generic() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.If.String.IsHello<NotImplementedException>(null, _message), out NotImplementedException ex);
@@ -88,7 +88,7 @@ namespace Nuclear.Exceptions.Extensions {
         }
 
         [TestMethod]
-        void ThrowIfNotIsHelloGeneric() {
+        void ThrowIfNotIsHello_Generic() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.IfNot.String.IsHello<NotImplementedException>(null, _message), out NotImplementedException ex);

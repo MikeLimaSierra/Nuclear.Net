@@ -26,7 +26,7 @@ namespace Nuclear.Assemblies {
         }
 
         [TestMethod]
-        [TestData(nameof(NetStandardVersionsIndexerData))]
+        [TestData(nameof(NetStandardVersionsIndexer_Data))]
         void NetStandardVersionsIndexer(RuntimeInfo input, Version expected) {
 
             Version version = null;
@@ -37,7 +37,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> NetStandardVersionsIndexerData() {
+        IEnumerable<Object[]> NetStandardVersionsIndexer_Data() {
             return new List<Object[]>() {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), null },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)), null },
@@ -80,7 +80,7 @@ namespace Nuclear.Assemblies {
         #region TryParseTFM
 
         [TestMethod]
-        [TestData(nameof(TryParseTFMData))]
+        [TestData(nameof(TryParseTFM_Data))]
         void TryParseTFM(String input, Boolean result, RuntimeInfo info) {
 
             Boolean _result = false;
@@ -96,7 +96,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryParseTFMData() {
+        IEnumerable<Object[]> TryParseTFM_Data() {
             return new List<Object[]>() {
                 new Object[] { "net40", true, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)) },
                 new Object[] { "net45", true, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)) },
@@ -146,7 +146,7 @@ namespace Nuclear.Assemblies {
         #region SplitTFM
 
         [TestMethod]
-        [TestData(nameof(SplitTFMData))]
+        [TestData(nameof(SplitTFM_Data))]
         void SplitTFM(String input, Boolean result, FrameworkIdentifiers identifier, Version version) {
 
             Boolean _result = default;
@@ -161,7 +161,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> SplitTFMData() {
+        IEnumerable<Object[]> SplitTFM_Data() {
             return new List<Object[]>() {
                 new Object[] { null, false, FrameworkIdentifiers.Unsupported, null },
                 new Object[] { "", false, FrameworkIdentifiers.Unsupported, null },
@@ -211,7 +211,7 @@ namespace Nuclear.Assemblies {
         #region TryParseFullName
 
         [TestMethod]
-        [TestData(nameof(TryParseFullNameData))]
+        [TestData(nameof(TryParseFullName_Data))]
         void TryParseFullName(String input, Boolean result, RuntimeInfo info) {
 
             Boolean _result = false;
@@ -227,7 +227,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryParseFullNameData() {
+        IEnumerable<Object[]> TryParseFullName_Data() {
             return new List<Object[]>() {
                 new Object[] { ".NetFramework,Version=v4.0", true, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 0)) },
                 new Object[] { ".NetFramework,Version=v4.5", true, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)) },
@@ -278,7 +278,7 @@ namespace Nuclear.Assemblies {
         #region ParseParts
 
         [TestMethod]
-        [TestData(nameof(ParsePartsData))]
+        [TestData(nameof(ParseParts_Data))]
         void ParseParts(String input, FrameworkIdentifiers framework, Version version) {
 
             FrameworkIdentifiers _framework = (FrameworkIdentifiers) (-1);
@@ -291,7 +291,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> ParsePartsData() {
+        IEnumerable<Object[]> ParseParts_Data() {
             return new List<Object[]>() {
                 new Object[] { ".NetFramework,Version=v4.0", FrameworkIdentifiers.NETFramework, new Version(4, 0) },
                 new Object[] { ".NetFramework,Version=v4.5.1", FrameworkIdentifiers.NETFramework, new Version(4, 5, 1) },
@@ -343,7 +343,7 @@ namespace Nuclear.Assemblies {
         #region TryGetStandardVersion
 
         [TestMethod]
-        [TestData(nameof(TryGetStandardVersionData))]
+        [TestData(nameof(TryGetStandardVersion_Data))]
         void TryGetStandardVersion(RuntimeInfo input, Boolean result, Version version) {
 
             Boolean _result = false;
@@ -356,7 +356,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryGetStandardVersionData() {
+        IEnumerable<Object[]> TryGetStandardVersion_Data() {
             return new List<Object[]>() {
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(1, 1)), false, null },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(2, 0)), false, null },

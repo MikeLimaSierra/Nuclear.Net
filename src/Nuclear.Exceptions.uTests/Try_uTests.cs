@@ -9,7 +9,7 @@ namespace Nuclear.Exceptions {
         #region DoAction
 
         [TestMethod]
-        [TestData(nameof(DoActionData))]
+        [TestData(nameof(DoAction_Data))]
         void DoAction(Action action, (Boolean result, Type exType) expected) {
 
             Boolean result = default;
@@ -25,7 +25,7 @@ namespace Nuclear.Exceptions {
 
         }
 
-        IEnumerable<Object[]> DoActionData() {
+        IEnumerable<Object[]> DoAction_Data() {
             return new List<Object[]>() {
                 new Object[] { null, (false, typeof(NullReferenceException)) },
                 new Object[] { new Action(() => { }), (true, null as Type) },
@@ -35,7 +35,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        [TestData(nameof(DoActionWithFinallyData))]
+        [TestData(nameof(DoActionWithFinally_Data))]
         void DoActionWithFinally((Action action, Action @finally) input, (Boolean result, Type exType) expected) {
 
             Boolean result = default;
@@ -51,7 +51,7 @@ namespace Nuclear.Exceptions {
 
         }
 
-        IEnumerable<Object[]> DoActionWithFinallyData() {
+        IEnumerable<Object[]> DoActionWithFinally_Data() {
             return new List<Object[]>() {
                 new Object[] { (null as Action, null as Action), (false, typeof(NullReferenceException)) },
                 new Object[] { (new Action(() => { }), null as Action), (true, null as Type) },
@@ -63,7 +63,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void DoActionWithFinallyThrows() {
+        void DoActionWithFinally_Throws() {
 
             Exception exOut = default;
 
@@ -79,7 +79,7 @@ namespace Nuclear.Exceptions {
         #region DoFunc
 
         [TestMethod]
-        [TestData(nameof(DoFuncData))]
+        [TestData(nameof(DoFunc_Data))]
         void DoFunc<T>(Func<T> func, (Boolean result, T returnVal, Type exType) expected) {
 
             Boolean result = default;
@@ -97,7 +97,7 @@ namespace Nuclear.Exceptions {
 
         }
 
-        IEnumerable<Object[]> DoFuncData() {
+        IEnumerable<Object[]> DoFunc_Data() {
             return new List<Object[]>() {
                 new Object[] { typeof(Boolean), null, (false, false, typeof(NullReferenceException)) },
                 new Object[] { typeof(Boolean), new Func<Boolean>(() => false), (true, false, null as Type) },
@@ -108,7 +108,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        [TestData(nameof(DoFuncWithFinallyData))]
+        [TestData(nameof(DoFuncWithFinally_Data))]
         void DoFuncWithFinally<T>((Func<T> func, Action @finally) input, (Boolean result, T returnVal, Type exType) expected) {
 
             Boolean result = default;
@@ -126,7 +126,7 @@ namespace Nuclear.Exceptions {
 
         }
 
-        IEnumerable<Object[]> DoFuncWithFinallyData() {
+        IEnumerable<Object[]> DoFuncWithFinally_Data() {
             return new List<Object[]>() {
                 new Object[] { typeof(Boolean), (null as Func<Boolean>, null as Action), (false, false, typeof(NullReferenceException)) },
                 new Object[] { typeof(Boolean), (new Func<Boolean>(() => false), null as Action), (true, false, null as Type) },
@@ -140,7 +140,7 @@ namespace Nuclear.Exceptions {
         }
 
         [TestMethod]
-        void DoFuncWithFinallyThrows() {
+        void DoFuncWithFinally_Throws() {
 
             Exception exOut = default;
             Boolean returnVal = default;

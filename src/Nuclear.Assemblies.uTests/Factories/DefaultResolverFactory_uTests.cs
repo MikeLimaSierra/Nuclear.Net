@@ -1,6 +1,7 @@
 ﻿using System;
 
-using Nuclear.Assemblies.Factory;
+using Nuclear.Assemblies.Factories;
+using Nuclear.Creation;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Resolvers {
@@ -18,7 +19,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void CreateResolver() {
 
-            var creator = Creation.Factory.Instance.DefaultResolver();
+            var creator = Factory.Instance.DefaultResolver();
             IDefaultResolver obj = default;
 
             Test.IfNot.Action.ThrowsException(() => creator.Create(out obj), out Exception _);
@@ -34,7 +35,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void TryCreateResolver() {
 
-            var creator = Creation.Factory.Instance.DefaultResolver();
+            var creator = Factory.Instance.DefaultResolver();
             Boolean result = default;
             IDefaultResolver obj = default;
 
@@ -52,7 +53,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void TryCreateResolverWithExOut() {
 
-            var creator = Creation.Factory.Instance.DefaultResolver();
+            var creator = Factory.Instance.DefaultResolver();
             Boolean result = default;
             IDefaultResolver obj = default;
             Exception ex = default;

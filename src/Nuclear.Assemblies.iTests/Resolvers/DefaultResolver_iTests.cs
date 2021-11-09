@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Nuclear.Assemblies.Factory;
+using Nuclear.Assemblies.Factories;
 using Nuclear.Assemblies.Resolvers.Data;
+using Nuclear.Creation;
 using Nuclear.Extensions;
 using Nuclear.TestSite;
 
@@ -20,7 +21,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveArgsData))]
         void TryResolveArgs(ResolveEventArgs input, Boolean result, IEnumerable<FileInfo> files) {
 
-            Creation.Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance);
+            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance);
             Boolean _result = false;
             IEnumerable<IDefaultResolverData> _files = null;
 
@@ -51,7 +52,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveStringData))]
         void TryResolveString(String input, Boolean result, IEnumerable<FileInfo> files) {
 
-            Creation.Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance);
+            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance);
             Boolean _result = false;
             IEnumerable<IDefaultResolverData> _files = null;
 
@@ -78,7 +79,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveNameData))]
         void TryResolveName(AssemblyName input, Boolean result, IEnumerable<FileInfo> files) {
 
-            Creation.Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance);
+            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance);
             Boolean _result = false;
             IEnumerable<IDefaultResolverData> _files = null;
 

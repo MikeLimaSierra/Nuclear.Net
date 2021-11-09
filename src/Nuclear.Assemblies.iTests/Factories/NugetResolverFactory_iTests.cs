@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 
-using Nuclear.Assemblies.Factory;
+using Nuclear.Assemblies.Factories;
 using Nuclear.Assemblies.Resolvers.Data;
+using Nuclear.Creation;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Resolvers {
@@ -18,7 +19,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void CreateResolverDataThrows() {
 
-            var creator = Creation.Factory.Instance.NugetResolver();
+            var creator = Factory.Instance.NugetResolver();
 
             Test.If.Action.ThrowsException(() => creator.Create(out _, new FileInfo(@"C:\NonExistentFile.txt")), out ArgumentException ex);
 
@@ -30,7 +31,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void CreateResolverData() {
 
-            var creator = Creation.Factory.Instance.NugetResolver();
+            var creator = Factory.Instance.NugetResolver();
             INugetResolverData obj = default;
             FileInfo in1 = new FileInfo(typeof(Statics).Assembly.Location);
 
@@ -49,7 +50,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void TryCreateResolverDataDoesNotThrow() {
 
-            var creator = Creation.Factory.Instance.NugetResolver();
+            var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolverData obj = default;
 
@@ -63,7 +64,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void TryCreateResolverData() {
 
-            var creator = Creation.Factory.Instance.NugetResolver();
+            var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolverData obj = default;
             FileInfo in1 = new FileInfo(typeof(Statics).Assembly.Location);
@@ -84,7 +85,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void TryCreateResolverDataWithExOutDoesNotThrow() {
 
-            var creator = Creation.Factory.Instance.NugetResolver();
+            var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolverData obj = default;
             Exception ex = default;
@@ -103,7 +104,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void TryCreateResolverDataWithExOut() {
 
-            var creator = Creation.Factory.Instance.NugetResolver();
+            var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolverData obj = default;
             FileInfo in1 = new FileInfo(typeof(Statics).Assembly.Location);

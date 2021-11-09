@@ -1,6 +1,6 @@
 ﻿using Nuclear.Creation;
 
-namespace Nuclear.Assemblies.Factory {
+namespace Nuclear.Assemblies.Factories {
 
     /// <summary>
     /// Extends the functionality of <see cref="IFactory"/>.

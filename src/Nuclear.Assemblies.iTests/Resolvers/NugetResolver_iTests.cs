@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Nuclear.Assemblies.Factory;
+using Nuclear.Assemblies.Factories;
 using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.Assemblies.Runtimes;
 using Nuclear.Extensions;

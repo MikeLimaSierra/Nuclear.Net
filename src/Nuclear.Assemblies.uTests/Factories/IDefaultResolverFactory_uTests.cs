@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-using Nuclear.Assemblies.Factory;
+using Nuclear.Assemblies.Factories;
 using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.Creation;
 using Nuclear.TestSite;

@@ -5,15 +5,15 @@ using Nuclear.Assemblies.Resolvers;
 using Nuclear.Assemblies.Resolvers.Data;
 using Nuclear.Creation;
 
-namespace Nuclear.Assemblies.Factory {
+namespace Nuclear.Assemblies.Factories {
 
     internal class NugetResolverFactory : INugetResolverFactory {
 
         #region fields
 
-        private static readonly ICreator<INugetResolver> _resolverCreator = Creation.Factory.Instance.Creator.Create<INugetResolver>(() => new NugetResolver());
+        private static readonly ICreator<INugetResolver> _resolverCreator = Factory.Instance.Creator.Create<INugetResolver>(() => new NugetResolver());
 
-        private static readonly ICreator<INugetResolverData, FileInfo> _dataCreator = Creation.Factory.Instance.Creator.Create<INugetResolverData, FileInfo>((file) => new NugetResolverData(file));
+        private static readonly ICreator<INugetResolverData, FileInfo> _dataCreator = Factory.Instance.Creator.Create<INugetResolverData, FileInfo>((file) => new NugetResolverData(file));
 
         #endregion
 

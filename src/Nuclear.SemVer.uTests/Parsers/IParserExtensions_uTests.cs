@@ -3,7 +3,7 @@
 using Nuclear.Creation;
 using Nuclear.TestSite;
 
-namespace Nuclear.SemVer.Parser {
+namespace Nuclear.SemVer.Parsers {
     class IParserExtensions_uTests {
 
         #region SemVer
@@ -14,8 +14,8 @@ namespace Nuclear.SemVer.Parser {
             ICreator<SemanticVersion, String> fac1 = default;
             ICreator<SemanticVersion, String> fac2 = default;
 
-            Test.IfNot.Action.ThrowsException(() => fac1 = Creation.Parser.Instance.SemVer(), out Exception _);
-            Test.IfNot.Action.ThrowsException(() => fac2 = Creation.Parser.Instance.SemVer(), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => fac1 = Parser.Instance.SemVer(), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => fac2 = Parser.Instance.SemVer(), out Exception _);
 
             Test.IfNot.Object.IsNull(fac1);
             Test.IfNot.Object.IsNull(fac2);
@@ -30,7 +30,7 @@ namespace Nuclear.SemVer.Parser {
         [TestMethod]
         void Create_Throws() {
 
-            var creator = Creation.Parser.Instance.SemVer();
+            var creator = Parser.Instance.SemVer();
 
             Test.If.Action.ThrowsException(() => creator.Create(out _, "01.2.3"), out FormatException ex);
 
@@ -41,7 +41,7 @@ namespace Nuclear.SemVer.Parser {
         [TestMethod]
         void Create() {
 
-            var creator = Creation.Parser.Instance.SemVer();
+            var creator = Parser.Instance.SemVer();
             SemanticVersion obj = default;
 
             Test.IfNot.Action.ThrowsException(() => creator.Create(out obj, "1.2.3"), out Exception _);
@@ -60,7 +60,7 @@ namespace Nuclear.SemVer.Parser {
         [TestMethod]
         void TryCreate_DoesNotThrow() {
 
-            var creator = Creation.Parser.Instance.SemVer();
+            var creator = Parser.Instance.SemVer();
             Boolean result = default;
             SemanticVersion obj = default;
 
@@ -74,7 +74,7 @@ namespace Nuclear.SemVer.Parser {
         [TestMethod]
         void TryCreate() {
 
-            var creator = Creation.Parser.Instance.SemVer();
+            var creator = Parser.Instance.SemVer();
             Boolean result = default;
             SemanticVersion obj = default;
 
@@ -95,7 +95,7 @@ namespace Nuclear.SemVer.Parser {
         [TestMethod]
         void TryCreateWithExOut_DoesNotThrow() {
 
-            var creator = Creation.Parser.Instance.SemVer();
+            var creator = Parser.Instance.SemVer();
             Boolean result = default;
             SemanticVersion obj = default;
             Exception ex = default;
@@ -113,7 +113,7 @@ namespace Nuclear.SemVer.Parser {
         [TestMethod]
         void TryCreateWithExOut() {
 
-            var creator = Creation.Parser.Instance.SemVer();
+            var creator = Parser.Instance.SemVer();
             Boolean result = default;
             SemanticVersion obj = default;
             Exception ex = default;

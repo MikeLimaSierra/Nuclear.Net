@@ -2,7 +2,7 @@
 
 using Nuclear.Creation;
 
-namespace Nuclear.SemVer.Parser {
+namespace Nuclear.SemVer.Parsers {
 
     /// <summary>
     /// Defines an extension to <see cref="IParser"/>.

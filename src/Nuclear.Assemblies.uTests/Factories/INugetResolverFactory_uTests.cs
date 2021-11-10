@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 using Nuclear.Assemblies.Factories;
 using Nuclear.Assemblies.Resolvers.Data;
@@ -12,6 +13,7 @@ namespace Nuclear.Assemblies.Resolvers {
         void Implementation() {
 
             Test.If.Type.Implements<INugetResolverFactory, ICreator<INugetResolver>>();
+            Test.If.Type.Implements<INugetResolverFactory, ICreator<INugetResolver, IEnumerable<DirectoryInfo>>>();
             Test.If.Type.Implements<INugetResolverFactory, ICreator<INugetResolverData, FileInfo>>();
 
         }

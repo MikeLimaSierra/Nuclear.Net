@@ -11,7 +11,7 @@ namespace Nuclear.Assemblies.Resolvers {
 
         private static readonly FileInfo _nonExistentAssembly = new FileInfo(@"C:\NonExistent.dll");
 
-        private static readonly FileInfo _existingAssembly = new FileInfo(typeof(Statics).Assembly.Location);
+        private static readonly FileInfo _existingAssembly = new FileInfo(Statics.TestAsm.Location);
 
         #region CreateResolverData
 

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 
-using Nuclear.Extensions;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Resolvers.Data {
@@ -12,45 +8,14 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         #region ctors
 
         [TestMethod]
-        [TestData(nameof(Ctor_Throws_Data))]
-        void Ctor_Throws<TException>(FileInfo input, String message) where TException : Exception {
+        void Ctor_Throws() {
 
             IDefaultResolverData data = default;
 
-            Test.If.Action.ThrowsException(() => data = new DefaultResolverData(input), out TException ex);
+            Test.If.Action.ThrowsException(() => data = new DefaultResolverData(null), out ArgumentNullException ex);
 
-            Test.IfNot.Object.IsNull(ex);
-            Test.If.String.StartsWith(ex.Message, message);
+            Test.If.String.StartsWith(ex.Message, "Parameter 'file' must not be null.");
 
-        }
-
-        IEnumerable<Object[]> Ctor_Throws_Data() {
-            FileInfo file = new FileInfo(@"C:\NonExistentFile.txt");
-
-            return new List<Object[]>() {
-                new Object[] { typeof(ArgumentNullException), null, "Parameter 'file' must not be null." },
-                new Object[] { typeof(ArgumentException), file, $"Could not resolve the AssemblyName of file {file.Format()}." }
-            };
-        }
-
-        [TestMethod]
-        [TestData(nameof(Ctor_Data))]
-        void Ctor(FileInfo input, Boolean expected) {
-
-            IDefaultResolverData data = default;
-
-            Test.IfNot.Action.ThrowsException(() => data = new DefaultResolverData(input), out Exception ex);
-
-            Test.IfNot.Object.IsNull(data.Name);
-            Test.If.Value.IsEqual(data.IsValid, expected);
-
-        }
-
-        IEnumerable<Object[]> Ctor_Data() {
-            return new List<Object[]>() {
-                new Object[] { new FileInfo(Assembly.GetEntryAssembly().Location), true },
-                new Object[] { new FileInfo(typeof(IDefaultResolver).Assembly.Location), true }
-            };
         }
 
         #endregion

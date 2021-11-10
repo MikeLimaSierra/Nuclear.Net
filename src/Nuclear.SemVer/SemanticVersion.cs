@@ -93,6 +93,78 @@ namespace Nuclear.SemVer {
 
         #endregion
 
+        #region operators
+
+        /// <summary>
+        /// Explicitly converts an existing <see cref="SemanticVersion"/> to a new instance of <see cref="Version"/>.
+        /// </summary>
+        /// <param name="semVer">The existing <see cref="SemanticVersion"/>.</param>
+        public static explicit operator Version(SemanticVersion semVer) => semVer != null
+            ? new Version(Convert.ToInt32(semVer.Major), Convert.ToInt32(semVer.Minor), Convert.ToInt32(semVer.Patch))
+            : null;
+
+        /// <summary>
+        /// Explicitly converts an existing <see cref="Version"/> to a new instance of <see cref="SemanticVersion"/>.
+        /// </summary>
+        /// <param name="version">The existing <see cref="Version"/>.</param>
+        public static explicit operator SemanticVersion(Version version) => version != null
+            ? new SemanticVersion(Convert.ToUInt32(version.Major), Convert.ToUInt32(version.Minor), Convert.ToUInt32(version.Build))
+            : null;
+
+        /// <summary>
+        /// Determines whether two specified System.Version objects are equal.
+        /// </summary>
+        /// <param name="lhs">The left hand value.</param>
+        /// <param name="rhs">The right hand value.</param>
+        /// <returns>True if v1 equals v2; otherwise, false.</returns>
+        public static Boolean operator ==(SemanticVersion lhs, SemanticVersion rhs) => lhs.IsEqual(rhs);
+
+        /// <summary>
+        /// Determines whether two specified System.Version objects are not equal.
+        /// </summary>
+        /// <param name="lhs">The left hand value.</param>
+        /// <param name="rhs">The right hand value.</param>
+        /// <returns>True if v1 does not equal v2; otherwise, false.</returns>
+        public static Boolean operator !=(SemanticVersion lhs, SemanticVersion rhs) => !lhs.IsEqual(rhs);
+
+        /// <summary>
+        /// Determines whether the first specified System.Version object is less than the
+        ///     second specified System.Version object.
+        /// </summary>
+        /// <param name="lhs">The left hand value.</param>
+        /// <param name="rhs">The right hand value.</param>
+        /// <returns>True if v1 is less than v2; otherwise, false.</returns>
+        public static Boolean operator <(SemanticVersion lhs, SemanticVersion rhs) => lhs.IsLessThan(rhs);
+
+        /// <summary>
+        /// Determines whether the first specified System.Version object is greater than
+        ///     the second specified System.Version object.
+        /// </summary>
+        /// <param name="lhs">The left hand value.</param>
+        /// <param name="rhs">The right hand value.</param>
+        /// <returns>True if v1 is greater than v2; otherwise, false.</returns>
+        public static Boolean operator >(SemanticVersion lhs, SemanticVersion rhs) => lhs.IsGreaterThan(rhs);
+
+        /// <summary>
+        /// Determines whether the first specified System.Version object is less than or
+        ///     equal to the second System.Version object.
+        /// </summary>
+        /// <param name="lhs">The left hand value.</param>
+        /// <param name="rhs">The right hand value.</param>
+        /// <returns>True if v1 is less than or equal to v2; otherwise, false.</returns>
+        public static Boolean operator <=(SemanticVersion lhs, SemanticVersion rhs) => lhs.IsLessThanOrEqual(rhs);
+
+        /// <summary>
+        /// Determines whether the first specified System.Version object is greater than
+        ///     or equal to the second specified System.Version object.
+        /// </summary>
+        /// <param name="lhs">The left hand value.</param>
+        /// <param name="rhs">The right hand value.</param>
+        /// <returns>True if v1 is greater than or equal to v2; otherwise, false.</returns>
+        public static Boolean operator >=(SemanticVersion lhs, SemanticVersion rhs) => lhs.IsGreaterThanOrEqual(rhs);
+
+        #endregion
+
         #region static methods
 
         /// <summary>

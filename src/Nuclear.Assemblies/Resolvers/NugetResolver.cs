@@ -22,7 +22,21 @@ namespace Nuclear.Assemblies.Resolvers {
 
         private static readonly String _packagesDirName = "packages";
 
-        private readonly IEnumerable<DirectoryInfo> _nugetCaches = GetCaches();
+        #endregion
+
+        #region properties
+
+        public IEnumerable<DirectoryInfo> NugetCaches { get; }
+
+        #endregion
+
+        #region ctors
+
+        internal NugetResolver() : this(null) { }
+
+        internal NugetResolver(IEnumerable<DirectoryInfo> caches) {
+            NugetCaches = caches ?? GetCaches();
+        }
 
         #endregion
 
@@ -44,7 +58,7 @@ namespace Nuclear.Assemblies.Resolvers {
             data = Enumerable.Empty<INugetResolverData>();
 
             if(assemblyName != null && RuntimesHelper.TryGetCurrentRuntime(out RuntimeInfo current)) {
-                data = GetAssemblyCandidates(assemblyName, _nugetCaches, current);
+                data = GetAssemblyCandidates(assemblyName, NugetCaches, current);
             }
 
             return data != null && data.Count() > 0;
@@ -112,9 +126,8 @@ namespace Nuclear.Assemblies.Resolvers {
                     .Where(d => AssemblyHelper.ValidateByName(asmName, d.Name))
                     .Where(d => AssemblyHelper.ValidateArchitecture(d.Name))
                     .Where(d => validRuntimes.Contains(d.PackageTargetFramework))
-                    .OrderBy(d => d.PackageVersion)
-                    .ThenBy(d => d.PackageVersionLabel)
-                    .ThenBy(d => d.PackageTargetFramework, new RuntimeInfoFeatureComparer()));
+                    .OrderByDescending(d => d.PackageVersion)
+                    .ThenByDescending(d => d.PackageTargetFramework, new RuntimeInfoFeatureComparer()));
             }
 
             return candidates;

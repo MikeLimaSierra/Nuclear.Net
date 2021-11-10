@@ -11,7 +11,7 @@ namespace Nuclear.Assemblies {
         #region TryLoadFile
 
         [TestMethod]
-        [TestData(nameof(TryLoadFileData))]
+        [TestData(nameof(TryLoadFile_Data))]
         void TryLoadFile(FileInfo input, Boolean expected) {
 
             Boolean result = false;
@@ -24,7 +24,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryLoadFileData() {
+        IEnumerable<Object[]> TryLoadFile_Data() {
             return new List<Object[]>() {
                 new Object[] { null, false },
                 new Object[] { new FileInfo(@"C:/nonexistent.file"), false },
@@ -36,7 +36,7 @@ namespace Nuclear.Assemblies {
         #region TryLoadFrom
 
         [TestMethod]
-        [TestData(nameof(TryLoadFromData))]
+        [TestData(nameof(TryLoadFrom_Data))]
         void TryLoadFrom(FileInfo input, Boolean expected) {
 
             Boolean result = false;
@@ -49,7 +49,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryLoadFromData() {
+        IEnumerable<Object[]> TryLoadFrom_Data() {
             return new List<Object[]>() {
                 new Object[] { null, false },
                 new Object[] { new FileInfo(@"C:/nonexistent.file"), false },
@@ -61,7 +61,7 @@ namespace Nuclear.Assemblies {
         #region TryUnsafeLoadFrom
 
         [TestMethod]
-        [TestData(nameof(TryUnsafeLoadFromData))]
+        [TestData(nameof(TryUnsafeLoadFrom_Data))]
         void TryUnsafeLoadFrom(FileInfo input, Boolean expected) {
 
             Boolean result = false;
@@ -74,7 +74,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryUnsafeLoadFromData() {
+        IEnumerable<Object[]> TryUnsafeLoadFrom_Data() {
             return new List<Object[]>() {
                 new Object[] { null, false },
                 new Object[] { new FileInfo(@"C:/nonexistent.file"), false },

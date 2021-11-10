@@ -401,7 +401,7 @@ namespace Nuclear.Assemblies {
         #region TryGetMatchingRuntimes
 
         [TestMethod]
-        [TestData(nameof(TryGetMatchingRuntimesData))]
+        [TestData(nameof(TryGetMatchingRuntimes_Data))]
         void TryGetMatchingRuntimes(RuntimeInfo input, Boolean result, IEnumerable<RuntimeInfo> runtimes) {
 
             Boolean _result = false;
@@ -414,7 +414,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryGetMatchingRuntimesData() {
+        IEnumerable<Object[]> TryGetMatchingRuntimes_Data() {
             return new List<Object[]>() {
                 new Object[] { null, false, Enumerable.Empty<RuntimeInfo>() },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), false, Enumerable.Empty<RuntimeInfo>() },
@@ -770,7 +770,7 @@ namespace Nuclear.Assemblies {
         #region TryGetLowestMatchingRuntimes
 
         [TestMethod]
-        [TestData(nameof(TryGetLowestMatchingRuntimesData))]
+        [TestData(nameof(TryGetLowestMatchingRuntimes_Data))]
         void TryGetLowestMatchingRuntimes(RuntimeInfo input, Boolean result, IEnumerable<RuntimeInfo> runtimes) {
 
             Boolean _result = false;
@@ -783,7 +783,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryGetLowestMatchingRuntimesData() {
+        IEnumerable<Object[]> TryGetLowestMatchingRuntimes_Data() {
             return new List<Object[]>() {
                 new Object[] { null, false, Enumerable.Empty<RuntimeInfo>() },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), false, Enumerable.Empty<RuntimeInfo>() },
@@ -906,7 +906,7 @@ namespace Nuclear.Assemblies {
         #region TryGetLoadableRuntimes
 
         [TestMethod]
-        [TestData(nameof(TryGetLoadableRuntimesData))]
+        [TestData(nameof(TryGetLoadableRuntimes_Data))]
         void TryGetLoadableRuntimes(RuntimeInfo input, Boolean result, IEnumerable<RuntimeInfo> runtimes) {
 
             Boolean _result = false;
@@ -919,7 +919,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryGetLoadableRuntimesData() {
+        IEnumerable<Object[]> TryGetLoadableRuntimes_Data() {
             return new List<Object[]>() {
                 new Object[] { null, false, Enumerable.Empty<RuntimeInfo>() },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), false, Enumerable.Empty<RuntimeInfo>() },
@@ -1319,7 +1319,7 @@ namespace Nuclear.Assemblies {
 
         #region TryGetLoadableRuntimesSorted
 
-        [TestData(nameof(TryGetLoadableRuntimesSortedData))]
+        [TestData(nameof(TryGetLoadableRuntimesSorted_Data))]
         void TryGetLoadableRuntimesSorted(RuntimeInfo input1, Boolean input2, Boolean result, List<RuntimeInfo> runtimes) {
 
             Boolean _result = false;
@@ -1332,7 +1332,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryGetLoadableRuntimesSortedData() {
+        IEnumerable<Object[]> TryGetLoadableRuntimesSorted_Data() {
             return new List<Object[]>() {
                 new Object[] { null, true, false, new List<RuntimeInfo>() },
                 new Object[] { new RuntimeInfo(FrameworkIdentifiers.Unsupported, new Version(1, 0)), true, false, new List<RuntimeInfo>() },

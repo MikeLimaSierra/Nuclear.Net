@@ -3,6 +3,9 @@ using System.IO;
 using System.Reflection;
 
 using Nuclear.Assemblies.Runtimes;
+using Nuclear.Creation;
+using Nuclear.SemVer;
+using Nuclear.SemVer.Parsers;
 
 namespace Nuclear.Assemblies.Resolvers.Data {
 
@@ -12,9 +15,7 @@ namespace Nuclear.Assemblies.Resolvers.Data {
 
         public String PackageName { get; private set; }
 
-        public Version PackageVersion { get; private set; }
-
-        public String PackageVersionLabel { get; private set; }
+        public SemanticVersion PackageVersion { get; private set; }
 
         public ProcessorArchitecture PackageArchitecture { get; private set; } = ProcessorArchitecture.None;
 
@@ -74,13 +75,8 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         private Boolean TryGetVersion(DirectoryInfo libDir, out DirectoryInfo versionDir) {
             versionDir = libDir.Parent;
 
-            if(versionDir != null) {
-                String v = versionDir.Name;
-
-                Int32 dashIndex = v.IndexOf('-');
-
-                PackageVersionLabel = dashIndex >= 0 ? v.Substring(dashIndex + 1) : null;
-                PackageVersion = Version.TryParse(dashIndex >= 0 ? v.Substring(0, dashIndex) : v, out Version version) ? version : new Version(0, 0, 0);
+            if(versionDir != null && Parser.Instance.SemVer().TryCreate(out SemanticVersion version, versionDir.Name)) {
+                PackageVersion = version;
             }
 
             return PackageVersion != null && versionDir != null;

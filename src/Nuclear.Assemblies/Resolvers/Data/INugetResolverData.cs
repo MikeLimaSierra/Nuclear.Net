@@ -2,6 +2,7 @@
 using System.Reflection;
 
 using Nuclear.Assemblies.Runtimes;
+using Nuclear.SemVer;
 
 namespace Nuclear.Assemblies.Resolvers.Data {
 
@@ -20,12 +21,7 @@ namespace Nuclear.Assemblies.Resolvers.Data {
         /// <summary>
         /// Gets the package version.
         /// </summary>
-        Version PackageVersion { get; }
-
-        /// <summary>
-        /// Gets the package version label.
-        /// </summary>
-        String PackageVersionLabel { get; }
+        SemanticVersion PackageVersion { get; }
 
         /// <summary>
         /// Gets the tergeted processor architecture.

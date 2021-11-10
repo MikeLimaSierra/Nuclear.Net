@@ -61,7 +61,7 @@ namespace Nuclear.Assemblies.Resolvers {
 
         #endregion
 
-        #region private methods
+        #region internal methods
 
         internal static IEnumerable<FileInfo> ResolveInternal(AssemblyName assemblyName)
             => ResolveInternal(assemblyName, SearchOption.AllDirectories);

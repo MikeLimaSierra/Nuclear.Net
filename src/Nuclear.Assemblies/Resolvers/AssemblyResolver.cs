@@ -12,13 +12,12 @@ namespace Nuclear.Assemblies.Resolvers {
 
         #region protected methods
 
-        protected internal static Boolean VersionsMatch(MatchingStrategies strategy, Version requested, Version found) {
-            switch(strategy) {
-                case MatchingStrategies.Strict: return requested.Equals(found);
-
-                default: return false;
-            }
-        }
+        protected internal static Boolean VersionsMatch(MatchingStrategies strategy, Version requested, Version found)
+            => strategy switch {
+                MatchingStrategies.Strict => requested.Equals(found),
+                MatchingStrategies.SemVer => requested.Major == found.Major && requested.Minor <= found.Minor,
+                _ => false,
+            };
 
         #endregion
 

@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-using Nuclear.Assemblies.Resolvers.Data;
+using Nuclear.Assemblies.ResolverData;
 
-namespace Nuclear.Assemblies.Resolvers {
+namespace Nuclear.Assemblies.Resolvers.Internal {
 
     internal abstract class AssemblyResolver<TData> : AssemblyResolver, IAssemblyResolver<TData> where TData : IAssemblyResolverData {
+
+        #region ctors
+
+        internal AssemblyResolver(MatchingStrategies strategy) : base(strategy) { }
+
+        #endregion
 
         #region public methods
 

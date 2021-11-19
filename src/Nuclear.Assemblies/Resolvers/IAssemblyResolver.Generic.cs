@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-using Nuclear.Assemblies.Resolvers.Data;
+using Nuclear.Assemblies.ResolverData;
 
 namespace Nuclear.Assemblies.Resolvers {
 

@@ -1,7 +1,7 @@
-﻿using Nuclear.Assemblies.Resolvers.Data;
+﻿using Nuclear.Assemblies.ResolverData;
 using Nuclear.TestSite;
 
-namespace Nuclear.Assemblies.Resolvers {
+namespace Nuclear.Assemblies.Resolvers.Internal {
     class DefaultResolver_uTests {
 
         [TestMethod]
@@ -9,7 +9,6 @@ namespace Nuclear.Assemblies.Resolvers {
 
             Test.If.Type.IsSubClass<DefaultResolver, AssemblyResolver<IDefaultResolverData>>();
             Test.If.Type.Implements<DefaultResolver, IDefaultResolver>();
-            Test.If.Type.Implements<IDefaultResolver, IAssemblyResolver<IDefaultResolverData>>();
 
         }
 

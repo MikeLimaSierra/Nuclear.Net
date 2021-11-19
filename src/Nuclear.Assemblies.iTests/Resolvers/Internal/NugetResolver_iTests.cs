@@ -5,14 +5,12 @@ using System.Linq;
 using System.Reflection;
 
 using Nuclear.Assemblies.Factories;
-using Nuclear.Assemblies.Resolvers.Data;
+using Nuclear.Assemblies.ResolverData;
 using Nuclear.Assemblies.Runtimes;
 using Nuclear.Extensions;
 using Nuclear.TestSite;
 
-using static System.Environment;
-
-namespace Nuclear.Assemblies.Resolvers {
+namespace Nuclear.Assemblies.Resolvers.Internal {
     class NugetResolver_iTests {
 
         #region TryResolve
@@ -21,7 +19,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveArgs_Data))]
         void TryResolveArgs(ResolveEventArgs input, Boolean expected, IEnumerable<FileInfo> files) {
 
-            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, new DirectoryInfo[] { Statics.FakeNugetCache });
+            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, MatchingStrategies.Strict, new DirectoryInfo[] { Statics.FakeNugetCache });
             Boolean result = false;
             IEnumerable<INugetResolverData> _files = null;
 
@@ -44,7 +42,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveString_Data))]
         void TryResolveString(String input, Boolean expected, IEnumerable<FileInfo> files) {
 
-            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, new DirectoryInfo[] { Statics.FakeNugetCache });
+            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, MatchingStrategies.Strict, new DirectoryInfo[] { Statics.FakeNugetCache });
             Boolean result = false;
             IEnumerable<INugetResolverData> _files = null;
 
@@ -66,7 +64,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestData(nameof(TryResolveName_Data))]
         void TryResolveName(AssemblyName input, Boolean expected, IEnumerable<FileInfo> files) {
 
-            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, new DirectoryInfo[] { Statics.FakeNugetCache });
+            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, MatchingStrategies.Strict, new DirectoryInfo[] { Statics.FakeNugetCache });
             Boolean result = default;
             IEnumerable<INugetResolverData> _files = default;
 
@@ -91,7 +89,7 @@ namespace Nuclear.Assemblies.Resolvers {
 
             IEnumerable<DirectoryInfo> caches = default;
 
-            String userPath = Path.Combine(GetFolderPath(SpecialFolder.UserProfile), ".nuget", "packages");
+            String userPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
 
             Test.IfNot.Action.ThrowsException(() => caches = NugetResolver.GetCaches(), out Exception ex);
 
@@ -121,7 +119,7 @@ namespace Nuclear.Assemblies.Resolvers {
             IEnumerable<DirectoryInfo> caches = new List<DirectoryInfo>() { Statics.FakeNugetCache };
             NugetResolver.TryGetPackage("Awesome.Nuget.Package", Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
-            String arch = Is64BitProcess ? "x64" : "x86";
+            String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
             return new List<Object[]>() {
                 new Object[] { new AssemblyName("Awesome.Nuget.Package, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null"), caches, new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)), Enumerable.Empty<FileInfo>() },
@@ -604,7 +602,7 @@ namespace Nuclear.Assemblies.Resolvers {
         IEnumerable<Object[]> GetAssemblyCandidatesFromCache_SimpleData() {
             NugetResolver.TryGetPackage(Statics.SimpleFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
-            String arch = Is64BitProcess ? "x64" : "x86";
+            String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
             #region netframework 1.x.x
 
@@ -673,7 +671,7 @@ namespace Nuclear.Assemblies.Resolvers {
         IEnumerable<Object[]> GetAssemblyCandidatesFromCache_ComplexData() {
             NugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
-            String arch = Is64BitProcess ? "x64" : "x86";
+            String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
             #region netframework 1.x.x
 

@@ -5,13 +5,13 @@ using System.Linq;
 using System.Reflection;
 
 using Nuclear.Assemblies.Factories;
-using Nuclear.Assemblies.Resolvers.Data;
+using Nuclear.Assemblies.ResolverData;
 using Nuclear.Assemblies.Runtimes;
 using Nuclear.Creation;
 using Nuclear.Exceptions;
 using Nuclear.Extensions;
 
-namespace Nuclear.Assemblies.Resolvers {
+namespace Nuclear.Assemblies.Resolvers.Internal {
     internal class NugetResolver : AssemblyResolver<INugetResolverData>, INugetResolver {
 
         #region fields
@@ -32,9 +32,9 @@ namespace Nuclear.Assemblies.Resolvers {
 
         #region ctors
 
-        internal NugetResolver() : this(null) { }
+        internal NugetResolver(MatchingStrategies strategy) : this(strategy, null) { }
 
-        internal NugetResolver(IEnumerable<DirectoryInfo> caches) {
+        internal NugetResolver(MatchingStrategies strategy, IEnumerable<DirectoryInfo> caches) : base(strategy) {
             NugetCaches = caches ?? GetCaches();
         }
 

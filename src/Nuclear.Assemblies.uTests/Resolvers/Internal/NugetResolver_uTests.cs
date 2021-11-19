@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Nuclear.Assemblies.Resolvers.Data;
+using Nuclear.Assemblies.ResolverData;
 using Nuclear.Assemblies.Runtimes;
 using Nuclear.TestSite;
 
-namespace Nuclear.Assemblies.Resolvers {
+namespace Nuclear.Assemblies.Resolvers.Internal {
     class NugetResolver_uTests {
 
         [TestMethod]
@@ -16,7 +16,6 @@ namespace Nuclear.Assemblies.Resolvers {
 
             Test.If.Type.IsSubClass<NugetResolver, AssemblyResolver<INugetResolverData>>();
             Test.If.Type.Implements<NugetResolver, INugetResolver>();
-            Test.If.Type.Implements<INugetResolver, IAssemblyResolver<INugetResolverData>>();
 
         }
 

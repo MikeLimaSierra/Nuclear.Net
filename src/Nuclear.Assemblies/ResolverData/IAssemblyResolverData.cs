@@ -2,7 +2,9 @@
 using System.IO;
 using System.Reflection;
 
-namespace Nuclear.Assemblies.Resolvers.Data {
+using Nuclear.Assemblies.Resolvers;
+
+namespace Nuclear.Assemblies.ResolverData {
 
     /// <summary>
     /// Defines the assembly information that was found by an <see cref="IAssemblyResolver{TData}"/>.

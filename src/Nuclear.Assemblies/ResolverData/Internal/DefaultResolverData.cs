@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Nuclear.Assemblies.Resolvers.Data {
+namespace Nuclear.Assemblies.ResolverData.Internal {
 
     internal class DefaultResolverData : AssemblyResolverData, IDefaultResolverData {
 

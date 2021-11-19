@@ -5,7 +5,7 @@ using System.Reflection;
 using Nuclear.Exceptions;
 using Nuclear.Extensions;
 
-namespace Nuclear.Assemblies.Resolvers.Data {
+namespace Nuclear.Assemblies.ResolverData.Internal {
 
     internal abstract class AssemblyResolverData : IAssemblyResolverData {
 

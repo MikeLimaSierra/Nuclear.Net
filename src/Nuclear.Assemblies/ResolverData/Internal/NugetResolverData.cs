@@ -7,7 +7,7 @@ using Nuclear.Creation;
 using Nuclear.SemVer;
 using Nuclear.SemVer.Parsers;
 
-namespace Nuclear.Assemblies.Resolvers.Data {
+namespace Nuclear.Assemblies.ResolverData.Internal {
 
     internal class NugetResolverData : AssemblyResolverData, INugetResolverData {
 

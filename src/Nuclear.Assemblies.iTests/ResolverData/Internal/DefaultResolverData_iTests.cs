@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
+using Nuclear.Assemblies.Resolvers;
 using Nuclear.Extensions;
 using Nuclear.TestSite;
 
-namespace Nuclear.Assemblies.Resolvers.Data {
+namespace Nuclear.Assemblies.ResolverData.Internal {
     class DefaultResolverData_iTests {
 
         #region ctors

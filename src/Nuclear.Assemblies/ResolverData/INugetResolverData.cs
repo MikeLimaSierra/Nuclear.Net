@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Reflection;
 
+using Nuclear.Assemblies.Resolvers;
 using Nuclear.Assemblies.Runtimes;
 using Nuclear.SemVer;
 
-namespace Nuclear.Assemblies.Resolvers.Data {
+namespace Nuclear.Assemblies.ResolverData {
 
     /// <summary>
     /// Defines the nuget package information that was found by an <see cref="INugetResolver"/>.

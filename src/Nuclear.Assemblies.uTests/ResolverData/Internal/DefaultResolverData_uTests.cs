@@ -2,7 +2,7 @@
 
 using Nuclear.TestSite;
 
-namespace Nuclear.Assemblies.Resolvers.Data {
+namespace Nuclear.Assemblies.ResolverData.Internal {
     class DefaultResolverData_uTests {
 
         #region ctors

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 
-using Nuclear.Assemblies.Factories;
-using Nuclear.Assemblies.Resolvers.Data;
+using Nuclear.Assemblies.ResolverData;
 using Nuclear.Creation;
 using Nuclear.TestSite;
 
-namespace Nuclear.Assemblies.Resolvers {
+namespace Nuclear.Assemblies.Factories.Internal {
     class NugetResolverFactory_iTests {
 
         private static readonly FileInfo _nonExistentAssembly = new FileInfo(@"C:\NonExistentFile.txt");

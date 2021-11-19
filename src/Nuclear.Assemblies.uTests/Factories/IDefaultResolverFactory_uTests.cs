@@ -1,7 +1,7 @@
 ﻿using System.IO;
 
 using Nuclear.Assemblies.Factories;
-using Nuclear.Assemblies.Resolvers.Data;
+using Nuclear.Assemblies.ResolverData;
 using Nuclear.Creation;
 using Nuclear.TestSite;
 
@@ -11,7 +11,7 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void Implementation() {
 
-            Test.If.Type.Implements<IDefaultResolverFactory, ICreator<IDefaultResolver>>();
+            Test.If.Type.Implements<IDefaultResolverFactory, ICreator<IDefaultResolver, MatchingStrategies, SearchOption>>();
             Test.If.Type.Implements<IDefaultResolverFactory, ICreator<IDefaultResolverData, FileInfo>>();
 
         }

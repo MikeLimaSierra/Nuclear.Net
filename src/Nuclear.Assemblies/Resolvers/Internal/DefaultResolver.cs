@@ -46,11 +46,11 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             if(AssemblyHelper.TryGetAssemblyName(e, out AssemblyName assemblyName)) {
                 if(e.RequestingAssembly == null) {
                     data = InternalResolver
-                        .Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, MatchingStrategy)
+                        .Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, AssemblyMatchingStrategy)
                         .Select(_ => { _factory.Create(out IDefaultResolverData data, _); return data; });
                 } else {
                     data = InternalResolver
-                        .Resolve(assemblyName, new FileInfo(e.RequestingAssembly.Location).Directory, SearchOption, MatchingStrategy)
+                        .Resolve(assemblyName, new FileInfo(e.RequestingAssembly.Location).Directory, SearchOption, AssemblyMatchingStrategy)
                         .Select(_ => { _factory.Create(out IDefaultResolverData data, _); return data; });
                 }
             }
@@ -69,7 +69,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
             if(assemblyName != null) {
                 data = InternalResolver
-                    .Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, MatchingStrategy)
+                    .Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, AssemblyMatchingStrategy)
                     .Select(_ => { _factory.Create(out IDefaultResolverData data, _); return data; });
             }
 

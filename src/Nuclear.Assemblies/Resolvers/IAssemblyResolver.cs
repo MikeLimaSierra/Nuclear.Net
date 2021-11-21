@@ -8,9 +8,9 @@
         #region properties
 
         /// <summary>
-        /// Gets the matching strategy for resolving packages.
+        /// Gets the matching strategy for assembly versions.
         /// </summary>
-        MatchingStrategies MatchingStrategy { get; }
+        MatchingStrategies AssemblyMatchingStrategy { get; }
 
         #endregion
 

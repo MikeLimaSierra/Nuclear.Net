@@ -30,7 +30,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.IfNot.Action.ThrowsException(() => creator.Create(out obj, input), out Exception _);
 
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.MatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), NugetResolver.GetCaches().Select(_ => _.FullName));
 
         }
@@ -46,7 +46,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.If.Action.ThrowsException(() => creator.Create(out obj, input), out ArgumentException ex);
 
             Test.If.Object.IsNull(obj);
-            Test.If.Value.IsEqual(ex.ParamName, "strategy");
+            Test.If.Value.IsEqual(ex.ParamName, "assemblyStrategy");
             Test.If.String.Contains(ex.Message, message);
 
         }
@@ -68,7 +68,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
 
             Test.If.Value.IsTrue(result);
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.MatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), NugetResolver.GetCaches().Select(_ => _.FullName));
 
         }
@@ -108,7 +108,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.If.Value.IsTrue(result);
             Test.If.Object.IsNull(ex);
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.MatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), NugetResolver.GetCaches().Select(_ => _.FullName));
 
         }
@@ -128,7 +128,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.If.Value.IsFalse(result);
             Test.IfNot.Object.IsNull(ex);
             Test.If.Object.IsOfExactType<ArgumentException>(ex);
-            Test.If.Value.IsEqual(((ArgumentException) ex).ParamName, "strategy");
+            Test.If.Value.IsEqual(((ArgumentException) ex).ParamName, "assemblyStrategy");
             Test.If.String.Contains(ex.Message, message);
             Test.If.Object.IsNull(obj);
 
@@ -149,7 +149,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.IfNot.Action.ThrowsException(() => creator.Create(out obj, input, new DirectoryInfo[] { Statics.FakeNugetCache }), out Exception _);
 
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.MatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), new String[] { Statics.FakeNugetCache.FullName });
 
         }
@@ -165,7 +165,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.If.Action.ThrowsException(() => creator.Create(out obj, input, new DirectoryInfo[] { Statics.FakeNugetCache }), out ArgumentException ex);
 
             Test.If.Object.IsNull(obj);
-            Test.If.Value.IsEqual(ex.ParamName, "strategy");
+            Test.If.Value.IsEqual(ex.ParamName, "assemblyStrategy");
             Test.If.String.Contains(ex.Message, message);
 
         }
@@ -187,7 +187,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
 
             Test.If.Value.IsTrue(result);
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.MatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), new String[] { Statics.FakeNugetCache.FullName });
 
         }
@@ -227,7 +227,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.If.Value.IsTrue(result);
             Test.If.Object.IsNull(ex);
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.MatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), new String[] { Statics.FakeNugetCache.FullName });
 
         }
@@ -247,7 +247,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.If.Value.IsFalse(result);
             Test.IfNot.Object.IsNull(ex);
             Test.If.Object.IsOfExactType<ArgumentException>(ex);
-            Test.If.Value.IsEqual(((ArgumentException) ex).ParamName, "strategy");
+            Test.If.Value.IsEqual(((ArgumentException) ex).ParamName, "assemblyStrategy");
             Test.If.String.Contains(ex.Message, message);
             Test.If.Object.IsNull(obj);
 

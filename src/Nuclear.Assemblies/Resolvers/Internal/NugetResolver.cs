@@ -26,15 +26,20 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         #region properties
 
+        public VersionMatchingStrategies PackageMatchingStrategy { get; }
+
         public IEnumerable<DirectoryInfo> NugetCaches { get; }
 
         #endregion
 
         #region ctors
 
-        internal NugetResolver(MatchingStrategies strategy) : this(strategy, null) { }
+        internal NugetResolver(VersionMatchingStrategies assemblyMatchingStrategy, VersionMatchingStrategies packageMatchingStrategy) : this(assemblyMatchingStrategy, packageMatchingStrategy, null) { }
 
-        internal NugetResolver(MatchingStrategies strategy, IEnumerable<DirectoryInfo> caches) : base(strategy) {
+        internal NugetResolver(VersionMatchingStrategies assemblyMatchingStrategy, VersionMatchingStrategies packageMatchingStrategy, IEnumerable<DirectoryInfo> caches) : base(assemblyMatchingStrategy) {
+            Throw.IfNot.Enum.IsDefined<VersionMatchingStrategies>(packageMatchingStrategy, nameof(packageMatchingStrategy), $"Given strategy is not defined {packageMatchingStrategy.Format()}");
+
+            PackageMatchingStrategy = packageMatchingStrategy;
             NugetCaches = caches ?? GetCaches();
         }
 

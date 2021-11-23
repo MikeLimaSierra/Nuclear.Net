@@ -11,8 +11,8 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void Implementation() {
 
-            Test.If.Type.Implements<IDefaultResolverFactory, ICreator<IDefaultResolver, MatchingStrategies, SearchOption>>();
-            Test.If.Type.Implements<IDefaultResolverFactory, ICreator<IDefaultResolverData, FileInfo>>();
+            Test.If.Type.Implements<DefaultResolverFactory, ICreator<IDefaultResolver, VersionMatchingStrategies, SearchOption>>();
+            Test.If.Type.Implements<DefaultResolverFactory, ICreator<IDefaultResolverData, FileInfo>>();
 
         }
 

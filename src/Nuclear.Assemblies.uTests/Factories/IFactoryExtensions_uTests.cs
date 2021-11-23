@@ -11,8 +11,8 @@ namespace Nuclear.Assemblies.Factories {
         [TestMethod]
         public void DefaultResolver() {
 
-            IDefaultResolverFactory fac1 = default;
-            IDefaultResolverFactory fac2 = default;
+            DefaultResolverFactory fac1 = default;
+            DefaultResolverFactory fac2 = default;
 
             Test.IfNot.Action.ThrowsException(() => fac1 = Factory.Instance.DefaultResolver(), out Exception _);
             Test.IfNot.Action.ThrowsException(() => fac2 = Factory.Instance.DefaultResolver(), out Exception _);
@@ -30,8 +30,8 @@ namespace Nuclear.Assemblies.Factories {
         [TestMethod]
         public void NugetResolver() {
 
-            INugetResolverFactory fac1 = default;
-            INugetResolverFactory fac2 = default;
+            NugetResolverFactory fac1 = default;
+            NugetResolverFactory fac2 = default;
 
             Test.IfNot.Action.ThrowsException(() => fac1 = Factory.Instance.NugetResolver(), out Exception _);
             Test.IfNot.Action.ThrowsException(() => fac2 = Factory.Instance.NugetResolver(), out Exception _);

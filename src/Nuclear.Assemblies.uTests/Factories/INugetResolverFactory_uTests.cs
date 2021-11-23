@@ -12,9 +12,9 @@ namespace Nuclear.Assemblies.Resolvers {
         [TestMethod]
         void Implementation() {
 
-            Test.If.Type.Implements<INugetResolverFactory, ICreator<INugetResolver, MatchingStrategies>>();
-            Test.If.Type.Implements<INugetResolverFactory, ICreator<INugetResolver, MatchingStrategies, IEnumerable<DirectoryInfo>>>();
-            Test.If.Type.Implements<INugetResolverFactory, ICreator<INugetResolverData, FileInfo>>();
+            Test.If.Type.Implements<NugetResolverFactory, ICreator<INugetResolver, VersionMatchingStrategies, VersionMatchingStrategies>>();
+            Test.If.Type.Implements<NugetResolverFactory, ICreator<INugetResolver, VersionMatchingStrategies, VersionMatchingStrategies, IEnumerable<DirectoryInfo>>>();
+            Test.If.Type.Implements<NugetResolverFactory, ICreator<INugetResolverData, FileInfo>>();
 
         }
 

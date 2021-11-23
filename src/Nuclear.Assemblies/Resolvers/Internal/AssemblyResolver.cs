@@ -8,17 +8,16 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         #region properties
 
-        public MatchingStrategies AssemblyMatchingStrategy { get; }
+        public VersionMatchingStrategies AssemblyMatchingStrategy { get; }
 
         #endregion
 
         #region ctors
 
-        internal AssemblyResolver(MatchingStrategies assemblyStrategy) {
-            Throw.IfNot.Enum.IsDefined<MatchingStrategies>(assemblyStrategy, nameof(assemblyStrategy), $"Given strategy is not defined {assemblyStrategy.Format()}");
-            Throw.If.Value.IsTrue(assemblyStrategy == MatchingStrategies.Unknown, nameof(assemblyStrategy), $"Strategy must not be {assemblyStrategy.Format()}");
+        internal AssemblyResolver(VersionMatchingStrategies assemblyMatchingStrategy) {
+            Throw.IfNot.Enum.IsDefined<VersionMatchingStrategies>(assemblyMatchingStrategy, nameof(assemblyMatchingStrategy), $"Given strategy is not defined {assemblyMatchingStrategy.Format()}");
 
-            AssemblyMatchingStrategy = assemblyStrategy;
+            AssemblyMatchingStrategy = assemblyMatchingStrategy;
         }
 
         #endregion

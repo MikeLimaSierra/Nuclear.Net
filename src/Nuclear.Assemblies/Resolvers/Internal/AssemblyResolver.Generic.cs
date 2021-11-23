@@ -10,7 +10,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         #region ctors
 
-        internal AssemblyResolver(MatchingStrategies strategy) : base(strategy) { }
+        internal AssemblyResolver(VersionMatchingStrategies assemblyMatchingStrategy) : base(assemblyMatchingStrategy) { }
 
         #endregion
 

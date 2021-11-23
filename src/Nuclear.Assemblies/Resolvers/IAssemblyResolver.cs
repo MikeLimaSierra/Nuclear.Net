@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets the matching strategy for assembly versions.
         /// </summary>
-        MatchingStrategies AssemblyMatchingStrategy { get; }
+        VersionMatchingStrategies AssemblyMatchingStrategy { get; }
 
         #endregion
 

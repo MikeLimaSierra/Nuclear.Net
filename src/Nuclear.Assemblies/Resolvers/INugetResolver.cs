@@ -13,7 +13,12 @@ namespace Nuclear.Assemblies.Resolvers {
         #region properties
 
         /// <summary>
-        /// Gets the used Nuget package cache directories.
+        /// Gets the matching strategy for package versions.
+        /// </summary>
+        VersionMatchingStrategies PackageMatchingStrategy { get; }
+
+        /// <summary>
+        /// Gets the used NuGet package cache directories.
         /// </summary>
         IEnumerable<DirectoryInfo> NugetCaches { get; }
 

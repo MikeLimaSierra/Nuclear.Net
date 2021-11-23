@@ -19,7 +19,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
             IEnumerable<FileInfo> files = null;
 
-            Test.IfNot.Action.ThrowsException(() => files = new InternalDefaultResolver().Resolve(input1, input2, SearchOption.AllDirectories, MatchingStrategies.Strict), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => files = new InternalDefaultResolver().Resolve(input1, input2, SearchOption.AllDirectories, VersionMatchingStrategies.Strict), out Exception ex);
 
             Test.If.Enumerable.Matches(files, expected, Statics.FileInfoComparer);
 
@@ -38,7 +38,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(ResolveByStrategies_2_1_1_Data))]
         [TestData(nameof(ResolveByStrategies_3_1_0_Data))]
         [TestData(nameof(ResolveByStrategies_3_1_1_Data))]
-        void ResolveByStrategies(AssemblyName input1, DirectoryInfo input2, SearchOption input3, MatchingStrategies input4, (IEnumerable<FileInfo> contained, IEnumerable<FileInfo> notcontained) expected) {
+        void ResolveByStrategies(AssemblyName input1, DirectoryInfo input2, SearchOption input3, VersionMatchingStrategies input4, (IEnumerable<FileInfo> contained, IEnumerable<FileInfo> notcontained) expected) {
 
             IEnumerable<FileInfo> files = null;
 
@@ -60,12 +60,12 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                 relevantAssemblies.Add(new FileInfo(Path.Combine(Statics.FakeNugetCache.FullName, Statics.ComplexFakePackageName, version, "lib", "netstandard1.0", $"{Statics.ComplexFakePackageName}.dll")));
             }
 
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, MatchingStrategies.Strict, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, MatchingStrategies.SemVer, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, MatchingStrategies.Strict,
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, VersionMatchingStrategies.Strict, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, VersionMatchingStrategies.SemVer, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, VersionMatchingStrategies.Strict,
                 (relevantAssemblies.Where(_ => _.FullName.Contains(@"\1.")),
                 relevantAssemblies.Where(_ => _.FullName.Contains(@"\2.") || _.FullName.Contains(@"\3.")))};
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, MatchingStrategies.SemVer,
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, VersionMatchingStrategies.SemVer,
                 (relevantAssemblies.Where(_ => _.FullName.Contains(@"\1.")),
                 relevantAssemblies.Where(_ => _.FullName.Contains(@"\2.") || _.FullName.Contains(@"\3.")))};
         }
@@ -79,12 +79,12 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                 relevantAssemblies.Add(new FileInfo(Path.Combine(Statics.FakeNugetCache.FullName, Statics.ComplexFakePackageName, version, "lib", "netstandard1.0", $"{Statics.ComplexFakePackageName}.dll")));
             }
 
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, MatchingStrategies.Strict, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, MatchingStrategies.SemVer, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, MatchingStrategies.Strict,
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, VersionMatchingStrategies.Strict, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, VersionMatchingStrategies.SemVer, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, VersionMatchingStrategies.Strict,
                 (relevantAssemblies.Where(_ => _.FullName.Contains(@"\2.1.")),
                 relevantAssemblies.Where(_ => _.FullName.Contains(@"\1.") || _.FullName.Contains(@"\2.2.")  || _.FullName.Contains(@"\2.3.") || _.FullName.Contains(@"\3.")))};
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, MatchingStrategies.SemVer,
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, VersionMatchingStrategies.SemVer,
                 (relevantAssemblies.Where(_ => _.FullName.Contains(@"\2.")),
                 relevantAssemblies.Where(_ => _.FullName.Contains(@"\1.") || _.FullName.Contains(@"\3.")))};
         }
@@ -98,12 +98,12 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                 relevantAssemblies.Add(new FileInfo(Path.Combine(Statics.FakeNugetCache.FullName, Statics.ComplexFakePackageName, version, "lib", "netstandard1.0", $"{Statics.ComplexFakePackageName}.dll")));
             }
 
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, MatchingStrategies.Strict, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, MatchingStrategies.SemVer, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, MatchingStrategies.Strict,
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, VersionMatchingStrategies.Strict, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, VersionMatchingStrategies.SemVer, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, VersionMatchingStrategies.Strict,
                 (relevantAssemblies.Where(_ => _.FullName.Contains(@"\2.1.")),
                 relevantAssemblies.Where(_ => _.FullName.Contains(@"\1.") || _.FullName.Contains(@"\2.2.")  || _.FullName.Contains(@"\2.3.") || _.FullName.Contains(@"\3.")))};
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, MatchingStrategies.SemVer,
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, VersionMatchingStrategies.SemVer,
                 (relevantAssemblies.Where(_ => _.FullName.Contains(@"\2.")),
                 relevantAssemblies.Where(_ => _.FullName.Contains(@"\1.") || _.FullName.Contains(@"\3.")))};
         }
@@ -117,12 +117,12 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                 relevantAssemblies.Add(new FileInfo(Path.Combine(Statics.FakeNugetCache.FullName, Statics.ComplexFakePackageName, version, "lib", "netstandard1.0", $"{Statics.ComplexFakePackageName}.dll")));
             }
 
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, MatchingStrategies.Strict, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, MatchingStrategies.SemVer, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, MatchingStrategies.Strict,
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, VersionMatchingStrategies.Strict, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, VersionMatchingStrategies.SemVer, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, VersionMatchingStrategies.Strict,
                 (relevantAssemblies.Where(_ => _.FullName.Contains(@"\3.1.0")),
                 relevantAssemblies.Where(_ => _.FullName.Contains(@"\1.") || _.FullName.Contains(@"\2.") || _.FullName.Contains(@"\3.1.1") || _.FullName.Contains(@"\3.2.") || _.FullName.Contains(@"\3.3.")))};
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, MatchingStrategies.SemVer,
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, VersionMatchingStrategies.SemVer,
                 (relevantAssemblies.Where(_ => _.FullName.Contains(@"\3.")),
                 relevantAssemblies.Where(_ => _.FullName.Contains(@"\1.") || _.FullName.Contains(@"\2.")))};
         }
@@ -136,12 +136,12 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                 relevantAssemblies.Add(new FileInfo(Path.Combine(Statics.FakeNugetCache.FullName, Statics.ComplexFakePackageName, version, "lib", "netstandard1.0", $"{Statics.ComplexFakePackageName}.dll")));
             }
 
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, MatchingStrategies.Strict, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, MatchingStrategies.SemVer, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, MatchingStrategies.Strict,
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, VersionMatchingStrategies.Strict, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.TopDirectoryOnly, VersionMatchingStrategies.SemVer, (Enumerable.Empty<FileInfo>(), relevantAssemblies.AsEnumerable()) };
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, VersionMatchingStrategies.Strict,
                 (relevantAssemblies.Where(_ => _.FullName.Contains(@"\3.1.1")),
                 relevantAssemblies.Where(_ => _.FullName.Contains(@"\1.") || _.FullName.Contains(@"\2.") || _.FullName.Contains(@"\3.1.0") || _.FullName.Contains(@"\3.2.") || _.FullName.Contains(@"\3.3.")))};
-            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, MatchingStrategies.SemVer,
+            yield return new Object[] { assemblyName, Statics.FakeNugetCache, SearchOption.AllDirectories, VersionMatchingStrategies.SemVer,
                 (relevantAssemblies.Where(_ => _.FullName.Contains(@"\3.1.1") || _.FullName.Contains(@"\3.2.") || _.FullName.Contains(@"\3.3.")),
                 relevantAssemblies.Where(_ => _.FullName.Contains(@"\1.") || _.FullName.Contains(@"\2.") || _.FullName.Contains(@"\3.1.0")))};
         }

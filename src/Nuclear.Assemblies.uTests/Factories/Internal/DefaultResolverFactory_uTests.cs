@@ -12,16 +12,16 @@ namespace Nuclear.Assemblies.Factories.Internal {
         [TestMethod]
         void Implementation() {
 
-            Test.If.Type.Implements<DefaultResolverFactory, IDefaultResolverFactory>();
+            Test.If.Type.IsSubClass<DefaultResolverFactory, Factories.DefaultResolverFactory>();
 
         }
 
         #region CreateResolver
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Strict, SearchOption.AllDirectories)]
-        [TestParameters(MatchingStrategies.SemVer, SearchOption.TopDirectoryOnly)]
-        void CreateResolver(MatchingStrategies in1, SearchOption in2) {
+        [TestParameters(VersionMatchingStrategies.Strict, SearchOption.AllDirectories)]
+        [TestParameters(VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly)]
+        void CreateResolver(VersionMatchingStrategies in1, SearchOption in2) {
 
             var creator = Factory.Instance.DefaultResolver();
             IDefaultResolver obj = default;
@@ -36,10 +36,9 @@ namespace Nuclear.Assemblies.Factories.Internal {
         }
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Unknown, SearchOption.AllDirectories, "assemblyStrategy", "Strategy must not be 'Unknown'")]
-        [TestParameters((MatchingStrategies) 42, SearchOption.AllDirectories, "assemblyStrategy", "Given strategy is not defined '42'")]
-        [TestParameters(MatchingStrategies.Strict, (SearchOption) 42, "searchOption", "Given search option is not defined '42'")]
-        void CreateResolver_Throws(MatchingStrategies in1, SearchOption in2, String paramName, String message) {
+        [TestParameters((VersionMatchingStrategies) 42, SearchOption.AllDirectories, "assemblyMatchingStrategy", "Given strategy is not defined '42'")]
+        [TestParameters(VersionMatchingStrategies.Strict, (SearchOption) 42, "searchOption", "Given search option is not defined '42'")]
+        void CreateResolver_Throws(VersionMatchingStrategies in1, SearchOption in2, String paramName, String message) {
 
             var creator = Factory.Instance.DefaultResolver();
             IDefaultResolver obj = default;
@@ -57,9 +56,9 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region TryCreateResolver
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Strict, SearchOption.AllDirectories)]
-        [TestParameters(MatchingStrategies.SemVer, SearchOption.TopDirectoryOnly)]
-        void TryCreateResolver(MatchingStrategies in1, SearchOption in2) {
+        [TestParameters(VersionMatchingStrategies.Strict, SearchOption.AllDirectories)]
+        [TestParameters(VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly)]
+        void TryCreateResolver(VersionMatchingStrategies in1, SearchOption in2) {
 
             var creator = Factory.Instance.DefaultResolver();
             Boolean result = default;
@@ -76,10 +75,9 @@ namespace Nuclear.Assemblies.Factories.Internal {
         }
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Unknown, SearchOption.AllDirectories)]
-        [TestParameters((MatchingStrategies) 42, SearchOption.AllDirectories)]
-        [TestParameters(MatchingStrategies.Strict, (SearchOption) 42)]
-        void TryCreateResolver_DoesNotThrow(MatchingStrategies in1, SearchOption in2) {
+        [TestParameters((VersionMatchingStrategies) 42, SearchOption.AllDirectories)]
+        [TestParameters(VersionMatchingStrategies.Strict, (SearchOption) 42)]
+        void TryCreateResolver_DoesNotThrow(VersionMatchingStrategies in1, SearchOption in2) {
 
             var creator = Factory.Instance.DefaultResolver();
             Boolean result = default;
@@ -97,9 +95,9 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region TryCreateResolverWithExOut
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Strict, SearchOption.AllDirectories)]
-        [TestParameters(MatchingStrategies.SemVer, SearchOption.TopDirectoryOnly)]
-        void TryCreateResolverWithExOut(MatchingStrategies in1, SearchOption in2) {
+        [TestParameters(VersionMatchingStrategies.Strict, SearchOption.AllDirectories)]
+        [TestParameters(VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly)]
+        void TryCreateResolverWithExOut(VersionMatchingStrategies in1, SearchOption in2) {
 
             var creator = Factory.Instance.DefaultResolver();
             Boolean result = default;
@@ -118,10 +116,9 @@ namespace Nuclear.Assemblies.Factories.Internal {
         }
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Unknown, SearchOption.AllDirectories, "assemblyStrategy", "Strategy must not be 'Unknown'")]
-        [TestParameters((MatchingStrategies) 42, SearchOption.AllDirectories, "assemblyStrategy", "Given strategy is not defined '42'")]
-        [TestParameters(MatchingStrategies.Strict, (SearchOption) 42, "searchOption", "Given search option is not defined '42'")]
-        void TryCreateResolverWithExOut_DoesNotThrow(MatchingStrategies in1, SearchOption in2, String paramName, String message) {
+        [TestParameters((VersionMatchingStrategies) 42, SearchOption.AllDirectories, "assemblyMatchingStrategy", "Given strategy is not defined '42'")]
+        [TestParameters(VersionMatchingStrategies.Strict, (SearchOption) 42, "searchOption", "Given search option is not defined '42'")]
+        void TryCreateResolverWithExOut_DoesNotThrow(VersionMatchingStrategies in1, SearchOption in2, String paramName, String message) {
 
             var creator = Factory.Instance.DefaultResolver();
             Boolean result = default;

@@ -20,7 +20,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(TryResolveArgs_Data))]
         void TryResolveArgs(ResolveEventArgs input, Boolean result, IEnumerable<FileInfo> files) {
 
-            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, MatchingStrategies.Strict, SearchOption.AllDirectories);
+            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.Strict, SearchOption.AllDirectories);
             Boolean _result = false;
             IEnumerable<IDefaultResolverData> _files = null;
 
@@ -51,7 +51,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(TryResolveString_Data))]
         void TryResolveString(String input, Boolean result, IEnumerable<FileInfo> files) {
 
-            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, MatchingStrategies.Strict, SearchOption.AllDirectories);
+            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.Strict, SearchOption.AllDirectories);
             Boolean _result = false;
             IEnumerable<IDefaultResolverData> _files = null;
 
@@ -77,7 +77,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(TryResolveName_Data))]
         void TryResolveName(AssemblyName input, Boolean result, IEnumerable<FileInfo> files) {
 
-            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, MatchingStrategies.Strict, SearchOption.AllDirectories);
+            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.Strict, SearchOption.AllDirectories);
             Boolean _result = false;
             IEnumerable<IDefaultResolverData> _files = null;
 
@@ -104,7 +104,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestMethod]
         void TryResolveArgs_Wiring() {
 
-            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, MatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
+            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
             var internalResolver = new DummyInternalResolver();
             ((DefaultResolver) instance).InternalResolver = internalResolver;
 
@@ -119,7 +119,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestMethod]
         void TryResolveArgsWithPath_Wiring() {
 
-            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, MatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
+            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
             var internalResolver = new DummyInternalResolver();
             ((DefaultResolver) instance).InternalResolver = internalResolver;
 
@@ -134,7 +134,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestMethod]
         void TryResolveString_Wiring() {
 
-            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, MatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
+            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
             var internalResolver = new DummyInternalResolver();
             ((DefaultResolver) instance).InternalResolver = internalResolver;
 
@@ -148,7 +148,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestMethod]
         void TryResolveName_Wiring() {
 
-            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, MatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
+            Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
             var internalResolver = new DummyInternalResolver();
             ((DefaultResolver) instance).InternalResolver = internalResolver;
 
@@ -157,7 +157,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             Test.If.Value.IsEqual(internalResolver.AssemblyName.FullName, Statics.TestAsm.FullName);
             Test.If.Value.IsEqual(internalResolver.SearchDir, Statics.EntryPath.Directory);
             Test.If.Value.IsEqual(internalResolver.SearchOption, SearchOption.TopDirectoryOnly);
-            Test.If.Value.IsEqual(internalResolver.MatchingStrategy, MatchingStrategies.SemVer);
+            Test.If.Value.IsEqual(internalResolver.MatchingStrategy, VersionMatchingStrategies.SemVer);
 
         }
 
@@ -168,9 +168,9 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             internal AssemblyName AssemblyName { get; private set; }
             internal DirectoryInfo SearchDir { get; private set; }
             internal SearchOption SearchOption { get; private set; }
-            internal MatchingStrategies MatchingStrategy { get; private set; }
+            internal VersionMatchingStrategies MatchingStrategy { get; private set; }
 
-            public IEnumerable<FileInfo> Resolve(AssemblyName assemblyName, DirectoryInfo searchDir, SearchOption searchOption, MatchingStrategies strategy) {
+            public IEnumerable<FileInfo> Resolve(AssemblyName assemblyName, DirectoryInfo searchDir, SearchOption searchOption, VersionMatchingStrategies strategy) {
                 AssemblyName = assemblyName;
                 SearchDir = searchDir;
                 SearchOption = searchOption;

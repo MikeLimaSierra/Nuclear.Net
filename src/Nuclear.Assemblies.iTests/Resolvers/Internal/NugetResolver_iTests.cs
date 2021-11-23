@@ -19,7 +19,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(TryResolveArgs_Data))]
         void TryResolveArgs(ResolveEventArgs input, Boolean expected, IEnumerable<FileInfo> files) {
 
-            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, MatchingStrategies.Strict, new DirectoryInfo[] { Statics.FakeNugetCache });
+            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict, new DirectoryInfo[] { Statics.FakeNugetCache });
             Boolean result = false;
             IEnumerable<INugetResolverData> _files = null;
 
@@ -42,7 +42,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(TryResolveString_Data))]
         void TryResolveString(String input, Boolean expected, IEnumerable<FileInfo> files) {
 
-            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, MatchingStrategies.Strict, new DirectoryInfo[] { Statics.FakeNugetCache });
+            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict, new DirectoryInfo[] { Statics.FakeNugetCache });
             Boolean result = false;
             IEnumerable<INugetResolverData> _files = null;
 
@@ -64,7 +64,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(TryResolveName_Data))]
         void TryResolveName(AssemblyName input, Boolean expected, IEnumerable<FileInfo> files) {
 
-            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, MatchingStrategies.Strict, new DirectoryInfo[] { Statics.FakeNugetCache });
+            Creation.Factory.Instance.NugetResolver().Create(out INugetResolver instance, VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict, new DirectoryInfo[] { Statics.FakeNugetCache });
             Boolean result = default;
             IEnumerable<INugetResolverData> _files = default;
 

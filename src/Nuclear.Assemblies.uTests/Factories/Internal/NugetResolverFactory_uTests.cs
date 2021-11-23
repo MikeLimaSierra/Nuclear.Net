@@ -13,40 +13,41 @@ namespace Nuclear.Assemblies.Factories.Internal {
         [TestMethod]
         void Implementation() {
 
-            Test.If.Type.Implements<NugetResolverFactory, INugetResolverFactory>();
+            Test.If.Type.IsSubClass<NugetResolverFactory, Factories.NugetResolverFactory>();
 
         }
 
         #region CreateResolver
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Strict)]
-        [TestParameters(MatchingStrategies.SemVer)]
-        void CreateResolver(MatchingStrategies input) {
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        void CreateResolver(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
             INugetResolver obj = default;
 
-            Test.IfNot.Action.ThrowsException(() => creator.Create(out obj, input), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => creator.Create(out obj, in1, in2), out Exception _);
 
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, in1);
+            Test.If.Value.IsEqual(obj.PackageMatchingStrategy, in2);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), NugetResolver.GetCaches().Select(_ => _.FullName));
 
         }
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Unknown, "Strategy must not be 'Unknown'")]
-        [TestParameters((MatchingStrategies) 42, "Given strategy is not defined '42'")]
-        void CreateResolver_Throws(MatchingStrategies input, String message) {
+        [TestParameters((VersionMatchingStrategies) 42, VersionMatchingStrategies.Strict, "assemblyMatchingStrategy", "Given strategy is not defined '42'")]
+        [TestParameters(VersionMatchingStrategies.Strict, (VersionMatchingStrategies) 21, "packageMatchingStrategy", "Given strategy is not defined '21'")]
+        void CreateResolver_Throws(VersionMatchingStrategies in1, VersionMatchingStrategies in2, String paramName, String message) {
 
             var creator = Factory.Instance.NugetResolver();
             INugetResolver obj = default;
 
-            Test.If.Action.ThrowsException(() => creator.Create(out obj, input), out ArgumentException ex);
+            Test.If.Action.ThrowsException(() => creator.Create(out obj, in1, in2), out ArgumentException ex);
 
             Test.If.Object.IsNull(obj);
-            Test.If.Value.IsEqual(ex.ParamName, "assemblyStrategy");
+            Test.If.Value.IsEqual(ex.ParamName, paramName);
             Test.If.String.Contains(ex.Message, message);
 
         }
@@ -56,33 +57,34 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region TryCreateResolver
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Strict)]
-        [TestParameters(MatchingStrategies.SemVer)]
-        void TryCreateResolver(MatchingStrategies input) {
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        void TryCreateResolver(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolver obj = default;
 
-            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, input), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, in1, in2), out Exception _);
 
             Test.If.Value.IsTrue(result);
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, in1);
+            Test.If.Value.IsEqual(obj.PackageMatchingStrategy, in2);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), NugetResolver.GetCaches().Select(_ => _.FullName));
 
         }
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Unknown)]
-        [TestParameters((MatchingStrategies) 42)]
-        void TryCreateResolver_DoesNotThrow(MatchingStrategies input) {
+        [TestParameters((VersionMatchingStrategies) 42, VersionMatchingStrategies.Strict)]
+        [TestParameters(VersionMatchingStrategies.Strict, (VersionMatchingStrategies) 21)]
+        void TryCreateResolver_DoesNotThrow(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolver obj = default;
 
-            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, input), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, in1, in2), out Exception _);
 
             Test.If.Value.IsFalse(result);
             Test.If.Object.IsNull(obj);
@@ -94,41 +96,42 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region TryCreateResolverWithExOut
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Strict)]
-        [TestParameters(MatchingStrategies.SemVer)]
-        void TryCreateResolverWithExOut(MatchingStrategies input) {
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        void TryCreateResolverWithExOut(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolver obj = default;
             Exception ex = default;
 
-            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, input, out ex), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, in1, in2, out ex), out Exception _);
 
             Test.If.Value.IsTrue(result);
             Test.If.Object.IsNull(ex);
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, in1);
+            Test.If.Value.IsEqual(obj.PackageMatchingStrategy, in2);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), NugetResolver.GetCaches().Select(_ => _.FullName));
 
         }
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Unknown, "Strategy must not be 'Unknown'")]
-        [TestParameters((MatchingStrategies) 42, "Given strategy is not defined '42'")]
-        void TryCreateResolverWithExOut_DoesNotThrow(MatchingStrategies input, String message) {
+        [TestParameters((VersionMatchingStrategies) 42, VersionMatchingStrategies.Strict, "assemblyMatchingStrategy", "Given strategy is not defined '42'")]
+        [TestParameters(VersionMatchingStrategies.Strict, (VersionMatchingStrategies) 21, "packageMatchingStrategy", "Given strategy is not defined '21'")]
+        void TryCreateResolverWithExOut_DoesNotThrow(VersionMatchingStrategies in1, VersionMatchingStrategies in2, String paramName, String message) {
 
             var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolver obj = default;
             Exception ex = default;
 
-            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, input, out ex), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, in1, in2, out ex), out Exception _);
 
             Test.If.Value.IsFalse(result);
             Test.IfNot.Object.IsNull(ex);
             Test.If.Object.IsOfExactType<ArgumentException>(ex);
-            Test.If.Value.IsEqual(((ArgumentException) ex).ParamName, "assemblyStrategy");
+            Test.If.Value.IsEqual(((ArgumentException) ex).ParamName, paramName);
             Test.If.String.Contains(ex.Message, message);
             Test.If.Object.IsNull(obj);
 
@@ -139,33 +142,34 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region CreateResolverWithCaches
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Strict)]
-        [TestParameters(MatchingStrategies.SemVer)]
-        void CreateResolverWithCaches(MatchingStrategies input) {
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        void CreateResolverWithCaches(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
             INugetResolver obj = default;
 
-            Test.IfNot.Action.ThrowsException(() => creator.Create(out obj, input, new DirectoryInfo[] { Statics.FakeNugetCache }), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => creator.Create(out obj, in1, in2, new DirectoryInfo[] { Statics.FakeNugetCache }), out Exception _);
 
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, in1);
+            Test.If.Value.IsEqual(obj.PackageMatchingStrategy, in2);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), new String[] { Statics.FakeNugetCache.FullName });
 
         }
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Unknown, "Strategy must not be 'Unknown'")]
-        [TestParameters((MatchingStrategies) 42, "Given strategy is not defined '42'")]
-        void CreateResolverWithCaches_Throws(MatchingStrategies input, String message) {
+        [TestParameters((VersionMatchingStrategies) 42, VersionMatchingStrategies.Strict, "assemblyMatchingStrategy", "Given strategy is not defined '42'")]
+        [TestParameters(VersionMatchingStrategies.Strict, (VersionMatchingStrategies) 21, "packageMatchingStrategy", "Given strategy is not defined '21'")]
+        void CreateResolverWithCaches_Throws(VersionMatchingStrategies in1, VersionMatchingStrategies in2, String paramName, String message) {
 
             var creator = Factory.Instance.NugetResolver();
             INugetResolver obj = default;
 
-            Test.If.Action.ThrowsException(() => creator.Create(out obj, input, new DirectoryInfo[] { Statics.FakeNugetCache }), out ArgumentException ex);
+            Test.If.Action.ThrowsException(() => creator.Create(out obj, in1, in2, new DirectoryInfo[] { Statics.FakeNugetCache }), out ArgumentException ex);
 
             Test.If.Object.IsNull(obj);
-            Test.If.Value.IsEqual(ex.ParamName, "assemblyStrategy");
+            Test.If.Value.IsEqual(ex.ParamName, paramName);
             Test.If.String.Contains(ex.Message, message);
 
         }
@@ -175,33 +179,34 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region TryCreateResolverWithCaches
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Strict)]
-        [TestParameters(MatchingStrategies.SemVer)]
-        void TryCreateResolverWithCaches(MatchingStrategies input) {
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        void TryCreateResolverWithCaches(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolver obj = default;
 
-            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, input, new DirectoryInfo[] { Statics.FakeNugetCache }), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, in1, in2, new DirectoryInfo[] { Statics.FakeNugetCache }), out Exception _);
 
             Test.If.Value.IsTrue(result);
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, in1);
+            Test.If.Value.IsEqual(obj.PackageMatchingStrategy, in2);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), new String[] { Statics.FakeNugetCache.FullName });
 
         }
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Unknown)]
-        [TestParameters((MatchingStrategies) 42)]
-        void TryCreateResolverWithCaches_DoesNotThrow(MatchingStrategies input) {
+        [TestParameters((VersionMatchingStrategies) 42, VersionMatchingStrategies.Strict)]
+        [TestParameters(VersionMatchingStrategies.Strict, (VersionMatchingStrategies) 21)]
+        void TryCreateResolverWithCaches_DoesNotThrow(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolver obj = default;
 
-            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, input, new DirectoryInfo[] { Statics.FakeNugetCache }), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, in1, in2, new DirectoryInfo[] { Statics.FakeNugetCache }), out Exception _);
 
             Test.If.Value.IsFalse(result);
             Test.If.Object.IsNull(obj);
@@ -213,41 +218,42 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region TryCreateResolverWithCachesWithExOut
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Strict)]
-        [TestParameters(MatchingStrategies.SemVer)]
-        void TryCreateResolverWithExOutWithCaches(MatchingStrategies input) {
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        void TryCreateResolverWithExOutWithCaches(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolver obj = default;
             Exception ex = default;
 
-            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, input, new DirectoryInfo[] { Statics.FakeNugetCache }, out ex), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, in1, in2, new DirectoryInfo[] { Statics.FakeNugetCache }, out ex), out Exception _);
 
             Test.If.Value.IsTrue(result);
             Test.If.Object.IsNull(ex);
             Test.IfNot.Object.IsNull(obj);
-            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, input);
+            Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, in1);
+            Test.If.Value.IsEqual(obj.PackageMatchingStrategy, in2);
             Test.If.Enumerable.Matches(obj.NugetCaches.Select(_ => _.FullName), new String[] { Statics.FakeNugetCache.FullName });
 
         }
 
         [TestMethod]
-        [TestParameters(MatchingStrategies.Unknown, "Strategy must not be 'Unknown'")]
-        [TestParameters((MatchingStrategies) 42, "Given strategy is not defined '42'")]
-        void TryCreateResolverWithExOutWithCaches_DoesNotThrow(MatchingStrategies input, String message) {
+        [TestParameters((VersionMatchingStrategies) 42, VersionMatchingStrategies.Strict, "assemblyMatchingStrategy", "Given strategy is not defined '42'")]
+        [TestParameters(VersionMatchingStrategies.Strict, (VersionMatchingStrategies) 21, "packageMatchingStrategy", "Given strategy is not defined '21'")]
+        void TryCreateResolverWithExOutWithCaches_DoesNotThrow(VersionMatchingStrategies in1, VersionMatchingStrategies in2, String paramName, String message) {
 
             var creator = Factory.Instance.NugetResolver();
             Boolean result = default;
             INugetResolver obj = default;
             Exception ex = default;
 
-            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, input, new DirectoryInfo[] { Statics.FakeNugetCache }, out ex), out Exception _);
+            Test.IfNot.Action.ThrowsException(() => result = creator.TryCreate(out obj, in1, in2, new DirectoryInfo[] { Statics.FakeNugetCache }, out ex), out Exception _);
 
             Test.If.Value.IsFalse(result);
             Test.IfNot.Object.IsNull(ex);
             Test.If.Object.IsOfExactType<ArgumentException>(ex);
-            Test.If.Value.IsEqual(((ArgumentException) ex).ParamName, "assemblyStrategy");
+            Test.If.Value.IsEqual(((ArgumentException) ex).ParamName, paramName);
             Test.If.String.Contains(ex.Message, message);
             Test.If.Object.IsNull(obj);
 

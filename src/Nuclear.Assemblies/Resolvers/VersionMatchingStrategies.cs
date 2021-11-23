@@ -3,21 +3,16 @@
     /// <summary>
     /// Defines a range of version matching strategies to resolve assemblies.
     /// </summary>
-    public enum MatchingStrategies {
-
-        /// <summary>
-        /// Invalid value.
-        /// </summary>
-        Unknown = 0,
+    public enum VersionMatchingStrategies {
 
         /// <summary>
         /// Versions must match exactly.
         /// </summary>
-        Strict = 1,
+        Strict = 0,
 
         /// <summary>
         /// Version matching is done according to semver.
         /// </summary>
-        SemVer = 2,
+        SemVer = 1,
     }
 }

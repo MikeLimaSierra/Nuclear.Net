@@ -7,7 +7,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         #region methods
 
-        IEnumerable<FileInfo> Resolve(AssemblyName assemblyName, DirectoryInfo searchDir, SearchOption searchOption, MatchingStrategies strategy);
+        IEnumerable<FileInfo> Resolve(AssemblyName assemblyName, DirectoryInfo searchDir, SearchOption searchOption, VersionMatchingStrategies strategy);
 
         #endregion
 

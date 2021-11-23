@@ -10,7 +10,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         #region methods
 
-        public IEnumerable<FileInfo> Resolve(AssemblyName assemblyName, DirectoryInfo searchDir, SearchOption searchOption, MatchingStrategies strategy) {
+        public IEnumerable<FileInfo> Resolve(AssemblyName assemblyName, DirectoryInfo searchDir, SearchOption searchOption, VersionMatchingStrategies strategy) {
             List<FileInfo> files = new List<FileInfo>();
 
             if(assemblyName != null && searchDir != null) {

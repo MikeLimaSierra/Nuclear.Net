@@ -30,7 +30,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         #region ctors
 
-        internal DefaultResolver(MatchingStrategies strategy, SearchOption searchOption) : base(strategy) {
+        internal DefaultResolver(VersionMatchingStrategies assemblyMatchingStrategy, SearchOption searchOption) : base(assemblyMatchingStrategy) {
             Throw.IfNot.Enum.IsDefined<SearchOption>(searchOption, nameof(searchOption), $"Given search option is not defined {searchOption.Format()}");
 
             SearchOption = searchOption;

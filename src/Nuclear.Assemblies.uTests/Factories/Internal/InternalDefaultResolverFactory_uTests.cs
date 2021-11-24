@@ -7,7 +7,7 @@ using Nuclear.Creation;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Factories.Internal {
-    class DefaultResolverFactory_uTests {
+    class InternalDefaultResolverFactory_uTests {
 
         [TestMethod]
         void Implementation() {

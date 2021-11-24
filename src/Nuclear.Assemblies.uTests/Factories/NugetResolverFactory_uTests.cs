@@ -7,7 +7,7 @@ using Nuclear.Creation;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Resolvers {
-    class INugetResolverFactory_uTests {
+    class NugetResolverFactory_uTests {
 
         [TestMethod]
         void Implementation() {

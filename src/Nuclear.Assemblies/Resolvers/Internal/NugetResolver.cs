@@ -30,6 +30,8 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         public IEnumerable<DirectoryInfo> NugetCaches { get; }
 
+        internal ICoreNugetResolver CoreResolver { get; set; } = new CoreNugetResolver();
+
         #endregion
 
         #region ctors
@@ -128,8 +130,8 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                         _factory.Create(out INugetResolverData data, _);
                         return data;
                     })
-                    .Where(d => AssemblyHelper.ValidateByName(asmName, d.Name))
-                    .Where(d => AssemblyHelper.ValidateArchitecture(d.Name))
+                    .Where(d => AssemblyHelper.ValidateByName(asmName, d.AssemblyName))
+                    .Where(d => AssemblyHelper.ValidateArchitecture(d.AssemblyName))
                     .Where(d => validRuntimes.Contains(d.PackageTargetFramework))
                     .OrderByDescending(d => d.PackageVersion)
                     .ThenByDescending(d => d.PackageTargetFramework, new RuntimeInfoFeatureComparer()));

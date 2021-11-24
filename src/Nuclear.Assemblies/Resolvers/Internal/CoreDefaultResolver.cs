@@ -8,7 +8,7 @@ using Nuclear.Assemblies.ResolverData;
 using Nuclear.Creation;
 
 namespace Nuclear.Assemblies.Resolvers.Internal {
-    internal class InternalDefaultResolver : IInternalDefaultResolver {
+    internal class CoreDefaultResolver : ICoreDefaultResolver {
 
         #region fields
 

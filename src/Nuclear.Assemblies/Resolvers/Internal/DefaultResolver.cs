@@ -16,7 +16,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         public SearchOption SearchOption { get; }
 
-        internal IInternalDefaultResolver InternalResolver { get; set; } = new InternalDefaultResolver();
+        internal ICoreDefaultResolver CoreResolver { get; set; } = new CoreDefaultResolver();
 
         #endregion
 
@@ -37,9 +37,9 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
             if(AssemblyHelper.TryGetAssemblyName(e, out AssemblyName assemblyName)) {
                 if(e.RequestingAssembly == null) {
-                    data = InternalResolver.Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, AssemblyMatchingStrategy);
+                    data = CoreResolver.Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, AssemblyMatchingStrategy);
                 } else {
-                    data = InternalResolver.Resolve(assemblyName, new FileInfo(e.RequestingAssembly.Location).Directory, SearchOption, AssemblyMatchingStrategy);
+                    data = CoreResolver.Resolve(assemblyName, new FileInfo(e.RequestingAssembly.Location).Directory, SearchOption, AssemblyMatchingStrategy);
                 }
             }
 
@@ -56,7 +56,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             data = Enumerable.Empty<IDefaultResolverData>();
 
             if(assemblyName != null) {
-                data = InternalResolver.Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, AssemblyMatchingStrategy);
+                data = CoreResolver.Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, AssemblyMatchingStrategy);
             }
 
             return data != null && data.Count() > 0;

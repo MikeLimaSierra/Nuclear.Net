@@ -5,7 +5,7 @@ using System.Reflection;
 using Nuclear.Assemblies.ResolverData;
 
 namespace Nuclear.Assemblies.Resolvers.Internal {
-    internal interface IInternalDefaultResolver {
+    internal interface ICoreDefaultResolver {
 
         #region methods
 

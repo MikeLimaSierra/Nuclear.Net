@@ -6,7 +6,7 @@ using Nuclear.Creation;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Resolvers {
-    class IDefaultResolverFactory_uTests {
+    class DefaultResolverFactory_uTests {
 
         [TestMethod]
         void Implementation() {

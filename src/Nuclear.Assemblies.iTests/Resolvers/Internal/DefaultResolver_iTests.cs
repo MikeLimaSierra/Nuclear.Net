@@ -105,8 +105,8 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         void TryResolveArgs_Wiring() {
 
             Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
-            var internalResolver = new DummyInternalResolver();
-            ((DefaultResolver) instance).InternalResolver = internalResolver;
+            var internalResolver = new DummyCoreResolver();
+            ((DefaultResolver) instance).CoreResolver = internalResolver;
 
             Test.IfNot.Action.ThrowsException(() => instance.TryResolve(new ResolveEventArgs(Statics.TestAsm.FullName, null), out _), out Exception ex);
 
@@ -120,8 +120,8 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         void TryResolveArgsWithPath_Wiring() {
 
             Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
-            var internalResolver = new DummyInternalResolver();
-            ((DefaultResolver) instance).InternalResolver = internalResolver;
+            var internalResolver = new DummyCoreResolver();
+            ((DefaultResolver) instance).CoreResolver = internalResolver;
 
             Test.IfNot.Action.ThrowsException(() => instance.TryResolve(new ResolveEventArgs(Statics.TestAsm.FullName, Statics.TestAsm), out _), out Exception ex);
 
@@ -135,8 +135,8 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         void TryResolveString_Wiring() {
 
             Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
-            var internalResolver = new DummyInternalResolver();
-            ((DefaultResolver) instance).InternalResolver = internalResolver;
+            var internalResolver = new DummyCoreResolver();
+            ((DefaultResolver) instance).CoreResolver = internalResolver;
 
             Test.IfNot.Action.ThrowsException(() => instance.TryResolve(Statics.TestAsm.FullName, out _), out Exception ex);
 
@@ -149,8 +149,8 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         void TryResolveName_Wiring() {
 
             Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
-            var internalResolver = new DummyInternalResolver();
-            ((DefaultResolver) instance).InternalResolver = internalResolver;
+            var internalResolver = new DummyCoreResolver();
+            ((DefaultResolver) instance).CoreResolver = internalResolver;
 
             Test.IfNot.Action.ThrowsException(() => instance.TryResolve(Statics.TestAsm.GetName(), out _), out Exception ex);
 
@@ -163,7 +163,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         #endregion
 
-        private class DummyInternalResolver : IInternalDefaultResolver {
+        private class DummyCoreResolver : ICoreDefaultResolver {
 
             internal AssemblyName AssemblyName { get; private set; }
             internal DirectoryInfo SearchDir { get; private set; }

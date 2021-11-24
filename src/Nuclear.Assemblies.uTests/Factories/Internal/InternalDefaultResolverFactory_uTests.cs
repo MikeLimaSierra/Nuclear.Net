@@ -31,7 +31,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.IfNot.Object.IsNull(obj);
             Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, in1);
             Test.If.Value.IsEqual(obj.SearchOption, in2);
-            Test.If.Object.IsOfExactType<InternalDefaultResolver>(((DefaultResolver) obj).InternalResolver);
+            Test.If.Object.IsOfExactType<CoreDefaultResolver>(((DefaultResolver) obj).CoreResolver);
 
         }
 
@@ -70,7 +70,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.IfNot.Object.IsNull(obj);
             Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, in1);
             Test.If.Value.IsEqual(obj.SearchOption, in2);
-            Test.If.Object.IsOfExactType<InternalDefaultResolver>(((DefaultResolver) obj).InternalResolver);
+            Test.If.Object.IsOfExactType<CoreDefaultResolver>(((DefaultResolver) obj).CoreResolver);
 
         }
 
@@ -111,7 +111,7 @@ namespace Nuclear.Assemblies.Factories.Internal {
             Test.IfNot.Object.IsNull(obj);
             Test.If.Value.IsEqual(obj.AssemblyMatchingStrategy, in1);
             Test.If.Value.IsEqual(obj.SearchOption, in2);
-            Test.If.Object.IsOfExactType<InternalDefaultResolver>(((DefaultResolver) obj).InternalResolver);
+            Test.If.Object.IsOfExactType<CoreDefaultResolver>(((DefaultResolver) obj).CoreResolver);
 
         }
 

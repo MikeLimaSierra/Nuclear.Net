@@ -8,7 +8,7 @@ using Nuclear.Assemblies.ResolverData;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Resolvers.Internal {
-    class InternalDefaultResolver_iTests {
+    class CoreDefaultResolver_iTests {
 
         private static readonly FileInfo _nonExistentAssembly = new FileInfo(@"C:\NonExistent.dll");
 
@@ -20,7 +20,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
             IEnumerable<IDefaultResolverData> files = null;
 
-            Test.IfNot.Action.ThrowsException(() => files = new InternalDefaultResolver().Resolve(input1, input2, SearchOption.AllDirectories, VersionMatchingStrategies.Strict), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => files = new CoreDefaultResolver().Resolve(input1, input2, SearchOption.AllDirectories, VersionMatchingStrategies.Strict), out Exception ex);
 
             Test.If.Enumerable.Matches(files.Select(_ => _.File), expected, Statics.FileInfoComparer);
 
@@ -43,7 +43,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
             IEnumerable<IDefaultResolverData> files = null;
 
-            Test.IfNot.Action.ThrowsException(() => files = new InternalDefaultResolver().Resolve(input1, input2, input3, input4), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => files = new CoreDefaultResolver().Resolve(input1, input2, input3, input4), out Exception ex);
 
             Test.If.Enumerable.ContainsRange(files.Select(_ => _.File), expected.contained, Statics.FileInfoComparer);
             Test.IfNot.Enumerable.ContainsRange(files.Select(_ => _.File), expected.notcontained, Statics.FileInfoComparer);

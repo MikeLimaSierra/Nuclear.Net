@@ -6,7 +6,7 @@ using Nuclear.Creation;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Factories.Internal {
-    class DefaultResolverFactory_iTests {
+    class InternalDefaultResolverFactory_iTests {
 
         private static readonly FileInfo _nonExistentAssembly = new FileInfo(@"C:\NonExistent.dll");
 

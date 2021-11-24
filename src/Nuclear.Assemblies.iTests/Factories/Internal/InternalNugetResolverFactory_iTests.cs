@@ -7,7 +7,7 @@ using Nuclear.Creation;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Factories.Internal {
-    class NugetResolverFactory_iTests {
+    class InternalNugetResolverFactory_iTests {
 
         private static readonly FileInfo _nonExistentAssembly = new FileInfo(@"C:\NonExistentFile.txt");
 

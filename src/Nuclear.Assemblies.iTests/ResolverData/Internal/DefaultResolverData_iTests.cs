@@ -32,7 +32,7 @@ namespace Nuclear.Assemblies.ResolverData.Internal {
 
             Test.IfNot.Action.ThrowsException(() => data = new DefaultResolverData(input), out Exception ex);
 
-            Test.IfNot.Object.IsNull(data.Name);
+            Test.IfNot.Object.IsNull(data.AssemblyName);
             Test.If.Value.IsEqual(data.IsValid, expected);
 
         }

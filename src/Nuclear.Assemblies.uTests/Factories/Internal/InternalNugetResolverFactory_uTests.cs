@@ -8,7 +8,7 @@ using Nuclear.Creation;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Factories.Internal {
-    class NugetResolverFactory_uTests {
+    class InternalNugetResolverFactory_uTests {
 
         [TestMethod]
         void Implementation() {
@@ -20,8 +20,8 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region CreateResolver
 
         [TestMethod]
-        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
-        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict)]
         void CreateResolver(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
@@ -57,8 +57,8 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region TryCreateResolver
 
         [TestMethod]
-        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
-        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict)]
         void TryCreateResolver(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
@@ -96,8 +96,8 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region TryCreateResolverWithExOut
 
         [TestMethod]
-        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
-        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict)]
         void TryCreateResolverWithExOut(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
@@ -142,8 +142,8 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region CreateResolverWithCaches
 
         [TestMethod]
-        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
-        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict)]
         void CreateResolverWithCaches(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
@@ -179,8 +179,8 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region TryCreateResolverWithCaches
 
         [TestMethod]
-        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
-        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict)]
         void TryCreateResolverWithCaches(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();
@@ -218,8 +218,8 @@ namespace Nuclear.Assemblies.Factories.Internal {
         #region TryCreateResolverWithCachesWithExOut
 
         [TestMethod]
-        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict)]
-        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer)]
+        [TestParameters(VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict)]
         void TryCreateResolverWithExOutWithCaches(VersionMatchingStrategies in1, VersionMatchingStrategies in2) {
 
             var creator = Factory.Instance.NugetResolver();

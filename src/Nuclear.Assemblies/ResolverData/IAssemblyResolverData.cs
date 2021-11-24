@@ -19,9 +19,9 @@ namespace Nuclear.Assemblies.ResolverData {
         FileInfo File { get; }
 
         /// <summary>
-        /// Gets the <see cref="AssemblyName"/> of the assembly.
+        /// Gets the <see cref="System.Reflection.AssemblyName"/> of the assembly.
         /// </summary>
-        AssemblyName Name { get; }
+        AssemblyName AssemblyName { get; }
 
         /// <summary>
         /// Gets if the given <see cref="FileInfo"/> is valid.

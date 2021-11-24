@@ -85,7 +85,7 @@ namespace Nuclear.Assemblies.ResolverData.Internal {
         private Boolean TryGetName(DirectoryInfo versionDir) {
             PackageName = versionDir?.Parent?.Name;
 
-            return PackageName == Name.Name;
+            return PackageName == AssemblyName.Name;
         }
 
         #endregion

@@ -13,7 +13,7 @@ namespace Nuclear.Assemblies.ResolverData.Internal {
 
         public FileInfo File { get; }
 
-        public AssemblyName Name { get; private set; }
+        public AssemblyName AssemblyName { get; private set; }
 
         public Boolean IsValid { get; }
 
@@ -26,7 +26,7 @@ namespace Nuclear.Assemblies.ResolverData.Internal {
             Throw.If.Value.IsFalse(AssemblyHelper.TryGetAssemblyName(file, out AssemblyName name), nameof(file), $"Could not resolve the AssemblyName of file {file.Format()}.");
 
             File = file;
-            Name = name;
+            AssemblyName = name;
 
             IsValid = Init();
         }

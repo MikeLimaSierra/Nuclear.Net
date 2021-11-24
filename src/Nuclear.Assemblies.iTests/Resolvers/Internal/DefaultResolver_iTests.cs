@@ -170,13 +170,13 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             internal SearchOption SearchOption { get; private set; }
             internal VersionMatchingStrategies MatchingStrategy { get; private set; }
 
-            public IEnumerable<FileInfo> Resolve(AssemblyName assemblyName, DirectoryInfo searchDir, SearchOption searchOption, VersionMatchingStrategies strategy) {
+            public IEnumerable<IDefaultResolverData> Resolve(AssemblyName assemblyName, DirectoryInfo searchDir, SearchOption searchOption, VersionMatchingStrategies strategy) {
                 AssemblyName = assemblyName;
                 SearchDir = searchDir;
                 SearchOption = searchOption;
                 MatchingStrategy = strategy;
 
-                return Enumerable.Empty<FileInfo>();
+                return Enumerable.Empty<IDefaultResolverData>();
             }
 
         }

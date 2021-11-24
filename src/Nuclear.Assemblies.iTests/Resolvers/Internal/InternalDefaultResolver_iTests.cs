@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+using Nuclear.Assemblies.ResolverData;
 using Nuclear.TestSite;
 
 namespace Nuclear.Assemblies.Resolvers.Internal {
@@ -17,11 +18,11 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(Resolve_Data))]
         void Resolve(AssemblyName input1, DirectoryInfo input2, IEnumerable<FileInfo> expected) {
 
-            IEnumerable<FileInfo> files = null;
+            IEnumerable<IDefaultResolverData> files = null;
 
             Test.IfNot.Action.ThrowsException(() => files = new InternalDefaultResolver().Resolve(input1, input2, SearchOption.AllDirectories, VersionMatchingStrategies.Strict), out Exception ex);
 
-            Test.If.Enumerable.Matches(files, expected, Statics.FileInfoComparer);
+            Test.If.Enumerable.Matches(files.Select(_ => _.File), expected, Statics.FileInfoComparer);
 
         }
 
@@ -40,14 +41,12 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(ResolveByStrategies_3_1_1_Data))]
         void ResolveByStrategies(AssemblyName input1, DirectoryInfo input2, SearchOption input3, VersionMatchingStrategies input4, (IEnumerable<FileInfo> contained, IEnumerable<FileInfo> notcontained) expected) {
 
-            IEnumerable<FileInfo> files = null;
+            IEnumerable<IDefaultResolverData> files = null;
 
             Test.IfNot.Action.ThrowsException(() => files = new InternalDefaultResolver().Resolve(input1, input2, input3, input4), out Exception ex);
 
-            Test.If.Enumerable.ContainsRange(files, expected.contained, Statics.FileInfoComparer);
-            Test.If.Enumerable.ContainsRange(files.Select(_ => _.FullName), expected.contained.Select(_ => _.FullName));
-            Test.IfNot.Enumerable.ContainsRange(files, expected.notcontained, Statics.FileInfoComparer);
-            Test.IfNot.Enumerable.ContainsRange(files.Select(_ => _.FullName), expected.notcontained.Select(_ => _.FullName));
+            Test.If.Enumerable.ContainsRange(files.Select(_ => _.File), expected.contained, Statics.FileInfoComparer);
+            Test.IfNot.Enumerable.ContainsRange(files.Select(_ => _.File), expected.notcontained, Statics.FileInfoComparer);
 
         }
 

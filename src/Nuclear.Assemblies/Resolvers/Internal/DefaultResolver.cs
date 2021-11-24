@@ -4,21 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Nuclear.Assemblies.Factories;
 using Nuclear.Assemblies.ResolverData;
-using Nuclear.Creation;
 using Nuclear.Exceptions;
 using Nuclear.Extensions;
 
 namespace Nuclear.Assemblies.Resolvers.Internal {
 
     internal class DefaultResolver : AssemblyResolver<IDefaultResolverData>, IDefaultResolver {
-
-        #region fields
-
-        private static readonly ICreator<IDefaultResolverData, FileInfo> _factory = Factory.Instance.DefaultResolver();
-
-        #endregion
 
         #region properties
 
@@ -45,13 +37,9 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
             if(AssemblyHelper.TryGetAssemblyName(e, out AssemblyName assemblyName)) {
                 if(e.RequestingAssembly == null) {
-                    data = InternalResolver
-                        .Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, AssemblyMatchingStrategy)
-                        .Select(_ => { _factory.Create(out IDefaultResolverData data, _); return data; });
+                    data = InternalResolver.Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, AssemblyMatchingStrategy);
                 } else {
-                    data = InternalResolver
-                        .Resolve(assemblyName, new FileInfo(e.RequestingAssembly.Location).Directory, SearchOption, AssemblyMatchingStrategy)
-                        .Select(_ => { _factory.Create(out IDefaultResolverData data, _); return data; });
+                    data = InternalResolver.Resolve(assemblyName, new FileInfo(e.RequestingAssembly.Location).Directory, SearchOption, AssemblyMatchingStrategy);
                 }
             }
 
@@ -68,9 +56,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             data = Enumerable.Empty<IDefaultResolverData>();
 
             if(assemblyName != null) {
-                data = InternalResolver
-                    .Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, AssemblyMatchingStrategy)
-                    .Select(_ => { _factory.Create(out IDefaultResolverData data, _); return data; });
+                data = InternalResolver.Resolve(assemblyName, new FileInfo(Assembly.GetEntryAssembly().Location).Directory, SearchOption, AssemblyMatchingStrategy);
             }
 
             return data != null && data.Count() > 0;

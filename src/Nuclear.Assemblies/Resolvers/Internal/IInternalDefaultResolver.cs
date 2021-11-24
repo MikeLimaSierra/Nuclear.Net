@@ -2,12 +2,14 @@
 using System.IO;
 using System.Reflection;
 
+using Nuclear.Assemblies.ResolverData;
+
 namespace Nuclear.Assemblies.Resolvers.Internal {
     internal interface IInternalDefaultResolver {
 
         #region methods
 
-        IEnumerable<FileInfo> Resolve(AssemblyName assemblyName, DirectoryInfo searchDir, SearchOption searchOption, VersionMatchingStrategies strategy);
+        IEnumerable<IDefaultResolverData> Resolve(AssemblyName assemblyName, DirectoryInfo searchDir, SearchOption searchOption, VersionMatchingStrategies assemblyMatchingStrategy);
 
         #endregion
 

@@ -39,7 +39,8 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             IEnumerable<RuntimeInfo> validRuntimes,
             VersionMatchingStrategies assemblyMatchingStrategy,
             VersionMatchingStrategies packageMatchingStrategy) {
-            List<INugetResolverData> datas = new List<INugetResolverData>();
+
+            List<INugetResolverData> files = new List<INugetResolverData>();
 
             if(TryGetPackage(assemblyName.Name, cacheDir, out DirectoryInfo packageDir)) {
 
@@ -48,16 +49,16 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     if(_factory.TryCreate(out INugetResolverData data, file)
                         && assemblyName.Name == data.AssemblyName.Name
                         && assemblyName.Version.Matches(data.AssemblyName.Version, assemblyMatchingStrategy)
-                        //&& assemblyName.Version.Matches((Version) data.PackageVersion, packageMatchingStrategy)
+                        && assemblyName.Version.Matches((Version) data.PackageVersion, packageMatchingStrategy)
                         && AssemblyHelper.ValidateArchitecture(data.AssemblyName)
                         && validRuntimes.Contains(data.PackageTargetFramework)) {
 
-                        datas.Add(data);
+                        files.Add(data);
                     }
                 }
             }
 
-            return datas
+            return files
                 .OrderByDescending(d => d.PackageVersion)
                 .ThenByDescending(d => d.PackageTargetFramework, new RuntimeInfoFeatureComparer());
         }

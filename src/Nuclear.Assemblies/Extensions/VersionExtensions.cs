@@ -7,7 +7,7 @@ namespace Nuclear.Assemblies.Extensions {
 
         internal static Boolean Matches(this Version requested, Version found, VersionMatchingStrategies strategy)
             => strategy switch {
-                VersionMatchingStrategies.Strict => requested.Equals(found),
+                VersionMatchingStrategies.Strict => requested.Major == found.Major && requested.Minor == found.Minor && requested.Build == found.Build,
                 VersionMatchingStrategies.SemVer => requested.Major == found.Major && requested.Minor <= found.Minor,
                 _ => false,
             };

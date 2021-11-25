@@ -23,6 +23,14 @@ namespace Nuclear.Assemblies.Extensions {
 
         IEnumerable<Object[]> VersionsMatch_Data() {
             return new List<Object[]>() {
+                new Object[] { VersionMatchingStrategies.Strict, new Version(1, 2, 3, 4), new Version(1, 2, 3, 4), true },
+                new Object[] { VersionMatchingStrategies.Strict, new Version(1, 2, 3), new Version(1, 2, 3, 4), true },
+                new Object[] { VersionMatchingStrategies.Strict, new Version(1, 2, 3, 4), new Version(1, 2, 3), true },
+
+                new Object[] { VersionMatchingStrategies.SemVer, new Version(1, 2, 3, 4), new Version(1, 2, 3, 4), true },
+                new Object[] { VersionMatchingStrategies.SemVer, new Version(1, 2, 3), new Version(1, 2, 3, 4), true },
+                new Object[] { VersionMatchingStrategies.SemVer, new Version(1, 2, 3, 4), new Version(1, 2, 3), true },
+
                 new Object[] { (VersionMatchingStrategies) 42, new Version(1, 2, 2), new Version(2, 2, 2), false },
                 new Object[] { (VersionMatchingStrategies) 42, new Version(2, 1, 2), new Version(2, 2, 2), false },
                 new Object[] { (VersionMatchingStrategies) 42, new Version(2, 2, 1), new Version(2, 2, 2), false },

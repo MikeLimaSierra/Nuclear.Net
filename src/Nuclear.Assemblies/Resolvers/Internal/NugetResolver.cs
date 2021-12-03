@@ -65,7 +65,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             data = Enumerable.Empty<INugetResolverData>();
 
             if(assemblyName != null && RuntimesHelper.TryGetCurrentRuntime(out RuntimeInfo current)) {
-                data = GetAssemblyCandidates(assemblyName, NugetCaches, current);
+                data = CoreResolver.Resolve(assemblyName, NugetCaches, current, AssemblyMatchingStrategy, PackageMatchingStrategy);
             }
 
             return data != null && data.Count() > 0;
@@ -100,59 +100,6 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             }
 
             return caches;
-        }
-
-        internal static IEnumerable<INugetResolverData> GetAssemblyCandidates(AssemblyName assemblyName, IEnumerable<DirectoryInfo> cacheDirs, RuntimeInfo current) {
-            Throw.If.Object.IsNull(assemblyName, nameof(assemblyName));
-            Throw.If.Object.IsNull(cacheDirs, nameof(cacheDirs));
-            Throw.If.Object.IsNull(current, nameof(current));
-
-            List<INugetResolverData> candidates = new List<INugetResolverData>();
-
-            if(RuntimesHelper.TryGetLoadableRuntimes(current, out IEnumerable<RuntimeInfo> validRuntimes)) {
-                cacheDirs.Foreach(cache => candidates.AddRange(GetAssemblyCandidatesFromCache(assemblyName, cache, validRuntimes)));
-            }
-
-            return candidates;
-        }
-
-        internal static IEnumerable<INugetResolverData> GetAssemblyCandidatesFromCache(AssemblyName asmName, DirectoryInfo cacheDir, IEnumerable<RuntimeInfo> validRuntimes) {
-            Throw.If.Object.IsNull(asmName, nameof(asmName));
-            Throw.If.Object.IsNull(cacheDir, nameof(cacheDir));
-            Throw.If.Object.IsNull(validRuntimes, nameof(validRuntimes));
-
-            List<INugetResolverData> candidates = new List<INugetResolverData>();
-
-            if(TryGetPackage(asmName.Name, cacheDir, out DirectoryInfo packageDir)) {
-                candidates.AddRange(packageDir
-                    .EnumerateFiles($"{asmName.Name}.dll", SearchOption.AllDirectories)
-                    .Select(_ => {
-                        _factory.Create(out INugetResolverData data, _);
-                        return data;
-                    })
-                    .Where(d => AssemblyHelper.ValidateByName(asmName, d.AssemblyName))
-                    .Where(d => AssemblyHelper.ValidateArchitecture(d.AssemblyName))
-                    .Where(d => validRuntimes.Contains(d.PackageTargetFramework))
-                    .OrderByDescending(d => d.PackageVersion)
-                    .ThenByDescending(d => d.PackageTargetFramework, new RuntimeInfoFeatureComparer()));
-            }
-
-            return candidates;
-        }
-
-        internal static Boolean TryGetPackage(String name, DirectoryInfo cache, out DirectoryInfo packageDir) {
-            Throw.If.String.IsNullOrWhiteSpace(name, nameof(name));
-            Throw.If.Object.IsNull(cache, nameof(cache));
-            Throw.If.Value.IsFalse(cache.Exists, nameof(cache), $"{cache.FullName.Format()} doesn't exist!");
-
-            packageDir = null;
-
-            try {
-                packageDir = cache.EnumerateDirectories(name, SearchOption.TopDirectoryOnly).FirstOrDefault();
-
-            } catch { /* Don't worry about exceptions here! */ }
-
-            return packageDir != null && packageDir.Exists;
         }
 
         #endregion

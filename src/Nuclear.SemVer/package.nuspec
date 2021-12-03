@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Nuclear.SemVer</id>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <title>Nuclear.Creation</title>
     <description>Features semantic versioning arithmetic and parsing mechanisms for version strings.</description>
     <authors>MikeLimaSierra</authors>
@@ -15,11 +15,11 @@
     <language>en-US</language>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Nuclear.Creation" version="1.2.1" exclude="Build,Analyzers" />
+        <dependency id="Nuclear.Creation" version="1.3.0" exclude="Build,Analyzers" />
         <dependency id="Nuclear.Extensions" version="2.0.4" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="Nuclear.Creation" version="1.2.1" exclude="Build,Analyzers" />
+        <dependency id="Nuclear.Creation" version="1.3.0" exclude="Build,Analyzers" />
         <dependency id="Nuclear.Extensions" version="2.0.4" exclude="Build,Analyzers" />
       </group>
     </dependencies>

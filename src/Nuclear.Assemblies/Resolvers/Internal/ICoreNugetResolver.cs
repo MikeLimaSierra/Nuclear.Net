@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 
+using Nuclear.Assemblies.ResolverData;
 using Nuclear.Assemblies.Runtimes;
 
 namespace Nuclear.Assemblies.Resolvers.Internal {
@@ -9,7 +10,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         #region methods
 
-        IEnumerable<FileInfo> Resolve(
+        IEnumerable<INugetResolverData> Resolve(
             AssemblyName assemblyName,
             IEnumerable<DirectoryInfo> cacheDirs,
             RuntimeInfo current,

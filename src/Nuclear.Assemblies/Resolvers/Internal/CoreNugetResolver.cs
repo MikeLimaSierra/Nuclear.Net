@@ -22,16 +22,22 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
         #region methods
 
-        public IEnumerable<FileInfo> Resolve(
+        public IEnumerable<INugetResolverData> Resolve(
             AssemblyName assemblyName,
             IEnumerable<DirectoryInfo> cacheDirs,
             RuntimeInfo current,
             VersionMatchingStrategies assemblyMatchingStrategy,
             VersionMatchingStrategies packageMatchingStrategy) {
 
-            List<FileInfo> files = new List<FileInfo>();
+            List<INugetResolverData> files = new List<INugetResolverData>();
 
-            return files;
+            if(RuntimesHelper.TryGetLoadableRuntimes(current, out IEnumerable<RuntimeInfo> validRuntimes)) {
+                cacheDirs.Foreach(cache => files.AddRange(GetAssemblyCandidatesFromCache(assemblyName, cache, validRuntimes, assemblyMatchingStrategy, packageMatchingStrategy)));
+            }
+
+            return files
+                .OrderByDescending(d => d.PackageVersion)
+                .ThenByDescending(d => d.PackageTargetFramework, new RuntimeInfoFeatureComparer());
         }
 
         internal static IEnumerable<INugetResolverData> GetAssemblyCandidatesFromCache(

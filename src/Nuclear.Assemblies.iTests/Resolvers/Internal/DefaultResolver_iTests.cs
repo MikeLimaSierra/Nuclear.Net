@@ -107,12 +107,15 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
             var internalResolver = new DummyCoreResolver();
             ((DefaultResolver) instance).CoreResolver = internalResolver;
+            IEnumerable<IDefaultResolverData> data = default;
 
-            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(new ResolveEventArgs(Statics.TestAsm.FullName, null), out _), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(new ResolveEventArgs(Statics.TestAsm.FullName, null), out data), out Exception ex);
 
             Test.If.Value.IsEqual(internalResolver.AssemblyName.FullName, Statics.TestAsm.FullName);
             Test.If.Value.IsEqual(internalResolver.SearchDir, Statics.EntryPath.Directory);
             Test.If.Value.IsEqual(internalResolver.SearchOption, SearchOption.TopDirectoryOnly);
+            Test.IfNot.Object.IsNull(data);
+            Test.If.Enumerable.MatchesExactly(data, new IDefaultResolverData[] { null });
 
         }
 
@@ -122,12 +125,15 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
             var internalResolver = new DummyCoreResolver();
             ((DefaultResolver) instance).CoreResolver = internalResolver;
+            IEnumerable<IDefaultResolverData> data = default;
 
-            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(new ResolveEventArgs(Statics.TestAsm.FullName, Statics.TestAsm), out _), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(new ResolveEventArgs(Statics.TestAsm.FullName, Statics.TestAsm), out data), out Exception ex);
 
             Test.If.Value.IsEqual(internalResolver.AssemblyName.FullName, Statics.TestAsm.FullName);
             Test.If.Value.IsEqual(internalResolver.SearchDir, Statics.TestPath.Directory);
             Test.If.Value.IsEqual(internalResolver.SearchOption, SearchOption.TopDirectoryOnly);
+            Test.IfNot.Object.IsNull(data);
+            Test.If.Enumerable.MatchesExactly(data, new IDefaultResolverData[] { null });
 
         }
 
@@ -137,12 +143,15 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
             var internalResolver = new DummyCoreResolver();
             ((DefaultResolver) instance).CoreResolver = internalResolver;
+            IEnumerable<IDefaultResolverData> data = default;
 
-            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(Statics.TestAsm.FullName, out _), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(Statics.TestAsm.FullName, out data), out Exception ex);
 
             Test.If.Value.IsEqual(internalResolver.AssemblyName.FullName, Statics.TestAsm.FullName);
             Test.If.Value.IsEqual(internalResolver.SearchDir, Statics.EntryPath.Directory);
             Test.If.Value.IsEqual(internalResolver.SearchOption, SearchOption.TopDirectoryOnly);
+            Test.IfNot.Object.IsNull(data);
+            Test.If.Enumerable.MatchesExactly(data, new IDefaultResolverData[] { null });
         }
 
         [TestMethod]
@@ -151,13 +160,16 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
             Factory.Instance.DefaultResolver().Create(out IDefaultResolver instance, VersionMatchingStrategies.SemVer, SearchOption.TopDirectoryOnly);
             var internalResolver = new DummyCoreResolver();
             ((DefaultResolver) instance).CoreResolver = internalResolver;
+            IEnumerable<IDefaultResolverData> data = default;
 
-            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(Statics.TestAsm.GetName(), out _), out Exception ex);
+            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(Statics.TestAsm.GetName(), out data), out Exception ex);
 
             Test.If.Value.IsEqual(internalResolver.AssemblyName.FullName, Statics.TestAsm.FullName);
             Test.If.Value.IsEqual(internalResolver.SearchDir, Statics.EntryPath.Directory);
             Test.If.Value.IsEqual(internalResolver.SearchOption, SearchOption.TopDirectoryOnly);
             Test.If.Value.IsEqual(internalResolver.MatchingStrategy, VersionMatchingStrategies.SemVer);
+            Test.IfNot.Object.IsNull(data);
+            Test.If.Enumerable.MatchesExactly(data, new IDefaultResolverData[] { null });
 
         }
 
@@ -176,7 +188,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                 SearchOption = searchOption;
                 MatchingStrategy = strategy;
 
-                return Enumerable.Empty<IDefaultResolverData>();
+                return new IDefaultResolverData[] { null };
             }
 
         }

@@ -15,14 +15,10 @@
     <language>en-US</language>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Nuclear.Creation" version="1.2.1" exclude="Build,Analyzers" />
-        <dependency id="Nuclear.Extensions" version="2.0.4" exclude="Build,Analyzers" />
-        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="Nuclear.SemVer" version="1.2.0" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="Nuclear.Creation" version="1.2.1" exclude="Build,Analyzers" />
-        <dependency id="Nuclear.Extensions" version="2.0.4" exclude="Build,Analyzers" />
-        <dependency id="System.ValueTuple" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="Nuclear.SemVer" version="1.2.0" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>

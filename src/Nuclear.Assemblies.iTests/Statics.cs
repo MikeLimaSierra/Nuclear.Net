@@ -12,6 +12,10 @@ namespace Nuclear.Assemblies {
             (x, y) => (x == null && y == null) || (x != null && y != null && x.FullName.Equals(y.FullName)),
             obj => obj.FullName.GetHashCode());
 
+        internal static IEqualityComparer<DirectoryInfo> DirectoryInfoComparer { get; } = DynamicEqualityComparer.FromDelegate<DirectoryInfo>(
+            (x, y) => (x == null && y == null) || (x != null && y != null && x.FullName.Equals(y.FullName)),
+            obj => obj.FullName.GetHashCode());
+
         internal static Assembly EntryAsm { get; }
 
         internal static FileInfo EntryPath { get; }

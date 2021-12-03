@@ -6,6 +6,8 @@ using System.Reflection;
 
 using Nuclear.Assemblies.Factories;
 using Nuclear.Assemblies.ResolverData;
+using Nuclear.Assemblies.Runtimes;
+using Nuclear.Creation;
 using Nuclear.Extensions;
 using Nuclear.TestSite;
 
@@ -80,6 +82,114 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         }
 
         #endregion
+
+        #region InternalResolver_Wiring
+
+        [TestMethod]
+        void TryResolveArgs_Wiring() {
+
+            Factory.Instance.NugetResolver().Create(out INugetResolver instance, VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer);
+            var internalResolver = new DummyCoreResolver();
+            ((NugetResolver) instance).CoreResolver = internalResolver;
+            RuntimesHelper.TryGetCurrentRuntime(out RuntimeInfo current);
+            IEnumerable<INugetResolverData> data = default;
+
+            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(new ResolveEventArgs(Statics.TestAsm.FullName, null), out data), out Exception ex);
+
+            Test.If.Value.IsEqual(internalResolver.AssemblyName.FullName, Statics.TestAsm.FullName);
+            Test.If.Enumerable.MatchesExactly(internalResolver.CacheDir, NugetResolver.GetCaches(), Statics.DirectoryInfoComparer);
+            Test.If.Value.IsEqual(internalResolver.Current, current);
+            Test.If.Value.IsEqual(internalResolver.AssemblyMatchingStrategy, VersionMatchingStrategies.SemVer);
+            Test.If.Value.IsEqual(internalResolver.PackageMatchingStrategy, VersionMatchingStrategies.SemVer);
+            Test.IfNot.Object.IsNull(data);
+            Test.If.Enumerable.MatchesExactly(data, new IDefaultResolverData[] { null });
+
+        }
+
+        [TestMethod]
+        void TryResolveArgsWithPath_Wiring() {
+
+            Factory.Instance.NugetResolver().Create(out INugetResolver instance, VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer);
+            var internalResolver = new DummyCoreResolver();
+            ((NugetResolver) instance).CoreResolver = internalResolver;
+            RuntimesHelper.TryGetCurrentRuntime(out RuntimeInfo current);
+            IEnumerable<INugetResolverData> data = default;
+
+            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(new ResolveEventArgs(Statics.TestAsm.FullName, Statics.TestAsm), out data), out Exception ex);
+
+            Test.If.Value.IsEqual(internalResolver.AssemblyName.FullName, Statics.TestAsm.FullName);
+            Test.If.Enumerable.MatchesExactly(internalResolver.CacheDir, NugetResolver.GetCaches(), Statics.DirectoryInfoComparer);
+            Test.If.Value.IsEqual(internalResolver.Current, current);
+            Test.If.Value.IsEqual(internalResolver.AssemblyMatchingStrategy, VersionMatchingStrategies.SemVer);
+            Test.If.Value.IsEqual(internalResolver.PackageMatchingStrategy, VersionMatchingStrategies.SemVer);
+            Test.IfNot.Object.IsNull(data);
+            Test.If.Enumerable.MatchesExactly(data, new IDefaultResolverData[] { null });
+
+        }
+
+        [TestMethod]
+        void TryResolveString_Wiring() {
+
+            Factory.Instance.NugetResolver().Create(out INugetResolver instance, VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer);
+            var internalResolver = new DummyCoreResolver();
+            ((NugetResolver) instance).CoreResolver = internalResolver;
+            RuntimesHelper.TryGetCurrentRuntime(out RuntimeInfo current);
+            IEnumerable<INugetResolverData> data = default;
+
+            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(Statics.TestAsm.FullName, out data), out Exception ex);
+
+            Test.If.Value.IsEqual(internalResolver.AssemblyName.FullName, Statics.TestAsm.FullName);
+            Test.If.Enumerable.MatchesExactly(internalResolver.CacheDir, NugetResolver.GetCaches(), Statics.DirectoryInfoComparer);
+            Test.If.Value.IsEqual(internalResolver.Current, current);
+            Test.If.Value.IsEqual(internalResolver.AssemblyMatchingStrategy, VersionMatchingStrategies.SemVer);
+            Test.If.Value.IsEqual(internalResolver.PackageMatchingStrategy, VersionMatchingStrategies.SemVer);
+            Test.IfNot.Object.IsNull(data);
+            Test.If.Enumerable.MatchesExactly(data, new IDefaultResolverData[] { null });
+
+        }
+
+        [TestMethod]
+        void TryResolveName_Wiring() {
+
+            Factory.Instance.NugetResolver().Create(out INugetResolver instance, VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict);
+            var internalResolver = new DummyCoreResolver();
+            ((NugetResolver) instance).CoreResolver = internalResolver;
+            RuntimesHelper.TryGetCurrentRuntime(out RuntimeInfo current);
+            IEnumerable<INugetResolverData> data = default;
+
+            Test.IfNot.Action.ThrowsException(() => instance.TryResolve(Statics.TestAsm.GetName(), out data), out Exception ex);
+
+            Test.If.Value.IsEqual(internalResolver.AssemblyName.FullName, Statics.TestAsm.FullName);
+            Test.If.Enumerable.MatchesExactly(internalResolver.CacheDir, NugetResolver.GetCaches(), Statics.DirectoryInfoComparer);
+            Test.If.Value.IsEqual(internalResolver.Current, current);
+            Test.If.Value.IsEqual(internalResolver.AssemblyMatchingStrategy, VersionMatchingStrategies.Strict);
+            Test.If.Value.IsEqual(internalResolver.PackageMatchingStrategy, VersionMatchingStrategies.Strict);
+            Test.IfNot.Object.IsNull(data);
+            Test.If.Enumerable.MatchesExactly(data, new IDefaultResolverData[] { null });
+
+        }
+
+        #endregion
+
+        private class DummyCoreResolver : ICoreNugetResolver {
+
+            internal AssemblyName AssemblyName { get; private set; }
+            internal IEnumerable<DirectoryInfo> CacheDir { get; private set; }
+            internal RuntimeInfo Current { get; private set; }
+            internal VersionMatchingStrategies AssemblyMatchingStrategy { get; private set; }
+            internal VersionMatchingStrategies PackageMatchingStrategy { get; private set; }
+
+            public IEnumerable<INugetResolverData> Resolve(AssemblyName assemblyName, IEnumerable<DirectoryInfo> cacheDirs, RuntimeInfo current, VersionMatchingStrategies assemblyMatchingStrategy, VersionMatchingStrategies packageMatchingStrategy) {
+                AssemblyName = assemblyName;
+                CacheDir = cacheDirs;
+                Current = current;
+                AssemblyMatchingStrategy = assemblyMatchingStrategy;
+                PackageMatchingStrategy = packageMatchingStrategy;
+
+                return new INugetResolverData[] { null };
+            }
+
+        }
 
         #region GetCaches
 

@@ -38,7 +38,7 @@ namespace Nuclear.Exceptions.Extensions {
         }
 
         [TestMethod]
-        [TestData(nameof(ThrowIfNotMondayIsMondayData))]
+        [TestData(nameof(ThrowIfNotMondayIsMonday_Data))]
         void ThrowIfNotMondayIsMonday(DateTime date) {
 
             Test.IfNot.Action.ThrowsException(() =>
@@ -46,7 +46,7 @@ namespace Nuclear.Exceptions.Extensions {
 
         }
 
-        IEnumerable<Object[]> ThrowIfNotMondayIsMondayData() {
+        IEnumerable<Object[]> ThrowIfNotMondayIsMonday_Data() {
             return new List<Object[]>() {
                 new Object[] { _tuesday },
                 new Object[] { _wednesday },
@@ -66,7 +66,7 @@ namespace Nuclear.Exceptions.Extensions {
         }
 
         [TestMethod]
-        [TestData(nameof(ThrowIfNotMondayIsNotMondayData))]
+        [TestData(nameof(ThrowIfNotMondayIsNotMonday_Data))]
         void ThrowIfNotMondayIsNotMonday(DateTime date) {
 
             Test.If.Action.ThrowsException(() =>
@@ -76,7 +76,7 @@ namespace Nuclear.Exceptions.Extensions {
 
         }
 
-        IEnumerable<Object[]> ThrowIfNotMondayIsNotMondayData() {
+        IEnumerable<Object[]> ThrowIfNotMondayIsNotMonday_Data() {
             return new List<Object[]>() {
                 new Object[] { _tuesday },
                 new Object[] { _wednesday },
@@ -92,7 +92,7 @@ namespace Nuclear.Exceptions.Extensions {
         #region IsMondayGeneric
 
         [TestMethod]
-        void ThrowIfMondayIsMondayGeneric() {
+        void ThrowIfMondayIsMonday_Generic() {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.If.Date().IsMonday<NotImplementedException>(_monday, _message), out NotImplementedException ex1);
@@ -101,8 +101,8 @@ namespace Nuclear.Exceptions.Extensions {
         }
 
         [TestMethod]
-        [TestData(nameof(ThrowIfNotMondayIsMondayData))]
-        void ThrowIfNotMondayIsMondayGeneric(DateTime date) {
+        [TestData(nameof(ThrowIfNotMondayIsMonday_Data))]
+        void ThrowIfNotMondayIsMonday_Generic(DateTime date) {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.If.Date().IsMonday<NotImplementedException>(date, _message), out Exception ex2);
@@ -110,7 +110,7 @@ namespace Nuclear.Exceptions.Extensions {
         }
 
         [TestMethod]
-        void ThrowIfMondayIsNotMondayGeneric() {
+        void ThrowIfMondayIsNotMonday_Generic() {
 
             Test.IfNot.Action.ThrowsException(() =>
                 Throw.IfNot.Date().IsMonday<NotImplementedException>(_monday, _message), out Exception ex1);
@@ -118,8 +118,8 @@ namespace Nuclear.Exceptions.Extensions {
         }
 
         [TestMethod]
-        [TestData(nameof(ThrowIfNotMondayIsNotMondayData))]
-        void ThrowIfNotMondayIsNotMondayGeneric(DateTime date) {
+        [TestData(nameof(ThrowIfNotMondayIsNotMonday_Data))]
+        void ThrowIfNotMondayIsNotMonday_Generic(DateTime date) {
 
             Test.If.Action.ThrowsException(() =>
                 Throw.IfNot.Date().IsMonday<NotImplementedException>(date, _message), out NotImplementedException ex2);

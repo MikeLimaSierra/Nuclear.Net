@@ -7,7 +7,7 @@ namespace Nuclear.Extensions {
     class TypeExtensions_uTests {
 
         [TestMethod]
-        void ResolveFriendlyNameThrows() {
+        void ResolveFriendlyName_Throws() {
 
             Test.If.Action.ThrowsException(() => ((Type) null).ResolveFriendlyName(), out ArgumentNullException ex);
 

@@ -2,9 +2,9 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Nuclear.Exceptions</id>
-    <version>2.1.0</version>
+    <version>2.3.0</version>
     <title>Nuclear.Exceptions</title>
-    <description>Features improved throwing of exceptions.</description>
+    <description>Features improved throwing and handling of exceptions.</description>
     <authors>MikeLimaSierra</authors>
     <owners>MikeLimaSierra</owners>
     <copyright>Copyright (c) 2020 MikeLimaSierra</copyright>
@@ -13,6 +13,10 @@
     <projectUrl>https://github.com/MikeLimaSierra/Nuclear.Net</projectUrl>
     <repository type="git" url="https://github.com/MikeLimaSierra/Nuclear.Net" />
     <language>en-US</language>
+    <dependencies>
+      <group targetFramework=".NETFramework4.0" />
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="../../LICENSE.md" target="" />
@@ -20,5 +24,8 @@
     <file src="../../publish/Nuclear.Exceptions/netstandard2.0/Nuclear.Exceptions.dll" target="lib/netstandard2.0" />
     <file src="../../publish/Nuclear.Exceptions/netstandard2.0/Nuclear.Exceptions.pdb" target="lib/netstandard2.0" />
     <file src="../../publish/Nuclear.Exceptions/netstandard2.0/Nuclear.Exceptions.xml" target="lib/netstandard2.0" />
+    <file src="../../publish/Nuclear.Exceptions/net40/Nuclear.Exceptions.dll" target="lib/net40" />
+    <file src="../../publish/Nuclear.Exceptions/net40/Nuclear.Exceptions.pdb" target="lib/net40" />
+    <file src="../../publish/Nuclear.Exceptions/net40/Nuclear.Exceptions.xml" target="lib/net40" />
   </files>
 </package>

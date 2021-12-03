@@ -43,6 +43,7 @@ namespace Nuclear.Assemblies {
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)), new Version(2, 1) },
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 1)), new Version(2, 1) },
                 { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)), new Version(2, 1) },
+                { new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(6, 0)), new Version(2, 1) },
 
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 0)), null },
                 { new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(1, 1)), null },
@@ -210,8 +211,7 @@ namespace Nuclear.Assemblies {
             runtimes = Enumerable.Empty<RuntimeInfo>();
 
             if(runtime != null) {
-                runtimes = runtime.Framework switch
-                {
+                runtimes = runtime.Framework switch {
                     FrameworkIdentifiers.NETStandard => NetStandardVersions.Keys.Where(key => TryGetStandardVersion(key, out Version version) && version >= runtime.Version),
                     _ => NetStandardVersions.Keys.Where(key => key.Framework == runtime.Framework && key.Version >= runtime.Version),
                 };

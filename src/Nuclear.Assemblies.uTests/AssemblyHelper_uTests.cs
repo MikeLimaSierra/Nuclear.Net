@@ -22,7 +22,7 @@ namespace Nuclear.Assemblies {
         #region runtime info
 
         [TestMethod]
-        [TestData(nameof(TryGetRuntimeData))]
+        [TestData(nameof(TryGetRuntime_Data))]
         void TryGetRuntime(Assembly input, Boolean result, RuntimeInfo runtime) {
 
             Boolean _result = default;
@@ -35,7 +35,7 @@ namespace Nuclear.Assemblies {
 
         }
 
-        IEnumerable<Object[]> TryGetRuntimeData() {
+        IEnumerable<Object[]> TryGetRuntime_Data() {
             return new List<Object[]>() {
                 new Object[] { null, false, null },
                 new Object[] { typeof(TestMethodAttribute).Assembly, true, new RuntimeInfo(FrameworkIdentifiers.NETStandard, new Version(2, 0)) },

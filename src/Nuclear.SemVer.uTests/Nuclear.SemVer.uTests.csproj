@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Nuclear.SemVer</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\Configurations.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="Nuclear.TestSite" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nuclear.SemVer\Nuclear.SemVer.csproj" />
+  </ItemGroup>
+
+</Project>

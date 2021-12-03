@@ -17,18 +17,18 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(Resolve_Data))]
         void Resolve(AssemblyName in1, IEnumerable<DirectoryInfo> in2, RuntimeInfo in3, VersionMatchingStrategies in4, VersionMatchingStrategies in5, IEnumerable<FileInfo> expected) {
 
-            IEnumerable<FileInfo> files = default;
+            IEnumerable<INugetResolverData> files = default;
 
             Test.IfNot.Action.ThrowsException(() => files = new CoreNugetResolver().Resolve(in1, in2, in3, in4, in5), out Exception ex);
 
             Test.IfNot.Object.IsNull(files);
-            Test.If.Enumerable.MatchesExactly(files, expected, Statics.FileInfoComparer);
+            Test.If.Enumerable.MatchesExactly(files.Select(_ => _.File), expected, Statics.FileInfoComparer);
 
         }
 
         IEnumerable<Object[]> Resolve_Data() {
             IEnumerable<DirectoryInfo> caches = new List<DirectoryInfo>() { Statics.FakeNugetCache };
-            NugetResolver.TryGetPackage("Awesome.Nuget.Package", Statics.FakeNugetCache, out DirectoryInfo package);
+            CoreNugetResolver.TryGetPackage("Awesome.Nuget.Package", Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
@@ -500,10 +500,12 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         [TestData(nameof(GetAssemblyCandidatesFromCache_Simple_NetCore_Data))]
         [TestData(nameof(GetAssemblyCandidatesFromCache_Complex_Net_v1x_Data))]
         [TestData(nameof(GetAssemblyCandidatesFromCache_Complex_Net_v2x_Data))]
-        [TestData(nameof(GetAssemblyCandidatesFromCache_Complex_Net_311x_Data))]
-        [TestData(nameof(GetAssemblyCandidatesFromCache_Complex_NetCore_1xxx_Data))]
-        [TestData(nameof(GetAssemblyCandidatesFromCache_Complex_NetCore_21xx_Data))]
-        [TestData(nameof(GetAssemblyCandidatesFromCache_Complex_NetCore_311x_Data))]
+        [TestData(nameof(GetAssemblyCandidatesFromCache_Complex_Net_v3x_Data))]
+        [TestData(nameof(GetAssemblyCandidatesFromCache_Complex_NetCore_v1x_Data))]
+        [TestData(nameof(GetAssemblyCandidatesFromCache_Complex_NetCore_v2x_Data))]
+        [TestData(nameof(GetAssemblyCandidatesFromCache_Complex_NetCore_v3x_Data))]
+        [TestData(nameof(GetAssemblyCandidatesFromCache_MixedVersioning_v2x_Data))]
+        [TestData(nameof(GetAssemblyCandidatesFromCache_MixedVersioning_v3x_Data))]
         void GetAssemblyCandidatesFromCache(AssemblyName in1, DirectoryInfo in2, RuntimeInfo in3, VersionMatchingStrategies in4, VersionMatchingStrategies in5, IEnumerable<FileInfo> expected) {
 
             IEnumerable<INugetResolverData> files = default;
@@ -513,12 +515,11 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
 
             Test.IfNot.Object.IsNull(files);
             Test.If.Enumerable.MatchesExactly(files.Select(_ => _.File), expected, Statics.FileInfoComparer);
-            Test.If.Enumerable.MatchesExactly(files.Select(_ => _.File.FullName), expected.Select(_ => _.FullName));
 
         }
 
         IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Simple_Net_Data() {
-            NugetResolver.TryGetPackage(Statics.SimpleFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
+            CoreNugetResolver.TryGetPackage(Statics.SimpleFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
@@ -526,14 +527,17 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                 VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict,
                 Enumerable.Empty<FileInfo>() };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
                 Enumerable.Empty<FileInfo>() };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                 VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
                 Enumerable.Empty<FileInfo>() };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
@@ -550,6 +554,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "net48", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "net48", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
@@ -561,6 +566,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "net48", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "net48", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
                 VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
@@ -572,6 +578,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "net48", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "net48", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
@@ -586,7 +593,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
         }
 
         IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Simple_NetCore_Data() {
-            NugetResolver.TryGetPackage(Statics.SimpleFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
+            CoreNugetResolver.TryGetPackage(Statics.SimpleFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
@@ -594,14 +601,17 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                 VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict,
                 Enumerable.Empty<FileInfo>() };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
                 Enumerable.Empty<FileInfo>() };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                 VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
                 Enumerable.Empty<FileInfo>() };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
@@ -624,6 +634,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netstandard2.1", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
@@ -641,6 +652,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netstandard2.1", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
                 VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
@@ -658,6 +670,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netstandard2.1", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
@@ -699,6 +712,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netstandard2.1", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
@@ -722,6 +736,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netstandard2.1", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)),
                 VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
@@ -745,6 +760,7 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netstandard2.1", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
@@ -768,11 +784,10 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netstandard2.1", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
                 } };
-
         }
 
         IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Complex_Net_v1x_Data() {
-            NugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
+            CoreNugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
@@ -923,11 +938,10 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
-
         }
 
         IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Complex_Net_v2x_Data() {
-            NugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
+            CoreNugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
@@ -1050,11 +1064,10 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
-
         }
 
-        IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Complex_Net_311x_Data() {
-            NugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
+        IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Complex_Net_v3x_Data() {
+            CoreNugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
@@ -1062,26 +1075,78 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net45", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net45", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                                         } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 6)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch,"net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch,"net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net46", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch,"net46", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net45", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net45", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch,"net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 8)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "net48", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "net48", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch,"net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "net48", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "net48", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch,"net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net48", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net48", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard2.0", $"{package.Name}.dll")),
@@ -1092,52 +1157,34 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net45", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "net48", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "net48", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch,"net46", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
-
         }
 
-        IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Complex_NetCore_1xxx_Data() {
-            NugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
+        IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Complex_NetCore_v1x_Data() {
+            CoreNugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
-            yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 Enumerable.Empty<FileInfo>() };
-            yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 Enumerable.Empty<FileInfo>() };
-            yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
-                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
-                VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
-                new List<FileInfo>() {
-                    new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.2.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.2.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.1", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.1", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0-beta", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0-beta", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0-beta", "lib", "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0-beta", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netstandard1.0", $"{package.Name}.dll")),
-                    new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
-                } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
@@ -1401,18 +1448,25 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "1.1.0-beta+meta", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
-
         }
 
-        IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Complex_NetCore_21xx_Data() {
-            NugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
+        IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Complex_NetCore_v2x_Data() {
+            CoreNugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
-            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
@@ -1422,10 +1476,49 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
+                VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netstandard2.0", $"{package.Name}.dll")),
@@ -1443,10 +1536,35 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netstandard2.1", $"{package.Name}.dll")),
@@ -1472,10 +1590,43 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "net5.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "net5.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp3.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp3.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "net5.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "net5.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp3.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp3.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "net5.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "net5.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netcoreapp3.1", $"{package.Name}.dll")),
@@ -1509,11 +1660,10 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
-
         }
 
-        IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Complex_NetCore_311x_Data() {
-            NugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
+        IEnumerable<Object[]> GetAssemblyCandidatesFromCache_Complex_NetCore_v3x_Data() {
+            CoreNugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
             String packagePath = package.FullName;
             String arch = Environment.Is64BitProcess ? "x64" : "x86";
 
@@ -1521,15 +1671,44 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(1, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(2, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard2.0", $"{package.Name}.dll")),
@@ -1538,11 +1717,44 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(3, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard2.1", $"{package.Name}.dll")),
@@ -1555,11 +1767,56 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
+
             yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
                 new RuntimeInfo(FrameworkIdentifiers.NETCoreApp, new Version(5, 0)),
                 VersionMatchingStrategies.SemVer, VersionMatchingStrategies.SemVer,
                 new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "net5.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "net5.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netcoreapp3.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netcoreapp3.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.3.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "net5.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "net5.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netcoreapp3.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netcoreapp3.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net5.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net5.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netcoreapp3.1", $"{package.Name}.dll")),
@@ -1576,8 +1833,239 @@ namespace Nuclear.Assemblies.Resolvers.Internal {
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
                     new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "net5.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "net5.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netcoreapp3.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netcoreapp3.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netcoreapp3.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard2.1", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netcoreapp2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard2.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netcoreapp1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+        }
+
+        IEnumerable<Object[]> GetAssemblyCandidatesFromCache_MixedVersioning_v2x_Data() {
+            CoreNugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
+            String packagePath = package.FullName;
+            String arch = Environment.Is64BitProcess ? "x64" : "x86";
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict,
+                Enumerable.Empty<FileInfo>() };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
                 } };
 
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
+                Enumerable.Empty<FileInfo>() };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "2.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict,
+                Enumerable.Empty<FileInfo>() };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
+                Enumerable.Empty<FileInfo>() };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
+                Enumerable.Empty<FileInfo>() };
+        }
+
+        IEnumerable<Object[]> GetAssemblyCandidatesFromCache_MixedVersioning_v3x_Data() {
+            CoreNugetResolver.TryGetPackage(Statics.ComplexFakePackageName, Statics.FakeNugetCache, out DirectoryInfo package);
+            String packagePath = package.FullName;
+            String arch = Environment.Is64BitProcess ? "x64" : "x86";
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.1.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.1", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.1.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.1.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
+                new List<FileInfo>() {
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "net45", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", "netstandard1.0", $"{package.Name}.dll")),
+                    new FileInfo(Path.Combine(packagePath, "3.2.0", "lib", arch, "netstandard1.0", $"{package.Name}.dll")),
+                } };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.Strict,
+                Enumerable.Empty<FileInfo>() };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.SemVer, VersionMatchingStrategies.Strict,
+                Enumerable.Empty<FileInfo>() };
+
+            yield return new Object[] { new AssemblyName($"{package.Name}, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null"), Statics.FakeNugetCache,
+                new RuntimeInfo(FrameworkIdentifiers.NETFramework, new Version(4, 5)),
+                VersionMatchingStrategies.Strict, VersionMatchingStrategies.SemVer,
+                Enumerable.Empty<FileInfo>() };
         }
 
         #endregion
